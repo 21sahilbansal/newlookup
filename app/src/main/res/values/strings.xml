@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Look Up</string>
+    <string name="device_info">Get Info</string>
+    <string name="title_activity_main_activity3">Look Up</string>
+    <string name="details">Details</string>
+    <string name="share_details">Share Details</string>
+    <string name="enter_details">Enter Details</string>
+    <string name="device_change">Device Change</string>
+    <string name="vehicle_change">Vehicle Change</string>
+    <string name="new_installation">New Installation</string>
+    <string name="sim_change">Sim Change</string>
+</resources>

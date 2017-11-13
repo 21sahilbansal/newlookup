@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_marginTop="10dp"
+                android:id="@+id/owner_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Owner's name*" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_marginTop="10dp"
+                android:id="@+id/vehicle_no_dc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Vehicle no*"/>
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_marginTop="10dp"
+                android:id="@+id/old_device_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Old IMEI no*"/>
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_marginTop="10dp"
+                android:id="@+id/new_device_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="New IMEI no*"/>
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_marginTop="10dp"
+                android:id="@+id/old_sim_no_dc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Old Sim No*"/>
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_marginTop="10dp"
+                android:id="@+id/new_sim_no_dc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="New Sim no*"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_marginTop="10dp"
+                android:id="@+id/device_model"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Device Model"/>
+        </android.support.design.widget.TextInputLayout>
+        <Button
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:id="@+id/share_dc"
+            android:layout_width="300sp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:text="Share"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+</ScrollView>
