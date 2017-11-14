@@ -52,15 +52,7 @@ public class SimChange extends Fragment {
             }
         });
         String deviceId = sharedpreferences.getString("deviceid","");
-        if(deviceId.length() == 12) {
-            newSimNo.setText(deviceId);
-            commonFunction.setData(newSimNo);
-        } else {
-            imei.setText(deviceId);
-            commonFunction.setData(imei);
-        }
-
-
+        commonFunction.setDeviceId(newSimNo, imei, deviceId);
         return view;
     }
 

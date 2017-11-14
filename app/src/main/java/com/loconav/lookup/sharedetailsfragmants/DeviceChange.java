@@ -1,5 +1,7 @@
 package com.loconav.lookup.sharedetailsfragmants;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -23,6 +25,8 @@ public class DeviceChange extends Fragment {
             newSimNo, deviceModel;
     Button share;
     CommonFunction commonFunction;
+    public static final String MyPREFERENCES = "MyPrefs";
+    SharedPreferences sharedpreferences;
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
                              Bundle savedInstanceState) {
         CustomActionBar customActionBar = new CustomActionBar();
@@ -37,6 +41,7 @@ public class DeviceChange extends Fragment {
         deviceModel = (EditText)view.findViewById(R.id.device_model);
         share = (Button)view.findViewById(R.id.share);
         commonFunction = new CommonFunction();
+        sharedpreferences = getContext().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +60,8 @@ public class DeviceChange extends Fragment {
 
             }
         });
-
+        String deviceId = sharedpreferences.getString("deviceid","");
+        commonFunction.setDeviceId(newSimNo, newImei, deviceId);
         return view;
     }
 }

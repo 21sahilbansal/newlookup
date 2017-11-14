@@ -54,7 +54,7 @@
             android:layout_height="wrap_content">
             <EditText
                 android:layout_marginTop="10dp"
-                android:id="@+id/sim_no_vc"
+                android:id="@+id/sim_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Sim No*"/>
@@ -62,7 +62,7 @@
         <Button
             android:layout_marginTop="20dp"
             android:layout_gravity="center"
-            android:id="@+id/share_vc"
+            android:id="@+id/share"
             android:layout_width="300sp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="18dp"

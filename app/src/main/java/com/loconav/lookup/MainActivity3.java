@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -40,7 +41,9 @@ public class MainActivity3 extends AppCompatActivity {
 	static ArrayList<Lookwrap> str = new ArrayList<Lookwrap>();
 	 Customlook adapter ;
 	ProgressDialog dialog;
-	
+	private final Handler handler = new Handler();
+	Runnable runnable;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,6 +51,10 @@ public class MainActivity3 extends AppCompatActivity {
 		customActionBar = new CustomActionBar();
 		customActionBar.getActionBar(this, R.drawable.leftarrow, R.string.details, true);
 
+		dialog = new ProgressDialog(MainActivity3.this);
+		dialog.setMessage("Please Wait");
+		dialog.setCancelable(false);
+		dialog.show();
 		Button button = (Button)findViewById(R.id.refresh);
 		button.setOnClickListener(new View.OnClickListener() {
 			
@@ -72,32 +79,16 @@ public class MainActivity3 extends AppCompatActivity {
 		
 		Bundle bundle1 = getIntent().getExtras();
 		number = bundle1.getString("number");
-		if(message=="") {
-			DBbase dbm=new DBbase(this);
-			dbm.open();
-			Cursor r;
-			r=dbm.getdevice(number);
-			if(r!=null&&r.moveToFirst()) {
-				message=r.getString(6);
-			}
-		}
 		
 		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 		ConnectivityManager conMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
 
 		final ConnectivityManager conMgr1 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		final NetworkInfo activeNetwork = conMgr1.getActiveNetworkInfo();
-		if (activeNetwork != null && activeNetwork.isConnected()) {
-			Log.d("internaet is working ", "how u doing ??");
-			
-		 c.execute();
-			
-		} else {
-			Log.d("internet not working ", "how u doing ??");
+		if (activeNetwork != null && activeNetwork.isConnected())
+			c.execute();
+		else
 			setContentView(R.layout.nointernet);
-		} 
-		
-	
 	}
 	 class cbc extends AsyncTask<Void,Void,String> {
 		public String json_url;
@@ -108,10 +99,6 @@ public class MainActivity3 extends AppCompatActivity {
 			str.clear();
 			json_url="http://babatrucks.com/api/v1/trucks/check_status";
 
-	        dialog = new ProgressDialog(MainActivity3.this);
-	        dialog.setMessage("Please Wait");
-	        dialog.setCancelable(false);
-	        dialog.show();
 		}
 		@Override
 		protected String doInBackground(Void[] voids) {
@@ -151,27 +138,8 @@ public class MainActivity3 extends AppCompatActivity {
 		}
 		@Override
 		protected void onPostExecute(String avoid) {
+			dialog.cancel();
 			hola=avoid;
-			/*if(hola==null) {
-				
-				setContentView(R.layout.main_activity3);
-						
-				
-			} else {
-			cancel(true);	
-			if (c.isCancelled()) {
-				try {
-					
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					}
-				c=new cbc();
-				c.execute();
-				}
-			}*/		
-
 			ListView l1=(ListView) findViewById(R.id.listView1);
 			try {
 				d=new Lookwrap();
@@ -230,5 +198,25 @@ public class MainActivity3 extends AppCompatActivity {
 			c = null;
 			super.onBackPressed();
 		}
+	}
+
+	@Override
+	public void onResume() {
+		handler.postDelayed(new Runnable() {
+			public void run() {
+				//do something
+				c = new cbc();
+				c.execute();
+				runnable=this;
+				handler.postDelayed(runnable, 10000);
+			}
+		}, 10000);
+
+		super.onResume();
+	}
+	@Override
+	public void onPause() {
+		handler.removeCallbacks(runnable);
+		super.onPause();
 	}
 }

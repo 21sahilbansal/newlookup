@@ -47,4 +47,13 @@ public class CommonFunction {
         editText.setTextColor(Color.BLACK);
         editText.setEnabled(false);
     }
+    public void setDeviceId(EditText sim, EditText imei, String deviceId) {
+        if(deviceId.length() == 12) {
+            sim.setText(deviceId);
+            setData(sim);
+        } else {
+            imei.setText(deviceId);
+            setData(imei);
+        }
+    }
 }

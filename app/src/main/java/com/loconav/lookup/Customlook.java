@@ -43,7 +43,7 @@ public class Customlook extends ArrayAdapter<Lookwrap> {
 //       TextView txtTitle2 = (TextView) convertView.findViewById(R.id.txt2);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.bimg);
         ImageView imageView1 = (ImageView) convertView.findViewById(R.id.iimg);
-        ImageView imageView2 = (ImageView) convertView.findViewById(R.id.iimg1);
+        ImageView battery = (ImageView) convertView.findViewById(R.id.iimg1);
         ImageView passed = (ImageView) convertView.findViewById(R.id.passed);
         TextView txtTitle1 = (TextView) convertView.findViewById(R.id.locatedatans);
         TextView txtTitle2 = (TextView) convertView.findViewById(R.id.locationans);
@@ -81,9 +81,9 @@ public class Customlook extends ArrayAdapter<Lookwrap> {
             if(difference < 300){
                 passedok += 1;
                 deviceok += 1;
-                imageView2.setBackgroundResource(R.drawable.greentick);
+                battery.setBackgroundResource(R.drawable.greentick);
             }else{
-                imageView2.setBackgroundResource(R.drawable.transparent);
+                battery.setBackgroundResource(R.drawable.transparent);
             }
             Log.e("DiffeTime",difference+"");
         }catch (Exception ex){
