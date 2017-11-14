@@ -24,7 +24,7 @@
             android:layout_height="wrap_content">
             <EditText
                 android:layout_marginTop="10dp"
-                android:id="@+id/vehicle_no_dc"
+                android:id="@+id/vehicle_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Vehicle no*"/>
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content">
             <EditText
                 android:layout_marginTop="10dp"
-                android:id="@+id/old_device_no"
+                android:id="@+id/old_imei"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Old IMEI no*"/>
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content">
             <EditText
                 android:layout_marginTop="10dp"
-                android:id="@+id/new_device_no"
+                android:id="@+id/new_imei"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="New IMEI no*"/>
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content">
             <EditText
                 android:layout_marginTop="10dp"
-                android:id="@+id/old_sim_no_dc"
+                android:id="@+id/old_sim_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Old Sim No*"/>
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content">
             <EditText
                 android:layout_marginTop="10dp"
-                android:id="@+id/new_sim_no_dc"
+                android:id="@+id/new_sim_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="New Sim no*"/>
@@ -83,7 +83,7 @@
         <Button
             android:layout_marginTop="20dp"
             android:layout_gravity="center"
-            android:id="@+id/share_dc"
+            android:id="@+id/share"
             android:layout_width="300sp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="18dp"
