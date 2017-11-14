@@ -34,7 +34,7 @@ public class NewInstallation extends Fragment {
                              Bundle savedInstanceState) {
         CustomActionBar customActionBar = new CustomActionBar();
         customActionBar.getActionBar((AppCompatActivity)getActivity(),
-                R.drawable.leftarrow,R.string.device_change,true);
+                R.drawable.leftarrow,R.string.new_installation,true);
         sharedpreferences = getContext().getSharedPreferences(MyPREFERENCES,
                 Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
