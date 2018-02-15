@@ -1,13 +1,13 @@
 package com.loconav.lookup;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -27,16 +27,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_lookup);
         customActionBar = new CustomActionBar();
         customActionBar.getActionBar(this, R.drawable.lookup_icon,R.string.title_activity_main_activity3,
                 false);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
+        if(!isUserIdSet()){
+            showEnterIdDialog();
+        } 
+
 //        ActionBar bar = getSupportActionBar();
 //        bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimaryDark)));
 //        bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//        bar.setCustomView(R.layout.action);
+//        bar.setCustomView(R.layout.lookup_action);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         e1=(EditText)findViewById(R.id.editText4);
 
@@ -54,23 +58,50 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void showEnterIdDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter User Id");
+
+// Set up the input
+        final EditText input = new EditText(this);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(!input.getText().toString().trim().equals("")) {
+                    editor.putString("user_id",input.getText().toString());
+                    dialog.cancel();
+                } else {
+                    Toast.makeText(getBaseContext(), "User Id can't be Empty", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        builder.setCancelable(false);
+
+        builder.show();
+    }
+
+    private boolean isUserIdSet() {
+        if(!sharedpreferences.getString("user_id", "").equals("")) {
+            return true;
+        } else
+            return false;
+    }
+
 
     public	void getJson(View v) {
         String no = e1.getText().toString();
         if(no.equals("")){
             Toast.makeText(getApplicationContext(), "Enter Device ID", Toast.LENGTH_LONG).show();
         }else{
-            if (no.length() == 10) {
-                Intent intent = new Intent(this, MainActivity3.class);
-                intent.putExtra("message", "00"+e1.getText().toString());
-                editor.putString(deviceId , "00"+e1.getText().toString());
-                startActivity(intent);
-            } else {
-                Intent intent = new Intent(this, MainActivity3.class);
-                intent.putExtra("message", "0" + e1.getText().toString());
-                editor.putString(deviceId, "0" + e1.getText().toString());
-                startActivity(intent);
-            }
+            Intent intent = new Intent(this, MainActivity3.class);
+            intent.putExtra("message", e1.getText().toString());
+            editor.putString(deviceId , e1.getText().toString());
+            startActivity(intent);
             editor.commit();
         }
     }

@@ -1,8 +1,5 @@
 package com.loconav.lookup;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -20,7 +17,7 @@ public class CustomActionBar {
 //        bar.setBackgroundDrawable(new ColorDrawable(activity.
 //                getResources().getColor(R.color.colorPrimaryDark)));
         bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        bar.setCustomView(R.layout.action);
+        bar.setCustomView(R.layout.lookup_action);
         TextView textView = (TextView) activity.findViewById(R.id.textView1);
         textView.setText(title);
         ImageView imageView = (ImageView)activity.findViewById(R.id.home);
