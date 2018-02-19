@@ -11,19 +11,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import static com.loconav.lookup.Constants.DEVICE_ID;
+import static com.loconav.lookup.Constants.USER_ID;
+import static com.loconav.lookup.application.LookUpApplication.sharedPreferences;
+
 public class ShareAndUpload extends AppCompatActivity {
 
     public static final String MyPREFERENCES = "MyPrefs";
-    SharedPreferences sharedpreferences;
     String url, message;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_and_upload);
 
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        url = sharedpreferences.getString("upload_url", "");
-        message = sharedpreferences.getString("message", "");
+        url = sharedPreferences.getString("upload_url", "");
+        message = sharedPreferences.getString("message", "");
 
         Button upload_document = (Button) findViewById(R.id.upload_document);
         upload_document.setOnClickListener(new View.OnClickListener() {
@@ -45,10 +47,10 @@ public class ShareAndUpload extends AppCompatActivity {
 
 
     public void sendAppMsg(String message) {
+        Log.e("message ", message);
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         String text = message;
-
         // change with required  application package
         intent.setPackage("com.whatsapp");
 

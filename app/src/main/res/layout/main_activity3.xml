@@ -30,9 +30,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="60dp"
-            android:gravity="center"
-            android:text="Share Details"
-            android:textColor="#ffffff" />
+            android:text="Share Details"/>
         <Button
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -40,9 +38,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="60dp"
-            android:gravity="center"
-            android:text="Refresh"
-            android:textColor="#ffffff" />
+            android:text="Refresh" />
     </LinearLayout>
 
 </RelativeLayout>

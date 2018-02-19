@@ -27,22 +27,19 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Timer;
 
+import static com.loconav.lookup.Constants.DEVICE_ID;
+
 public class MainActivity3 extends AppCompatActivity {
-	Timer timer;
-	String e;
-	EditText t1;
 	ListView l1;
-	Long time1,time2;
+	Long time1;
 	String hola="";
-	String message="",number="";
+	String message="";
 	Lookwrap d;
 	cbc c=new cbc();
 	CustomActionBar customActionBar;
 	static ArrayList<Lookwrap> str = new ArrayList<Lookwrap>();
-	 Customlook adapter ;
+	Customlook adapter ;
 	ProgressDialog dialog;
-	private final Handler handler = new Handler();
-	Runnable runnable;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +47,9 @@ public class MainActivity3 extends AppCompatActivity {
 		setContentView(R.layout.main_activity3);
 		customActionBar = new CustomActionBar();
 		customActionBar.getActionBar(this, R.drawable.leftarrow, R.string.details, true);
-
 		dialog = new ProgressDialog(MainActivity3.this);
 		dialog.setMessage("Please Wait");
 		dialog.setCancelable(false);
-		dialog.show();
 		Button button = (Button)findViewById(R.id.refresh);
 		button.setOnClickListener(new View.OnClickListener() {
 			
@@ -67,22 +62,13 @@ public class MainActivity3 extends AppCompatActivity {
 		});
 
 		Button share = (Button) findViewById(R.id.share);
-		
 		l1=(ListView)findViewById(R.id.listView1);
-		
 		adapter= new Customlook(this, str, share);
 		l1.setAdapter(adapter);
-		
-		
 		Bundle bundle = getIntent().getExtras();
-		message = bundle.getString("message");
-		
-		Bundle bundle1 = getIntent().getExtras();
-		number = bundle1.getString("number");
-		
+		message = bundle.getString(DEVICE_ID);
 		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 		ConnectivityManager conMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-
 		final ConnectivityManager conMgr1 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		final NetworkInfo activeNetwork = conMgr1.getActiveNetworkInfo();
 		if (activeNetwork != null && activeNetwork.isConnected())
@@ -90,15 +76,15 @@ public class MainActivity3 extends AppCompatActivity {
 		else
 			setContentView(R.layout.nointernet);
 	}
-	 class cbc extends AsyncTask<Void,Void,String> {
+	class cbc extends AsyncTask<Void,Void,String> {
 		public String json_url;
-		
+
 		@Override
 		protected void onPreExecute() {
 			time1= System.currentTimeMillis();
 			str.clear();
 			json_url="http://babatrucks.com/api/v1/trucks/check_status";
-
+			dialog.show();
 		}
 		@Override
 		protected String doInBackground(Void[] voids) {
@@ -139,84 +125,52 @@ public class MainActivity3 extends AppCompatActivity {
 		@Override
 		protected void onPostExecute(String avoid) {
 			dialog.cancel();
-			hola=avoid;
-			ListView l1=(ListView) findViewById(R.id.listView1);
-			try {
-				d=new Lookwrap();
-				
-				JSONObject j=new JSONObject(hola);
-				String k=j.getString("long");
-				d.longi=k;
-				
-				k=j.getString("lat");
-				d.lati=k;
-				
-				k=j.getString("created_at");
-				d.locatedAt = k;
-				Log.e("Value", k+"");
-				
-				k=j.getString("io_state");
-				d.ioState = k;
-				
-				k=j.getString("distance");
-				d.distance = k;
-				
-				k=j.getString("orientation");
-				d.orientation = k;
-				
-				k = j.getString("device_id");
-				d.device_id = k;
-				
-				
-				str.add(d);
-				
-				adapter.notifyDataSetChanged();
-				
-				
-				
-				adapter.notifyDataSetChanged();
-//				Thread.sleep(500000);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-//			} catch (InterruptedException e) {
+			if(!(avoid.equals("null")|| avoid == null || avoid.equals(""))) {
+				hola=avoid;
+				try {
+					str.clear();
+					d=new Lookwrap();
+
+					JSONObject j=new JSONObject(hola);
+					String k=j.getString("long");
+					d.longi=k;
+
+					k=j.getString("lat");
+					d.lati=k;
+
+					k=j.getString("created_at");
+					d.locatedAt = k;
+					Log.e("Value", k+"");
+
+					k=j.getString("io_state");
+					d.ioState = k;
+
+					k=j.getString("distance");
+					d.distance = k;
+
+					k=j.getString("orientation");
+					d.orientation = k;
+
+					k = j.getString("device_id");
+					d.device_id = k;
+					str.add(d);
+
+					adapter.notifyDataSetChanged();
+		//				Thread.sleep(500000);
+				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+		//			} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				finish();
+				Toast.makeText(getApplicationContext(), "Something Went Wrong !!", Toast.LENGTH_LONG).show();
 			}
-			
-			l1.setAdapter(adapter);
+
 			dialog.dismiss();
 		}
-		
-		
-	}
-	@Override
-	public void onBackPressed() {
-		c.cancel(true);
-		if(c.isCancelled()) {
-		
-			c = null;
-			super.onBackPressed();
-		}
-	}
 
-	@Override
-	public void onResume() {
-		handler.postDelayed(new Runnable() {
-			public void run() {
-				//do something
-				c = new cbc();
-				c.execute();
-				runnable=this;
-				handler.postDelayed(runnable, 10000);
-			}
-		}, 10000);
-
-		super.onResume();
-	}
-	@Override
-	public void onPause() {
-		handler.removeCallbacks(runnable);
-		super.onPause();
 	}
 }

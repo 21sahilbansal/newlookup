@@ -35,6 +35,7 @@
             <EditText
                 android:layout_marginTop="10dp"
                 android:id="@+id/old_imei"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Old IMEI no*"/>
@@ -47,6 +48,7 @@
                 android:id="@+id/new_imei"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="New IMEI no*"/>
         </android.support.design.widget.TextInputLayout>
         <android.support.design.widget.TextInputLayout
@@ -57,6 +59,7 @@
                 android:id="@+id/old_sim_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="Old Sim No*"/>
         </android.support.design.widget.TextInputLayout>
         <android.support.design.widget.TextInputLayout
@@ -65,6 +68,7 @@
             <EditText
                 android:layout_marginTop="10dp"
                 android:id="@+id/new_sim_no"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="New Sim no*"/>
@@ -79,6 +83,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Device Model"/>
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_marginTop="10dp"
+                android:id="@+id/client_id"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Client ID"/>
         </android.support.design.widget.TextInputLayout>
         <Button
             android:layout_marginTop="20dp"

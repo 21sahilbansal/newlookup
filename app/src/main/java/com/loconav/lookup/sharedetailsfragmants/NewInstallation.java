@@ -20,24 +20,22 @@ import com.loconav.lookup.CustomActionBar;
 import com.loconav.lookup.R;
 import com.loconav.lookup.ShareAndUpload;
 
+import static com.loconav.lookup.Constants.USER_ID;
+import static com.loconav.lookup.application.LookUpApplication.editor;
+import static com.loconav.lookup.application.LookUpApplication.sharedPreferences;
+
 /**
  * Created by prateek on 13/11/17.
  */
 
 public class NewInstallation extends Fragment {
     CommonFunction commonFunction;
-    public static final String MyPREFERENCES = "MyPrefs";
-    SharedPreferences sharedpreferences;
-    SharedPreferences.Editor editor;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
                              Bundle savedInstanceState) {
         CustomActionBar customActionBar = new CustomActionBar();
         customActionBar.getActionBar((AppCompatActivity)getActivity(),
                 R.drawable.leftarrow,R.string.new_installation,true);
-        sharedpreferences = getContext().getSharedPreferences(MyPREFERENCES,
-                Context.MODE_PRIVATE);
-        editor = sharedpreferences.edit();
         commonFunction = new CommonFunction();
         View view = inflater.inflate(R.layout.newinstallation, vg, false);
         final EditText dealer_name = (EditText)view.findViewById(R.id.dealer_name);
@@ -54,6 +52,7 @@ public class NewInstallation extends Fragment {
         final EditText imei = (EditText) view.findViewById(R.id.imei);
         final EditText device_model = (EditText) view.findViewById(R.id.device_model);
         final RadioGroup radioSexGroup = (RadioGroup)view.findViewById(R.id.radioGroup1);
+        final EditText clientID = (EditText)view.findViewById(R.id.client_id);
         final Button share = (Button) view.findViewById(R.id.share);
         share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +64,7 @@ public class NewInstallation extends Fragment {
                 }
                 if(commonFunction.validate(new EditText[]{dealer_name, ownerName,
                         contact_no, location, registration_no, chassis_no, manufacture,
-                        model, type_of_goods, odometer_reading, sim_no, imei, device_model })&& selectedId!=-1) {
+                        model, type_of_goods, odometer_reading, sim_no, imei, device_model})&& selectedId!=-1) {
 
                     String message = "";
                     if(selectedId == R.id.new_customer){
@@ -86,8 +85,10 @@ public class NewInstallation extends Fragment {
                     message += "Sim No: "+sim_no.getText().toString() + "\n";
                     message += "IMEI: "+imei.getText().toString() + "\n";
                     message += "Device Model: "+device_model.getText().toString()+"\n";
-                    message += "Sent By Device Checker";
-                    String url = "http://www.loconav.com/?type=new_vehicle&model="+model.getText().toString()+"&manufacturer="+manufacture.getText().toString()+"&deviceid="+sharedpreferences.getString("deviceid","");
+                    message += "Sent By Device Checker"+ "\n";
+                    message += "Client ID: "+ clientID.getText().toString()+"\n";
+                    message += "USER ID: " + sharedPreferences.getString(USER_ID, "");
+                    String url = "http://www.loconav.com/?type=new_vehicle&model="+model.getText().toString()+"&manufacturer="+manufacture.getText().toString()+"&deviceid="+sharedPreferences.getString("deviceid","");
                     editor.putString("message", message);
                     editor.putString("upload_url", url);
                     editor.commit();
@@ -98,7 +99,7 @@ public class NewInstallation extends Fragment {
             }
         });
 
-        String deviceId = sharedpreferences.getString("deviceid","");
+        String deviceId = sharedPreferences.getString("deviceid","");
         commonFunction.setDeviceId(sim_no, imei, deviceId);
         return view;
     }

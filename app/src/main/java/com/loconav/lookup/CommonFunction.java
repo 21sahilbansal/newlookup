@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import static com.loconav.lookup.Constants.USER_ID;
+
 /**
  * Created by prateek on 14/11/17.
  */
@@ -20,6 +22,12 @@ public class CommonFunction {
                 currentField.setError("Cannot Be Empty");
                 currentField.requestFocus();
                 return false;
+            } else if(currentField.getId() == R.id.client_id) {
+                if(currentField.getText().length() < 4) {
+                    currentField.setError("Cannot Be Less Than 4");
+                    currentField.requestFocus();
+                    return false;
+                }
             }
         }
         return true;
@@ -29,7 +37,6 @@ public class CommonFunction {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         String text = message;
-
         // change with required  application package
         intent.setPackage("com.whatsapp");
 

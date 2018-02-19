@@ -3,7 +3,7 @@
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context="com.loconav.lookup.MainActivity">
+tools:context="com.loconav.lookup.LookUpEntry">
 
 <Button
     android:id="@+id/button1"

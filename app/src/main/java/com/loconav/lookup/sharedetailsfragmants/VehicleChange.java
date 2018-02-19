@@ -15,16 +15,17 @@ import com.loconav.lookup.CommonFunction;
 import com.loconav.lookup.CustomActionBar;
 import com.loconav.lookup.R;
 
+import static com.loconav.lookup.Constants.USER_ID;
+import static com.loconav.lookup.application.LookUpApplication.sharedPreferences;
+
 /**
  * Created by prateek on 13/11/17.
  */
 
 public class VehicleChange extends Fragment {
-    EditText ownerName, imei, oldVehicleNo, newVehicleNo, simNo;
+    EditText ownerName, imei, oldVehicleNo, newVehicleNo, simNo, clientID;
     Button share;
     CommonFunction commonFunction;
-    public static final String MyPREFERENCES = "MyPrefs";
-    SharedPreferences sharedpreferences;
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
                              Bundle savedInstanceState) {
         CustomActionBar customActionBar = new CustomActionBar();
@@ -37,8 +38,8 @@ public class VehicleChange extends Fragment {
         oldVehicleNo = (EditText)view.findViewById(R.id.old_vehicle_no);
         newVehicleNo = (EditText)view.findViewById(R.id.new_vehicle_no);
         simNo = (EditText)view.findViewById(R.id.sim_no);
+        clientID = (EditText)view.findViewById(R.id.client_id);
         share = (Button)view.findViewById(R.id.share);
-        sharedpreferences = getContext().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,14 +51,15 @@ public class VehicleChange extends Fragment {
                     message += "IMEI: "+ imei.getText().toString() + "\n";
                     message += "Old Vehicle No: "+ oldVehicleNo.getText().toString() + "\n";
                     message += "New Vehicle No: "+ newVehicleNo.getText().toString() + "\n";
-                    message += "Sim no.: " + simNo.getText().toString();
+                    message += "Sim no.: " + simNo.getText().toString()+ "\n";
+                    message += "Client ID: "+ clientID.getText().toString()+"\n";
+                    message += "USER ID: " + sharedPreferences.getString(USER_ID, "");
                     commonFunction.sendAppMsg(getContext(), message);
-//                }
                 }
 
             }
         });
-        String deviceId = sharedpreferences.getString("deviceid","");
+        String deviceId = sharedPreferences.getString("deviceid","");
         commonFunction.setDeviceId(simNo, imei, deviceId);
         return view;
     }
