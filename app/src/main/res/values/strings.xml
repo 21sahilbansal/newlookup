@@ -10,4 +10,5 @@
     <string name="new_installation">New Installation</string>
     <string name="sim_change">Sim Change</string>
     <string name="enter_user_id">Please Enter User Id</string>
+    <string name="auth_secret">5ed183673b9709a69e51ed86e6b53b</string>
 </resources>

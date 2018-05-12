@@ -5,19 +5,19 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context="com.loconav.lookup.LookUpEntry">
 
-<Button
-    android:id="@+id/button1"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_centerHorizontal="true"
-    android:layout_marginTop="208dp"
-    android:onClick="getJson"
-    android:padding="7dip"
-    android:text="@string/device_info"
-    android:textColor="#ffffff"
-    android:textStyle="bold"
-    tools:ignore="HardcodedText" />
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="208dp"
+        android:onClick="getJson"
+        android:padding="7dip"
+        android:text="@string/device_info"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/button2"
@@ -32,21 +32,33 @@ tools:context="com.loconav.lookup.LookUpEntry">
         android:textStyle="bold"
         tools:ignore="HardcodedText" />
 
-<EditText
-    android:id="@+id/editText4"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_centerHorizontal="true"
-    android:layout_marginTop="100dp"
-    android:ems="10"
-    android:hint="Enter Device ID"
-    android:inputType="phone"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    tools:ignore="HardcodedText" >
+    <LinearLayout
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:gravity="center"
+        android:background=""
+        android:orientation="horizontal">
 
-    <requestFocus />
-</EditText>
+        <EditText
+            android:id="@+id/editText4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:hint="Enter Device ID"
+            android:inputType="textPhonetic"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:background="@android:color/transparent"/>
+        <ImageButton
+            android:id="@+id/ib_qr_scanner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/editText4"
+            android:layout_toRightOf="@+id/editText4"
+            android:src="@android:drawable/ic_menu_camera" />
+    </LinearLayout>
 
 </RelativeLayout>
