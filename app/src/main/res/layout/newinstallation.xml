@@ -172,7 +172,7 @@
                 android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Client ID"/>
+                android:hint="Client ID*"/>
         </android.support.design.widget.TextInputLayout>
         <Button
             android:layout_marginTop="20dp"

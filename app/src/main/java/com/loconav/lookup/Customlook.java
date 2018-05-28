@@ -57,7 +57,7 @@ public class Customlook extends ArrayAdapter<Lookwrap> {
             deviceok += 1;
             imageView.setImageResource(R.drawable.greentick);
         } else {
-    	    imageView.setImageResource(R.drawable.transparent);
+    	    imageView.setImageResource(R.drawable.red_tick);
         }
        
 		
@@ -65,7 +65,7 @@ public class Customlook extends ArrayAdapter<Lookwrap> {
            passedok += 1;
            imageView1.setImageResource(R.drawable.greentick);
        } else {
-           imageView1.setImageResource(R.drawable.transparent);
+           imageView1.setImageResource(R.drawable.red_tick);
        }
 
         String data = user.locatedAt.split("T",2)[0];
@@ -83,7 +83,7 @@ public class Customlook extends ArrayAdapter<Lookwrap> {
                 deviceok += 1;
                 battery.setBackgroundResource(R.drawable.greentick);
             }else{
-                battery.setBackgroundResource(R.drawable.transparent);
+                battery.setBackgroundResource(R.drawable.red_tick);
             }
             Log.e("DiffeTime",difference+"");
         }catch (Exception ex){

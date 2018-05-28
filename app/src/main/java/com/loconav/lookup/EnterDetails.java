@@ -28,6 +28,7 @@ public class EnterDetails extends AppCompatActivity {
     public static final String MyPREFERENCES = "MyPrefs";
     SharedPreferences sharedpreferences;
     SharedPreferences.Editor editor;
+    private String deviceID;
 
     @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class EnterDetails extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
         Bundle bundle = getIntent().getExtras();
+        deviceID = getIntent().getStringExtra(Constants.DEVICE_ID);
         if(bundle != null) {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -62,4 +64,7 @@ public class EnterDetails extends AppCompatActivity {
         }
     }
 
+    public String getDeviceID(){
+        return deviceID;
+    }
 }

@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import com.loconav.lookup.CommonFunction;
 import com.loconav.lookup.CustomActionBar;
+import com.loconav.lookup.EnterDetails;
 import com.loconav.lookup.R;
 
 import static com.loconav.lookup.Constants.USER_ID;
@@ -45,7 +46,7 @@ public class VehicleChange extends Fragment {
             @Override
             public void onClick(View v) {
                 if(commonFunction.validate(new EditText[]{ownerName, imei, oldVehicleNo,
-                        newVehicleNo, simNo})) {
+                        newVehicleNo, simNo, clientID})) {
                     String message = "Sim Change" + "\n";
                     message += "Owner's name: "+ ownerName.getText().toString() + "\n";
                     message += "IMEI: "+ imei.getText().toString() + "\n";
@@ -53,13 +54,14 @@ public class VehicleChange extends Fragment {
                     message += "New Vehicle No: "+ newVehicleNo.getText().toString() + "\n";
                     message += "Sim no.: " + simNo.getText().toString()+ "\n";
                     message += "Client ID: "+ clientID.getText().toString()+"\n";
-                    message += "USER ID: " + sharedPreferences.getString(USER_ID, "");
-                    commonFunction.sendAppMsg(getContext(), message);
+                    message += "USER ID: " + sharedPreferences.getString(USER_ID, "") + "\n";
+                    message += "Sent By Device Checker:"+ " " + System.currentTimeMillis() ;
+                    commonFunction.sendAppMsg(getActivity(), message);
                 }
 
             }
         });
-        String deviceId = sharedPreferences.getString("deviceid","");
+        String deviceId = ((EnterDetails)getActivity()).getDeviceID();
         commonFunction.setDeviceId(simNo, imei, deviceId);
         return view;
     }

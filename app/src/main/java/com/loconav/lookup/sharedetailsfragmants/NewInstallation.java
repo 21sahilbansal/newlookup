@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.loconav.lookup.CommonFunction;
 import com.loconav.lookup.CustomActionBar;
+import com.loconav.lookup.EnterDetails;
 import com.loconav.lookup.R;
 import com.loconav.lookup.ShareAndUpload;
 
@@ -33,6 +34,7 @@ public class NewInstallation extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
                              Bundle savedInstanceState) {
+        final String deviceId = ((EnterDetails)getActivity()).getDeviceID();
         CustomActionBar customActionBar = new CustomActionBar();
         customActionBar.getActionBar((AppCompatActivity)getActivity(),
                 R.drawable.leftarrow,R.string.new_installation,true);
@@ -64,7 +66,7 @@ public class NewInstallation extends Fragment {
                 }
                 if(commonFunction.validate(new EditText[]{dealer_name, ownerName,
                         contact_no, location, registration_no, chassis_no, manufacture,
-                        model, type_of_goods, odometer_reading, sim_no, imei, device_model})&& selectedId!=-1) {
+                        model, type_of_goods, odometer_reading, sim_no, imei, device_model, clientID})&& selectedId!=-1) {
 
                     String message = "";
                     if(selectedId == R.id.new_customer){
@@ -85,21 +87,20 @@ public class NewInstallation extends Fragment {
                     message += "Sim No: "+sim_no.getText().toString() + "\n";
                     message += "IMEI: "+imei.getText().toString() + "\n";
                     message += "Device Model: "+device_model.getText().toString()+"\n";
-                    message += "Sent By Device Checker"+ "\n";
                     message += "Client ID: "+ clientID.getText().toString()+"\n";
-                    message += "USER ID: " + sharedPreferences.getString(USER_ID, "");
-                    String url = "http://www.loconav.com/?type=new_vehicle&model="+model.getText().toString()+"&manufacturer="+manufacture.getText().toString()+"&deviceid="+sharedPreferences.getString("deviceid","");
+                    message += "USER ID: " + sharedPreferences.getString(USER_ID, "")+  "\n";
+                    message += "Sent By Device Checker:"+ " " + System.currentTimeMillis() ;
+                    String url = "http://www.loconav.com/?type=new_vehicle&model="+model.getText().toString()+"&manufacturer="+manufacture.getText().toString()+"&deviceid="+ deviceId;
                     editor.putString("message", message);
                     editor.putString("upload_url", url);
                     editor.commit();
-                    Intent intent = new Intent(getContext(), ShareAndUpload.class);
+                    Intent intent = new Intent(getActivity(), ShareAndUpload.class);
                     startActivity(intent);
                 }
 
             }
         });
 
-        String deviceId = sharedPreferences.getString("deviceid","");
         commonFunction.setDeviceId(sim_no, imei, deviceId);
         return view;
     }

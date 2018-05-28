@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:id="@+id/list_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="16dp"
+        android:gravity="center_vertical"
+        android:layout_marginRight="16dp"
+        android:weightSum="3">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/title"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-medium"
+            android:text="Battery"/>
+        <TextView
+            android:text="152.4"
+            android:textSize="12sp"
+            android:layout_weight="1.8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/value" />
+        <ImageView
+            android:layout_gravity="center_vertical|start"
+            android:layout_weight="0.2"
+            android:layout_width="0dp"
+            android:layout_height="15dp"
+            android:id="@+id/iv_status"
+            android:src="@drawable/greentick"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_below="@id/list_item"
+        android:background="#eeeeee"/>
+</RelativeLayout>

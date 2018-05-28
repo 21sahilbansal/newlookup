@@ -4,6 +4,14 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:name=".application.LookUpApplication"
@@ -14,7 +22,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LookUpEntry">
+            android:name=".LookUpEntry"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,11 +37,14 @@
         <activity android:name=".ShareDetails" />
         <activity
             android:name=".EnterDetails"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".UserActivity"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UserActivity"
             android:label="User Settings"
             android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".FastTagActivity" />
+        <activity android:name=".FetchClientActivity"></activity>
     </application>
 
 </manifest>

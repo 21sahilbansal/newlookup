@@ -13,13 +13,14 @@ public class ShareDetails extends AppCompatActivity {
     int selectedId;
     RadioGroup radioSexGroup;
     CustomActionBar customActionBar;
+    private String deviceId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_details);
+        deviceId = getIntent().getStringExtra(Constants.DEVICE_ID);
         customActionBar = new CustomActionBar();
         customActionBar.getActionBar(this, R.drawable.leftarrow, R.string.share_details, true );
-
         radioSexGroup=(RadioGroup)findViewById(R.id.radioGroup1);
         Button next = (Button) findViewById(R.id.next);
         next.setOnClickListener(new View.OnClickListener() {
@@ -41,6 +42,7 @@ public class ShareDetails extends AppCompatActivity {
                         intent.putExtra("type","vehicle_change");
                         break;
                 }
+                intent.putExtra(Constants.DEVICE_ID, deviceId);
                 startActivity(intent);
             }
         });

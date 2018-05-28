@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.loconav.lookup.CustomActionBar;
+import com.loconav.lookup.EnterDetails;
 import com.loconav.lookup.R;
 import com.loconav.lookup.CommonFunction;
 
@@ -39,12 +40,11 @@ public class SimChange extends Fragment {
         imei = (EditText)view.findViewById(R.id.imei);
         clientID = (EditText)view.findViewById(R.id.client_id);
         share = (Button)view.findViewById(R.id.share);
-
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(commonFunction.validate(new EditText[]{ownerName, vehicleNo,
-                        oldSimNo, newSimNo, imei})) {
+                        oldSimNo, newSimNo, imei, clientID})) {
                     String message = "Sim Change" + "\n";
                     message += "Owner's name: "+ ownerName.getText().toString() + "\n";
                     message += "Vehicle  no.: "+ vehicleNo.getText().toString() + "\n";
@@ -52,16 +52,15 @@ public class SimChange extends Fragment {
                     message += "New Sim No: "+ newSimNo.getText().toString() + "\n";
                     message += "IMEI: " + imei.getText().toString()+ "\n";
                     message += "Client ID: "+ clientID.getText().toString()+"\n";
-                    message += "USER ID: " + sharedPreferences.getString(USER_ID, "");
-                    commonFunction.sendAppMsg(getContext(), message);
+                    message += "USER ID: " + sharedPreferences.getString(USER_ID, "")+  "\n";
+                    message += "Sent By Device Checker:"+ " " + System.currentTimeMillis() ;
+                    commonFunction.sendAppMsg(getActivity(), message);
 //                }
                 }
-
             }
         });
-        String deviceId = sharedPreferences.getString("deviceid","");
+        String deviceId = ((EnterDetails)getActivity()).getDeviceID();
         commonFunction.setDeviceId(newSimNo, imei, deviceId);
         return view;
     }
-
 }

@@ -3,174 +3,155 @@ package com.loconav.lookup;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.loconav.lookup.adapter.LookupAdapter;
+import com.loconav.lookup.model.Entity;
+import com.loconav.lookup.model.LookupResponse;
+import com.loconav.lookup.network.RetrofitCallback;
+import com.loconav.lookup.network.rest.ApiClient;
+import com.loconav.lookup.network.rest.ApiInterface;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Timer;
+import java.util.List;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Response;
 
-import static com.loconav.lookup.Constants.DEVICE_ID;
+public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
+    @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.rv_info) RecyclerView rvInfo;
+    @BindView(R.id.passed) ImageView ivPassed;
+    @BindView(R.id.share_details) Button shareDetails;
+    @BindView(R.id.refresh) Button refresh;
+    private LookupAdapter lookupAdapter;
+    private List<Entity> entities = new ArrayList<>();
+    private Bundle receivedBundle;
+    private String deviceID;
+    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
-public class MainActivity3 extends AppCompatActivity {
-	ListView l1;
-	Long time1;
-	String hola="";
-	String message="";
-	Lookwrap d;
-	cbc c=new cbc();
-	CustomActionBar customActionBar;
-	static ArrayList<Lookwrap> str = new ArrayList<Lookwrap>();
-	Customlook adapter ;
-	ProgressDialog dialog;
-
-	@Override
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity3);
-		customActionBar = new CustomActionBar();
-		customActionBar.getActionBar(this, R.drawable.leftarrow, R.string.details, true);
-		dialog = new ProgressDialog(MainActivity3.this);
-		dialog.setMessage("Please Wait");
-		dialog.setCancelable(false);
-		Button button = (Button)findViewById(R.id.refresh);
-		button.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				c = new cbc();
-				c.execute();
-			}
-		});
+        ButterKnife.bind(this);
+        setSwipeRefresh();
+        setRecyclerView();
+        setShareDetails();
+        Log.e("save ", "onCreate: ");
+    }
 
-		Button share = (Button) findViewById(R.id.share);
-		l1=(ListView)findViewById(R.id.listView1);
-		adapter= new Customlook(this, str, share);
-		l1.setAdapter(adapter);
-		Bundle bundle = getIntent().getExtras();
-		message = bundle.getString(DEVICE_ID);
-		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-		ConnectivityManager conMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-		final ConnectivityManager conMgr1 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		final NetworkInfo activeNetwork = conMgr1.getActiveNetworkInfo();
-		if (activeNetwork != null && activeNetwork.isConnected())
-			c.execute();
-		else
-			setContentView(R.layout.nointernet);
-	}
-	class cbc extends AsyncTask<Void,Void,String> {
-		public String json_url;
+    private void setShareDetails() {
+        shareDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity3.this, ShareDetails.class);
+                intent.putExtra(Constants.DEVICE_ID, deviceID);
+                startActivity(intent);
+            }
+        });
+    }
 
-		@Override
-		protected void onPreExecute() {
-			time1= System.currentTimeMillis();
-			str.clear();
-			json_url="http://babatrucks.com/api/v1/trucks/check_status";
-			dialog.show();
-		}
-		@Override
-		protected String doInBackground(Void[] voids) {
-			try {
-				URL obj = new URL("http://babatrucks.com/api/v1/trucks/check_status?truck[device_id]="+message);
-				HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-				// optional default is GET
-				con.setRequestMethod("GET");
-				//add request header
-				con.setRequestProperty("X-Auth-Token", "b90190cf1616edd3270667c216696156");
-				int responseCode = con.getResponseCode();
-				System.out.println("\nSending 'GET' request to URL : " + "hola");
-				System.out.println("Response Code : " + responseCode);
-				BufferedReader in = new BufferedReader(
-						new InputStreamReader(con.getInputStream()));
-						String inputLine;
-						StringBuffer response = new StringBuffer();
-						while ((inputLine = in.readLine()) != null) {
-							//				if(isCancelled()) {
-							//							break;
-							//						}
-							response.append(inputLine);
-						}
-				in.close();
-				//print result
-				System.out.println(response.toString());
-				Log.e("Response",response.toString());
-				return 	response.toString();
-			} catch(Exception e) {
-				System.out.print(""+ e.getMessage());
-				}
-		  return "raju";
-		}
-		@Override
-		protected void onProgressUpdate(Void... values) {
-			super.onProgressUpdate(values);
-		}
-		@Override
-		protected void onPostExecute(String avoid) {
-			dialog.cancel();
-			if(!(avoid.equals("null")|| avoid == null || avoid.equals(""))) {
-				hola=avoid;
-				try {
-					str.clear();
-					d=new Lookwrap();
+    private void setRecyclerView() {
+        lookupAdapter = new LookupAdapter(entities);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getBaseContext());
+        rvInfo.setLayoutManager(mLayoutManager);
+        rvInfo.setItemAnimator(new DefaultItemAnimator());
+        rvInfo.setAdapter(lookupAdapter);
+    }
 
-					JSONObject j=new JSONObject(hola);
-					String k=j.getString("long");
-					d.longi=k;
+    private void setSwipeRefresh() {
+        swipeRefreshLayout.setOnRefreshListener(this);
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onRefresh();
+            }
+        });
+    }
 
-					k=j.getString("lat");
-					d.lati=k;
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(true);
+        getSetFreshData(deviceID);
+    }
 
-					k=j.getString("created_at");
-					d.locatedAt = k;
-					Log.e("Value", k+"");
+    private void getSetFreshData(String deviceID) {
+        apiService.getDeviceLookup(deviceID).enqueue(new RetrofitCallback<LookupResponse>() {
+            @Override
+            public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
+                Log.e("handle ", response.code() +"");
+                setData(response.body());
+                swipeRefreshLayout.setRefreshing(false);
+            }
 
-					k=j.getString("io_state");
-					d.ioState = k;
+            @Override
+            public void handleFailure(Call<LookupResponse> call, Throwable t) {
+                swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(getBaseContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
-					k=j.getString("distance");
-					d.distance = k;
+    private void getSetIntentData() {
+        Log.e("save ", "getSetData: ");
+	    receivedBundle = getIntent().getExtras();
+	    LookupResponse lookupResponse = (LookupResponse) receivedBundle.getSerializable("lookup_response");
+	    deviceID = receivedBundle.getString(Constants.DEVICE_ID);
+	    setData(lookupResponse);
+    }
 
-					k=j.getString("orientation");
-					d.orientation = k;
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBundle("received_bundle", receivedBundle);
+        Log.e("save ", "onSaveInstanceState: ");
+    }
 
-					k = j.getString("device_id");
-					d.device_id = k;
-					str.add(d);
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        receivedBundle = savedInstanceState.getBundle("received_bundle");
+        Log.e("save ", "onRestoreInstanceState: ");
+    }
 
-					adapter.notifyDataSetChanged();
-		//				Thread.sleep(500000);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-		//			} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} else {
-				finish();
-				Toast.makeText(getApplicationContext(), "Something Went Wrong !!", Toast.LENGTH_LONG).show();
-			}
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("save ", "onResume: ");
+        getSetIntentData();
+    }
 
-			dialog.dismiss();
-		}
-
-	}
+    private void setData(LookupResponse lookupResponse) {
+        entities.clear();
+        entities.addAll(lookupResponse.getData());
+            if(lookupResponse.getPassed()) {
+                ivPassed.setImageResource(R.drawable.passed);
+                shareDetails.setVisibility(View.VISIBLE);
+            }
+            else {
+                ivPassed.setImageResource(android.R.color.transparent);
+                shareDetails.setVisibility(View.GONE);
+            }
+        lookupAdapter.notifyDataSetChanged();
+    }
 }

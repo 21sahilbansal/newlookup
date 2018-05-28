@@ -3,42 +3,51 @@
     android:layout_width="match_parent"
     android:background="#ffffff"
     android:layout_height="match_parent"
-    tools:context=".MainActivity3" >
+    tools:context=".MainActivity3">
 
-    <ListView
-        android:id="@+id/listView1"
-        android:layout_marginTop="20dp"
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
-        android:layout_centerHorizontal="true"
-        android:paddingLeft="16dip"
-        android:paddingRight="16dip" >
-
-    </ListView>
-
-    <LinearLayout
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="18dp"
-        android:layout_centerHorizontal="true"
-        android:layout_width="match_parent"
-        android:weightSum="2"
-        android:layout_height="wrap_content">
-        <Button
-            android:layout_marginLeft="10dp"
-            android:id="@+id/share"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="60dp"
-            android:text="Share Details"/>
-        <Button
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:id="@+id/refresh"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="60dp"
-            android:text="Refresh" />
-    </LinearLayout>
+        android:id="@+id/swipe_refresh"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/passed"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_width="80dp"
+                android:layout_height="35dp"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/actions"
+                android:layout_alignParentTop="true"/>
+            <LinearLayout
+                android:id="@+id/actions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dimen_18sp"
+                android:layout_marginLeft="@dimen/dimen_18sp"
+                android:layout_marginBottom="@dimen/dimen_18sp"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_alignParentBottom="true">
+                <Button
+                    android:id="@+id/share_details"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/share_details"/>
+                <Button
+                    android:id="@+id/refresh"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="refresh"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>
