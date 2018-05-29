@@ -103,7 +103,6 @@ public class NewInstallation extends Fragment {
                     Intent intent = new Intent(getActivity(), ShareAndUpload.class);
                     startActivity(intent);
                 }
-
             }
         });
         commonFunction.setEditText(imei, deviceId);

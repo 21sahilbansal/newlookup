@@ -28,6 +28,7 @@ public class FetchClientActivity extends AppCompatActivity {
     private ClientAdapter clientAdapter;
     private List<Client> clients = new ArrayList<>();
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+    private String deviceId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class FetchClientActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_fetch_client);
         setAdapter();
         getSetData();
+        deviceId = getIntent().getStringExtra(Constants.DEVICE_ID);
     }
 
     private void getSetData() {
@@ -70,6 +72,7 @@ public class FetchClientActivity extends AppCompatActivity {
             public void onEventDone(Object object) {
                 Intent intent = new Intent(FetchClientActivity.this, ShareDetails.class);
                 intent.putExtra("client", (Client)object);
+                intent.putExtra(Constants.DEVICE_ID, deviceId);
                 startActivity(intent);
             }
         });
