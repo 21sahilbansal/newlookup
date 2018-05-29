@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.loconav.lookup.model.Client;
 import com.loconav.lookup.sharedetailsfragmants.DeviceChange;
 import com.loconav.lookup.sharedetailsfragmants.NewInstallation;
 import com.loconav.lookup.sharedetailsfragmants.SimChange;
@@ -29,6 +30,7 @@ public class EnterDetails extends AppCompatActivity {
     SharedPreferences sharedpreferences;
     SharedPreferences.Editor editor;
     private String deviceID;
+    private Client client;
 
     @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class EnterDetails extends AppCompatActivity {
         editor = sharedpreferences.edit();
         Bundle bundle = getIntent().getExtras();
         deviceID = getIntent().getStringExtra(Constants.DEVICE_ID);
+        client = (Client)getIntent().getSerializableExtra("client");
         if(bundle != null) {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -67,4 +70,7 @@ public class EnterDetails extends AppCompatActivity {
     public String getDeviceID(){
         return deviceID;
     }
+
+    public Client getClient() { return client; }
+
 }

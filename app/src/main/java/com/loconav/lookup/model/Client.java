@@ -2,10 +2,12 @@ package com.loconav.lookup.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by prateek on 28/05/18.
  */
-public class Client {
+public class Client implements Serializable{
     @SerializedName("client_id")
     private String clientId;
     @SerializedName("contact_number")

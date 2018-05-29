@@ -16,6 +16,7 @@ import com.loconav.lookup.CommonFunction;
 import com.loconav.lookup.CustomActionBar;
 import com.loconav.lookup.EnterDetails;
 import com.loconav.lookup.R;
+import com.loconav.lookup.model.Client;
 
 import static com.loconav.lookup.Constants.USER_ID;
 import static com.loconav.lookup.application.LookUpApplication.sharedPreferences;
@@ -66,7 +67,10 @@ public class DeviceChange extends Fragment {
             }
         });
         String deviceId = ((EnterDetails)getActivity()).getDeviceID();
-        commonFunction.setDeviceId(newSimNo, newImei, deviceId);
+        Client client = ((EnterDetails)getActivity()).getClient();
+        commonFunction.setEditText(newImei , deviceId);
+        commonFunction.setEditText(ownerName, client.getName());
+        commonFunction.setEditText(clientID, client.getClientId());
         return view;
     }
 }

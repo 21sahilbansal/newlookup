@@ -51,15 +51,13 @@ public class CommonFunction {
 
 
     public void setData(EditText editText) {
+        editText.setEnabled(false);
         editText.clearFocus();
     }
-    public void setDeviceId(EditText sim, EditText imei, String deviceId) {
-        if(deviceId.length() == 12) {
-            sim.setText(deviceId);
-            setData(sim);
-        } else {
-            imei.setText(deviceId);
-            setData(imei);
-        }
+
+
+    public void setEditText( EditText imei, String deviceId) {
+        imei.setText(deviceId);
+        setData(imei);
     }
 }

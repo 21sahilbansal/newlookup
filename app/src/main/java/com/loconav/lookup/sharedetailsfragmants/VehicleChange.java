@@ -15,6 +15,7 @@ import com.loconav.lookup.CommonFunction;
 import com.loconav.lookup.CustomActionBar;
 import com.loconav.lookup.EnterDetails;
 import com.loconav.lookup.R;
+import com.loconav.lookup.model.Client;
 
 import static com.loconav.lookup.Constants.USER_ID;
 import static com.loconav.lookup.application.LookUpApplication.sharedPreferences;
@@ -41,7 +42,6 @@ public class VehicleChange extends Fragment {
         simNo = (EditText)view.findViewById(R.id.sim_no);
         clientID = (EditText)view.findViewById(R.id.client_id);
         share = (Button)view.findViewById(R.id.share);
-
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,11 +58,13 @@ public class VehicleChange extends Fragment {
                     message += "Sent By Device Checker:"+ " " + System.currentTimeMillis() ;
                     commonFunction.sendAppMsg(getActivity(), message);
                 }
-
             }
         });
         String deviceId = ((EnterDetails)getActivity()).getDeviceID();
-        commonFunction.setDeviceId(simNo, imei, deviceId);
+        Client client = ((EnterDetails)getActivity()).getClient();
+        commonFunction.setEditText(imei, deviceId);
+        commonFunction.setEditText(ownerName, client.getName());
+        commonFunction.setEditText(clientID, client.getClientId());
         return view;
     }
 }

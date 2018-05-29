@@ -24,6 +24,6 @@ public interface ApiInterface {
     Call<LookupResponse> getDeviceLookup(@Query("device_id") String deviceId);
 
     @Headers("X-Linehaul-V2-Secret: 5ed183673b9709a69e51ed86e6b53b")
-    @GET("device_lookup")
-    Call<List<Client>> getClients(@Query("client_lookup") String clientId);
+    @GET("client_lookup")
+    Call<List<Client>> getClients(@Query("client_id") String clientId);
 }

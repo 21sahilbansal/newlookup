@@ -20,6 +20,7 @@ import com.loconav.lookup.CustomActionBar;
 import com.loconav.lookup.EnterDetails;
 import com.loconav.lookup.R;
 import com.loconav.lookup.ShareAndUpload;
+import com.loconav.lookup.model.Client;
 
 import static com.loconav.lookup.Constants.USER_ID;
 import static com.loconav.lookup.application.LookUpApplication.editor;
@@ -35,6 +36,8 @@ public class NewInstallation extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
                              Bundle savedInstanceState) {
         final String deviceId = ((EnterDetails)getActivity()).getDeviceID();
+        final Client client = ((EnterDetails) getActivity()).getClient();
+
         CustomActionBar customActionBar = new CustomActionBar();
         customActionBar.getActionBar((AppCompatActivity)getActivity(),
                 R.drawable.leftarrow,R.string.new_installation,true);
@@ -56,6 +59,9 @@ public class NewInstallation extends Fragment {
         final RadioGroup radioSexGroup = (RadioGroup)view.findViewById(R.id.radioGroup1);
         final EditText clientID = (EditText)view.findViewById(R.id.client_id);
         final Button share = (Button) view.findViewById(R.id.share);
+        ownerName.setText(client.getName());
+        contact_no.setText(client.getContactNumber());
+
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,8 +106,10 @@ public class NewInstallation extends Fragment {
 
             }
         });
-
-        commonFunction.setDeviceId(sim_no, imei, deviceId);
+        commonFunction.setEditText(imei, deviceId);
+        commonFunction.setEditText(contact_no, client.getContactNumber());
+        commonFunction.setEditText(ownerName, client.getName());
+        commonFunction.setEditText(clientID, client.getClientId());
         return view;
     }
 }

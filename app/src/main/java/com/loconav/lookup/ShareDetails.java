@@ -8,16 +8,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
 
+import com.loconav.lookup.model.Client;
+
 public class ShareDetails extends AppCompatActivity {
 
     int selectedId;
     RadioGroup radioSexGroup;
     CustomActionBar customActionBar;
     private String deviceId;
+    private Client client;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_details);
+        client = (Client) getIntent().getSerializableExtra("client");
         deviceId = getIntent().getStringExtra(Constants.DEVICE_ID);
         customActionBar = new CustomActionBar();
         customActionBar.getActionBar(this, R.drawable.leftarrow, R.string.share_details, true );
@@ -43,6 +47,7 @@ public class ShareDetails extends AppCompatActivity {
                         break;
                 }
                 intent.putExtra(Constants.DEVICE_ID, deviceId);
+                intent.putExtra("client", client);
                 startActivity(intent);
             }
         });
