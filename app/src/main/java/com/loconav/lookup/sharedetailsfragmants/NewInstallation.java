@@ -3,6 +3,7 @@ package com.loconav.lookup.sharedetailsfragmants;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import com.loconav.lookup.CustomActionBar;
 import com.loconav.lookup.EnterDetails;
 import com.loconav.lookup.R;
 import com.loconav.lookup.ShareAndUpload;
+import com.loconav.lookup.databinding.NewinstallationBinding;
 import com.loconav.lookup.model.Client;
 
 import static com.loconav.lookup.Constants.USER_ID;
@@ -31,48 +33,27 @@ import static com.loconav.lookup.application.LookUpApplication.sharedPreferences
  */
 
 public class NewInstallation extends Fragment {
-    CommonFunction commonFunction;
-
+    private NewinstallationBinding binding;
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
                              Bundle savedInstanceState) {
         final String deviceId = ((EnterDetails)getActivity()).getDeviceID();
         final Client client = ((EnterDetails) getActivity()).getClient();
 
-        CustomActionBar customActionBar = new CustomActionBar();
-        customActionBar.getActionBar((AppCompatActivity)getActivity(),
-                R.drawable.leftarrow,R.string.new_installation,true);
-        commonFunction = new CommonFunction();
-        View view = inflater.inflate(R.layout.newinstallation, vg, false);
-        final EditText dealer_name = (EditText)view.findViewById(R.id.dealer_name);
-        final EditText ownerName = (EditText)view.findViewById(R.id.owner_name);
-        final EditText contact_no = (EditText)view.findViewById(R.id.contact_no);
-        final EditText location = (EditText)view.findViewById(R.id.location);
-        final EditText registration_no = (EditText)view.findViewById(R.id.registration_no);
-        final EditText chassis_no = (EditText) view.findViewById(R.id.chassis_no);
-        final EditText manufacture = (EditText) view.findViewById(R.id.manufacture);
-        final EditText model = (EditText) view.findViewById(R.id.model);
-        final EditText type_of_goods = (EditText) view.findViewById(R.id.type_of_goods);
-        final EditText odometer_reading = (EditText) view.findViewById(R.id.odometer_reading);
-        final EditText sim_no = (EditText) view.findViewById(R.id.sim_no);
-        final EditText imei = (EditText) view.findViewById(R.id.imei);
-        final EditText device_model = (EditText) view.findViewById(R.id.device_model);
-        final RadioGroup radioSexGroup = (RadioGroup)view.findViewById(R.id.radioGroup1);
-        final EditText clientID = (EditText)view.findViewById(R.id.client_id);
-        final Button share = (Button) view.findViewById(R.id.share);
-        ownerName.setText(client.getName());
-        contact_no.setText(client.getContactNumber());
+        binding = DataBindingUtil.inflate(inflater, R.layout.newinstallation, vg, false);
+        binding.ownerName.setText(client.getName());
+        binding.contactNo.setText(client.getContactNumber());
 
-        share.setOnClickListener(new View.OnClickListener() {
+        binding.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int selectedId = radioSexGroup.getCheckedRadioButtonId();
+                int selectedId = binding.radioGroup1.getCheckedRadioButtonId();
                 if(selectedId != R.id.new_customer && selectedId != R.id.old_customer){
                     Toast.makeText(getContext(), "Please Select Customer New or Old",Toast.LENGTH_LONG).show();
-                    radioSexGroup.setFocusable(true);
+                    binding.radioGroup1.setFocusable(true);
                 }
-                if(commonFunction.validate(new EditText[]{dealer_name, ownerName,
-                        contact_no, location, registration_no, chassis_no, manufacture,
-                        model, type_of_goods, odometer_reading, sim_no, imei, device_model, clientID})&& selectedId!=-1) {
+                if(CommonFunction.validate(new EditText[]{binding.dealerName, binding.ownerName,
+                        binding.contactNo, binding.location, binding.registrationNo,binding.chassisNo, binding.manufacture,
+                        binding.model, binding.typeOfGoods, binding.odometerReading, binding.simNo, binding.imei, binding.deviceModel, binding.clientId})&& selectedId!=-1) {
 
                     String message = "";
                     if(selectedId == R.id.new_customer){
@@ -80,23 +61,25 @@ public class NewInstallation extends Fragment {
                     }else{
                         message += "Old Customer" + "\n";
                     }
-                    message += "Dealer's name: "+dealer_name.getText().toString() + "\n";
-                    message += "Owner's name: "+ownerName.getText().toString() + "\n";
-                    message += "Contact no: "+contact_no.getText().toString() + "\n";
-                    message += "Location: "+location.getText().toString() + "\n";
-                    message += "Registration no.: "+registration_no.getText().toString()+ "\n";
-                    message += "Chassis no: "+chassis_no.getText().toString() + "\n";
-                    message += "Manufacture: "+manufacture.getText().toString() + "\n";
-                    message += "Model: "+model.getText().toString() + "\n";
-                    message += "Type of goods: "+type_of_goods.getText().toString() + "\n";
-                    message += "Odometer Reading: "+odometer_reading.getText().toString() + "\n";
-                    message += "Sim No: "+sim_no.getText().toString() + "\n";
-                    message += "IMEI: "+imei.getText().toString() + "\n";
-                    message += "Device Model: "+device_model.getText().toString()+"\n";
-                    message += "Client ID: "+ clientID.getText().toString()+"\n";
+                    message += "Dealer's name: "+ binding.dealerName.getText().toString() + "\n";
+                    message += "Owner's name: "+ binding.ownerName.getText().toString() + "\n";
+                    message += "Contact no: "+ binding.contactNo.getText().toString() + "\n";
+                    message += "Location: "+ binding.location.getText().toString() + "\n";
+                    message += "Registration no.: "+ binding.registrationNo.getText().toString()+ "\n";
+                    message += "Chassis no: "+ binding.chassisNo.getText().toString() + "\n";
+                    message += "Manufacture: "+ binding.manufacture.getText().toString() + "\n";
+                    message += "Model: "+ binding.model.getText().toString() + "\n";
+                    message += "Type of goods: "+ binding.typeOfGoods.getText().toString() + "\n";
+                    message += "Odometer Reading: "+ binding.odometerReading.getText().toString() + "\n";
+                    message += "Sim No: "+ binding.simNo.getText().toString() + "\n";
+                    message += "IMEI: "+ binding.imei.getText().toString() + "\n";
+                    message += "Device Model: "+ binding.deviceModel.getText().toString()+"\n";
+                    message += "Client ID: "+ binding.clientId.getText().toString()+"\n";
                     message += "USER ID: " + sharedPreferences.getString(USER_ID, "")+  "\n";
                     message += "Sent By Device Checker:"+ " " + System.currentTimeMillis() ;
-                    String url = "http://www.loconav.com/?type=new_vehicle&model="+model.getText().toString()+"&manufacturer="+manufacture.getText().toString()+"&deviceid="+ deviceId;
+                    String url = "http://www.loconav.com/?type=new_vehicle&model="+
+                            binding.model.getText().toString()+"&manufacturer="+
+                            binding.manufacture.getText().toString()+"&deviceid="+ deviceId;
                     editor.putString("message", message);
                     editor.putString("upload_url", url);
                     editor.commit();
@@ -105,10 +88,10 @@ public class NewInstallation extends Fragment {
                 }
             }
         });
-        commonFunction.setEditText(imei, deviceId);
-        commonFunction.setEditText(contact_no, client.getContactNumber());
-        commonFunction.setEditText(ownerName, client.getName());
-        commonFunction.setEditText(clientID, client.getClientId());
-        return view;
+        CommonFunction.setEditText(binding.imei, deviceId);
+        CommonFunction.setEditText(binding.contactNo, client.getContactNumber());
+        CommonFunction.setEditText(binding.ownerName, client.getName());
+        CommonFunction.setEditText(binding.clientId, client.getClientId());
+        return binding.getRoot();
     }
 }

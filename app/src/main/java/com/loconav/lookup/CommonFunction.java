@@ -15,7 +15,7 @@ import static com.loconav.lookup.Constants.USER_ID;
 
 public class CommonFunction {
 
-    public boolean validate(EditText[] fields){
+    public static boolean validate(EditText[] fields){
         for(int i = 0; i < fields.length; i++){
             EditText currentField = fields[i];
             if(currentField.getText().toString().length() <= 0){
@@ -33,7 +33,7 @@ public class CommonFunction {
         return true;
     }
 
-    public void sendAppMsg(Activity activity, String message) {
+    public static void sendAppMsg(Activity activity, String message) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         String text = message;
@@ -50,13 +50,13 @@ public class CommonFunction {
     }
 
 
-    public void setData(EditText editText) {
+    private static void setData(EditText editText) {
         editText.setEnabled(false);
         editText.clearFocus();
     }
 
 
-    public void setEditText( EditText imei, String deviceId) {
+    public static void setEditText( EditText imei, String deviceId) {
         imei.setText(deviceId);
         setData(imei);
     }
