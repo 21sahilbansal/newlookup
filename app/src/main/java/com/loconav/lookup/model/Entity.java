@@ -15,6 +15,12 @@ public class Entity implements Serializable {
     private String value;
     @SerializedName("status")
     private Boolean status;
+    @SerializedName("key")
+    private String key;
+
+    public String getKey() { return key; }
+
+    public void setKey(String key) { this.key = key; }
 
     public String getTitle() {
         return title;

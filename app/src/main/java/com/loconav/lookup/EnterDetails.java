@@ -47,21 +47,30 @@ public class EnterDetails extends AppCompatActivity {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             String type = bundle.getString("type");
-            if(type.equals("new_installation")) {
-                NewInstallation f1 = new NewInstallation();
-                fragmentTransaction.replace(android.R.id.content, f1);
+            switch (type) {
+                case "new_installation": {
+                    NewInstallation f1 = new NewInstallation();
+                    fragmentTransaction.replace(android.R.id.content, f1);
 
-            } else if(type.equals("sim_change")){
-                SimChange f1 = new SimChange();
-                fragmentTransaction.replace(android.R.id.content, f1);
+                    break;
+                }
+                case "sim_change": {
+                    SimChange f1 = new SimChange();
+                    fragmentTransaction.replace(android.R.id.content, f1);
 
-            } else if(type.equals("device_change")){
-                DeviceChange f1 = new DeviceChange();
-                fragmentTransaction.replace(android.R.id.content, f1);
+                    break;
+                }
+                case "device_change": {
+                    DeviceChange f1 = new DeviceChange();
+                    fragmentTransaction.replace(android.R.id.content, f1);
 
-            } else if(type.equals("vehicle_change")){
-                VehicleChange f1 = new VehicleChange();
-                fragmentTransaction.replace(android.R.id.content, f1);
+                    break;
+                }
+                case "vehicle_change": {
+                    VehicleChange f1 = new VehicleChange();
+                    fragmentTransaction.replace(android.R.id.content, f1);
+                    break;
+                }
             }
             fragmentTransaction.commit();
         }

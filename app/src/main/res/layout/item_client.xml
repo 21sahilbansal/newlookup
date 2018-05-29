@@ -6,27 +6,69 @@
             name="obj"
             type="com.loconav.lookup.model.Client"/>
     </data>
-    <RelativeLayout
+    <android.support.v7.widget.CardView
+        app:cardElevation="3dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:weightSum="2">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/row1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{obj.name}"
-                android:id="@+id/client_name"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="2">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@{obj.name}"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:id="@+id/client_name"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_height="wrap_content"
+                    android:text="@{obj.contactNumber}"
+                    android:id="@+id/client_number"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/row2"
+                android:layout_below="@id/row1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{obj.contactNumber}"
-                android:id="@+id/client_number"/>
-        </LinearLayout>
-    </RelativeLayout>
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="2">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_height="wrap_content"
+                    android:text="@{obj.contactEmail}"
+                    android:id="@+id/client_email"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_height="wrap_content"
+                    android:text="@{obj.clientId}"
+                    android:id="@+id/client_id"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
 </layout>

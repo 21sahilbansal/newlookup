@@ -66,7 +66,6 @@ public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayo
             public void onClick(View view) {
 //                Intent intent = new Intent(MainActivity3.this, ShareDetails.class);
                 Intent intent = new Intent(MainActivity3.this, FetchClientActivity.class);
-                intent.putExtra(Constants.DEVICE_ID, deviceID);
                 startActivity(intent);
             }
         });
@@ -117,7 +116,6 @@ public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayo
         Log.e("save ", "getSetData: ");
 	    receivedBundle = getIntent().getExtras();
 	    LookupResponse lookupResponse = (LookupResponse) receivedBundle.getSerializable("lookup_response");
-	    deviceID = receivedBundle.getString(Constants.DEVICE_ID);
 	    setData(lookupResponse);
     }
 
@@ -144,6 +142,7 @@ public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayo
 
     private void setData(LookupResponse lookupResponse) {
         entities.clear();
+        setDeviceId(lookupResponse.getData());
         entities.addAll(lookupResponse.getData());
             if(lookupResponse.getPassed()) {
                 ivPassed.setImageResource(R.drawable.passed);
@@ -154,5 +153,13 @@ public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayo
                 shareDetails.setVisibility(View.GONE);
             }
         lookupAdapter.notifyDataSetChanged();
+    }
+
+    private void setDeviceId(List<Entity> data) {
+        for(Entity entity : data) {
+            if(entity.getTitle().equals("Device IMEI")) {
+                deviceID = entity.getValue();
+            }
+        }
     }
 }

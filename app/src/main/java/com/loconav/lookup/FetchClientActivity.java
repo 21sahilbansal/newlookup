@@ -7,7 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.loconav.lookup.adapter.ClientAdapter;
 import com.loconav.lookup.databinding.ActivityFetchClientBinding;
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -30,38 +34,47 @@ public class FetchClientActivity extends AppCompatActivity {
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     private String deviceId;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_fetch_client);
+        setFetchClientButton();
         setAdapter();
-        getSetData();
         deviceId = getIntent().getStringExtra(Constants.DEVICE_ID);
     }
 
-    private void getSetData() {
-        clients.clear();
-        Client client = new Client();
-        client.setClientId("2000");
-        client.setContactEmail("prateek@loconav.com");
-        client.setContactNumber("8287752684");
-        client.setName("Prateek");
-        clients.add(client);
-        clients.add(client);
-        clientAdapter.notifyDataSetChanged();
+    private void setFetchClientButton() {
+        binding.fetchClient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(CommonFunction.validate(new EditText[]{binding.clientId})) {
+                    getSetData(binding.clientId.getText().toString());
+                }
+            }
+        });
+    }
 
-//        apiService.getClients("2000").enqueue(new RetrofitCallback<List<Client>>() {
-//            @Override
-//            public void handleSuccess(Call<List<Client>> call, Response<List<Client>> response) {
-//                clients.addAll(response.body());
-//                clientAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void handleFailure(Call<List<Client>> call, Throwable t) {
-//                Log.e("error ", t.getMessage());
-//            }
-//        });
+    private void getSetData(final String clientId) {
+        apiService.getClients(clientId).enqueue(new RetrofitCallback<List<Client>>() {
+            @Override
+            public void handleSuccess(Call<List<Client>> call, Response<List<Client>> response) {
+                if(response.body()!=null && response.body().size()>0) {
+                    binding.layoutClient.setVisibility(View.VISIBLE);
+                    clients.clear();
+                    clients.addAll(response.body());
+                    clientAdapter.notifyDataSetChanged();
+                } else
+                    handleFailure(call, new Throwable("Client id doesn't exist"));
+            }
+
+            @Override
+            public void handleFailure(Call<List<Client>> call, Throwable t) {
+                binding.layoutClient.setVisibility(View.GONE);
+                Toast.makeText(getBaseContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e("error ", t.getMessage());
+            }
+        });
     }
 
     private void setAdapter() {

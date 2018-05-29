@@ -16,7 +16,7 @@
             android:layout_height="wrap_content">
             <EditText
                 android:layout_marginTop="10dp"
-                android:id="@+id/dealer_name"
+                android:id="@+id/client_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter Client Id" />
@@ -36,6 +36,7 @@
             android:orientation="vertical"
             android:layout_marginTop="20dp"
             android:id="@+id/layout_client"
+            android:visibility="gone"
             android:layout_below="@id/fetch_client">
             <TextView
                 android:id="@+id/label"
