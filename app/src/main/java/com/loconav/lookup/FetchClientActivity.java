@@ -20,10 +20,7 @@ import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -91,6 +88,5 @@ public class FetchClientActivity extends AppCompatActivity {
         });
         binding.rvClients.setAdapter(clientAdapter);
     }
-
 
 }
