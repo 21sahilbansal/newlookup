@@ -10,27 +10,6 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <RadioGroup
-                android:id="@+id/radioGroup1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/editText1"
-                android:layout_centerHorizontal="true"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp" >
-                <RadioButton
-                    android:id="@+id/new_customer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="New Customer" />
-
-                <RadioButton
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/old_customer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Old Customer" />
-            </RadioGroup>
             <android.support.design.widget.TextInputLayout
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
@@ -51,17 +30,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Owner's name*" />
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/contact_no"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:hint="Contact no*"/>
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"

@@ -37,6 +37,8 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.loconav.lookup.Constants.DEVICE_ID;
+
 public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
     @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.rv_info) RecyclerView rvInfo;
@@ -57,6 +59,7 @@ public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayo
         setSwipeRefresh();
         setRecyclerView();
         setShareDetails();
+        getSetIntentData();
         Log.e("save ", "onCreate: ");
     }
 
@@ -66,6 +69,7 @@ public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayo
             public void onClick(View view) {
 //                Intent intent = new Intent(MainActivity3.this, ShareDetails.class);
                 Intent intent = new Intent(MainActivity3.this, FetchClientActivity.class);
+                intent.putExtra(DEVICE_ID, deviceID);
                 startActivity(intent);
             }
         });
@@ -95,6 +99,14 @@ public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayo
         getSetFreshData(deviceID);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(deviceID!=null)
+            onRefresh();
+    }
+
     private void getSetFreshData(String deviceID) {
         apiService.getDeviceLookup(deviceID).enqueue(new RetrofitCallback<LookupResponse>() {
             @Override
@@ -117,27 +129,6 @@ public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayo
 	    receivedBundle = getIntent().getExtras();
 	    LookupResponse lookupResponse = (LookupResponse) receivedBundle.getSerializable("lookup_response");
 	    setData(lookupResponse);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBundle("received_bundle", receivedBundle);
-        Log.e("save ", "onSaveInstanceState: ");
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        receivedBundle = savedInstanceState.getBundle("received_bundle");
-        Log.e("save ", "onRestoreInstanceState: ");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.e("save ", "onResume: ");
-        getSetIntentData();
     }
 
     private void setData(LookupResponse lookupResponse) {

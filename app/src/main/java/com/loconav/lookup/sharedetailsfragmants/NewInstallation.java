@@ -41,29 +41,15 @@ public class NewInstallation extends Fragment {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.newinstallation, vg, false);
         binding.ownerName.setText(client.getName());
-        binding.contactNo.setText(client.getContactNumber());
 
         binding.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int selectedId = binding.radioGroup1.getCheckedRadioButtonId();
-                if(selectedId != R.id.new_customer && selectedId != R.id.old_customer){
-                    Toast.makeText(getContext(), "Please Select Customer New or Old",Toast.LENGTH_LONG).show();
-                    binding.radioGroup1.setFocusable(true);
-                }
-                if(CommonFunction.validate(new EditText[]{binding.dealerName, binding.ownerName,
-                        binding.contactNo, binding.location, binding.registrationNo,binding.chassisNo, binding.manufacture,
-                        binding.model, binding.typeOfGoods, binding.odometerReading, binding.simNo, binding.imei, binding.deviceModel, binding.clientId})&& selectedId!=-1) {
-
+                if(CommonFunction.validate(new EditText[]{binding.dealerName, binding.ownerName, binding.location, binding.registrationNo,binding.chassisNo, binding.manufacture,
+                        binding.model, binding.typeOfGoods, binding.odometerReading, binding.simNo, binding.imei, binding.deviceModel, binding.clientId})) {
                     String message = "";
-                    if(selectedId == R.id.new_customer){
-                        message += "New Customer" + "\n";
-                    }else{
-                        message += "Old Customer" + "\n";
-                    }
                     message += "Dealer's name: "+ binding.dealerName.getText().toString() + "\n";
                     message += "Owner's name: "+ binding.ownerName.getText().toString() + "\n";
-                    message += "Contact no: "+ binding.contactNo.getText().toString() + "\n";
                     message += "Location: "+ binding.location.getText().toString() + "\n";
                     message += "Registration no.: "+ binding.registrationNo.getText().toString()+ "\n";
                     message += "Chassis no: "+ binding.chassisNo.getText().toString() + "\n";
@@ -89,7 +75,6 @@ public class NewInstallation extends Fragment {
             }
         });
         CommonFunction.setEditText(binding.imei, deviceId);
-        CommonFunction.setEditText(binding.contactNo, client.getContactNumber());
         CommonFunction.setEditText(binding.ownerName, client.getName());
         CommonFunction.setEditText(binding.clientId, client.getClientId());
         return binding.getRoot();
