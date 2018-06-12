@@ -6,5 +6,11 @@
     <color name="gray">#aaaaaa</color>
     <color name="pressed">#FF4081</color>
     <color name="white">#FFFFFF</color>
+    <color name="listprimary_black">#dd000000</color>
+    <color name="black_38">#60000000</color>
+    <color name="smalltext_lightgrey">#89000000</color>
+    <color name="textlink_blue">#36a2eb</color>
+
+    <color name="black_overlay">#66000000</color>
 
 </resources>

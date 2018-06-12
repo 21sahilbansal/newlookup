@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.loconav.lookup.Constants;
-
 import static com.loconav.lookup.Constants.LOOK_UP_PREFERENCES;
 
 /**
