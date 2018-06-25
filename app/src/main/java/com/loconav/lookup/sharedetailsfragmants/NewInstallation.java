@@ -21,6 +21,7 @@ import com.loconav.lookup.CustomActionBar;
 import com.loconav.lookup.EnterDetails;
 import com.loconav.lookup.R;
 import com.loconav.lookup.ShareAndUpload;
+import com.loconav.lookup.SharedPrefHelper;
 import com.loconav.lookup.databinding.NewinstallationBinding;
 import com.loconav.lookup.model.Client;
 
@@ -61,7 +62,7 @@ public class NewInstallation extends Fragment {
                     message += "IMEI: "+ binding.imei.getText().toString() + "\n";
                     message += "Device Model: "+ binding.deviceModel.getText().toString()+"\n";
                     message += "Client ID: "+ binding.clientId.getText().toString()+"\n";
-                    message += "USER ID: " + sharedPreferences.getString(USER_ID, "")+  "\n";
+                    message += "USER ID: " + SharedPrefHelper.getStringData(USER_ID) +  "\n";
                     message += "Sent By Device Checker:"+ " " + System.currentTimeMillis() ;
                     String url = "http://www.loconav.com/?type=new_vehicle&model="+
                             binding.model.getText().toString()+"&manufacturer="+

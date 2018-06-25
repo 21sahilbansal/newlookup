@@ -11,6 +11,7 @@ import android.widget.EditText;
 import com.loconav.lookup.CommonFunction;
 import com.loconav.lookup.EnterDetails;
 import com.loconav.lookup.R;
+import com.loconav.lookup.SharedPrefHelper;
 import com.loconav.lookup.databinding.DevicechangeBinding;
 import com.loconav.lookup.model.Client;
 
@@ -43,7 +44,7 @@ public class DeviceChange extends Fragment {
                     message += "New Sim No: "+ binding.newSimNo.getText().toString() + "\n";
                     message += "Device Model: " + binding.deviceModel.getText().toString()+ "\n";
                     message += "Client ID: " + binding.clientId.getText().toString()+ "\n";
-                    message += "USER ID: " + sharedPreferences.getString(USER_ID, "") +  "\n";
+                    message += "USER ID: " + SharedPrefHelper.getStringData(USER_ID) +  "\n";
                     message += "Sent By Device Checker:"+ " " + System.currentTimeMillis();
                     CommonFunction.sendAppMsg(getActivity(), message);
                 }

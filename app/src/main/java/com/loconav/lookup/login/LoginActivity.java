@@ -50,7 +50,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         dialog.setCancelable(false);
     }
 
-
     @Override
     public void showSigningInDialog() {
         dialog.show();

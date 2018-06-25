@@ -1,5 +1,6 @@
 package com.loconav.lookup.login;
 
+import com.loconav.lookup.SharedPrefHelper;
 import com.loconav.lookup.login.model.Creds;
 import com.loconav.lookup.login.model.LoginResponse;
 import com.loconav.lookup.login.model.User;
@@ -37,7 +38,7 @@ public class LoginPresenterImpl implements LoginPresenter{
                     loginView.showToast(response.body().getUser().getName());
                     loginView.hideSigningInDialog();
                     loginView.onLoginSuccess(response.body());
-                    // TODO: Save User In Shared Pf.
+                    SharedPrefHelper.saveUser(response.body().getUser());
                 }
 
                 @Override

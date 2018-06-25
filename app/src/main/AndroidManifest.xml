@@ -23,7 +23,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LookUpEntry"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".MainActivity3"
             android:theme="@style/AppTheme" />
@@ -44,6 +44,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan">
+        </activity>
+        <activity android:name=".login.SplashActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
