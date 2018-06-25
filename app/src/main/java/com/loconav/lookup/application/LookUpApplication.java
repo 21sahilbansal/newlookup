@@ -19,8 +19,6 @@ public class LookUpApplication extends Application {
 
     private static LookUpApplication instance = null;
 
-
-
     public static Context getInstance(){
         if (null == instance) {
             instance = new LookUpApplication();
