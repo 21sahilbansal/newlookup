@@ -23,13 +23,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LookUpEntry"
-            android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".MainActivity3"
             android:theme="@style/AppTheme" />
@@ -44,7 +38,17 @@
             android:label="User Settings"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".FastTagActivity" />
-        <activity android:name=".FetchClientActivity"></activity>
+        <activity android:name=".FetchClientActivity" />
+        <activity
+            android:name=".login.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
