@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.model.LookupResponse;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
@@ -41,8 +42,7 @@ import retrofit2.Response;
 
 import static com.loconav.lookup.Constants.DEVICE_ID;
 import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
-import static com.loconav.lookup.application.LookUpApplication.editor;
-import static com.loconav.lookup.application.LookUpApplication.sharedPreferences;
+import static com.loconav.lookup.Constants.USER_ID;
 
 public class LookUpEntry extends AppCompatActivity {
     @BindView(R.id.ib_qr_scanner) ImageButton ibOpenQrScanner;
@@ -51,6 +51,7 @@ public class LookUpEntry extends AppCompatActivity {
     @BindView(R.id.fast_tag) Button fastTag;
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     private ProgressDialog progressDialog;
+    private SharedPrefHelper sharedPrefHelper;
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -66,11 +67,16 @@ public class LookUpEntry extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_lookup);
         ButterKnife.bind(this);
+        initSharedPf();
         setScanner();
         initProgressDialog();
         setInfoButton();
         registerBroadcast();
         checkAndShowUserIdDialog();
+    }
+
+    private void initSharedPf() {
+        sharedPrefHelper = SharedPrefHelper.getInstance(getBaseContext());
     }
 
     private void checkAndShowUserIdDialog() {
@@ -196,8 +202,9 @@ public class LookUpEntry extends AppCompatActivity {
                     public void onClick(View view) {
                         // TODO Do something
                         if(!input.getText().toString().trim().equals("")) {
-                            editor.putString(Constants.USER_ID ,input.getText().toString());
-                            editor.commit();
+                           // editor.putString(Constants.USER_ID ,input.getText().toString());
+                            sharedPrefHelper.setStringData(USER_ID ,input.getText().toString());
+                            //editor.commit();
                             mAlertDialog.cancel();
                         } else
                             Toast.makeText(getBaseContext(), "User Id can't be Empty", Toast.LENGTH_LONG).show();
@@ -209,6 +216,7 @@ public class LookUpEntry extends AppCompatActivity {
     }
 
     private boolean isUserIdSet() {
-        return !sharedPreferences.getString(Constants.USER_ID, "").equals("");
+       // return !sharedPreferences.getString(Constants.USER_ID, "").equals("");
+        return !sharedPrefHelper.getStringData(USER_ID).equals("");
     }
 }

@@ -21,12 +21,11 @@ import com.loconav.lookup.CustomActionBar;
 import com.loconav.lookup.EnterDetails;
 import com.loconav.lookup.R;
 import com.loconav.lookup.ShareAndUpload;
+import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.databinding.NewinstallationBinding;
 import com.loconav.lookup.model.Client;
 
 import static com.loconav.lookup.Constants.USER_ID;
-import static com.loconav.lookup.application.LookUpApplication.editor;
-import static com.loconav.lookup.application.LookUpApplication.sharedPreferences;
 
 /**
  * Created by prateek on 13/11/17.
@@ -34,6 +33,7 @@ import static com.loconav.lookup.application.LookUpApplication.sharedPreferences
 
 public class NewInstallation extends Fragment {
     private NewinstallationBinding binding;
+    SharedPrefHelper sharedPrefHelper=SharedPrefHelper.getInstance(getContext());
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
                              Bundle savedInstanceState) {
         final String deviceId = ((EnterDetails)getActivity()).getDeviceID();
@@ -61,14 +61,16 @@ public class NewInstallation extends Fragment {
                     message += "IMEI: "+ binding.imei.getText().toString() + "\n";
                     message += "Device Model: "+ binding.deviceModel.getText().toString()+"\n";
                     message += "Client ID: "+ binding.clientId.getText().toString()+"\n";
-                    message += "USER ID: " + sharedPreferences.getString(USER_ID, "")+  "\n";
+                    message += "USER ID: " + sharedPrefHelper.getStringData(USER_ID)+  "\n";
                     message += "Sent By Device Checker:"+ " " + System.currentTimeMillis() ;
                     String url = "http://www.loconav.com/?type=new_vehicle&model="+
                             binding.model.getText().toString()+"&manufacturer="+
                             binding.manufacture.getText().toString()+"&deviceid="+ deviceId;
-                    editor.putString("message", message);
-                    editor.putString("upload_url", url);
-                    editor.commit();
+                    sharedPrefHelper.setStringData("message", message);
+                    sharedPrefHelper.setStringData("upload_url", url);
+                   // editor.putString("message", message);
+                    //editor.putString("upload_url", url);
+                    //editor.commit();
                     Intent intent = new Intent(getActivity(), ShareAndUpload.class);
                     startActivity(intent);
                 }

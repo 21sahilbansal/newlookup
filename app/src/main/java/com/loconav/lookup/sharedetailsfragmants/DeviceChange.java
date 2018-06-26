@@ -1,5 +1,6 @@
 package com.loconav.lookup.sharedetailsfragmants;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,11 +12,12 @@ import android.widget.EditText;
 import com.loconav.lookup.CommonFunction;
 import com.loconav.lookup.EnterDetails;
 import com.loconav.lookup.R;
+import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.databinding.DevicechangeBinding;
 import com.loconav.lookup.model.Client;
 
 import static com.loconav.lookup.Constants.USER_ID;
-import static com.loconav.lookup.application.LookUpApplication.sharedPreferences;
+
 
 /**
  * Created by prateek on 13/11/17.
@@ -43,7 +45,9 @@ public class DeviceChange extends Fragment {
                     message += "New Sim No: "+ binding.newSimNo.getText().toString() + "\n";
                     message += "Device Model: " + binding.deviceModel.getText().toString()+ "\n";
                     message += "Client ID: " + binding.clientId.getText().toString()+ "\n";
-                    message += "USER ID: " + sharedPreferences.getString(USER_ID, "") +  "\n";
+                    message += "USER ID: " + SharedPrefHelper.getInstance(getContext()).getStringData(USER_ID);
+                           // sharedPreferences.getString(USER_ID, "") +  "\n";
+
                     message += "Sent By Device Checker:"+ " " + System.currentTimeMillis();
                     CommonFunction.sendAppMsg(getActivity(), message);
                 }

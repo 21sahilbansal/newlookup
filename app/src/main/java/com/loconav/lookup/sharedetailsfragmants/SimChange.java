@@ -16,11 +16,11 @@ import com.loconav.lookup.CustomActionBar;
 import com.loconav.lookup.EnterDetails;
 import com.loconav.lookup.R;
 import com.loconav.lookup.CommonFunction;
+import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.databinding.SimchangeBinding;
 import com.loconav.lookup.model.Client;
 
 import static com.loconav.lookup.Constants.USER_ID;
-import static com.loconav.lookup.application.LookUpApplication.sharedPreferences;
 
 /**
  * Created by prateek on 13/11/17.
@@ -46,7 +46,7 @@ public class SimChange extends Fragment {
                     message += "New Sim No: "+ binding.newSimNo.getText().toString() + "\n";
                     message += "IMEI: " + binding.imei.getText().toString()+ "\n";
                     message += "Client ID: "+ binding.clientId.getText().toString()+"\n";
-                    message += "USER ID: " + sharedPreferences.getString(USER_ID, "")+  "\n";
+                    message += "USER ID: " + SharedPrefHelper.getInstance(getContext()).getStringData(USER_ID)+  "\n";
                     message += "Sent By Device Checker:"+ " " + System.currentTimeMillis() ;
                     CommonFunction.sendAppMsg(getActivity(), message);
                 }
