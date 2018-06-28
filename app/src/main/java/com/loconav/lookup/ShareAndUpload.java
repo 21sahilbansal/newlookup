@@ -2,7 +2,6 @@ package com.loconav.lookup;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,21 +10,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import static com.loconav.lookup.Constants.DEVICE_ID;
-import static com.loconav.lookup.Constants.USER_ID;
-import static com.loconav.lookup.application.LookUpApplication.sharedPreferences;
+import com.loconav.lookup.application.SharedPrefHelper;
+
 
 public class ShareAndUpload extends AppCompatActivity {
 
-    public static final String MyPREFERENCES = "MyPrefs";
+    SharedPrefHelper sharedPrefHelper ;
     String url, message;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_and_upload);
-
-        url = sharedPreferences.getString("upload_url", "");
-        message = sharedPreferences.getString("message", "");
+        initSharedPf();
+     //   url = sharedPreferences.getString("upload_url", "");
+        url= sharedPrefHelper.getStringData("upload_url");
+//        message = sharedPreferences.getString("message", "");
+        message= sharedPrefHelper.getStringData("message");
 
         Button upload_document = (Button) findViewById(R.id.upload_document);
         upload_document.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +43,10 @@ public class ShareAndUpload extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void initSharedPf() {
+        sharedPrefHelper = SharedPrefHelper.getInstance(getBaseContext());
     }
 
 
