@@ -1,45 +1,20 @@
 package com.loconav.lookup;
 
-import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.app.Activity;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Color;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
-
-import com.loconav.lookup.application.SharedPrefHelper;
-import com.loconav.lookup.model.LookupResponse;
-import com.loconav.lookup.network.RetrofitCallback;
-import com.loconav.lookup.network.rest.ApiClient;
-import com.loconav.lookup.network.rest.ApiInterface;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Response;
-
-import static com.loconav.lookup.Constants.DEVICE_ID;
-import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
-import static com.loconav.lookup.Constants.USER_ID;
+import static com.loconav.lookup.FastTagFragment.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
 
 public class LookUpEntry extends AppCompatActivity {
 
@@ -47,10 +22,11 @@ public class LookUpEntry extends AppCompatActivity {
     TabLayout tabLayout ;
     ViewPager viewPager ;
     FragmentAdapterClass fragmentAdapter ;
+    FastTagFragment fastTagFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.look_up_entry);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout1);
         viewPager = (ViewPager) findViewById(R.id.pager1);
         toolbar = (Toolbar) findViewById(R.id.toolbar1);
@@ -83,6 +59,7 @@ public class LookUpEntry extends AppCompatActivity {
 
             }
         });
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -100,6 +77,11 @@ public class LookUpEntry extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    //@Override
+
+    //@Override
+
+
 }
 
 //
