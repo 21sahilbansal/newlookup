@@ -1,14 +1,6 @@
 package com.loconav.lookup.network.rest;
 
-/**
- * Created by prateek on 5/3/18.
- */
-
-import com.loconav.lookup.application.LookUpApplication;
-import com.loconav.lookup.application.SharedPrefHelper;
-
 import java.io.IOException;
-import java.lang.invoke.MethodHandles;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -19,8 +11,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.loconav.lookup.UserPrefs.authenticationToken;
 
-public class ApiClient {
-    public static final String BASE_URL = "http://loconav.com/";
+/**
+ * Created by sejal on 29-06-2018.
+ */
+
+public class LoginApiClient {
+    public static final String BASE_URL = "http://staging.loconav.com/";
     private static Retrofit retrofit = null;
     public static Retrofit getClient() {
         if (retrofit==null) {
@@ -31,9 +27,8 @@ public class ApiClient {
                 public Response intercept(Chain chain) throws IOException {
                     Request request = chain.request().newBuilder()
                             .addHeader("X-Linehaul-V2-Secret", "5ed183673b9709a69e51ed86e6b53b")
-                            .addHeader("Authorization","GzxjaJKmAP9_Wq5Z7zk_").build();
+                            .build();
                     return chain.proceed(request);
-
                 }
             });
 
@@ -46,6 +41,3 @@ public class ApiClient {
         return retrofit;
     }
 }
-
-//SharedPrefHelper.getInstance(LookUpApplication.getInstance()).getStringData(
-
