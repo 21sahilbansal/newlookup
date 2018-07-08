@@ -1,0 +1,75 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.loconav.lookup.DeviceIdFragment">
+
+    <FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+    android:id="@+id/bt_get_info"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="150dp"
+    android:text="@string/device_info"
+    android:padding="@dimen/dimen_5dp"/>
+    <LinearLayout
+    android:layout_centerHorizontal="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="50dp"
+    android:gravity="center"
+    android:layout_marginLeft="50dp"
+    android:layout_marginRight="50dp"
+    android:background="@drawable/bg_border_rectangle"
+    android:orientation="horizontal">
+    <EditText
+    android:layout_margin="@dimen/dimen_5dp"
+    android:id="@+id/et_device_id"
+    android:textSize="15sp"
+    android:ellipsize="end"
+    android:layout_weight="1"
+    android:singleLine="true"
+    android:maxLines="1"
+    android:padding="5dp"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:hint="Enter device id"
+    android:inputType = "phone"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:background="@android:color/transparent"/>
+
+    <ImageButton
+    android:id="@+id/ib_qr_scanner"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="end"
+    android:src="@android:drawable/ic_menu_camera" />
+    </LinearLayout>
+    <Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/bt_get_info"
+    android:text="Fast Tags"
+    android:visibility="gone"
+    android:layout_marginTop="200dp"
+    android:layout_marginLeft="@dimen/dimen_18sp"
+    android:layout_marginRight="@dimen/dimen_18sp"
+    android:id="@+id/fast_tag"/>
+    </RelativeLayout>
+    <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/container">
+    </LinearLayout>
+    </FrameLayout>
+</FrameLayout>

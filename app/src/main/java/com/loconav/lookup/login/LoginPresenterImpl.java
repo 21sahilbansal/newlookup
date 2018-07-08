@@ -1,9 +1,8 @@
 package com.loconav.lookup.login;
 
-import com.loconav.lookup.SharedPrefHelper;
+import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.login.model.Creds;
 import com.loconav.lookup.login.model.LoginResponse;
-import com.loconav.lookup.login.model.User;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
@@ -38,7 +37,7 @@ public class LoginPresenterImpl implements LoginPresenter{
                     loginView.showToast(response.body().getUser().getName());
                     loginView.hideSigningInDialog();
                     loginView.onLoginSuccess(response.body());
-                    SharedPrefHelper.saveUser(response.body().getUser());
+//                    SharedPrefHelper.saveUser(response.body().getUser());
                 }
 
                 @Override

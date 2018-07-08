@@ -5,12 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-feature android:name="android.hardware.camera.autofocus" />
-
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
-
     <uses-feature android:name="android.hardware.camera" />
 
     <application
@@ -23,7 +20,13 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LookUpEntry"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity
             android:name=".MainActivity3"
             android:theme="@style/AppTheme" />
@@ -45,13 +48,5 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan">
         </activity>
-        <activity android:name=".login.SplashActivity"
-            android:noHistory="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
-
 </manifest>
