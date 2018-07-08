@@ -6,25 +6,25 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
 
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.model.LookupResponse;
@@ -32,11 +32,8 @@ import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
 
-import java.io.Serializable;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -45,178 +42,66 @@ import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
 import static com.loconav.lookup.Constants.USER_ID;
 
 public class LookUpEntry extends AppCompatActivity {
-    @BindView(R.id.ib_qr_scanner) ImageButton ibOpenQrScanner;
-    @BindView(R.id.et_device_id) EditText etDeviceId;
-    @BindView(R.id.bt_get_info) Button btGetInfo;
-    @BindView(R.id.fast_tag) Button fastTag;
-    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-    private ProgressDialog progressDialog;
-    private SharedPrefHelper sharedPrefHelper;
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String message = intent.getStringExtra(DEVICE_ID);
-            Log.d("receiver", "Got message: " + message);
-            etDeviceId.setText(message);
-            etDeviceId.setSelection(etDeviceId.getText().length());
-        }
-    };
 
+    Toolbar toolbar;
+    TabLayout tabLayout ;
+    ViewPager viewPager ;
+    FragmentAdapterClass fragmentAdapter ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_lookup);
-        ButterKnife.bind(this);
-        initSharedPf();
-        setScanner();
-        initProgressDialog();
-        setInfoButton();
-        registerBroadcast();
-        checkAndShowUserIdDialog();
-    }
+        setContentView(R.layout.main_activity);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout1);
+        viewPager = (ViewPager) findViewById(R.id.pager1);
+        toolbar = (Toolbar) findViewById(R.id.toolbar1);
+        setSupportActionBar(toolbar);
+        tabLayout.addTab(tabLayout.newTab().setText("DEVICE"));
+        tabLayout.addTab(tabLayout.newTab().setText("FAST TAG"));
 
-    private void initSharedPf() {
-        sharedPrefHelper = SharedPrefHelper.getInstance(getBaseContext());
-    }
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-    private void checkAndShowUserIdDialog() {
-        if(!isUserIdSet()) {
-            showEnterIdDialog();
-        }
-    }
+        fragmentAdapter = new FragmentAdapterClass(getSupportFragmentManager(), tabLayout.getTabCount());
 
-    private void initProgressDialog() {
-        progressDialog = new ProgressDialog(LookUpEntry.this);
-        progressDialog.setMessage("Please Wait...");
-        progressDialog.setCancelable(false);
-    }
+        viewPager.setAdapter(fragmentAdapter);
 
-    private void setInfoButton() {
-        btGetInfo.setOnClickListener(new View.OnClickListener() {
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onClick(View view) {
-                String deviceId = etDeviceId.getText().toString().trim();
-                if(!deviceId.isEmpty()) {
-                    progressDialog.show();
-                    apiService.getDeviceLookup(etDeviceId.getText().toString()).enqueue(new RetrofitCallback<LookupResponse>() {
-                        @Override
-                        public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
-                            Log.e("handle ", response.code() +"");
-                            Intent intent  = new Intent(LookUpEntry.this, MainActivity3.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putString(Constants.DEVICE_ID, etDeviceId.getText().toString());
-                            bundle.putSerializable("lookup_response", response.body());
-                            intent.putExtras(bundle);
-                            startActivity(intent);
-                            progressDialog.dismiss();
-                        }
+            public void onTabSelected(TabLayout.Tab LayoutTab) {
 
-                        @Override
-                        public void handleFailure(Call<LookupResponse> call, Throwable t) {
-                            progressDialog.dismiss();
-                            Toast.makeText(getBaseContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
-                } else
-                    Toast.makeText(getBaseContext(), "Device id can't be empty", Toast.LENGTH_LONG).show();
+                viewPager.setCurrentItem(LayoutTab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab LayoutTab) {
 
             }
-        });
-        fastTag.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
-//                TODO : Open new activity ...
-                Intent intent = new Intent(LookUpEntry.this, FastTagActivity.class);
-                startActivity(intent);
+            public void onTabReselected(TabLayout.Tab LayoutTab) {
+
             }
         });
     }
 
-    private void setScanner() {
-        ibOpenQrScanner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Utility.hideKeyboard(LookUpEntry.this);
-                QRScannerFragment1 qrScannerFragment = new QRScannerFragment1();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.container,qrScannerFragment).addToBackStack("qr_scanner");
-                transaction.commit();
-            }
-        });
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.user, menu);
+        return super.onCreateOptionsMenu(menu);
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_user:
-                Intent intent = new Intent(this, UserActivity.class);
+                Intent intent = new Intent(getBaseContext(), UserActivity.class);
                 startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.user, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    public void registerBroadcast() {
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-                new IntentFilter(MESSENGER_SCANNED_ID));
-    }
-
-
-    public void unRegisterBroadcastReceiver() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unRegisterBroadcastReceiver();
-    }
-
-
-    private void showEnterIdDialog() {
-        final EditText input = new EditText(this);
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Enter Your Phone Number");
-        builder.setPositiveButton("OK", null);
-        builder.setView(input);
-        builder.setCancelable(false);
-
-        final AlertDialog mAlertDialog = builder.create();
-        mAlertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                b.setTextColor(Color.BLACK);
-                b.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // TODO Do something
-                        if(!input.getText().toString().trim().equals("")) {
-                           // editor.putString(Constants.USER_ID ,input.getText().toString());
-                            sharedPrefHelper.setStringData(USER_ID ,input.getText().toString());
-                            //editor.commit();
-                            mAlertDialog.cancel();
-                        } else
-                            Toast.makeText(getBaseContext(), "User Id can't be Empty", Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-        });
-        mAlertDialog.show();
-    }
-
-    private boolean isUserIdSet() {
-       // return !sharedPreferences.getString(Constants.USER_ID, "").equals("");
-        return !sharedPrefHelper.getStringData(USER_ID).equals("");
-    }
 }
+
+//
+//
+//
