@@ -6,6 +6,7 @@ import com.loconav.lookup.login.model.LoginResponse;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
+import com.loconav.lookup.network.rest.LoginApiClient;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -16,7 +17,7 @@ import retrofit2.Response;
 
 public class LoginPresenterImpl implements LoginPresenter{
     private LoginView loginView;
-    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+    private ApiInterface apiService = LoginApiClient.getClient().create(ApiInterface.class);
 
 
     public LoginPresenterImpl(LoginView loginView) {
