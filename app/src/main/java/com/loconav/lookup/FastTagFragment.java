@@ -2,7 +2,6 @@ package com.loconav.lookup;
 
 import com.loconav.lookup.adapter.RecycleGridView;
 import com.loconav.lookup.databinding.FragmentFastagBinding;
-import com.loconav.lookup.model.DatabindingImages;
 import com.loconav.lookup.model.FastagsList;
 import com.loconav.lookup.model.ImageUri;
 import com.loconav.lookup.network.rest.ApiInterface;
@@ -16,21 +15,17 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.Toast;
 import com.loconav.lookup.model.VehiclesList;
 import com.loconav.lookup.network.RetrofitCallback;
@@ -52,7 +47,7 @@ import retrofit2.Response;
  * Created by sejal on 28-06-2018.
  */
 
-public class FastTagFragment extends CameraPermissions {
+public class FastTagFragment extends BaseCameraFragment {
     FragmentFastagBinding binding;
     private ApiInterface apiService = StagingApiClient.getClient().create(ApiInterface.class);
     ArrayList<ImageUri> imagesUriArrayList ;
@@ -73,13 +68,13 @@ public class FastTagFragment extends CameraPermissions {
     LayoutInflater inflater;
     ViewGroup container;
     @Override
-    int setViewId() {
+    public int setViewId() {
         return R.layout.fragment_fastag;
     }
 
 
     @Override
-    void onFragmentCreated() {
+    public void onFragmentCreated() {
         ButterKnife.bind(this,getView());
         searchAutoComplete = (SearchView.SearchAutoComplete)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchAutoCompleteFastag = (SearchView.SearchAutoComplete)binding.searchFastId.findViewById(android.support.v7.appcompat.R.id.search_src_text);
@@ -115,12 +110,12 @@ public class FastTagFragment extends CameraPermissions {
     }
 
     @Override
-    void bindView(View view) {
+    public void bindView(View view) {
         binding = DataBindingUtil.bind(view);
     }
 
     @Override
-    void getComponentFactory() {
+    public void getComponentFactory() {
 
     }
     private ArrayList<VehiclesList> getSetData(final ArrayList<VehiclesList> vehiclesLists) {
@@ -200,7 +195,7 @@ public class FastTagFragment extends CameraPermissions {
 
                 } else if (items[item].equals("Choose from Library")) {
                     userChoosenTask ="Choose from Library";
-                    boolean resultGallery=checkPermissionGallery(getContext());
+                    boolean resultGallery = checkPermissionGallery(getContext());
                     if(resultGallery) {
                         galleryIntent();}
                 } else if (items[item].equals("Cancel")) {

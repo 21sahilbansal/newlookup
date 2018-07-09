@@ -1,26 +1,14 @@
 package com.loconav.lookup.adapter;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.ImageView;
 
 import com.loconav.lookup.Callback;
 import com.loconav.lookup.R;
+import com.loconav.lookup.base.BaseAdapter;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.ImageUri;
 
-import java.io.IOException;
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
 
 /**
  * Created by sejal on 06-07-2018.

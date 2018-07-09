@@ -9,8 +9,9 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import com.loconav.lookup.base.BaseFragment;
 
 import static com.loconav.lookup.FastTagFragment.MY_PERMISSIONS_REQUEST_CAMERA;
 import static com.loconav.lookup.FastTagFragment.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
@@ -19,7 +20,8 @@ import static com.loconav.lookup.FastTagFragment.MY_PERMISSIONS_REQUEST_READ_EXT
  * Created by sejal on 06-07-2018.
  */
 
-public abstract class CameraPermissions extends BaseFragment {
+public abstract class BaseCameraFragment extends BaseFragment {
+
     public boolean checkPermissionGallery(final Context context) {
         int currentAPIVersion = Build.VERSION.SDK_INT;
         if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
@@ -32,15 +34,13 @@ public abstract class CameraPermissions extends BaseFragment {
                     alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                         public void onClick(DialogInterface dialog, int which) {
-                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
                         }
                     });
                     android.support.v7.app.AlertDialog alert = alertBuilder.create();
                     alert.show();
-
                 } else {
                     requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-
                 }
                 return false;
             } else {
@@ -49,8 +49,8 @@ public abstract class CameraPermissions extends BaseFragment {
         } else {
             return true;
         }
-
     }
+
     public boolean checkPermissionCamera(final Context context) {
         int currentAPIVersion = Build.VERSION.SDK_INT;
         if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
@@ -81,11 +81,12 @@ public abstract class CameraPermissions extends BaseFragment {
         }
     }
 
-    abstract int setViewId();
+    public abstract int setViewId();
 
-    abstract void onFragmentCreated();
+    public abstract void onFragmentCreated();
 
-    abstract void bindView(View view);
+    public abstract void bindView(View view);
 
-    abstract void getComponentFactory();
+    public abstract void getComponentFactory();
+
 }

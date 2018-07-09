@@ -1,4 +1,4 @@
-package com.loconav.lookup;
+package com.loconav.lookup.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,11 +25,11 @@ public abstract class BaseFragment extends Fragment {
         return view;
     }
 
-    abstract int setViewId();
+    public abstract int setViewId();
 
-    abstract void onFragmentCreated();
+    public abstract void onFragmentCreated();
 
-    abstract void bindView(View view);
+    public abstract void bindView(View view);
 
     @Nullable
     @Override
@@ -41,6 +41,6 @@ public abstract class BaseFragment extends Fragment {
         this.view = view;
     }
 
-    abstract void getComponentFactory();
+    public abstract void getComponentFactory();
 
 }

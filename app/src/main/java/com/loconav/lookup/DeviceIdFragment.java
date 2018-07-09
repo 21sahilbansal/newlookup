@@ -14,8 +14,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.loconav.lookup.application.SharedPrefHelper;
+import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.model.LookupResponse;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
@@ -62,12 +61,12 @@ public class DeviceIdFragment extends BaseFragment {
     };
 
     @Override
-    int setViewId() {
+    public int setViewId() {
         return R.layout.fragment_device_id;
     }
 
     @Override
-    void onFragmentCreated() {
+    public void onFragmentCreated() {
         ButterKnife.bind(this, getView());
         initSharedPf();
         setScanner();
@@ -204,12 +203,8 @@ public class DeviceIdFragment extends BaseFragment {
     }
 
     @Override
-    void bindView(View view) {
-
-    }
+    public void bindView(View view) {}
 
     @Override
-    void getComponentFactory() {
-
-    }
+    public void getComponentFactory() {}
 }

@@ -1,11 +1,10 @@
 package com.loconav.lookup.adapter;
 
-import android.databinding.BindingAdapter;
 import android.util.Log;
-import android.view.View;
 
 import com.loconav.lookup.Callback;
 import com.loconav.lookup.R;
+import com.loconav.lookup.base.BaseAdapter;
 import com.loconav.lookup.model.Client;
 
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
  * Created by prateek on 28/05/18.
  */
 
-public class ClientAdapter extends BaseAdapter{
+public class ClientAdapter extends BaseAdapter {
 
     List<Client> data;
     private Callback callback;

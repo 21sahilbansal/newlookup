@@ -1,6 +1,5 @@
-package com.loconav.lookup.adapter;
+package com.loconav.lookup.base;
 
-import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
@@ -10,8 +9,6 @@ import android.view.ViewGroup;
 
 
 import com.loconav.lookup.BR;
-
-import java.util.List;
 
 /**
  * Created by prateek on 28/05/18.
