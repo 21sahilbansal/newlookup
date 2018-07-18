@@ -14,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import static com.loconav.lookup.FastTagFragment.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
 
 public class LookUpEntry extends AppCompatActivity {
 
