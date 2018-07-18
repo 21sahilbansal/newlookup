@@ -75,6 +75,7 @@ public class DeviceIdFragment extends BaseFragment {
         setInfoButton();
         registerBroadcast();
         checkAndShowUserIdDialog();
+
     }
         private void initSharedPf() {
         sharedPrefHelper = SharedPrefHelper.getInstance(getContext());

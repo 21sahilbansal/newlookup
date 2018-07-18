@@ -67,7 +67,7 @@ public abstract class BaseCameraFragment extends BaseFragment {
 
     public abstract void getComponentFactory();
 
-    //    public void showImagePickerDialog() {
+//        public void showImagePickerDialog() {
 //        ImagePickerDialog imagePickerDialog = ImagePickerDialog.newInstance();
 //        imagePickerDialog.show(getFragmentManager() ,getClass().getSimpleName());
 //    }

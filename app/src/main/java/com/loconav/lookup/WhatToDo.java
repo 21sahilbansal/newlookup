@@ -13,7 +13,10 @@ import butterknife.ButterKnife;
 
 public class WhatToDo extends BaseFragment {
 
-    @BindView(R.id.repair) TextView repair;
+    @BindView(R.id.simChange) TextView simChange;
+    @BindView(R.id.devChange) TextView devChange;
+    @BindView(R.id.vehChange) TextView vehChange;
+    @BindView(R.id.newInstall) TextView newInstall;
 
     @Override
     int setViewId() {
@@ -22,23 +25,45 @@ public class WhatToDo extends BaseFragment {
 
     @Override
     void onFragmentCreated() {
-        ButterKnife.bind(this,getView());
-        repair.setOnClickListener(new View.OnClickListener() {
+        newInstall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getContext(),lookupSubActivity.class);
-                startActivity(intent);
+                passIntent("buttonN","newInstall");
+            }
+        });
+        vehChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                passIntent("buttonV","vehChange");
+            }
+        });
+        devChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                passIntent("buttonD","devChange");
+            }
+        });
+        simChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              passIntent("buttonS","sim");
             }
         });
     }
 
     @Override
     void bindView(View view) {
-
+        ButterKnife.bind(this,getView());
     }
 
     @Override
     void getComponentFactory() {
 
+    }
+
+    void passIntent(String tag,String value){
+        Intent intent=new Intent(getContext(),LookupSubActivity.class);
+        intent.putExtra(tag,value);
+        startActivity(intent);
     }
 }

@@ -38,12 +38,14 @@
                 <Button
                     android:id="@+id/share_details"
                     android:layout_weight="1"
+                    android:layout_margin="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/share_details"/>
                 <Button
                     android:id="@+id/refresh"
                     android:layout_weight="1"
+                    android:layout_margin="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="refresh"/>

@@ -41,7 +41,7 @@ public class d extends titleFragment {
 
 //                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //
-//                FragmentControlller.printActivityFragmentList(fragmentManager);
+//                FragmentController.printActivityFragmentList(fragmentManager);
 //
 //                // Get fragment one if exist.
 //                repair fragmentOne = new repair();
@@ -54,7 +54,7 @@ public class d extends titleFragment {
 
 //                FragmentBackStack fragmentBackStack= new FragmentBackStack();
 //                fragmentBackStack.loadFragment(fragmentOne,getFragmentManager());
-               // new FragmentControlller(getFragmentManager(),getActivity());
+               // new FragmentController(getFragmentManager(),getActivity());
             }
         });
     }

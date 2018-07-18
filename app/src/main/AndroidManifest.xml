@@ -50,11 +50,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
-        <activity android:name=".encoding" />
+        <activity android:name=".Encoding" />
         <activity android:name=".FragmentBackStack">
 
         </activity>
-        <activity android:name=".lookupSubActivity"></activity>
+        <activity android:name=".LookupSubActivity"></activity>
     </application>
 
 </manifest>
