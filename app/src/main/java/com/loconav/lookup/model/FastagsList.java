@@ -16,4 +16,33 @@ public class FastagsList implements Serializable {
     @SerializedName("color")
     private String color;
 
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public FastagsList(String serialNumber, int id, String color) {
+        this.serialNumber = serialNumber;
+        this.id = id;
+        this.color = color;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 }

@@ -165,7 +165,7 @@ public class DeviceIdFragment extends BaseFragment {
 
     private void showEnterIdDialog() {
         final EditText input = new EditText(getActivity());
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+// Specify the type of input expected; this, for example, sets the input as repair password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

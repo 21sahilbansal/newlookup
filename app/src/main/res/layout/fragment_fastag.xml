@@ -21,11 +21,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <android.support.v7.widget.SearchView
                 android:id="@+id/searchTruck"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="end"/>
+                android:gravity="end" />
             <android.support.v7.widget.SearchView
                 android:id="@+id/searchFastId"
                 android:layout_width="match_parent"

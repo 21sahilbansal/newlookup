@@ -20,11 +20,11 @@ import java.util.List;
 
 public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyViewHolder> {
 
-    // Provide a reference to the views for each data item
+    // Provide repair reference to the views for each data item
     // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+    // you provide access to all the views for repair data item in repair view holder
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
+        // each data item is just repair string in this case
         private final ViewDataBinding binding;
 
         public MyViewHolder(final ViewDataBinding binding) {
@@ -46,14 +46,14 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyVie
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // create a new view
+        // create repair new view
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ViewDataBinding binding = DataBindingUtil.inflate(layoutInflater, getLayoutIdForType(viewType), parent, false);
         // set the view's size, margins, paddings and layout parameters
         return new MyViewHolder(binding);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
+    // Replace the contents of repair view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.bind(getDataAtPosition(position));

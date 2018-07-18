@@ -24,7 +24,7 @@ public class FragmentAdapterClass extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                DeviceIdFragment tab1 = new DeviceIdFragment();
+                WhatToDo tab1 = new WhatToDo();
                 return tab1;
 
             case 1:

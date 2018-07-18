@@ -4,6 +4,8 @@ import com.loconav.lookup.login.model.Creds;
 import com.loconav.lookup.login.model.LoginResponse;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.FastagsList;
+import com.loconav.lookup.model.InstallerCreds;
+import com.loconav.lookup.model.InstallersResponse;
 import com.loconav.lookup.model.LookupResponse;
 import com.loconav.lookup.model.VehiclesList;
 
@@ -37,6 +39,10 @@ public interface ApiInterface {
     @GET("api/installers/install/approved_vehicles")
     Call<List<VehiclesList>> getVehicles();
 
-    @GET("api/installers/install/compatible_fastags?truck_id=17431")
-    Call<List<FastagsList>> getFastags(int truckId);
+    @GET("api/installers/install/compatible_fastags")
+    Call<List<FastagsList>> getFastags(@Query("truck_id")int truckId);
+
+    @POST("api/installers/installations")
+    Call<InstallersResponse> createInstallation(@Body InstallerCreds installerCreds);
+
 }

@@ -18,7 +18,7 @@ public class ClientAdapter extends BaseAdapter{
 
     List<Client> data;
     private Callback callback;
-    // Provide a suitable constructor (depends on the kind of dataset)
+    // Provide repair suitable constructor (depends on the kind of dataset)
     public ClientAdapter(List<Client> myDataset, Callback callback) {
         data = myDataset;
         this.callback = callback;

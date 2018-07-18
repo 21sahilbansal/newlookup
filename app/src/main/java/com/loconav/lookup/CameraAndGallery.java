@@ -27,7 +27,7 @@
 // * Created by sejal on 03-07-2018.
 // */
 //
-//public abstract class CameraAndGallery extends CameraPermissions {
+//public abstract class CameraAndGallery extends BaseCameraFragment {
 //    public static String userChoosenTask;
 //    private static ImageView imageView;
 //    private static Context context1;
@@ -78,7 +78,7 @@
 //
 //    abstract void cameraIntent();
 //
-//    public Void onCaptureImageResult(Intent data) {
+//    public void onCaptureImageResult(Intent data) {
 //        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
 //        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 //        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);

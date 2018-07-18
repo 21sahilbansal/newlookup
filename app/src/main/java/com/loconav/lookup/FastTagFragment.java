@@ -2,9 +2,11 @@ package com.loconav.lookup;
 
 import com.loconav.lookup.adapter.RecycleGridView;
 import com.loconav.lookup.databinding.FragmentFastagBinding;
-import com.loconav.lookup.model.DatabindingImages;
+import com.loconav.lookup.login.model.LoginResponse;
 import com.loconav.lookup.model.FastagsList;
 import com.loconav.lookup.model.ImageUri;
+import com.loconav.lookup.model.InstallerCreds;
+import com.loconav.lookup.model.InstallersResponse;
 import com.loconav.lookup.network.rest.ApiInterface;
 import com.loconav.lookup.adapter.VehiclesAdapter;
 
@@ -16,21 +18,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.Toast;
 import com.loconav.lookup.model.VehiclesList;
 import com.loconav.lookup.network.RetrofitCallback;
@@ -52,7 +49,7 @@ import retrofit2.Response;
  * Created by sejal on 28-06-2018.
  */
 
-public class FastTagFragment extends CameraPermissions {
+public class FastTagFragment extends BaseCameraFragment {
     FragmentFastagBinding binding;
     private ApiInterface apiService = StagingApiClient.getClient().create(ApiInterface.class);
     ArrayList<ImageUri> imagesUriArrayList ;
@@ -62,37 +59,48 @@ public class FastTagFragment extends CameraPermissions {
     VehiclesList query;
     FastagsList queryFastags;
     String userChoosenTask;
+    InstallerCreds installerCreds=new InstallerCreds();
     ArrayList<VehiclesList> vehiclesLists;
     ArrayList<FastagsList> fastagsLists;
     VehiclesAdapter vehiclesAdapter;
+    FastagAdapter fastagAdapter;
     @BindView(R.id.searchTruck) SearchView searchView;
+   @BindView(R.id.searchFastId) SearchView searchFastId;
     private Boolean addMore=false;
+    boolean permissionResult=false;
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
-    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
-    public static final int MY_PERMISSIONS_REQUEST_CAMERA = 123;
-    LayoutInflater inflater;
-    ViewGroup container;
+
     @Override
-    int setViewId() {
+    public int setViewId() {
         return R.layout.fragment_fastag;
     }
 
 
     @Override
-    void onFragmentCreated() {
+    public void onFragmentCreated() {
         ButterKnife.bind(this,getView());
         searchAutoComplete = (SearchView.SearchAutoComplete)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        searchAutoCompleteFastag = (SearchView.SearchAutoComplete)binding.searchFastId.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchAutoCompleteFastag = (SearchView.SearchAutoComplete)searchFastId.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         vehiclesLists=new ArrayList<>();
         vehiclesLists=getSetData(vehiclesLists);
         fastagsLists=new ArrayList<>();
         binding.buttonTruck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectImage();
+               permissionResult= checkAndRequestPermissions();
+               if(permissionResult){
+                   selectImage();
+               }
             }
         });
+        binding.truckSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSubmitClicked();
+        }
+    });
     }
+
     private ArrayList<FastagsList> getFastags(final ArrayList<FastagsList> fastagsLists) {
         apiService.getFastags(query.getId()).enqueue(new RetrofitCallback<List<FastagsList>>() {
             @Override
@@ -115,14 +123,21 @@ public class FastTagFragment extends CameraPermissions {
     }
 
     @Override
-    void bindView(View view) {
+    public void bindView(View view) {
+
         binding = DataBindingUtil.bind(view);
     }
 
     @Override
-    void getComponentFactory() {
+    public void getComponentFactory() {
 
     }
+
+    @Override
+    protected void showRequestAccepted() {
+     Log.e("sss","sss accepted");
+    }
+
     private ArrayList<VehiclesList> getSetData(final ArrayList<VehiclesList> vehiclesLists) {
         apiService.getVehicles().enqueue(new RetrofitCallback<List<VehiclesList>>() {
             @Override
@@ -131,7 +146,7 @@ public class FastTagFragment extends CameraPermissions {
                     vehiclesLists.clear();
                     vehiclesLists.addAll(response.body());
                     setSearchView();
-                    Log.e("error ", ""+response.toString());
+                    Log.e("error ", ""+vehiclesLists.size());
                 } else
                     handleFailure(call, new Throwable("no lists available"));
             }
@@ -148,18 +163,19 @@ public class FastTagFragment extends CameraPermissions {
 
     @SuppressLint("RestrictedApi")
     private void setSearchViewFastags() {
-        vehiclesAdapter= new VehiclesAdapter(getContext(),vehiclesLists);
+        fastagAdapter= new FastagAdapter(getContext(),fastagsLists);
         searchAutoCompleteFastag.setThreshold(1);
-        searchAutoCompleteFastag.setAdapter(vehiclesAdapter);
+        searchAutoCompleteFastag.setAdapter(fastagAdapter);
         binding.searchFastId.setActivated(true);
-        binding.searchFastId.setQueryHint("Select Vehicle");
-        binding.searchFastId.setIconified(false);
+        binding.searchFastId.setQueryHint("Select Fastag");
+      //  binding.searchFastId.setIconified(false);
         searchAutoCompleteFastag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 queryFastags= (FastagsList) parent.getItemAtPosition(position);
-                searchAutoCompleteFastag.setText(query.getNumber());
-                searchAutoCompleteFastag.setSelection(query.getNumber().length());
+                searchAutoCompleteFastag.setText(queryFastags.getSerialNumber()+" "+queryFastags.getColor());
+                searchAutoCompleteFastag.setSelection(queryFastags.getSerialNumber().length()+queryFastags.getColor().length());
+                installerCreds.setFastag_id(queryFastags.getId());
             }
         });
     }
@@ -171,17 +187,17 @@ public class FastTagFragment extends CameraPermissions {
         searchAutoComplete.setAdapter(vehiclesAdapter);
         binding.searchTruck.setActivated(true);
         binding.searchTruck.setQueryHint("Select Vehicle");
-        binding.searchTruck.setIconified(false);
+      //  searchView.setIconified(false);
         searchAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 query= (VehiclesList) parent.getItemAtPosition(position);
                 searchAutoComplete.setText(query.getNumber());
                 searchAutoComplete.setSelection(query.getNumber().length());
-               // fastagsLists=getFastags(fastagsLists);
+                installerCreds.setTruck_id(query.getId());
+                fastagsLists=getFastags(fastagsLists);
             }
         });
-
     }
     private void selectImage() {
         final CharSequence[] items = { "Take Photo", "Choose from Library",
@@ -194,13 +210,13 @@ public class FastTagFragment extends CameraPermissions {
             public void onClick(DialogInterface dialog, int item) {
                 if (items[item].equals("Take Photo")) {
                     userChoosenTask ="Take Photo";
-                    boolean resultCamera= checkPermissionCamera(getContext());
+                    boolean resultCamera= checkAndRequestPermissions();
                     if(resultCamera) {
                         cameraIntent();}
 
                 } else if (items[item].equals("Choose from Library")) {
                     userChoosenTask ="Choose from Library";
-                    boolean resultGallery=checkPermissionGallery(getContext());
+                    boolean resultGallery=checkAndRequestPermissions();
                     if(resultGallery) {
                         galleryIntent();}
                 } else if (items[item].equals("Cancel")) {
@@ -209,22 +225,6 @@ public class FastTagFragment extends CameraPermissions {
             }
         });
         builder.show();
-    }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if(userChoosenTask.equals("Take Photo")) {
-                        cameraIntent();
-                    }
-                    else if(userChoosenTask.equals("Choose from Library")) {
-                        galleryIntent();}
-                } else {
-                    //code for deny
-                }
-                break;
-        }
     }
     void galleryIntent() {
         Intent intent = new Intent();
@@ -290,7 +290,7 @@ public class FastTagFragment extends CameraPermissions {
         binding.buttonTruck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectImage();
+                //selectImage();
             }
         });
     }
@@ -322,6 +322,22 @@ public class FastTagFragment extends CameraPermissions {
         });
         binding.recyclerImages.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }
+
+
+    private void onSubmitClicked() {
+        apiService.createInstallation(installerCreds).enqueue(new RetrofitCallback<InstallersResponse>() {
+            @Override
+            public void handleSuccess(Call<InstallersResponse> call, Response<InstallersResponse> response) {
+                Toast.makeText(getContext(),response.message(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void handleFailure(Call<InstallersResponse> call, Throwable t) {
+                Toast.makeText(getContext(),t.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e("error ", t.getMessage());
+            }
+        });
     }
 
 }

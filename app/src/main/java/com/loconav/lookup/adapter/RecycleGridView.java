@@ -30,7 +30,7 @@ public class RecycleGridView extends BaseAdapter {
 
     List<ImageUri> data;
     private Callback callback;
-    // Provide a suitable constructor (depends on the kind of dataset)
+    // Provide repair suitable constructor (depends on the kind of dataset)
     public RecycleGridView(List<ImageUri> myDataset, Callback callback) {
         data = myDataset;
         this.callback = callback;

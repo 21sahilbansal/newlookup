@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+
+<ScrollView
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <ScrollView
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
         <LinearLayout
             android:padding="15dp"
             android:orientation="vertical"
@@ -145,18 +145,68 @@
                     android:layout_height="wrap_content"
                     android:hint="Client ID*"/>
             </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/reason"
+                    android:inputType="number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Reason For Repair"/>
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/loc"
+                    android:inputType="number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Location"/>
+            </android.support.design.widget.TextInputLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Upload Device Image After Reapir"
+                android:id="@+id/devText"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black" />
+            <FrameLayout
+                android:id="@+id/devFrameAfter"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="10dp">
+                <ImageView
+                    android:id="@+id/devImageAfter"
+                    android:layout_margin="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/icons8addimage"
+                    android:tag="device"/>
+                <LinearLayout
+                    android:id="@+id/devLinearAfter"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/black_overlay"
+                    android:orientation="horizontal">
+                </LinearLayout>
+            </FrameLayout>
             <Button
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
                 android:id="@+id/share"
-                android:layout_width="300sp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="18dp"
-                android:gravity="center"
                 android:textSize="18sp"
                 android:text="Next"
                 android:textColor="#ffffff" />
         </LinearLayout>
 
     </ScrollView >
-</layout>

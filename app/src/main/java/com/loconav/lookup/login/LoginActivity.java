@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         initProgressDialog();
         Creds creds = new Creds();
         binding.setCred(creds);
-        binding.setPresenter(new LoginPresentergiImpl(this));
+        binding.setPresenter(new LoginPresenterImpl(this));
     }
 
     @Override
