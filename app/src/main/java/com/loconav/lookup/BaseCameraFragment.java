@@ -67,10 +67,10 @@ public abstract class BaseCameraFragment extends BaseFragment {
 
     public abstract void getComponentFactory();
 
-//        public void showImagePickerDialog() {
-//        ImagePickerDialog imagePickerDialog = ImagePickerDialog.newInstance();
-//        imagePickerDialog.show(getFragmentManager() ,getClass().getSimpleName());
-//    }
+        public void showImagePickerDialog() {
+        ImagePickerDialog imagePickerDialog = ImagePickerDialog.newInstance();
+        imagePickerDialog.show(getFragmentManager() ,getClass().getSimpleName());
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.e("tagb ", "onRequestPermissionsResult: " + grantResults[1]);

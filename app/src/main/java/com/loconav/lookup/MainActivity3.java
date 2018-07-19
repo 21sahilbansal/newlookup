@@ -38,6 +38,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import static com.loconav.lookup.Constants.DEVICE_ID;
+import static com.loconav.lookup.Constants.USER_CHOICE;
 
 public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
     @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
@@ -67,9 +68,9 @@ public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayo
         shareDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity3.this, ShareDetails.class);
                 Intent intent = new Intent(MainActivity3.this, FetchClientActivity.class);
                 intent.putExtra(DEVICE_ID, deviceID);
+                intent.putExtra("data",USER_CHOICE);
                 startActivity(intent);
             }
         });

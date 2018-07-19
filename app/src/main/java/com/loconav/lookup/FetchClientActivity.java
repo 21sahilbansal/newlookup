@@ -80,9 +80,10 @@ public class FetchClientActivity extends AppCompatActivity {
         clientAdapter = new ClientAdapter(clients, new Callback() {
             @Override
             public void onEventDone(Object object) {
-                Intent intent = new Intent(FetchClientActivity.this, ShareDetails.class);
+                Intent intent = new Intent(FetchClientActivity.this, EnterDetails.class);
                 intent.putExtra("client", (Client)object);
                 intent.putExtra(Constants.DEVICE_ID, deviceId);
+                intent.putExtra("data",Constants.USER_CHOICE);
                 startActivity(intent);
             }
         });

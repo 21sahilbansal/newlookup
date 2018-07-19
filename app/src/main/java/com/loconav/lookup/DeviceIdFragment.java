@@ -35,6 +35,7 @@ import retrofit2.Response;
 
 import static com.loconav.lookup.Constants.DEVICE_ID;
 import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
+import static com.loconav.lookup.Constants.USER_CHOICE;
 import static com.loconav.lookup.Constants.USER_ID;
 
 /**
@@ -43,8 +44,7 @@ import static com.loconav.lookup.Constants.USER_ID;
 
 public class DeviceIdFragment extends BaseFragment {
 
-    @BindView(R.id.ib_qr_scanner)
-    ImageButton ibOpenQrScanner;
+    @BindView(R.id.ib_qr_scanner) ImageButton ibOpenQrScanner;
     @BindView(R.id.et_device_id) EditText etDeviceId;
     @BindView(R.id.bt_get_info) Button btGetInfo;
     @BindView(R.id.fast_tag) Button fastTag;
@@ -60,6 +60,7 @@ public class DeviceIdFragment extends BaseFragment {
             etDeviceId.setSelection(etDeviceId.getText().length());
         }
     };
+    String getIntentData="";
 
     @Override
     int setViewId() {
@@ -75,7 +76,6 @@ public class DeviceIdFragment extends BaseFragment {
         setInfoButton();
         registerBroadcast();
         checkAndShowUserIdDialog();
-
     }
         private void initSharedPf() {
         sharedPrefHelper = SharedPrefHelper.getInstance(getContext());
@@ -107,6 +107,7 @@ public class DeviceIdFragment extends BaseFragment {
                             Intent intent  = new Intent(getContext(), MainActivity3.class);
                             Bundle bundle = new Bundle();
                             bundle.putString(DEVICE_ID, etDeviceId.getText().toString());
+                            bundle.putString("data",USER_CHOICE);
                             bundle.putSerializable("lookup_response", response.body());
                             intent.putExtras(bundle);
                             startActivity(intent);

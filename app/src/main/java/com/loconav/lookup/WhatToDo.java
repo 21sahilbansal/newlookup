@@ -1,11 +1,14 @@
 package com.loconav.lookup;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.loconav.lookup.Constants.DEVICE_ID;
 
 /**
  * Created by sejal on 10-07-2018.
@@ -22,33 +25,39 @@ public class WhatToDo extends BaseFragment {
     int setViewId() {
         return R.layout.what_to_do_fragment;
     }
-
+    String str="";
     @Override
     void onFragmentCreated() {
+
         newInstall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                passIntent("buttonN","newInstall");
+                str="newInstall";
+                passIntent("button",str);
             }
         });
         vehChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                passIntent("buttonV","vehChange");
+                str="vehChange";
+                passIntent("button",str);
             }
         });
         devChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                passIntent("buttonD","devChange");
+                str="devChange";
+                passIntent("button",str);
             }
         });
         simChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              passIntent("buttonS","sim");
+                str="simChange";
+                passIntent("button",str);
             }
         });
+
     }
 
     @Override
@@ -63,7 +72,9 @@ public class WhatToDo extends BaseFragment {
 
     void passIntent(String tag,String value){
         Intent intent=new Intent(getContext(),LookupSubActivity.class);
-        intent.putExtra(tag,value);
+        Bundle bundle = new Bundle();
+        bundle.putString(tag, value);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 }

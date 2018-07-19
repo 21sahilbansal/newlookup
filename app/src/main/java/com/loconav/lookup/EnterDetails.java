@@ -31,6 +31,7 @@ public class EnterDetails extends AppCompatActivity {
     SharedPreferences.Editor editor;
     private String deviceID;
     private Client client;
+    private String userChoice;
 
     @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -42,31 +43,31 @@ public class EnterDetails extends AppCompatActivity {
         editor = sharedpreferences.edit();
         Bundle bundle = getIntent().getExtras();
         deviceID = getIntent().getStringExtra(Constants.DEVICE_ID);
+        userChoice=getIntent().getStringExtra("data");
         client = (Client)getIntent().getSerializableExtra("client");
         if(bundle != null) {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            String type = bundle.getString("type");
-            switch (type) {
-                case "new_installation": {
+            switch (userChoice) {
+                case "newInstall": {
                     NewInstallation f1 = new NewInstallation();
                     fragmentTransaction.replace(android.R.id.content, f1);
 
                     break;
                 }
-                case "sim_change": {
+                case "simChange": {
                     SimChange f1 = new SimChange();
                     fragmentTransaction.replace(android.R.id.content, f1);
 
                     break;
                 }
-                case "device_change": {
+                case "devChange": {
                     DeviceChange f1 = new DeviceChange();
                     fragmentTransaction.replace(android.R.id.content, f1);
 
                     break;
                 }
-                case "vehicle_change": {
+                case "vehChange": {
                     VehicleChange f1 = new VehicleChange();
                     fragmentTransaction.replace(android.R.id.content, f1);
                     break;
