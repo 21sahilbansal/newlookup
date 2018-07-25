@@ -1,23 +1,15 @@
 package com.loconav.lookup.sharedetailsfragmants;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.loconav.lookup.CommonFunction;
-import com.loconav.lookup.CustomActionBar;
 import com.loconav.lookup.EnterDetails;
 import com.loconav.lookup.R;
 import com.loconav.lookup.ShareAndUpload;
@@ -61,7 +53,7 @@ public class NewInstallation extends Fragment {
                     message += "IMEI: "+ binding.imei.getText().toString() + "\n";
                     message += "Device Model: "+ binding.deviceModel.getText().toString()+"\n";
                     message += "Client ID: "+ binding.clientId.getText().toString()+"\n";
-                    message += "USER ID: " + sharedPrefHelper.getStringData(USER_ID)+  "\n";
+                    message += "USER ID: " + SharedPrefHelper.getInstance(getContext()).getStringData(USER_ID) +  "\n";
                     message += "Sent By Device Checker:"+ " " + System.currentTimeMillis() ;
                     String url = "http://www.loconav.com/?type=new_vehicle&model="+
                             binding.model.getText().toString()+"&manufacturer="+

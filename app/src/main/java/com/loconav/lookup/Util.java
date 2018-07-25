@@ -1,6 +1,7 @@
 package com.loconav.lookup;
 
 import android.util.Log;
+import android.view.View;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,9 +14,11 @@ public class Util {
 
    static Boolean matchregex(String str,String str2){
 
-        Pattern pattern = Pattern.compile(str);
-        Matcher matcher = pattern.matcher(str2);
-        Boolean ab= matcher.find();
-        return ab;
+//        Pattern pattern = Pattern.compile(str);
+//        Matcher matcher = pattern.matcher(str2);
+//        Boolean ab= matcher.find();
+       return str.matches(str2);
+
     }
+
 }

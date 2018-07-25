@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.loconav.lookup.base.BaseFragment;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -20,14 +22,15 @@ public class WhatToDo extends BaseFragment {
     @BindView(R.id.devChange) TextView devChange;
     @BindView(R.id.vehChange) TextView vehChange;
     @BindView(R.id.newInstall) TextView newInstall;
+    @BindView(R.id.repair) TextView repair;
 
     @Override
-    int setViewId() {
+    public int setViewId() {
         return R.layout.what_to_do_fragment;
     }
     String str="";
     @Override
-    void onFragmentCreated() {
+    public void onFragmentCreated() {
 
         newInstall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,16 +60,23 @@ public class WhatToDo extends BaseFragment {
                 passIntent("button",str);
             }
         });
+        repair.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                str="repair";
+                passIntent("button",str);
+            }
+        });
 
     }
 
     @Override
-    void bindView(View view) {
+    public void bindView(View view) {
         ButterKnife.bind(this,getView());
     }
 
     @Override
-    void getComponentFactory() {
+    public void getComponentFactory() {
 
     }
 

@@ -47,7 +47,6 @@ public class DeviceChange extends Fragment {
                     message += "Client ID: " + binding.clientId.getText().toString()+ "\n";
                     message += "USER ID: " + SharedPrefHelper.getInstance(getContext()).getStringData(USER_ID);
                            // sharedPreferences.getString(USER_ID, "") +  "\n";
-
                     message += "Sent By Device Checker:"+ " " + System.currentTimeMillis();
                     CommonFunction.sendAppMsg(getActivity(), message);
                 }

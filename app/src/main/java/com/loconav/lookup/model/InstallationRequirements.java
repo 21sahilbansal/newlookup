@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by sejal on 18-07-2018.
  */
 
-public class InstallerCreds {
+public class InstallationRequirements {
 
     @SerializedName("truck_id")
     private int truck_id;

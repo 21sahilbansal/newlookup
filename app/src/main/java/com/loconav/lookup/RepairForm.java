@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.loconav.lookup.base.BaseFragment;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,7 +30,7 @@ import butterknife.ButterKnife;
  * Created by sejal on 12-07-2018.
  */
 
-public class RepairForm  extends BaseCameraFragment {
+public class RepairForm  extends BaseFragment {
     @BindView (R.id.devImageAfter) ImageView devImageAfter;
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     String userChoosenTask;
@@ -61,13 +63,10 @@ public class RepairForm  extends BaseCameraFragment {
 
     }
 
-    @Override
-    protected void showRequestAccepted() {
 
-    }
 
     private void checkPermissions(){
-        permissionResult=checkAndRequestPermissions();
+//        permissionResult=checkAndRequestPermissions();
         if(permissionResult){
             selectImage();
         }
@@ -83,15 +82,15 @@ public class RepairForm  extends BaseCameraFragment {
             public void onClick(DialogInterface dialog, int item) {
                 if (items[item].equals("Take Photo")) {
                     userChoosenTask ="Take Photo";
-                    boolean resultCamera= checkAndRequestPermissions();
-                    if(resultCamera) {
-                        cameraIntent();}
+                   // boolean resultCamera= checkAndRequestPermissions();
+                    //if(resultCamera) {
+                      //  cameraIntent();}
 
                 } else if (items[item].equals("Choose from Library")) {
                     userChoosenTask ="Choose from Library";
-                    boolean resultGallery=checkAndRequestPermissions();
-                    if(resultGallery) {
-                        galleryIntent();}
+//                    boolean resultGallery=checkAndRequestPermissions();
+//                    if(resultGallery) {
+//                        galleryIntent();}
                 } else if (items[item].equals("Cancel")) {
                     dialog.dismiss();
                 }

@@ -1,26 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pressed"
-    android:id="@+id/linearMain"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-        <!--<Button-->
-            <!--android:id="@+id/three"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content" />-->
+    android:divider="?android:attr/listDivider"
+    android:orientation="vertical"
+    android:showDividers="middle">
 
-    <!--<EditText-->
-        <!--android:layout_width="wrap_content"-->
+    <!--<com.loconav.lookup.CustomImagePicker-->
+        <!--android:id="@+id/view1"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/et"/>-->
-    <!--<EditText-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/et2"/>-->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/threeTv"/>-->
-    </LinearLayout>
+        <!--android:background="?android:selectableItemBackground"-->
+        <!--custom:titleText="Background color" />-->
+    <!--<com.loconav.lookup.CustomInflater-->
+        <!--android:id="@+id/view2"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="?android:selectableItemBackground"-->
+        <!--custom:titleText="Foreground color" />-->
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/et1" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/b1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv"/>
+</LinearLayout>
+

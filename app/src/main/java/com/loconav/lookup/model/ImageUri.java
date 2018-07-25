@@ -25,7 +25,7 @@ public class ImageUri extends BaseObservable {
         this.uri = uri;
     }
 
-    @BindingAdapter({"imageUrl"})
+    @BindingAdapter({"android:src"})
     public static void loadImage(ImageView view, String imageUrl) {
 //        Picasso.with(view.getContext())
 //                .load(imageUrl)

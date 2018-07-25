@@ -74,7 +74,7 @@ public class FragmentController extends AppCompatActivity {
 
     public void loadFragment(final Fragment fragment,FragmentManager fragmentManager,int resId) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(resId, fragment);
+        transaction.replace(resId, fragment,"");
     //    transaction.addToBackStack(fragment.getClass().getName());
         transaction.commit();
     }

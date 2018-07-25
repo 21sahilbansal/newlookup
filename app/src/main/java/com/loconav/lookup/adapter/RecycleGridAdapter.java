@@ -1,39 +1,33 @@
 package com.loconav.lookup.adapter;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.ImageView;
 
 import com.loconav.lookup.Callback;
 import com.loconav.lookup.R;
+import com.loconav.lookup.base.BaseAdapter;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.ImageUri;
 
-import java.io.IOException;
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
+import static com.loconav.lookup.CustomImagePicker.checkLimit;
 
 /**
  * Created by sejal on 06-07-2018.
  */
 
-public class RecycleGridView extends BaseAdapter {
+public class RecycleGridAdapter extends BaseAdapter {
 
     List<ImageUri> data;
+    int limit;
     private Callback callback;
     // Provide repair suitable constructor (depends on the kind of dataset)
-    public RecycleGridView(List<ImageUri> myDataset, Callback callback) {
+    public RecycleGridAdapter(List<ImageUri> myDataset,int limit ,Callback callback) {
         data = myDataset;
+        this.limit=limit;
         this.callback = callback;
+
+
     }
 
     @Override
@@ -47,8 +41,11 @@ public class RecycleGridView extends BaseAdapter {
     }
 
     @Override
-    public void onItemClick(Object object) {
-        Log.e("item ", "onItemClick: "+ ((Client) object).getName());
+    public void onItemClick(Object object, int position) {
+        Log.e("item ", "onItemClick: "+ ((ImageUri) object).getUri());
+        data.remove(data.get(position));
+        checkLimit(data);
+        notifyDataSetChanged();
         callback.onEventDone(object);
     }
 
@@ -56,5 +53,6 @@ public class RecycleGridView extends BaseAdapter {
     public int getItemCount() {
         return data.size();
     }
+
 
 }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.google.android.gms.samples.vision.barcodereader.BarcodeCapture;
 import com.google.android.gms.samples.vision.barcodereader.BarcodeGraphic;
 import com.google.android.gms.vision.barcode.Barcode;
+import com.loconav.lookup.base.BaseFragment;
 
 import java.util.List;
 
@@ -33,24 +34,24 @@ public class QRScannerFragment1 extends BaseFragment implements BarcodeRetriever
     }
 
     @Override
-    int setViewId() {
+    public int setViewId() {
         return R.layout.fargment_qr_scanner1;
     }
 
     @Override
-    void onFragmentCreated() {
+    public void onFragmentCreated() {
         BarcodeCapture barcodeCapture = (BarcodeCapture) getChildFragmentManager().findFragmentById(R.id.barcode);
         barcodeCapture.setRetrieval(this);
     }
 
     @Override
-    void bindView(View view) {
+    public void bindView(View view) {
         ButterKnife.bind(this, view);
         Log.e("time ", "bindView: "+ System.currentTimeMillis());
     }
 
     @Override
-    void getComponentFactory() {}
+    public void getComponentFactory() {}
 
     private void sendMessage(String scannedDeviceId) {
         Log.d("sender", "Broadcasting message");

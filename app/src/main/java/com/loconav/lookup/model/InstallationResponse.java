@@ -8,7 +8,7 @@ import com.loconav.lookup.login.model.User;
  * Created by sejal on 18-07-2018.
  */
 
-public class InstallersResponse {
+public class InstallationResponse {
 
     @SerializedName("message")
     @Expose

@@ -1,6 +1,5 @@
-package com.loconav.lookup.adapter;
+package com.loconav.lookup.base;
 
-import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
@@ -8,10 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.loconav.lookup.BR;
 
-import java.util.List;
 
 /**
  * Created by prateek on 28/05/18.
@@ -33,7 +30,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyVie
             binding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClick(getDataAtPosition(getAdapterPosition()));
+                    onItemClick(getDataAtPosition(getAdapterPosition()),getAdapterPosition());
                 }
             });
         }
@@ -47,7 +44,9 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyVie
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create repair new view
+
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+
         ViewDataBinding binding = DataBindingUtil.inflate(layoutInflater, getLayoutIdForType(viewType), parent, false);
         // set the view's size, margins, paddings and layout parameters
         return new MyViewHolder(binding);
@@ -63,6 +62,6 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyVie
 
     public abstract int getLayoutIdForType(int viewType);
 
-    public abstract void onItemClick(Object object);
+    public abstract void onItemClick(Object object,int position);
 
 }

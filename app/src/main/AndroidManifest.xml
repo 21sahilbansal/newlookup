@@ -49,12 +49,18 @@
             android:name=".login.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"></activity>
         <activity android:name=".Encoding" />
-        <activity android:name=".FragmentBackStack">
+        <activity android:name=".login.SplashActivity">
 
         </activity>
-        <activity android:name=".LookupSubActivity"></activity>
+        <activity android:name=".FragmentBackStack"></activity>
+        <activity android:name=".LookupSubActivity">
+
+        </activity>
+        <activity android:name=".MainActivity">
+
+        </activity>
     </application>
 
 </manifest>

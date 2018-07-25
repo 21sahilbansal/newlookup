@@ -13,4 +13,5 @@
     <color name="black_overlay">#33000000</color>
     <color name="divider">#dddddd</color>
     <color name="black">#000000</color>
+    <color name="border">#DDDDDD</color>
 </resources>

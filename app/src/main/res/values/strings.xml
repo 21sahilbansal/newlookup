@@ -21,4 +21,5 @@
     <string name="repair">Repair</string>
     <string name="permissions">Give permissions</string>
     <string name="proceed">PROCEED</string>
+    <string name="camera">Camera</string>
 </resources>

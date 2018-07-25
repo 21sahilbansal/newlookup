@@ -72,6 +72,11 @@ public class EnterDetails extends AppCompatActivity {
                     fragmentTransaction.replace(android.R.id.content, f1);
                     break;
                 }
+                case "repair": {
+                    Repair f1 = new Repair();
+                    fragmentTransaction.replace(android.R.id.content, f1);
+                    break;
+                }
             }
             fragmentTransaction.commit();
         }

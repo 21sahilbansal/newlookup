@@ -1,16 +1,17 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res-auto">
     <data>
 
     </data>
 <LinearLayout
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.loconav.lookup.FastTagFragment">
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -43,22 +44,13 @@
                 android:text="Truck Photos"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/searchFastId" />
-
-            <Button
-                android:id="@+id/button_truck"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:text="choose file" />
-
-            <android.support.v7.widget.RecyclerView
-                android:layout_marginTop="20dp"
-                android:id="@+id/recyclerImages"
+            <com.loconav.lookup.CustomImagePicker
+                android:id="@+id/view2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
+                android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground"
+                custom:titleText="Foreground color"
+                custom:limitImages="4"/>
             <Button
                 android:id="@+id/truck_submit"
                 android:layout_width="wrap_content"
@@ -68,6 +60,6 @@
                 android:layout_marginTop="10dp"
                 android:text="SUBMIT" />
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>
 </layout>
