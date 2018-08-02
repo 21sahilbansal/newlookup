@@ -8,7 +8,7 @@
     tools:context="com.loconav.lookup.UserActivity">
 
     <EditText
-        android:id="@+id/user_id1"
+        android:id="@+id/user_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -18,7 +18,6 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
-        app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,5 +34,5 @@
         android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_id1" />
+        app:layout_constraintTop_toBottomOf="@+id/user_id" />
 </android.support.constraint.ConstraintLayout>

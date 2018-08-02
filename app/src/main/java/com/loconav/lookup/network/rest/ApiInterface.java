@@ -7,12 +7,19 @@ import com.loconav.lookup.model.FastagsList;
 import com.loconav.lookup.model.InstallationRequirements;
 import com.loconav.lookup.model.InstallationResponse;
 import com.loconav.lookup.model.LookupResponse;
+import com.loconav.lookup.model.ReasonResponse;
+import com.loconav.lookup.model.RepairRequirements;
+import com.loconav.lookup.model.RepairResponse;
 import com.loconav.lookup.model.VehiclesList;
+
+import org.json.JSONArray;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -40,5 +47,12 @@ public interface ApiInterface {
 
     @POST("api/installers/installations")
     Call<InstallationResponse> createInstallation(@Body InstallationRequirements installerCreds);
+
+    @GET("api/installers/repairs/reasons")
+    Call<ResponseBody> getReasons();
+
+    @POST("api/installers/repairs/")
+    Call<RepairResponse> addRepairs(@Body RepairRequirements repairRequirements);
+
 
 }

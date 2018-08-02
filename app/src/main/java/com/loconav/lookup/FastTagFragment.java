@@ -45,13 +45,10 @@ public class FastTagFragment extends BaseFragment {
     VehiclesList query;
     FastagsList queryFastags;
     InstallationRequirements installerCreds = new InstallationRequirements();
-    ArrayList<VehiclesList> vehiclesLists;
-    ArrayList<FastagsList> fastagsLists;
+    ArrayList<VehiclesList> vehiclesLists=new ArrayList<>();
+    ArrayList<FastagsList> fastagsLists=new ArrayList<>();
     VehiclesAdapter vehiclesAdapter;
     FastagAdapter fastagAdapter;
-    @BindView(R.id.searchTruck) SearchView searchView;
-   @BindView(R.id.searchFastId) SearchView searchFastId;
-    boolean permissionResult=false;
 
     @Override
     public int setViewId() {
@@ -61,29 +58,24 @@ public class FastTagFragment extends BaseFragment {
 
     @Override
     public void onFragmentCreated() {
-        ButterKnife.bind(this,getView());
-        searchAutoComplete = (SearchView.SearchAutoComplete)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        searchAutoCompleteFastag = (SearchView.SearchAutoComplete)searchFastId.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        vehiclesLists=new ArrayList<>();
-       // checkAndRequestPermissions();
-        vehiclesLists=getSetData(vehiclesLists);
-        fastagsLists=new ArrayList<>();
-//        binding.buttonTruck.setOnClickListener(new View.OnClickListener() {
+        searchAutoComplete = (SearchView.SearchAutoComplete)binding.searchTruck.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        binding.searchTruck.setQueryHint("Select Vehicle");
+        searchAutoCompleteFastag = (SearchView.SearchAutoComplete)binding.searchFastId.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        binding.searchFastId.setQueryHint("Select Fastag");
+//        binding.searchTruck.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-        //       permissionResult= checkAndRequestPermissions();
-//               if(permissionResult){
-//                 showImagePickerDialog();
-//               }
+//                Log.e("ftrg","rgt");
+                vehiclesLists=getSetData(vehiclesLists);
 //            }
 //        });
+
         binding.truckSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onSubmitClicked();
         }
     });
-     //   EventBus.getDefault().register(this);
     }
 
 
@@ -140,35 +132,16 @@ public class FastTagFragment extends BaseFragment {
     }
 
     @SuppressLint("RestrictedApi")
-    private void setSearchViewFastags() {
-        fastagAdapter= new FastagAdapter(getContext(),fastagsLists);
-        searchAutoCompleteFastag.setThreshold(1);
-        searchAutoCompleteFastag.setAdapter(fastagAdapter);
-        binding.searchFastId.setActivated(true);
-        binding.searchFastId.setQueryHint("Select Fastag");
-      //  binding.searchFastId.setIconified(false);
-        searchAutoCompleteFastag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                queryFastags= (FastagsList) parent.getItemAtPosition(position);
-                searchAutoCompleteFastag.setText(queryFastags.getSerialNumber()+" "+queryFastags.getColor());
-                searchAutoCompleteFastag.setSelection(queryFastags.getSerialNumber().length()+queryFastags.getColor().length());
-                installerCreds.setFastag_id(queryFastags.getId());
-            }
-        });
-    }
-
-    @SuppressLint("RestrictedApi")
     public void setSearchView(){
-        vehiclesAdapter= new VehiclesAdapter(getContext(),vehiclesLists);
+        vehiclesAdapter= new VehiclesAdapter(getContext(),vehiclesLists,searchAutoComplete);
         searchAutoComplete.setThreshold(1);
         searchAutoComplete.setAdapter(vehiclesAdapter);
         binding.searchTruck.setActivated(true);
-        binding.searchTruck.setQueryHint("Select Vehicle");
-      //  searchView.setIconified(false);
         searchAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                JsonUtil.hideKeyboard(getView().findFocus(), getContext());
+                Log.e("fijriv",""+query);
                 query= (VehiclesList) parent.getItemAtPosition(position);
                 searchAutoComplete.setText(query.getNumber());
                 searchAutoComplete.setSelection(query.getNumber().length());
@@ -177,6 +150,27 @@ public class FastTagFragment extends BaseFragment {
             }
         });
     }
+
+
+    @SuppressLint("RestrictedApi")
+    private void setSearchViewFastags() {
+        fastagAdapter= new FastagAdapter(getContext(),fastagsLists);
+        searchAutoCompleteFastag.setThreshold(1);
+        searchAutoCompleteFastag.setAdapter(fastagAdapter);
+        binding.searchFastId.setActivated(true);
+      //  binding.searchFastId.setIconified(false);
+        searchAutoCompleteFastag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                JsonUtil.hideKeyboard(getView().findFocus(), getContext());
+                queryFastags= (FastagsList) parent.getItemAtPosition(position);
+                searchAutoCompleteFastag.setText(queryFastags.getSerialNumber()+" "+queryFastags.getColor());
+                searchAutoCompleteFastag.setSelection(queryFastags.getSerialNumber().length()+queryFastags.getColor().length());
+                installerCreds.setFastag_id(queryFastags.getId());
+            }
+        });
+    }
+
 
     private void onSubmitClicked() {
         apiService.createInstallation(installerCreds).enqueue(new RetrofitCallback<InstallationResponse>() {
@@ -192,10 +186,4 @@ public class FastTagFragment extends BaseFragment {
             }
         });
     }
-
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//        EventBus.getDefault().unregister(this);
-//    }
 }

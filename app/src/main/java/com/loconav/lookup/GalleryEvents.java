@@ -17,4 +17,7 @@ public class GalleryEvents extends PubSubEvent{
     public GalleryEvents(String message) {
         super(message);
     }
+
+    public static  final  String IMAGE_COMPRESSED = "image_compressed";
+
 }

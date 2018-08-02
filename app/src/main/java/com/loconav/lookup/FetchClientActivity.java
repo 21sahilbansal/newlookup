@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.loconav.lookup.adapter.ClientAdapter;
 import com.loconav.lookup.databinding.ActivityFetchClientBinding;
 import com.loconav.lookup.model.Client;
+import com.loconav.lookup.model.LookupResponse;
+import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
@@ -29,7 +31,7 @@ public class FetchClientActivity extends AppCompatActivity {
     private ClientAdapter clientAdapter;
     private List<Client> clients = new ArrayList<>();
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-    private String deviceId;
+    PassingReason passingReason;
 
 
     @Override
@@ -38,7 +40,8 @@ public class FetchClientActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_fetch_client);
         setFetchClientButton();
         setAdapter();
-        deviceId = getIntent().getStringExtra(Constants.DEVICE_ID);
+        Bundle receivedBundle = getIntent().getExtras();
+        passingReason=(PassingReason) receivedBundle.getSerializable("str");
     }
 
     private void setFetchClientButton() {
@@ -81,9 +84,10 @@ public class FetchClientActivity extends AppCompatActivity {
             @Override
             public void onEventDone(Object object) {
                 Intent intent = new Intent(FetchClientActivity.this, EnterDetails.class);
-                intent.putExtra("client", (Client)object);
-                intent.putExtra(Constants.DEVICE_ID, deviceId);
-                intent.putExtra("data",Constants.USER_CHOICE);
+                passingReason.setClientId((Client)object);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("str", passingReason);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

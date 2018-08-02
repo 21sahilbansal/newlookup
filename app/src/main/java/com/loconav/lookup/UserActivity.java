@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loconav.lookup.application.SharedPrefHelper;
@@ -22,7 +23,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        userID = (EditText) findViewById(R.id.user_id1);
+        userID = (EditText) findViewById(R.id.user_id);
         submit = (Button) findViewById(R.id.submit);
         initSharedPf();
         attachClickListener();

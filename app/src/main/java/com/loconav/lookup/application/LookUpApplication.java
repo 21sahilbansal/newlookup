@@ -12,16 +12,12 @@ public class LookUpApplication extends Application {
 
     private static LookUpApplication instance = null;
 
-
-
-    public static Context getInstance(){
-        if (null == instance) {
-            instance = new LookUpApplication();
-        }
+    public static LookUpApplication getInstance(){
         return instance;
     }
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
     }
 }

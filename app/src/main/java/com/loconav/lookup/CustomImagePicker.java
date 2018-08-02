@@ -1,6 +1,5 @@
 package com.loconav.lookup;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,10 +33,10 @@ import java.util.List;
 public class CustomImagePicker extends LinearLayout{
     private List<ImageUri> imageUris = new ArrayList<>();
     List<ImageUri>ll=new ArrayList<>();
-    private static ImageView iv;
-    private static String idText;
-    private static int limit;
-    static RecycleGridAdapter adapter;
+    private ImageView iv;
+    private String idText;
+    private int limit;
+    RecycleGridAdapter adapter;
     TypedArray a;
 
     public CustomImagePicker(Context context) {
@@ -55,9 +53,7 @@ public class CustomImagePicker extends LinearLayout{
             if(limit==0) {
               throw new RuntimeException();
             }
-
-
-
+        a.recycle();
         setOrientation(LinearLayout.VERTICAL);
         setGravity(Gravity.CENTER_VERTICAL);
 
@@ -65,21 +61,15 @@ public class CustomImagePicker extends LinearLayout{
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.custom_image_picker, this, true);
 
-        TextView title=findViewById(R.id.devText);
+        TextView title=findViewById(R.id.devText1);
         title.setText(titleText);
-        iv=findViewById(R.id.devImage);
+        iv=findViewById(R.id.devImage1);
         android.support.v4.app.FragmentActivity fragmentActivity = (android.support.v4.app.FragmentActivity) getContext();
         final FragmentManager fm = fragmentActivity.getSupportFragmentManager();
          iv.setOnClickListener(new OnClickListener() {
              @Override
              public void onClick(View view) {
-                 Log.e("Ss","bgmjgmbkgt");
                  ImagePickerDialog imagePickerDialog=ImagePickerDialog.newInstance(idText,limit);
-//                 Bundle bundle=new Bundle();
-//                 bundle.putString("id",idText);
-//                 bundle.putString("limitImages", String.valueOf(limit));
-//                 imagePickerDialog.setArguments(bundle);
-                 Log.e("Ss123","bgmjgmbkgt"+idText);
                  imagePickerDialog.show(fm,getClass().getSimpleName());
              }
          });
@@ -94,10 +84,9 @@ public class CustomImagePicker extends LinearLayout{
         layoutManager.setInitialPrefetchItemCount(4);
         RecyclerView recyclerImages=findViewById(R.id.rvImages);
         recyclerImages.setLayoutManager(layoutManager);
-        adapter = new RecycleGridAdapter(imageUris,limit, new Callback() {
+        adapter = new RecycleGridAdapter(imageUris,iv,limit, new Callback() {
             @Override
             public void onEventDone(Object object) {
-
             }
         });
         recyclerImages.setAdapter(adapter);
@@ -136,9 +125,8 @@ public class CustomImagePicker extends LinearLayout{
             adapter.notifyDataSetChanged();
             Log.e("size", "" + imageUris);
         }
-        a.recycle();
     }
-    public static void checkLimit(List<ImageUri> imageUri){
+    public void checkLimit(List<ImageUri> imageUri){
         if(imageUri.size()>=limit){
             iv.setVisibility(GONE);
         }else {
@@ -150,9 +138,13 @@ public class CustomImagePicker extends LinearLayout{
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        Log.e("vdgv","unregister");
         // View is now detached, and about to be destroyed
         EventBus.getDefault().unregister(this);
 
+    }
+    public  List<ImageUri> GetimagesList(){
+        return imageUris;
     }
 
 

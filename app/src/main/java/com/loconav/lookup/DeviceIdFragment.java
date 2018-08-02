@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.support.v4.app.FragmentTransaction;
@@ -23,15 +24,18 @@ import android.widget.Toast;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.model.LookupResponse;
+import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
+import com.loconav.lookup.sharedetailsfragmants.SimChange;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static android.content.Intent.getIntent;
 import static com.loconav.lookup.Constants.DEVICE_ID;
 import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
 import static com.loconav.lookup.Constants.USER_CHOICE;
@@ -50,6 +54,8 @@ public class DeviceIdFragment extends BaseFragment {
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     private ProgressDialog progressDialog;
     private SharedPrefHelper sharedPrefHelper;
+    Uri uri;
+    PassingReason passingReason;
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -68,6 +74,9 @@ public class DeviceIdFragment extends BaseFragment {
     @Override
     public void onFragmentCreated() {
         ButterKnife.bind(this, getView());
+        passingReason = (PassingReason) getArguments().getSerializable("str");
+        uri = Uri.parse(getArguments().getString("Image"));
+        // passingReason= (PassingReason)getActivity().getIntent().getSerializableExtra("str");
         initSharedPf();
         setScanner();
         initProgressDialog();
@@ -103,10 +112,11 @@ public class DeviceIdFragment extends BaseFragment {
                         public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
                             Log.e("handle ", response.code() +"");
                             Intent intent  = new Intent(getContext(), MainActivity3.class);
+                            passingReason.setDeviceid(etDeviceId.getText().toString());
                             Bundle bundle = new Bundle();
-                            bundle.putString(DEVICE_ID, etDeviceId.getText().toString());
-                            bundle.putString("data",USER_CHOICE);
+                            bundle.putSerializable("Image", String.valueOf(uri));
                             bundle.putSerializable("lookup_response", response.body());
+                            bundle.putSerializable("str", passingReason);
                             intent.putExtras(bundle);
                             startActivity(intent);
                             progressDialog.dismiss();
@@ -133,6 +143,14 @@ public class DeviceIdFragment extends BaseFragment {
         });
     }
 
+    public static DeviceIdFragment newInstance(PassingReason passingReason1, Uri stringUri) {
+        DeviceIdFragment fragment = new DeviceIdFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("str", passingReason1);
+        bundle.putString("Image", String.valueOf(stringUri));
+        fragment.setArguments(bundle);
+        return fragment;
+    }
     private void setScanner() {
         ibOpenQrScanner.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +183,7 @@ public class DeviceIdFragment extends BaseFragment {
 
     private void showEnterIdDialog() {
         final EditText input = new EditText(getActivity());
-// Specify the type of input expected; this, for example, sets the input as repair password, and will mask the text
+// Specify the type of Input expected; this, for example, sets the Input as repair password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -185,7 +203,7 @@ public class DeviceIdFragment extends BaseFragment {
                     public void onClick(View view) {
                         // TODO Do something
                         if(!input.getText().toString().trim().equals("")) {
-                           // editor.putString(Constants.USER_ID ,input.getText().toString());
+                           // editor.putString(Constants.USER_ID ,Input.getText().toString());
                             sharedPrefHelper.setStringData(USER_ID ,input.getText().toString());
                             //editor.commit();
                             mAlertDialog.cancel();

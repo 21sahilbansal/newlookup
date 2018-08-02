@@ -44,11 +44,10 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyVie
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create repair new view
-
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-
         ViewDataBinding binding = DataBindingUtil.inflate(layoutInflater, getLayoutIdForType(viewType), parent, false);
         // set the view's size, margins, paddings and layout parameters
+        editHeightWidthItem(binding.getRoot(),parent);
         return new MyViewHolder(binding);
     }
 
@@ -63,5 +62,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyVie
     public abstract int getLayoutIdForType(int viewType);
 
     public abstract void onItemClick(Object object,int position);
+
+    public abstract void editHeightWidthItem(View view,ViewGroup parent);
 
 }

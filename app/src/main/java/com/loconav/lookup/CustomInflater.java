@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
+import android.text.Layout;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -70,10 +71,10 @@ public class CustomInflater extends LinearLayout {
            linearLayout.setOrientation(LinearLayout.VERTICAL);
            this.linearLayout=linearLayout;
         }
-     TextView addtext(String str){
+     public TextView addtext(String str){
          TextView textView = new TextView(getContext());
          textView.setText(str);
-         linearLayout.addView(textView);
+       //  linearLayout.addView(textView);
          return textView;
      }
 
@@ -125,22 +126,24 @@ public class CustomInflater extends LinearLayout {
         });
     }
 
-    void addEditText(){
+   public EditText addEditText(LinearLayout linearLayout1, String str,int index){
         TextInputLayout til=new TextInputLayout(getContext());
         til.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
-        linearLayout.addView(til);
+
+        linearLayout1.addView(til,index);
         EditText editText = new EditText(getContext());
-        RelativeLayout.LayoutParams editTextParams = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams editTextParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         editText.setLayoutParams(editTextParams);
 
         editText.setTextSize(16);
         editText.setTextColor(getResources().getColor(R.color.black));
-        editText.setHint("hint");
+        editText.setHint(str);
         editText.setHintTextColor(getResources().getColor(R.color.gray));
 
         til.addView(editText, editTextParams);
+        return  editText;
     }
 
 }

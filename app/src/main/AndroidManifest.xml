@@ -23,12 +23,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LookUpEntry"
-            android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:windowSoftInputMode="adjustNothing">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity3"
@@ -50,8 +46,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan"></activity>
-        <activity android:name=".Encoding" />
+        <activity android:name=".Encoding" >
+
+        </activity>
         <activity android:name=".login.SplashActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
 
         </activity>
         <activity android:name=".FragmentBackStack"></activity>

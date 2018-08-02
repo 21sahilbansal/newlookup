@@ -30,12 +30,17 @@ public class SharedPrefHelper {
       SharedPreferences.Editor editor=getSharedPref().edit().putString(key,value);
       editor.apply();
     }
+
+    public void setLongData(String key, Long value) {
+        SharedPreferences.Editor editor=getSharedPref().edit().putLong(key,value);
+        editor.apply();
+    }
     public void setIntData(String key, Integer value) {
         SharedPreferences.Editor editor=getSharedPref().edit().putInt(key,value);
         editor.apply();
     }
     public void setBooleanData(String key, Boolean value) {
-        SharedPreferences.Editor editor=getSharedPref().edit().putBoolean(key,value);
+        SharedPreferences.Editor editor = getSharedPref().edit().putBoolean(key,value);
         editor.apply();
     }
     public String getStringData(String key) {
@@ -47,5 +52,9 @@ public class SharedPrefHelper {
     public Boolean getBooleanData(String key) {
         return getSharedPref().getBoolean(key,false);
     }
+    public Long getLongData(String key) {
+        return getSharedPref().getLong(key,-1);
+    }
+
 }
 

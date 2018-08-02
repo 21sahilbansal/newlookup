@@ -15,42 +15,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
+
         <LinearLayout
-            android:paddingLeft="10dp"
-            android:paddingEnd="10dp"
-            android:paddingRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingEnd="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <android.support.v7.widget.SearchView
                 android:id="@+id/searchTruck"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="end" />
+                android:gravity="end"
+                app:iconifiedByDefault="false" />
+
             <android.support.v7.widget.SearchView
                 android:id="@+id/searchFastId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:gravity="end"/>
-            <TextView
-                android:id="@+id/truck_pics"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Truck Photos"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/searchFastId" />
+                android:gravity="end"
+                app:iconifiedByDefault="false" />
+
             <com.loconav.lookup.CustomImagePicker
                 android:id="@+id/view2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:selectableItemBackground"
-                custom:titleText="Foreground color"
-                custom:limitImages="4"/>
+                custom:limitImages="4"
+                custom:titleText="Truck Photos" />
+
             <Button
                 android:id="@+id/truck_submit"
                 android:layout_width="wrap_content"

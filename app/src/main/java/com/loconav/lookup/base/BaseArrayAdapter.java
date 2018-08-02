@@ -45,12 +45,12 @@ public abstract class BaseArrayAdapter<T> extends ArrayAdapter {
             convertView = LayoutInflater.from(getContext()).inflate(getItemViewId(), parent, false);
         }
         setData(convertView, position);
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onItemClick(getItem(position));
-            }
-        });
+//        convertView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onItemClick(getItem(position), v);
+//            }
+//        });
 
         return convertView;
     }
@@ -59,5 +59,5 @@ public abstract class BaseArrayAdapter<T> extends ArrayAdapter {
 
     public abstract int getItemViewId();
 
-    public abstract void onItemClick(T t);
+ //   public abstract void onItemClick(T t, View v);
 }

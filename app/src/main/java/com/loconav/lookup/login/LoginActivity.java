@@ -15,6 +15,8 @@ import com.loconav.lookup.databinding.ActivityLoginBinding;
 import com.loconav.lookup.login.model.Creds;
 import com.loconav.lookup.login.model.LoginResponse;
 
+import static com.loconav.lookup.Constants.IS_LOGGED_IN;
+import static com.loconav.lookup.Constants.LOG_IN_TIME;
 import static com.loconav.lookup.Constants.USER_ID;
 import static com.loconav.lookup.UserPrefs.location;
 import static com.loconav.lookup.UserPrefs.name;
@@ -55,8 +57,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         sharedPrefHelper.setStringData(phoneNumber, loginResponse.getUser().getPhoneNumber());
         sharedPrefHelper.setStringData(location, loginResponse.getUser().getLocation());
         sharedPrefHelper.setStringData(name, loginResponse.getUser().getName());
+        sharedPrefHelper.setBooleanData(IS_LOGGED_IN,true);
         Log.e("shared",""+sharedPrefHelper.getStringData(authenticationToken));
-        Intent intent=new Intent(getBaseContext(),LookUpEntry.class);
+        Intent intent=new Intent(getBaseContext(),SplashActivity.class);
         startActivity(intent);
     }
 

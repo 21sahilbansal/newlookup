@@ -1,6 +1,8 @@
 package com.loconav.lookup.adapter;
 
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.loconav.lookup.Callback;
 import com.loconav.lookup.R;
@@ -37,6 +39,11 @@ public class ClientAdapter extends BaseAdapter {
     public void onItemClick(Object object, int position) {
         Log.e("item ", "onItemClick: "+ ((Client) object).getName());
         callback.onEventDone(object);
+    }
+
+    @Override
+    public void editHeightWidthItem(View view, ViewGroup parent) {
+
     }
 
 //    @Override

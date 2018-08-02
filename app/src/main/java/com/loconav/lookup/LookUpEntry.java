@@ -2,15 +2,30 @@ package com.loconav.lookup;
 
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.loconav.lookup.application.SharedPrefHelper;
+import com.loconav.lookup.model.ReasonResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.loconav.lookup.Constants.IS_LOGGED_IN;
+import static com.loconav.lookup.Constants.REASONS_RESPONSE;
 
 public class LookUpEntry extends AppCompatActivity {
 
@@ -21,26 +36,13 @@ public class LookUpEntry extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.look_up_entry);
-        getSupportActionBar().setElevation(0);
+            getSupportActionBar().setElevation(0);
        // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout1);
         viewPager = (ViewPager) findViewById(R.id.pager1);
-        tabLayout.addTab(tabLayout.newTab().setText("DEVICE"));
-        tabLayout.addTab(tabLayout.newTab().setText("FAST TAG"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        fragmentAdapter = new FragmentAdapterClass(getSupportFragmentManager(), tabLayout.getTabCount());
+        fragmentAdapter = new FragmentAdapterClass(getSupportFragmentManager(),2);
         viewPager.setAdapter(fragmentAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab LayoutTab) {
-                viewPager.setCurrentItem(LayoutTab.getPosition());
-            }
-            @Override
-            public void onTabUnselected(TabLayout.Tab LayoutTab) {}
-            @Override
-            public void onTabReselected(TabLayout.Tab LayoutTab) {}
-        });
+        tabLayout.setupWithViewPager(viewPager);
 
     }
 
@@ -61,8 +63,53 @@ public class LookUpEntry extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public class FragmentAdapterClass extends FragmentStatePagerAdapter {
+
+        int TabCount;
+
+        public FragmentAdapterClass(FragmentManager fragmentManager, int CountTabs) {
+
+            super(fragmentManager);
+
+            this.TabCount = CountTabs;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+
+            switch (position) {
+                case 0:
+                    WhatToDo tab1 = new WhatToDo();
+                    return tab1;
+
+                case 1:
+                    FastTagFragment tab2 = new FastTagFragment();
+                    return tab2;
+
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return TabCount;
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+
+            switch (position) {
+                case 0:
+                    return "Device";
+                case 1:
+                    return "Fastag";
+                default:
+                    return super.getPageTitle(position);
+            }
+
+        }
+
     }
 }

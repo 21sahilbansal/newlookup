@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
         <LinearLayout
             android:padding="15dp"
@@ -12,22 +12,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <android.support.design.widget.TextInputLayout
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <EditText
                     android:layout_marginTop="10dp"
-                    android:id="@+id/dealer_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Dealer's name*" />
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/owner_name"
+                    android:id="@+id/owner_nameRep"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Owner's name*" />
@@ -37,88 +26,7 @@
                 android:layout_height="wrap_content">
                 <EditText
                     android:layout_marginTop="10dp"
-                    android:id="@+id/location"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Location*"/>
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/registration_no"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Registration no."/>
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/chassis_no"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Chassis no"/>
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/manufacture"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Manufacture*"/>
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/model"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Model*"/>
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/type_of_goods"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Type of goods"/>
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/odometer_reading"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Odometer Reading" />
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/sim_no"
-                    android:inputType="number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Sim No*" />
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/imei"
+                    android:id="@+id/imeiRep"
                     android:inputType="number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -129,78 +37,44 @@
                 android:layout_height="wrap_content">
                 <EditText
                     android:layout_marginTop="10dp"
-                    android:id="@+id/device_model"
+                    android:id="@+id/Truck_no"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Device Model"/>
+                    android:hint="Truck no."/>
             </android.support.design.widget.TextInputLayout>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <EditText
                     android:layout_marginTop="10dp"
-                    android:id="@+id/client_id"
+                    android:id="@+id/client_idRep"
                     android:inputType="number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Client ID*"/>
             </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/reason"
-                    android:inputType="number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Reason For Repair"/>
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/loc"
-                    android:inputType="number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Location"/>
-            </android.support.design.widget.TextInputLayout>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Upload Device Image After Reapir"
-                android:id="@+id/devText"
-                android:textSize="20sp"
-                android:textStyle="bold"
+
+            <Spinner
+                android:id="@+id/spinnerRep"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/black" />
-            <FrameLayout
-                android:id="@+id/devFrameAfter"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_marginTop="10dp">
-                <ImageView
-                    android:id="@+id/devImageAfter"
-                    android:layout_margin="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/icons8addimage"
-                    android:tag="device"/>
-                <LinearLayout
-                    android:id="@+id/devLinearAfter"
-                    android:layout_gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/black_overlay"
-                    android:orientation="horizontal">
-                </LinearLayout>
-            </FrameLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Reason For Repair"/>
+
+            <com.loconav.lookup.CustomImagePicker
+                android:id="@+id/DevimageAfter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                custom:id="view4"
+                android:background="?android:selectableItemBackground"
+                custom:titleText="Upload Image After Repair"
+                custom:limitImages="1"/>
             <Button
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
-                android:id="@+id/share"
+                android:id="@+id/shareRep"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="18dp"

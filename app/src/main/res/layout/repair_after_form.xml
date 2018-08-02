@@ -1,35 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:divider="?android:attr/listDivider"
     android:orientation="vertical">
 
     <com.loconav.lookup.CustomImagePicker
-        android:id="@+id/DeviceImage"
+        android:id="@+id/Vehicleimage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        custom:id="view3"
         android:background="?android:selectableItemBackground"
-        custom:id="view2"
-        custom:titleText="Upload Device Image Before Repair"
+        custom:titleText="Upload Vehicle Image"
         custom:limitImages="1"/>
-
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <Button
-        android:id="@+id/proceed"
+        android:id="@+id/proceedRep"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
         android:layout_marginLeft="30dp"
         android:layout_marginEnd="30dp"
-        android:text="@string/proceed"
+        android:text="Submit"
         android:layout_marginRight="30dp"
         android:layout_marginStart="30dp" />
+    <ProgressBar
+        android:layout_gravity="center"
+        android:id="@+id/pbHeaderProgress"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content" >
+    </ProgressBar>
+
 
 </LinearLayout>
-</ScrollView>

@@ -26,12 +26,12 @@ import java.util.List;
  * Created by sejal on 06-07-2018.
  */
 
-public abstract class BaseCameraFragment extends AppCompatActivity {
+public abstract class BaseCameraActivity extends AppCompatActivity {
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
     private Context contextActivity;
 
     public  boolean checkAndRequestPermissions(Context context) {
-        contextActivity=context;
+        contextActivity = context;
 
         int write_storage = ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int read_storage = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -56,24 +56,15 @@ public abstract class BaseCameraFragment extends AppCompatActivity {
         return true;
     }
 
-//    public abstract int setViewId();
-//
-//    public void onFragmentCreated() {
-//    }
-//    public abstract void bindView(View view);
-//
-//    public abstract void getComponentFactory();
 
-//    public void showImagePickerDialog() {
-//        ImagePickerDialog imagePickerDialog = ImagePickerDialog.newInstance();
-//        imagePickerDialog.show(getFragmentManager() ,getClass().getSimpleName());
-//    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.e("tagb ", "onRequestPermissionsResult: ");
         if(requestCode == REQUEST_ID_MULTIPLE_PERMISSIONS) {
             boolean allPermissionsGranted = true;
+            Log.e("tab",""+permissions.length+grantResults.length);
             for(int result : grantResults) {
                 if(result != 0) {
                     allPermissionsGranted = false;
@@ -82,6 +73,8 @@ public abstract class BaseCameraFragment extends AppCompatActivity {
 
             if(!allPermissionsGranted) {
                 onAnyPermissionDenied();
+            }else{
+                onAllPermissionsGranted();
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

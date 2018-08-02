@@ -9,6 +9,7 @@
         <item name="android:timePickerDialogTheme" tools:ignore="NewApi">@style/DialogTheme</item>
         <item name="android:datePickerDialogTheme" tools:ignore="NewApi">@style/DialogTheme</item>
         <item name="android:alertDialogTheme">@style/DialogTheme</item>
+        <item name="elevation">0dp</item>
     </style>
 
     <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">

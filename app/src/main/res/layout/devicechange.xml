@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,6 +97,24 @@
                     android:layout_height="wrap_content"
                     android:hint="Client ID*"/>
             </android.support.design.widget.TextInputLayout>
+
+            <Spinner
+                android:id="@+id/spinnerDev"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:hint="Reason For Repair"/>
+
+            <com.loconav.lookup.CustomImagePicker
+                android:id="@+id/DevimageAfter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                custom:id="view4"
+                android:background="?android:selectableItemBackground"
+                custom:titleText="Upload Image After Repair"
+                custom:limitImages="1"/>
+
             <Button
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"

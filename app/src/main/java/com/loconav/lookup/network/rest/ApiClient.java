@@ -16,7 +16,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 import static com.loconav.lookup.UserPrefs.authenticationToken;
 
 public class ApiClient {
@@ -31,7 +30,7 @@ public class ApiClient {
                 public Response intercept(Chain chain) throws IOException {
                     Request request = chain.request().newBuilder()
                             .addHeader("X-Linehaul-V2-Secret", "5ed183673b9709a69e51ed86e6b53b")
-                            .addHeader("Authorization","GzxjaJKmAP9_Wq5Z7zk_").build();
+                            .addHeader("Authorization",SharedPrefHelper.getInstance(LookUpApplication.getInstance()).getStringData(authenticationToken)).build();
                     return chain.proceed(request);
 
                 }
@@ -47,5 +46,5 @@ public class ApiClient {
     }
 }
 
-//SharedPrefHelper.getInstance(LookUpApplication.getInstance()).getStringData(
+//
 

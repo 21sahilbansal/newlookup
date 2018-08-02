@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import com.loconav.lookup.adapter.LookupAdapter;
 import com.loconav.lookup.model.Entity;
 import com.loconav.lookup.model.LookupResponse;
+import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
@@ -46,10 +48,12 @@ public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayo
     @BindView(R.id.passed) ImageView ivPassed;
     @BindView(R.id.share_details) Button shareDetails;
     @BindView(R.id.refresh) Button refresh;
+    Uri uri;
     private LookupAdapter lookupAdapter;
     private List<Entity> entities = new ArrayList<>();
     private Bundle receivedBundle;
     private String deviceID;
+    PassingReason passingReason;
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
     @Override
@@ -68,9 +72,11 @@ public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayo
         shareDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity3.this, FetchClientActivity.class);
-                intent.putExtra(DEVICE_ID, deviceID);
-                intent.putExtra("data",USER_CHOICE);
+                Intent intent = new Intent(MainActivity3.this, EnterDetails.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("Image", String.valueOf(uri));
+                bundle.putSerializable("str", passingReason);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -128,7 +134,9 @@ public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayo
     private void getSetIntentData() {
         Log.e("save ", "getSetData: ");
 	    receivedBundle = getIntent().getExtras();
+        uri= Uri.parse(receivedBundle.getString("Image"));
 	    LookupResponse lookupResponse = (LookupResponse) receivedBundle.getSerializable("lookup_response");
+        passingReason=(PassingReason) receivedBundle.getSerializable("str");
 	    setData(lookupResponse);
     }
 
