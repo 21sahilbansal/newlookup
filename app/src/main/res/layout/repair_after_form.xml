@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:clickable="true"
     android:divider="?android:attr/listDivider"
     android:orientation="vertical">
 
@@ -15,10 +16,7 @@
         custom:id="view3"
         android:background="?android:selectableItemBackground"
         custom:titleText="Upload Vehicle Image"
-        custom:limitImages="1"/>
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        custom:limitImages="3"/>
     <Button
         android:id="@+id/proceedRep"
         android:layout_width="match_parent"

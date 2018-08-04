@@ -23,12 +23,15 @@ import android.widget.Toast;
 
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseFragment;
+import com.loconav.lookup.model.ImageUri;
 import com.loconav.lookup.model.LookupResponse;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
 import com.loconav.lookup.sharedetailsfragmants.SimChange;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,7 +57,7 @@ public class DeviceIdFragment extends BaseFragment {
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     private ProgressDialog progressDialog;
     private SharedPrefHelper sharedPrefHelper;
-    Uri uri;
+    ArrayList<ImageUri> uri;
     PassingReason passingReason;
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
@@ -75,7 +78,7 @@ public class DeviceIdFragment extends BaseFragment {
     public void onFragmentCreated() {
         ButterKnife.bind(this, getView());
         passingReason = (PassingReason) getArguments().getSerializable("str");
-        uri = Uri.parse(getArguments().getString("Image"));
+       // uri.add(Uri.parse(getArguments().getString("Image")));
         // passingReason= (PassingReason)getActivity().getIntent().getSerializableExtra("str");
         initSharedPf();
         setScanner();
@@ -114,7 +117,6 @@ public class DeviceIdFragment extends BaseFragment {
                             Intent intent  = new Intent(getContext(), MainActivity3.class);
                             passingReason.setDeviceid(etDeviceId.getText().toString());
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable("Image", String.valueOf(uri));
                             bundle.putSerializable("lookup_response", response.body());
                             bundle.putSerializable("str", passingReason);
                             intent.putExtras(bundle);
@@ -143,11 +145,10 @@ public class DeviceIdFragment extends BaseFragment {
         });
     }
 
-    public static DeviceIdFragment newInstance(PassingReason passingReason1, Uri stringUri) {
+    public static DeviceIdFragment newInstance(PassingReason passingReason1) {
         DeviceIdFragment fragment = new DeviceIdFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("str", passingReason1);
-        bundle.putString("Image", String.valueOf(stringUri));
         fragment.setArguments(bundle);
         return fragment;
     }

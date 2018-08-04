@@ -3,6 +3,7 @@ package com.loconav.lookup.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.loconav.lookup.BaseCameraActivity;
 import com.loconav.lookup.LookUpEntry;
@@ -96,6 +97,7 @@ public class SplashActivity extends BaseCameraActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getBaseContext(),t.getMessage().toString(),Toast.LENGTH_SHORT).show();
                 Log.e("res ", "onResponse: " + t.getMessage() );
             }
         });

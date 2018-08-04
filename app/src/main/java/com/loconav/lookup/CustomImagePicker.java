@@ -31,11 +31,11 @@ import java.util.List;
  */
 
 public class CustomImagePicker extends LinearLayout{
-    private List<ImageUri> imageUris = new ArrayList<>();
+    private ArrayList<ImageUri> imageUris = new ArrayList<>();
     List<ImageUri>ll=new ArrayList<>();
     private ImageView iv;
     private String idText;
-    private int limit;
+    public int limit;
     RecycleGridAdapter adapter;
     TypedArray a;
 
@@ -143,7 +143,7 @@ public class CustomImagePicker extends LinearLayout{
         EventBus.getDefault().unregister(this);
 
     }
-    public  List<ImageUri> GetimagesList(){
+    public  ArrayList<ImageUri> GetimagesList(){
         return imageUris;
     }
 

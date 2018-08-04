@@ -32,16 +32,15 @@ public class NewInstallation extends Fragment {
         final Client client = ((EnterDetails) getActivity()).getClient();
 
         binding = DataBindingUtil.inflate(inflater, R.layout.newinstallation, vg, false);
-        binding.ownerName.setText(client.getName());
+         binding.ownerName.setText(client.getName());
 
         binding.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(CommonFunction.validate(new EditText[]{binding.dealerName, binding.ownerName, binding.location, binding.registrationNo,binding.chassisNo, binding.manufacture,
-                        binding.model, binding.typeOfGoods, binding.odometerReading, binding.simNo, binding.imei, binding.deviceModel, binding.clientId})) {
+                if(CommonFunction.validate(new EditText[]{binding.dealerName, binding.location, binding.registrationNo,binding.chassisNo, binding.manufacture,
+                        binding.model, binding.typeOfGoods, binding.odometerReading, binding.simNo, binding.imei, binding.deviceModel})) {
                     String message = "";
                     message += "Dealer's name: "+ binding.dealerName.getText().toString() + "\n";
-                    message += "Owner's name: "+ binding.ownerName.getText().toString() + "\n";
                     message += "Location: "+ binding.location.getText().toString() + "\n";
                     message += "Registration no.: "+ binding.registrationNo.getText().toString()+ "\n";
                     message += "Chassis no: "+ binding.chassisNo.getText().toString() + "\n";
@@ -52,7 +51,6 @@ public class NewInstallation extends Fragment {
                     message += "Sim No: "+ binding.simNo.getText().toString() + "\n";
                     message += "IMEI: "+ binding.imei.getText().toString() + "\n";
                     message += "Device Model: "+ binding.deviceModel.getText().toString()+"\n";
-                    message += "Client ID: "+ binding.clientId.getText().toString()+"\n";
                     message += "USER ID: " + SharedPrefHelper.getInstance(getContext()).getStringData(USER_ID) +  "\n";
                     message += "Sent By Device Checker:"+ " " + System.currentTimeMillis() ;
                     String url = "http://www.loconav.com/?type=new_vehicle&model="+
@@ -69,8 +67,7 @@ public class NewInstallation extends Fragment {
             }
         });
         CommonFunction.setEditText(binding.imei, deviceId);
-        CommonFunction.setEditText(binding.ownerName, client.getName());
-        CommonFunction.setEditText(binding.clientId, client.getClientId());
+
         return binding.getRoot();
     }
 }

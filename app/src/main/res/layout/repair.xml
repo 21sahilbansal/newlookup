@@ -18,7 +18,7 @@
         android:background="?android:selectableItemBackground"
         custom:id="view2"
         custom:titleText="Upload Device Image Before Repair"
-        custom:limitImages="1"/>
+        custom:limitImages="3"/>
 
     <Button
         android:id="@+id/proceed"

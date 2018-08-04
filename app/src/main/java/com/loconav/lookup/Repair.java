@@ -50,7 +50,7 @@ import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
 public class Repair extends BaseFragment {
     @BindView (R.id.proceed) Button proceed;
     @BindView (R.id.DeviceImage) CustomImagePicker deviceImage;
-    private List<ImageUri> deviceImageUris = new ArrayList<>();
+    private ArrayList<String> deviceImageUris = new ArrayList<>();
     private PassingReason passingReason;
     private String userChoice;
 
@@ -84,20 +84,22 @@ public class Repair extends BaseFragment {
 
     private void onProceedClicked(){
 
-        if(deviceImage.GetimagesList().size()>=1){
-
-            deviceImageUris.addAll(deviceImage.GetimagesList());
+        if(!deviceImage.GetimagesList().isEmpty()) {
+            ArrayList<String> imagesList = new ArrayList<>();
+            for(ImageUri imageUri : deviceImage.GetimagesList()) {
+                imagesList.add(imageUri.getUri().toString());
+            }
+            passingReason.setImagesList(imagesList);
+            passingReason.setImagesPreRepair(deviceImage.GetimagesList().size());
             userChoice=passingReason.getUserChoice();
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            DeviceIdFragment f1 = DeviceIdFragment.newInstance(passingReason,deviceImage.GetimagesList().get(0).getUri());;
+            DeviceIdFragment f1 = DeviceIdFragment.newInstance(passingReason);
             fragmentTransaction.add(R.id.frameLayout, f1);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
-
-        }else {
+        }else
             Toast.makeText(getContext(),"Add Device Image",Toast.LENGTH_SHORT).show();
-        }
     }
     public static Repair newInstance(PassingReason passingReason1) {
         Repair fragment = new Repair();
@@ -106,34 +108,34 @@ public class Repair extends BaseFragment {
         fragment.setArguments(bundle);
         return fragment;
     }
-    void openFragment(){
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            switch (userChoice) {
-                case "SIM Change": {
-                    SimChange f1 = SimChange.newInstance(passingReason,deviceImage.GetimagesList().get(0).getUri());;
-                    fragmentTransaction.replace(android.R.id.content, f1);
-                   // passData("str",passingReason,"str2",repairRequirements);
-                    break;
-                }
-                case "Device Change": {
-                    DeviceChange f1 = DeviceChange.newInstance(passingReason,deviceImage.GetimagesList().get(0).getUri());;
-                    fragmentTransaction.replace(android.R.id.content, f1);
-                 //   passData("str",passingReason,"str2",repairRequirements);
-                    break;
-                }
-                case "vehChange": {
-                    VehicleChange f1 = new VehicleChange();
-                    fragmentTransaction.replace(android.R.id.content, f1);
-                   // passData("str",passingReason,"str2",repairRequirements);
-                    break;
-                }
-                case "Repairs": {
-                    RepairForm f1 = RepairForm.newInstance(passingReason,deviceImage.GetimagesList().get(0).getUri());
-                    fragmentTransaction.replace(android.R.id.content, f1);
-                    break;
-                }
-            }
-            fragmentTransaction.commit();
-        }
+//    void openFragment(){
+//            FragmentManager fm = getFragmentManager();
+//            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+//            switch (userChoice) {
+//                case "SIM Change": {
+//                    SimChange f1 = SimChange.newInstance(passingReason,deviceImage.GetimagesList().get(0).getUri());;
+//                    fragmentTransaction.replace(android.R.id.content, f1);
+//                   // passData("str",passingReason,"str2",repairRequirements);
+//                    break;
+//                }
+//                case "Device Change": {
+//                    DeviceChange f1 = DeviceChange.newInstance(passingReason,deviceImage.GetimagesList().get(0).getUri());;
+//                    fragmentTransaction.replace(android.R.id.content, f1);
+//                 //   passData("str",passingReason,"str2",repairRequirements);
+//                    break;
+//                }
+//                case "vehChange": {
+//                    VehicleChange f1 = new VehicleChange();
+//                    fragmentTransaction.replace(android.R.id.content, f1);
+//                   // passData("str",passingReason,"str2",repairRequirements);
+//                    break;
+//                }
+//                case "Repairs": {
+//                    RepairForm f1 = RepairForm.newInstance(passingReason,deviceImage.GetimagesList().get(0).getUri());
+//                    fragmentTransaction.replace(android.R.id.content, f1);
+//                    break;
+//                }
+//            }
+//            fragmentTransaction.commit();
+//        }
 }

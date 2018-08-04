@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -60,12 +61,16 @@ public class WhatToDo extends BaseFragment {
         String reasonsResponse = SharedPrefHelper.getInstance(getContext()).getStringData(REASONS_RESPONSE);
         Gson gson = new Gson();
         jsonLog = gson.fromJson(reasonsResponse, new TypeToken<List<ReasonResponse>>() {}.getType());
-        List<ReasonTypeResponse> ll = new ArrayList<>();
-        ArrayList<Input> ll1 = new ArrayList<>();
-        ReasonResponse reasonResponse = new ReasonResponse(1, "newInstall", ll,ll1);
-        jsonLog.add(reasonResponse);
-        setcolor();
-        setPhotoAdapter();
+        if(jsonLog!=null) {
+            List<ReasonTypeResponse> ll = new ArrayList<>();
+            ArrayList<Input> ll1 = new ArrayList<>();
+            ReasonResponse reasonResponse = new ReasonResponse(1, "newInstall", ll, ll1);
+            jsonLog.add(reasonResponse);
+            setcolor();
+            setPhotoAdapter();
+        }else{
+            Toast.makeText(getContext(),"something went wrong",Toast.LENGTH_LONG).show();
+        }
     }
 
     private void setcolor() {

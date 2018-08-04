@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -37,14 +38,14 @@ public class UtilCompress extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    public String doInBackground(String... strings) {
         if (strings.length == 0 || strings[0] == null)
             return null;
-
+        Log.e("str","is called");
         return compressImage(strings[0]);
     }
 
-    protected void onPostExecute(String imagePath) {
+    public void onPostExecute(String imagePath) {
         // imagePath is path of new compressed image.
         EventBus.getDefault().post(new GalleryEvents(GalleryEvents.IMAGE_COMPRESSED, imagePath));
     }
@@ -141,7 +142,7 @@ public class UtilCompress extends AsyncTask<String, Void, String> {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
+        Log.e("file","is as"+filepath);
         return filepath;
     }
 

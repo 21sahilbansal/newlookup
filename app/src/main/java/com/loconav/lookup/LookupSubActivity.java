@@ -27,7 +27,12 @@ public class LookupSubActivity extends FragmentController {
         Bundle bundle = new Bundle();
         bundle.putSerializable("str", passingReason);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.frameLayout,fragmentDeviceId);
+        if(passingReason.getUserChoice().equals("newInstall")){
+            DeviceIdFragment f1 = DeviceIdFragment.newInstance(passingReason);
+            transaction.add(R.id.frameLayout, f1);
+        }else {
+            transaction.add(R.id.frameLayout, fragmentDeviceId);
+        }
         transaction.commit();
     }
 }

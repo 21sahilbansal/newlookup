@@ -72,12 +72,17 @@ public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayo
         shareDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity3.this, EnterDetails.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("Image", String.valueOf(uri));
-                bundle.putSerializable("str", passingReason);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if (passingReason.getUserChoice().equals("newInstall")) {
+                    Intent intent = new Intent(MainActivity3.this, FetchClientActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(MainActivity3.this, EnterDetails.class);
+                    Bundle bundle = new Bundle();
+                    //bundle.putString("Image", String.valueOf(uri));
+                    bundle.putSerializable("str", passingReason);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -134,7 +139,7 @@ public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayo
     private void getSetIntentData() {
         Log.e("save ", "getSetData: ");
 	    receivedBundle = getIntent().getExtras();
-        uri= Uri.parse(receivedBundle.getString("Image"));
+        //uri= Uri.parse(receivedBundle.getString("Image"));
 	    LookupResponse lookupResponse = (LookupResponse) receivedBundle.getSerializable("lookup_response");
         passingReason=(PassingReason) receivedBundle.getSerializable("str");
 	    setData(lookupResponse);

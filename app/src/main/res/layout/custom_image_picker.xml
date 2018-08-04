@@ -23,6 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="16dp"
+                android:layout_gravity="center"
                 android:layout_centerVertical="true"
                 android:src="@drawable/icons8plusmath26"
                 android:id="@+id/devImage1"

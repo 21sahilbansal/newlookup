@@ -71,24 +71,22 @@ public class EnterDetails extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
         Bundle bundle = getIntent().getExtras();
-        uri= Uri.parse(bundle.getString("Image"));
+       // uri= Uri.parse(bundle.getString("Image"));
         passingReason=(PassingReason) bundle.getSerializable("str");
         deviceID = passingReason.getDeviceid();
         userChoice=passingReason.getUserChoice();
         client = passingReason.getClientId();
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
         if(userChoice.equals("newInstall")){
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
             NewInstallation f1 = new NewInstallation();
             fragmentTransaction.add(R.id.frameLayoutSecond, f1);
-            fragmentTransaction.commit();
         }else {
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            SimChange f1 = SimChange.newInstance(passingReason,uri);
+            SimChange f1 = SimChange.newInstance(passingReason);
             fragmentTransaction.add(R.id.frameLayoutSecond, f1);
-            fragmentTransaction.commit();
         }
+
+        fragmentTransaction.commit();
     }
 
     public String getDeviceID(){
@@ -98,9 +96,9 @@ public class EnterDetails extends AppCompatActivity {
     public Client getClient() { return client; }
 
 
-    public String convertToBitmap(Bitmap bitmap){
+    public String reduceBititmap(Bitmap bitmap){
         Log.e("sizeof",""+encodeToBase64(bitmap, Bitmap.CompressFormat.PNG,0).length());
-        Bitmap bm1 = getResizedBitmap(bitmap,250);
+        Bitmap bm1 = getResizedBitmap(bitmap,500);
         String str= "data:image/png;base64,"+encodeToBase64(bm1, Bitmap.CompressFormat.PNG,0);
         Log.e("SIZE OF",""+str.length());
         return str;

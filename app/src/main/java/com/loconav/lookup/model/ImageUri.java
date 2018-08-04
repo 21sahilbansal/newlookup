@@ -8,11 +8,13 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.Serializable;
+
 /**
  * Created by sejal on 07-07-2018.
  */
 
-public class ImageUri extends BaseObservable {
+public class ImageUri extends BaseObservable implements Serializable {
 
     private Uri uri;
 
