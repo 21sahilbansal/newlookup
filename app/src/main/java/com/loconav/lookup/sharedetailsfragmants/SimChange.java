@@ -38,10 +38,7 @@ public class SimChange extends Fragment {
     RepairRequirements repairRequirements;
     int reasonid, sizelist;
     PassingReason passingReason;
-    Uri uri;
     private String userChoice;
-    int mCurCheckPosition;
-    ArrayList<ImageUri> images =new ArrayList<>();
     ArrayList<Input> addtional = new ArrayList<>();
     ArrayList<String> SpinnerList = new ArrayList<>();
     ArrayList<String> name = new ArrayList<>();
@@ -55,7 +52,6 @@ public class SimChange extends Fragment {
         binding = DataBindingUtil.inflate(
                 inflater, R.layout.simchange, vg, false);
         passingReason = (PassingReason) getArguments().getSerializable("str");
-       // uri = Uri.parse(getArguments().getString("Image"));
         userChoice = passingReason.getUserChoice();
         if (!openFragment(userChoice).isEmpty() ) {
             for (int i = 0; i < addtional.size(); i++) {

@@ -25,9 +25,10 @@ import static com.loconav.lookup.Constants.USER_ID;
 
 public class NewInstallation extends Fragment {
     private NewinstallationBinding binding;
-    SharedPrefHelper sharedPrefHelper=SharedPrefHelper.getInstance(getContext());
+    SharedPrefHelper sharedPrefHelper;
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
                              Bundle savedInstanceState) {
+        sharedPrefHelper=SharedPrefHelper.getInstance(getContext());
         final String deviceId = ((EnterDetails)getActivity()).getDeviceID();
         final Client client = ((EnterDetails) getActivity()).getClient();
 
@@ -37,7 +38,7 @@ public class NewInstallation extends Fragment {
         binding.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(CommonFunction.validate(new EditText[]{binding.dealerName, binding.location, binding.registrationNo,binding.chassisNo, binding.manufacture,
+                if(CommonFunction.validate(new EditText[]{binding.dealerName,binding.ownerName,binding.clientId,binding.location, binding.registrationNo,binding.chassisNo, binding.manufacture,
                         binding.model, binding.typeOfGoods, binding.odometerReading, binding.simNo, binding.imei, binding.deviceModel})) {
                     String message = "";
                     message += "Dealer's name: "+ binding.dealerName.getText().toString() + "\n";
@@ -46,6 +47,8 @@ public class NewInstallation extends Fragment {
                     message += "Chassis no: "+ binding.chassisNo.getText().toString() + "\n";
                     message += "Manufacture: "+ binding.manufacture.getText().toString() + "\n";
                     message += "Model: "+ binding.model.getText().toString() + "\n";
+                    message += "Client Id: "+ binding.clientId.getText().toString() + "\n";
+                    message += "Owner Name: "+ binding.ownerName.getText().toString() + "\n";
                     message += "Type of goods: "+ binding.typeOfGoods.getText().toString() + "\n";
                     message += "Odometer Reading: "+ binding.odometerReading.getText().toString() + "\n";
                     message += "Sim No: "+ binding.simNo.getText().toString() + "\n";
@@ -58,15 +61,14 @@ public class NewInstallation extends Fragment {
                             binding.manufacture.getText().toString()+"&deviceid="+ deviceId;
                     sharedPrefHelper.setStringData("message", message);
                     sharedPrefHelper.setStringData("upload_url", url);
-                   // editor.putString("message", message);
-                    //editor.putString("upload_url", url);
-                    //editor.commit();
                     Intent intent = new Intent(getActivity(), ShareAndUpload.class);
                     startActivity(intent);
                 }
             }
         });
         CommonFunction.setEditText(binding.imei, deviceId);
+        CommonFunction.setEditText(binding.ownerName, client.getName());
+        CommonFunction.setEditText(binding.clientId, client.getClientId());
 
         return binding.getRoot();
     }

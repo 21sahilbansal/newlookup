@@ -13,11 +13,12 @@ import android.widget.Toast;
 import com.loconav.lookup.application.SharedPrefHelper;
 
 import static com.loconav.lookup.Constants.USER_ID;
+import static com.loconav.lookup.UserPrefs.phoneNumber;
 import static com.loconav.lookup.Utility.isStringEmptyOrNull;
 
 public class UserActivity extends AppCompatActivity implements View.OnClickListener{
-    EditText userID;
-    Button submit;
+    private EditText userID;
+    private Button submit;
     SharedPrefHelper sharedPrefHelper ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,18 +41,11 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void fillUserId() {
-        userID.setText(SharedPrefHelper.getInstance(getBaseContext()).getStringData(USER_ID));
+        CommonFunction.setEditText(userID,SharedPrefHelper.getInstance(getBaseContext()).getStringData(phoneNumber));
     }
 
     @Override
     public void onClick(View view) {
-        if(isStringEmptyOrNull(userID.getText().toString())) {
-            Toast.makeText(getBaseContext(), getString(R.string.enter_user_id), Toast.LENGTH_LONG).show();
-        } else {
-          //  editor.putString(USER_ID, userID.getText().toString());
-            sharedPrefHelper.setStringData(USER_ID, userID.getText().toString());
-           // editor.commit();
             finish();
-        }
     }
 }

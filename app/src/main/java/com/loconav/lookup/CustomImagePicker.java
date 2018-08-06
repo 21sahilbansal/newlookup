@@ -93,7 +93,6 @@ public class CustomImagePicker extends LinearLayout{
         recyclerImages.setNestedScrollingEnabled(false);
     }
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getImagePickingEvents(ImagePickerEvent event) {
         String message = event.getMessage();

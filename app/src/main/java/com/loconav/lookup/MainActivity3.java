@@ -74,6 +74,10 @@ public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayo
             public void onClick(View view) {
                 if (passingReason.getUserChoice().equals("newInstall")) {
                     Intent intent = new Intent(MainActivity3.this, FetchClientActivity.class);
+                    Bundle bundle = new Bundle();
+                    //bundle.putString("Image", String.valueOf(uri));
+                    bundle.putSerializable("str", passingReason);
+                    intent.putExtras(bundle);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(MainActivity3.this, EnterDetails.class);

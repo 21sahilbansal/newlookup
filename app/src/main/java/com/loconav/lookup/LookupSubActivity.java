@@ -5,11 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
+import com.loconav.lookup.base.BaseActivity;
 import com.loconav.lookup.model.PassingReason;
 
 import static com.loconav.lookup.Constants.USER_CHOICE;
 
-public class LookupSubActivity extends FragmentController {
+public class LookupSubActivity extends BaseActivity {
 
     Repair fragmentDeviceId;
 
