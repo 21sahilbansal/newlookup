@@ -64,7 +64,7 @@ public class WhatToDo extends BaseFragment {
         if(jsonLog!=null) {
             List<ReasonTypeResponse> ll = new ArrayList<>();
             ArrayList<Input> ll1 = new ArrayList<>();
-            ReasonResponse reasonResponse = new ReasonResponse(1, "newInstall", ll, ll1);
+            ReasonResponse reasonResponse = new ReasonResponse(1, "New Install", ll, ll1, "abc");
             jsonLog.add(reasonResponse);
             setcolor();
             setPhotoAdapter();

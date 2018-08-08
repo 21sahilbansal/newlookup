@@ -144,6 +144,21 @@
                     android:layout_height="wrap_content"
                     android:hint="Client id "/>
             </android.support.design.widget.TextInputLayout>
+            <CheckBox
+                android:id="@+id/cb_trip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trip Button"/>
+            <CheckBox
+                android:id="@+id/cb_sos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SOS"/>
+            <CheckBox
+                android:id="@+id/cb_imm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Immobilizer"/>
             <Button
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"

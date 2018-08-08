@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import com.loconav.lookup.BaseCameraActivity;
 import com.loconav.lookup.LookUpEntry;
@@ -23,7 +24,6 @@ import java.util.List;
  */
 
 public abstract class BaseActivity extends AppCompatActivity{
-    private Context contextActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +33,8 @@ public abstract class BaseActivity extends AppCompatActivity{
            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
            startActivity(intent);
        }
+        if(showBackButton())
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public  boolean checkPermissions() {
@@ -54,5 +56,15 @@ public abstract class BaseActivity extends AppCompatActivity{
             return false;
         }
         return true;
+    }
+
+    public abstract boolean showBackButton();
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 }

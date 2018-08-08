@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 
 import android.support.v4.app.FragmentTransaction;
@@ -29,7 +28,6 @@ import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
-import com.loconav.lookup.sharedetailsfragmants.SimChange;
 
 import java.util.ArrayList;
 
@@ -38,10 +36,8 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static android.content.Intent.getIntent;
 import static com.loconav.lookup.Constants.DEVICE_ID;
 import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
-import static com.loconav.lookup.Constants.USER_CHOICE;
 import static com.loconav.lookup.Constants.USER_ID;
 
 /**

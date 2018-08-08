@@ -46,6 +46,11 @@ public class LookUpEntry extends BaseActivity {
         Log.e("look up entry ", "onCreate: ");
     }
 
+    @Override
+    public boolean showBackButton() {
+        return false;
+    }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.user, menu);
         return super.onCreateOptionsMenu(menu);

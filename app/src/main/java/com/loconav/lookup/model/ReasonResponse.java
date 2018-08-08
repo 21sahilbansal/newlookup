@@ -14,6 +14,7 @@ import java.util.List;
  */
 
 public class ReasonResponse implements Serializable {
+
     @SerializedName("id")
     @Expose
     private int id;
@@ -30,6 +31,9 @@ public class ReasonResponse implements Serializable {
     @Expose
     private ArrayList<Input> additional_fields;
 
+    @SerializedName("icon_url")
+    private String iconUrl;
+
     public int getColor() {
         return color;
     }
@@ -38,8 +42,6 @@ public class ReasonResponse implements Serializable {
         this.color = color;
 
     }
-
-
 
     public ArrayList<Input> getAdditional_fields() {
         return additional_fields;
@@ -51,11 +53,13 @@ public class ReasonResponse implements Serializable {
 
     private int color;
 
-    public ReasonResponse(int id, String name, List<ReasonTypeResponse> reasons,ArrayList<Input> additional_fields) {
+    public ReasonResponse(int id, String name, List<ReasonTypeResponse> reasons,
+                          ArrayList<Input> additional_fields, String iconUrl) {
         this.id = id;
         this.name = name;
         this.additional_fields=additional_fields;
         this.reasons = reasons;
+        this.iconUrl = iconUrl;
     }
 
     public int getId() {
@@ -80,5 +84,13 @@ public class ReasonResponse implements Serializable {
 
     public void setReasons(List<ReasonTypeResponse> reasons) {
         this.reasons = reasons;
+    }
+
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
     }
 }

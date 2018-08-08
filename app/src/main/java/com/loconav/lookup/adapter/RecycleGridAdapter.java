@@ -59,9 +59,7 @@ public class RecycleGridAdapter extends BaseAdapter {
     }
 
     @Override
-    public void editHeightWidthItem(View view, ViewGroup parent) {
-
-    }
+    public void editHeightWidthItem(View view, ViewGroup parent) {}
 
     @Override
     public int getItemCount() {

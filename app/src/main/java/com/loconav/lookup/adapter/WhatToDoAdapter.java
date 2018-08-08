@@ -1,18 +1,12 @@
 package com.loconav.lookup.adapter;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.util.Log;
+import android.support.design.widget.TabLayout;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.loconav.lookup.Callback;
-import com.loconav.lookup.LookupSubActivity;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseAdapter;
-import com.loconav.lookup.model.ImageUri;
 import com.loconav.lookup.model.ReasonResponse;
 
 import java.util.List;
@@ -38,22 +32,17 @@ public class WhatToDoAdapter extends BaseAdapter {
 
     @Override
     public int getLayoutIdForType(int viewType) {
-        return R.layout.grid_adapter;
+        return R.layout.item_what_todo;
     }
 
     @Override
     public void onItemClick(Object object, int position) {
-
         callback.onEventDone(object);
     }
 
     @Override
     public void editHeightWidthItem(View view,ViewGroup parent) {
-        int height = parent.getMeasuredHeight() / 2;
-        view.setMinimumHeight(height);
-//        GridLayoutManager.LayoutParams lp = (GridLayoutManager.LayoutParams) view.getLayoutParams();
-//        lp.height = parent.getMeasuredHeight() / 2;
-//        view.setLayoutParams(lp);
+        view.getLayoutParams().height = parent.getMeasuredHeight() / 2;
     }
 
     @Override

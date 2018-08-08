@@ -15,9 +15,18 @@ public class ReasonTypeResponse implements Serializable {
     @Expose
     private int id;
 
-    public ReasonTypeResponse(int id, String name) {
+    @SerializedName("icon_url")
+    @Expose
+    private String  iconUrl;
+
+    @SerializedName("name")
+    @Expose
+    private String name;
+
+    public ReasonTypeResponse(int id, String name, String iconUrl) {
         this.id = id;
         this.name = name;
+        this.iconUrl = iconUrl;
     }
 
     public int getId() {
@@ -36,9 +45,11 @@ public class ReasonTypeResponse implements Serializable {
         this.name = name;
     }
 
-    @SerializedName("name")
-    @Expose
-    private String name;
+    public String getIconUrl() {
+        return iconUrl;
+    }
 
-
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
+    }
 }

@@ -1,47 +1,21 @@
 package com.loconav.lookup;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.loconav.lookup.base.BaseFragment;
-import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.ImageUri;
 import com.loconav.lookup.model.PassingReason;
-import com.loconav.lookup.model.RepairRequirements;
-import com.loconav.lookup.sharedetailsfragmants.DeviceChange;
-import com.loconav.lookup.sharedetailsfragmants.NewInstallation;
-import com.loconav.lookup.sharedetailsfragmants.SimChange;
-import com.loconav.lookup.sharedetailsfragmants.VehicleChange;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
 
 /**
  * Created by sejal on 12-07-2018.
@@ -113,7 +87,7 @@ public class Repair extends BaseFragment {
 //            FragmentTransaction fragmentTransaction = fm.beginTransaction();
 //            switch (userChoice) {
 //                case "SIM Change": {
-//                    SimChange f1 = SimChange.newInstance(passingReason,deviceImage.GetimagesList().get(0).getUri());;
+//                    SimChangeFragment f1 = SimChangeFragment.newInstance(passingReason,deviceImage.GetimagesList().get(0).getUri());;
 //                    fragmentTransaction.replace(android.R.id.content, f1);
 //                   // passData("str",passingReason,"str2",repairRequirements);
 //                    break;

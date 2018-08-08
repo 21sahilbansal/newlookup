@@ -22,13 +22,19 @@ public class LookupSubActivity extends BaseActivity {
         fragmentDeviceId = new Repair();
         passIntentData(intent);
     }
+
+    @Override
+    public boolean showBackButton() {
+        return true;
+    }
+
     void passIntentData(Intent intent){
         PassingReason passingReason = (PassingReason)intent.getSerializableExtra("str");
         Log.e("sej",""+passingReason.getReasons().get(1).getName());
         Bundle bundle = new Bundle();
         bundle.putSerializable("str", passingReason);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if(passingReason.getUserChoice().equals("newInstall")){
+        if(passingReason.getUserChoice().equals("New Install")){
             DeviceIdFragment f1 = DeviceIdFragment.newInstance(passingReason);
             transaction.add(R.id.frameLayout, f1);
         }else {

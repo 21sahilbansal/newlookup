@@ -72,7 +72,7 @@ public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayo
         shareDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (passingReason.getUserChoice().equals("newInstall")) {
+                if (passingReason.getUserChoice().equals("New Install")) {
                     Intent intent = new Intent(MainActivity3.this, FetchClientActivity.class);
                     Bundle bundle = new Bundle();
                     //bundle.putString("Image", String.valueOf(uri));

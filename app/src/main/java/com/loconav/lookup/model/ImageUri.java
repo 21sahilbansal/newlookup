@@ -27,18 +27,5 @@ public class ImageUri extends BaseObservable implements Serializable {
         this.uri = uri;
     }
 
-    @BindingAdapter({"android:src"})
-    public static void loadImage(ImageView view, String imageUrl) {
-//        Picasso.with(view.getContext())
-//                .load(imageUrl)
-//                .placeholder(R.drawable.placeholder)
-//                .into(view);
-
-        Glide.with(view.getContext())
-                .load(imageUrl)
-                //.apply(RequestOptions.circleCropTransform())
-                .into(view);
-    }
-
 
 }

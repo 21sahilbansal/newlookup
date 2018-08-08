@@ -1,51 +1,22 @@
 package com.loconav.lookup;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.loconav.lookup.model.Client;
-import com.loconav.lookup.model.ImageUri;
 import com.loconav.lookup.model.PassingReason;
-import com.loconav.lookup.model.RepairRequirements;
-import com.loconav.lookup.model.RepairResponse;
-import com.loconav.lookup.network.RetrofitCallback;
-import com.loconav.lookup.network.rest.ApiInterface;
-import com.loconav.lookup.network.rest.StagingApiClient;
-import com.loconav.lookup.sharedetailsfragmants.DeviceChange;
 import com.loconav.lookup.sharedetailsfragmants.NewInstallation;
-import com.loconav.lookup.sharedetailsfragmants.SimChange;
-import com.loconav.lookup.sharedetailsfragmants.VehicleChange;
+import com.loconav.lookup.sharedetailsfragmants.SimChangeFragment;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Response;
 
 import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
 import static com.loconav.lookup.EncodingDecoding.getResizedBitmap;
@@ -78,11 +49,11 @@ public class EnterDetails extends AppCompatActivity {
         client = passingReason.getClientId();
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        if(userChoice.equals("newInstall")){
+        if(userChoice.equals("New Install")){
             NewInstallation f1 = new NewInstallation();
             fragmentTransaction.add(R.id.frameLayoutSecond, f1);
         }else {
-            SimChange f1 = SimChange.newInstance(passingReason);
+            SimChangeFragment f1 = SimChangeFragment.newInstance(passingReason);
             fragmentTransaction.add(R.id.frameLayoutSecond, f1);
         }
 

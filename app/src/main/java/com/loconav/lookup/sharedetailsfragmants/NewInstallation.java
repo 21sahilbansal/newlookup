@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.loconav.lookup.CommonFunction;
@@ -18,6 +19,7 @@ import com.loconav.lookup.databinding.NewinstallationBinding;
 import com.loconav.lookup.model.Client;
 
 import static com.loconav.lookup.Constants.USER_ID;
+import static com.loconav.lookup.UserPrefs.phoneNumber;
 
 /**
  * Created by prateek on 13/11/17.
@@ -54,7 +56,11 @@ public class NewInstallation extends Fragment {
                     message += "Sim No: "+ binding.simNo.getText().toString() + "\n";
                     message += "IMEI: "+ binding.imei.getText().toString() + "\n";
                     message += "Device Model: "+ binding.deviceModel.getText().toString()+"\n";
-                    message += "USER ID: " + SharedPrefHelper.getInstance(getContext()).getStringData(USER_ID) +  "\n";
+                    message += "USER ID: " + SharedPrefHelper.getInstance(getContext()).getStringData(phoneNumber) +  "\n";
+                    message += "SOS: " + getFeatures(binding.cbSos) +  "\n";
+                    message += "Trip Button: " + getFeatures(binding.cbTrip) +  "\n";
+                    message += "Immobilizer: " + getFeatures(binding.cbImm) +  "\n";
+                    message += "USER ID: " + SharedPrefHelper.getInstance(getContext()).getStringData(phoneNumber) +  "\n";
                     message += "Sent By Device Checker:"+ " " + System.currentTimeMillis() ;
                     String url = "http://www.loconav.com/?type=new_vehicle&model="+
                             binding.model.getText().toString()+"&manufacturer="+
@@ -71,5 +77,13 @@ public class NewInstallation extends Fragment {
         CommonFunction.setEditText(binding.clientId, client.getClientId());
 
         return binding.getRoot();
+    }
+
+
+    private String getFeatures(CheckBox checkBox) {
+        if(checkBox.isChecked())
+            return "YES";
+        else
+            return "NO";
     }
 }
