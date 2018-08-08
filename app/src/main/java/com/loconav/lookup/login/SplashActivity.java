@@ -47,7 +47,7 @@ public class SplashActivity extends BaseCameraActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        sharedPrefHelper=SharedPrefHelper.getInstance(getBaseContext());
+        sharedPrefHelper = SharedPrefHelper.getInstance(getBaseContext());
         Log.e(TAG, "onCreate: ");
     }
 

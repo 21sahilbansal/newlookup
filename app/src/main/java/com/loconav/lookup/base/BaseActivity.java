@@ -23,7 +23,6 @@ import java.util.List;
  */
 
 public abstract class BaseActivity extends AppCompatActivity{
-    List<String> listPermissionsNeeded = new ArrayList<>();
     private Context contextActivity;
 
     @Override
@@ -37,6 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity{
     }
 
     public  boolean checkPermissions() {
+        List<String> listPermissionsNeeded = new ArrayList<>();
         int write_storage = ContextCompat.checkSelfPermission(getBaseContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int read_storage = ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
         int camera = ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.CAMERA);
