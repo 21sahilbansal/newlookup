@@ -62,14 +62,7 @@ public class FastTagFragment extends BaseFragment {
         binding.searchTruck.setQueryHint("Select Vehicle");
         searchAutoCompleteFastag = (SearchView.SearchAutoComplete)binding.searchFastId.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         binding.searchFastId.setQueryHint("Select Fastag");
-//        binding.searchTruck.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.e("ftrg","rgt");
                 vehiclesLists=getSetData(vehiclesLists);
-//            }
-//        });
-
         binding.truckSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

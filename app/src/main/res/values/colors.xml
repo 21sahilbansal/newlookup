@@ -26,19 +26,12 @@
     <color name="blue">#0000FF</color>
     <color name="violet">#7F00FF</color>
     <color name="magenta">#FF00FF</color>
+    <color name="grey">#f5f5f5</color>
 
     <array name="rainbow">
         <item>@color/pressed</item>
         <item>@color/orange</item>
         <item>@color/blue</item>
         <item>@color/red</item>
-        <!--<item>@color/chartreuse</item>-->
-        <!--<item>@color/green</item>-->
-        <!--<item>@color/spring_green</item>-->
-        <!--<item>@color/cyan</item>-->
-        <!--<item>@color/azure</item>-->
-        <!--<item>@color/blue</item>-->
-        <!--<item>@color/violet</item>-->
-        <!--<item>@color/magenta</item>-->
     </array>
 </resources>

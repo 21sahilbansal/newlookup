@@ -15,6 +15,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+
+import com.loconav.lookup.base.BaseActivity;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.dialog.ImagePickerDialog;
 import com.loconav.lookup.login.SplashActivity;
@@ -29,6 +31,8 @@ import java.util.List;
 public abstract class BaseCameraActivity extends AppCompatActivity {
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
     private Context contextActivity;
+    List<String> listPermissionsNeeded = new ArrayList<>();
+    public String TAG = getClass().getSimpleName();
 
     public  boolean checkAndRequestPermissions(Context context) {
         contextActivity = context;
@@ -36,8 +40,6 @@ public abstract class BaseCameraActivity extends AppCompatActivity {
         int write_storage = ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int read_storage = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
         int camera = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA);
-
-        List<String> listPermissionsNeeded = new ArrayList<>();
 
         if (read_storage != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -49,15 +51,12 @@ public abstract class BaseCameraActivity extends AppCompatActivity {
             listPermissionsNeeded.add(Manifest.permission.CAMERA);
         }
         if (!listPermissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions((Activity) context,listPermissionsNeeded.toArray
+            ActivityCompat.requestPermissions(this ,listPermissionsNeeded.toArray
                     (new String[listPermissionsNeeded.size()]),REQUEST_ID_MULTIPLE_PERMISSIONS);
             return false;
         }
         return true;
     }
-
-
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -81,13 +80,13 @@ public abstract class BaseCameraActivity extends AppCompatActivity {
     }
 
     void showGoToSettings(){
-        new AlertDialog.Builder(contextActivity)
+        new AlertDialog.Builder(BaseCameraActivity.this)
                 .setTitle("Closing application")
                 .setMessage("Are you sure you want to exit?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Activity a=(Activity)contextActivity;
+                        Activity a=BaseCameraActivity.this;
                         a.finish();
                     }
                 }).setNegativeButton("No",  new DialogInterface.OnClickListener() {

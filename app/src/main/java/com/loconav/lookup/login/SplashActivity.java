@@ -39,6 +39,7 @@ import static com.loconav.lookup.Constants.REASONS_RESPONSE;
 import static com.loconav.lookup.UserPrefs.name;
 
 public class SplashActivity extends BaseCameraActivity {
+
     private ApiInterface apiService = StagingApiClient.getClient().create(ApiInterface.class);
     private SharedPrefHelper sharedPrefHelper;
 
@@ -47,11 +48,13 @@ public class SplashActivity extends BaseCameraActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         sharedPrefHelper=SharedPrefHelper.getInstance(getBaseContext());
+        Log.e(TAG, "onCreate: ");
     }
 
 
     @Override
     public void onAllPermissionsGranted() {
+        Log.e(TAG, "onAllPermissionsGranted: ");
         if(SharedPrefHelper.getInstance(getBaseContext()).getBooleanData(IS_LOGGED_IN)) {
             Long currentTime=System.currentTimeMillis();
             Long login=SharedPrefHelper.getInstance(getBaseContext()).getLongData(LOG_IN_TIME);
@@ -73,8 +76,9 @@ public class SplashActivity extends BaseCameraActivity {
     @Override
     protected void onStart() {
         super.onStart();
-            if(checkAndRequestPermissions(this)) {
+            if(checkAndRequestPermissions(getBaseContext())) {
                 onAllPermissionsGranted();
+                Log.e(TAG, "onStart: ");
             }
     }
 
@@ -101,5 +105,11 @@ public class SplashActivity extends BaseCameraActivity {
                 Log.e("res ", "onResponse: " + t.getMessage() );
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e(TAG, "onResume: ");
     }
 }
