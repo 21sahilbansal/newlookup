@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import static com.loconav.lookup.Constants.USER_ID;
 
 /**
@@ -32,10 +34,27 @@ public class CommonFunction {
         }
         return true;
     }
+    public static boolean validateEdit(ArrayList<EditText> fields){
+        for(int i = 0; i < fields.size(); i++){
+            EditText currentField = fields.get(i);
+            if(currentField.getText().toString().length() <= 0){
+                currentField.setError("Cannot Be Empty");
+                currentField.requestFocus();
+                return false;
+            } else if(currentField.getId() == R.id.client_id) {
+                if(currentField.getText().length() < 4) {
+                    currentField.setError("Cannot Be Less Than 4");
+                    currentField.requestFocus();
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
-    public static boolean validateLength(EditText[] fields){
-        for(int i = 0; i < fields.length; i++) {
-            EditText currentField = fields[i];
+    public static boolean validateLength(ArrayList<EditText> fields){
+        for(int i = 0; i < fields.size(); i++) {
+            EditText currentField = fields.get(i);
             if (currentField.getTag().equals("new sim") || currentField.getTag().equals("old sim")) {
                 if (currentField.getText().toString().length() < 22) {
                     currentField.setError("Cannot Be Less Than " + 22);

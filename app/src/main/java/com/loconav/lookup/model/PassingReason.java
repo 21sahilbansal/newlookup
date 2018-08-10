@@ -18,7 +18,7 @@ public class PassingReason implements Serializable {
 
     public ArrayList<String> imagesList;
 
-    private ArrayList<ReasonResponse> reasons;
+    private ReasonResponse ReasonResponse;
 
     private int imagesPreRepair;
 
@@ -27,14 +27,17 @@ public class PassingReason implements Serializable {
     private int imagesPostRepair;
 
 
-    public PassingReason(String deviceid, Client clientId,  ArrayList<ReasonResponse> reasons) {
+    public PassingReason(String deviceid, Client clientId,  ReasonResponse ReasonResponse) {
         Deviceid = deviceid;
         ClientId = clientId;
-        this.reasons = reasons;
+        this.ReasonResponse = ReasonResponse;
     }
 
-    public PassingReason(ArrayList<ReasonResponse> reasons,String UserChoice) {
-        this.reasons = reasons;
+    public PassingReason(){
+
+    }
+    public PassingReason(ReasonResponse reasons,String UserChoice) {
+        this.ReasonResponse = reasons;
         this.UserChoice = UserChoice;
     }
 
@@ -94,11 +97,12 @@ public class PassingReason implements Serializable {
         ClientId = clientId;
     }
 
-    public  ArrayList<ReasonResponse> getReasons() {
-        return reasons;
+    public  ReasonResponse getReasonResponse() {
+        return ReasonResponse;
     }
 
-    public void setReasons( ArrayList<ReasonResponse> reasons) {
-        this.reasons = reasons;
+
+    public void setReasonResponse( ReasonResponse reasons) {
+        this.ReasonResponse = reasons;
     }
 }

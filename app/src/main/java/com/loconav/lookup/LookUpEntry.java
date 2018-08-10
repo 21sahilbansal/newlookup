@@ -30,15 +30,8 @@ import com.loconav.lookup.model.VersionResponse;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Response;
-
-import static com.loconav.lookup.Constants.IS_LOGGED_IN;
-import static com.loconav.lookup.Constants.REASONS_RESPONSE;
 
 public class LookUpEntry extends BaseActivity {
 

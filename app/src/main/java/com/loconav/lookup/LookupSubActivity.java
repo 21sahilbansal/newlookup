@@ -30,7 +30,6 @@ public class LookupSubActivity extends BaseActivity {
 
     void passIntentData(Intent intent){
         PassingReason passingReason = (PassingReason)intent.getSerializableExtra("str");
-        Log.e("sej",""+passingReason.getReasons().get(1).getName());
         Bundle bundle = new Bundle();
         bundle.putSerializable("str", passingReason);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

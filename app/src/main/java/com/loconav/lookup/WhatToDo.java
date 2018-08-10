@@ -54,8 +54,6 @@ public class WhatToDo extends BaseFragment {
         return R.layout.what_to_do_fragment;
     }
 
-    String str = "";
-
     @Override
     public void onFragmentCreated() {
         String reasonsResponse = SharedPrefHelper.getInstance(getContext()).getStringData(REASONS_RESPONSE);
@@ -98,8 +96,9 @@ public class WhatToDo extends BaseFragment {
             @Override
             public void onEventDone(Object object) {
                 ReasonResponse reasonResponse = (ReasonResponse) object;
-                PassingReason passingReason = new PassingReason(jsonLog, reasonResponse.getName());
-                passingReason.setReasons(jsonLog);
+                PassingReason passingReason = new PassingReason();
+                passingReason.setReasonResponse(reasonResponse);
+                passingReason.setUserChoice(reasonResponse.getName());
                 passIntent("str", passingReason);
             }
         });

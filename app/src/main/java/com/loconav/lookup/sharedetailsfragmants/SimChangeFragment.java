@@ -39,12 +39,8 @@ public class SimChangeFragment extends Fragment {
     int reasonid, sizelist;
     PassingReason passingReason;
     private String userChoice;
-    ArrayList<ImageUri> images =new ArrayList<>();
     ArrayList<Input> addtional = new ArrayList<>();
     ArrayList<String> SpinnerList = new ArrayList<>();
-    ArrayList<String> name = new ArrayList<>();
-    ArrayList<String> keyJson = new ArrayList<>();
-    ArrayList<String> filedtype = new ArrayList<>();
     ArrayList<EditText> editTexts = new ArrayList<>();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
@@ -54,28 +50,23 @@ public class SimChangeFragment extends Fragment {
                 inflater, R.layout.simchange, vg, false);
         passingReason = (PassingReason) getArguments().getSerializable("str");
         userChoice = passingReason.getUserChoice();
-        if (!openFragment(userChoice).isEmpty() ) {
+        binding.imei.setTag("imei");
+        binding.remarks.setTag("remarks");
+        editTexts.add(binding.imei);
+        editTexts.add(binding.remarks);
+        if (!openFragment().isEmpty() ) {
             for (int i = 0; i < addtional.size(); i++) {
-                name.add((String) addtional.get(i).getName());
-                keyJson.add((String) addtional.get(i).getKey());
-                filedtype.add((String) addtional.get(i).getFeild_type());
-            }
-            for (int i = 0; i < filedtype.size(); i++) {
-                if (filedtype.get(i).equals("text")) {
+                if (addtional.get(i).getField_type().equals("text")) {
                     CustomInflater customInflater = new CustomInflater(getContext());
                     LinearLayout linearLayout = binding.ll;
-                    Log.e("tab", "swj" + linearLayout.getChildCount());
-                    editTexts.add(customInflater.addEditText(linearLayout, name.get(i), 0 + i));
+                    editTexts.add(customInflater.addEditText(linearLayout, addtional.get(i), 0 + i));
                 }
             }
             binding.share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (binding.SimimageAfter.GetimagesList().size() >= 1) {
-                        editTexts.get(0).setTag("new sim");
-                        editTexts.get(1).setTag("old sim");
-                        if (CommonFunction.validate(new EditText[]{editTexts.get(0), editTexts.get(1), binding.remarks,
-                                binding.imei})&& CommonFunction.validateLength(new EditText[]{editTexts.get(0), editTexts.get(1)})) {
+                        if (CommonFunction.validateEdit(editTexts)) {
                             if (binding.spinnerSim.getSelectedItem().toString().equals("Select option")) {
                                 Toast.makeText(getContext(), "Select reasons", Toast.LENGTH_LONG).show();
                             } else {
@@ -106,42 +97,6 @@ public class SimChangeFragment extends Fragment {
 
                 }
             });
-        } else {
-            binding.share.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (binding.SimimageAfter.GetimagesList().size() >= 1) {
-                        if (CommonFunction.validate(new EditText[]{binding.remarks,
-                                binding.imei,})) {
-                            if (binding.spinnerSim.getSelectedItem().toString().equals("Select option")) {
-                                Toast.makeText(getContext(), "Select reasons", Toast.LENGTH_LONG).show();
-                            } else {
-                                willDetails1();
-                                FragmentManager fragmentManager = getFragmentManager();
-                                RepairAfterForm fragmentRepairAfterForm = new RepairAfterForm();
-                                Bundle bundle = new Bundle();
-                                ArrayList<String> imagesList1 = new ArrayList<>();
-                                imagesList1.addAll(passingReason.getImagesList());
-                                for (ImageUri imageUri : (binding.SimimageAfter.GetimagesList())) {
-                                    imagesList1.add(imageUri.getUri().toString());
-                                }
-                                passingReason.setImagesInRepair(binding.SimimageAfter.GetimagesList().size());
-                                passingReason.imagesList.clear();
-                                passingReason.setImagesList(imagesList1);
-                                bundle.putSerializable("req", repairRequirements);
-                                bundle.putSerializable("req2", passingReason);
-                                fragmentRepairAfterForm.setArguments(bundle);
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                fragmentTransaction.add(R.id.frameLayoutSecond, fragmentRepairAfterForm, "Fragment One");
-                                fragmentTransaction.addToBackStack(null);
-                                fragmentTransaction.commit();
-                            }
-                        }
-                    } else {
-                        Toast.makeText(getContext(), "Add Image After Repair", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
         }
         String deviceId = ((EnterDetails) getActivity()).getDeviceID();
         CommonFunction.setEditText(binding.imei, deviceId);
@@ -156,37 +111,14 @@ public class SimChangeFragment extends Fragment {
         return fragment;
     }
 
-    ArrayList<Input> openFragment(String userChoice) {
+    ArrayList<Input> openFragment() {
         SpinnerList.add("Select option");
-        switch (userChoice) {
-            case "SIM Change": {
-                addtional = passingReason.getReasons().get(1).getAdditional_fields();
-                sizelist = passingReason.getReasons().get(1).getReasons().size();
-                for (int i = 0; i < sizelist; i++) {
-                    SpinnerList.add(passingReason.getReasons().get(1).getReasons().get(i).getName());
-                }
-                setSpinner(SpinnerList, binding.spinnerSim);
-                break;
-            }
-            case "Device Change": {
-                addtional = passingReason.getReasons().get(0).getAdditional_fields();
-                sizelist = passingReason.getReasons().get(0).getReasons().size();
-                for (int i = 0; i < sizelist; i++) {
-                    SpinnerList.add(passingReason.getReasons().get(0).getReasons().get(i).getName());
-                }
-               setSpinner(SpinnerList, binding.spinnerSim);
-                break;
-            }
-            case "Repairs": {
-                addtional = passingReason.getReasons().get(2).getAdditional_fields();
-                sizelist = passingReason.getReasons().get(2).getReasons().size();
-                for (int i = 0; i < sizelist; i++) {
-                    SpinnerList.add(passingReason.getReasons().get(2).getReasons().get(i).getName());
-                }
-                setSpinner(SpinnerList, binding.spinnerSim);
-                break;
-            }
+        addtional = passingReason.getReasonResponse().getAdditional_fields();
+        sizelist = passingReason.getReasonResponse().getReasons().size();
+        for (int i = 0; i < sizelist; i++) {
+            SpinnerList.add(passingReason.getReasonResponse().getReasons().get(i).getName());
         }
+        setSpinner(SpinnerList, binding.spinnerSim);
         return addtional;
     }
     public void setSpinner(ArrayList<String> categories, Spinner spinnerRep ) {
@@ -209,9 +141,9 @@ public class SimChangeFragment extends Fragment {
         JSONObject jsonObj=new JSONObject();
         try {
             jsonObj.put(userChoice,"yes");
-            jsonObj.put("Old Sim No",editTexts.get(0).getText().toString());
-            jsonObj.put("New Sim No",editTexts.get(1).getText().toString());
-            jsonObj.put("IMEI",binding.imei.getText().toString());
+            for(int i=0;i<editTexts.size();i++) {
+                jsonObj.put(editTexts.get(i).getTag().toString(), editTexts.get(i).getText().toString());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -220,36 +152,14 @@ public class SimChangeFragment extends Fragment {
         ArrayList<String> al1 = new ArrayList<>();
         repairRequirements = new RepairRequirements(passingReason.getDeviceid(), reasonid, binding.remarks.getText().toString(), jsonObj.toString(), al, al1);
     }
-
-    public void willDetails1() {
-        getSpinnerData();
-        JSONObject jsonObj=new JSONObject();
-        try {
-            jsonObj.put(userChoice, "yes");
-            jsonObj.put("IMEI", binding.imei.getText().toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ArrayList<String> al = new ArrayList<>();
-        ArrayList<String> al1 = new ArrayList<>();
-        repairRequirements = new RepairRequirements(passingReason.getDeviceid(), reasonid, binding.remarks.getText().toString(), jsonObj.toString(), al, al1);
-
-    }
-
     void getSpinnerData() {
         String text = binding.spinnerSim.getSelectedItem().toString();
             for (int i = 0; i < sizelist+1; i++) {
                 if (SpinnerList.get(i).equals(text)) {
-                    if (userChoice.equals("SIM Change")) {
-                        reasonid = passingReason.getReasons().get(1).getReasons().get(i-1).getId();
-                    } else if (userChoice.equals("Device Change")) {
-                        reasonid = passingReason.getReasons().get(0).getReasons().get(i-1).getId();
-                    } else if (userChoice.equals("Repairs")) {
-                        reasonid = passingReason.getReasons().get(2).getReasons().get(i-1).getId();
-                    }
-
+                    reasonid = passingReason.getReasonResponse().getReasons().get(i-1).getId();
                 }
             }
+        Log.e("id is", "getSpinnerData: "+reasonid );
     }
 
 }

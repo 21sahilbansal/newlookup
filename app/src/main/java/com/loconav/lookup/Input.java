@@ -12,11 +12,37 @@ public class Input implements Serializable {
     String name;
     String key;
     String field_type;
+    String validations;
+    String[] data;
 
     public Input(String name, String key, String field_type) {
         this.name = name;
         this.key = key;
         this.field_type = field_type;
+    }
+
+    public String getField_type() {
+        return field_type;
+    }
+
+    public void setField_type(String field_type) {
+        this.field_type = field_type;
+    }
+
+    public String getValidations() {
+        return validations;
+    }
+
+    public void setValidations(String validations) {
+        this.validations = validations;
+    }
+
+    public String[] getData() {
+        return data;
+    }
+
+    public void setData(String[] data) {
+        this.data = data;
     }
 
     public String getName() {
@@ -33,13 +59,5 @@ public class Input implements Serializable {
 
     public void setKey(String key) {
         this.key = key;
-    }
-
-    public String getFeild_type() {
-        return field_type;
-    }
-
-    public void setFeild_type(String feild_type) {
-        this.field_type = feild_type;
     }
 }

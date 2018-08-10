@@ -126,7 +126,7 @@ public class CustomInflater extends LinearLayout {
         });
     }
 
-   public EditText addEditText(LinearLayout linearLayout1, String str,int index){
+   public EditText addEditText(LinearLayout linearLayout1, Input str,int index){
         TextInputLayout til=new TextInputLayout(getContext());
         til.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -139,10 +139,11 @@ public class CustomInflater extends LinearLayout {
 
         editText.setTextSize(16);
         editText.setTextColor(getResources().getColor(R.color.black));
-        editText.setHint(str);
+        editText.setHint(str.getName());
         editText.setHintTextColor(getResources().getColor(R.color.gray));
 
         til.addView(editText, editTextParams);
+        editText.setTag(str.getKey());
         return  editText;
     }
 
