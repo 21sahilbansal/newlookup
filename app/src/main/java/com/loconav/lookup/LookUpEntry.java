@@ -1,7 +1,11 @@
 package com.loconav.lookup;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -10,6 +14,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -21,9 +26,16 @@ import com.google.gson.reflect.TypeToken;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseActivity;
 import com.loconav.lookup.model.ReasonResponse;
+import com.loconav.lookup.model.VersionResponse;
+import com.loconav.lookup.network.RetrofitCallback;
+import com.loconav.lookup.network.rest.ApiClient;
+import com.loconav.lookup.network.rest.ApiInterface;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 import static com.loconav.lookup.Constants.IS_LOGGED_IN;
 import static com.loconav.lookup.Constants.REASONS_RESPONSE;
@@ -32,19 +44,55 @@ public class LookUpEntry extends BaseActivity {
 
     TabLayout tabLayout ;
     ViewPager viewPager ;
+    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     FragmentAdapterClass fragmentAdapter ;
+    Boolean isForceUpdate=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.look_up_entry);
             getSupportActionBar().setElevation(0);
+
         tabLayout = (TabLayout) findViewById(R.id.tab_layout1);
         viewPager = (ViewPager) findViewById(R.id.pager1);
         fragmentAdapter = new FragmentAdapterClass(getSupportFragmentManager(),2);
         viewPager.setAdapter(fragmentAdapter);
         tabLayout.setupWithViewPager(viewPager);
-        Log.e("look up entry ", "onCreate: ");
     }
+    private void checkVersion() {
+        String version="";
+        try {
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            version= pInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        apiService.getVersion((int) Float.parseFloat(version)).enqueue(new RetrofitCallback<VersionResponse>() {
+            @Override
+            public void handleSuccess(Call<VersionResponse> call, Response<VersionResponse> response) {
+                isForceUpdate=response.body().getUpdate_available();
+                if(response.body().getUpdate_available()){
+                    AlertDialog.Builder builder= new AlertDialog.Builder(LookUpEntry.this,R.style.DialogTheme);;
+                    builder.setMessage("Update App                                        ")
+                            .setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Uri uri = Uri.parse("http://play.loconav.com");
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                    startActivity(intent);
+                                }
+                            })
+                            .setCancelable(false)
+                            .show();
+                }
+            }
+
+            @Override
+            public void handleFailure(Call<VersionResponse> call, Throwable t) {
+                Log.e("ss", "handleFailure: " );
+            }
+        });
+    }
+
 
     @Override
     public boolean showBackButton() {
@@ -66,6 +114,12 @@ public class LookUpEntry extends BaseActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+      //  checkVersion();
     }
 
     public class FragmentAdapterClass extends FragmentStatePagerAdapter {
@@ -116,11 +170,5 @@ public class LookUpEntry extends BaseActivity {
 
         }
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.e("look up entry ", "onResume: " );
     }
 }

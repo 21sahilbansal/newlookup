@@ -16,7 +16,7 @@
         custom:id="view3"
         android:background="?android:selectableItemBackground"
         custom:titleText="Upload Vehicle Image"
-        custom:limitImages="3"/>
+        custom:limitImages="1"/>
     <Button
         android:id="@+id/proceedRep"
         android:layout_width="match_parent"

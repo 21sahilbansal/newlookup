@@ -74,7 +74,7 @@
                 custom:id="view4"
                 android:background="?android:selectableItemBackground"
                 custom:titleText="Upload Image After Repair"
-                custom:limitImages="3"/>
+                custom:limitImages="2"/>
 
             <Button
                 android:layout_marginTop="20dp"

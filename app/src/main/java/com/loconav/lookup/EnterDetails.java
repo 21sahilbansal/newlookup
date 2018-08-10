@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.loconav.lookup.base.BaseActivity;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.sharedetailsfragmants.NewInstallation;
@@ -21,9 +22,8 @@ import java.util.List;
 import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
 import static com.loconav.lookup.EncodingDecoding.getResizedBitmap;
 
-public class EnterDetails extends AppCompatActivity {
+public class EnterDetails extends BaseActivity {
     CustomActionBar customActionBar ;
-    private List<Bitmap> deviceImageBitmap = new ArrayList<>();
     public static final String MyPREFERENCES = "MyPrefs";
     SharedPreferences sharedpreferences;
     SharedPreferences.Editor editor;
@@ -37,12 +37,11 @@ public class EnterDetails extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_details);
-        customActionBar = new CustomActionBar();
-        customActionBar.getActionBar(this, R.drawable.leftarrow, R.string.enter_details, true);
+//        customActionBar = new CustomActionBar();
+//        customActionBar.getActionBar(this, R.drawable.leftarrow, R.string.enter_details, true);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
         Bundle bundle = getIntent().getExtras();
-       // uri= Uri.parse(bundle.getString("Image"));
         passingReason=(PassingReason) bundle.getSerializable("str");
         deviceID = passingReason.getDeviceid();
         userChoice=passingReason.getUserChoice();
@@ -58,6 +57,11 @@ public class EnterDetails extends AppCompatActivity {
         }
 
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public boolean showBackButton() {
+        return true;
     }
 
     public String getDeviceID(){

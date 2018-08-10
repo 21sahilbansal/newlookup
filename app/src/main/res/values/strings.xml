@@ -22,4 +22,5 @@
     <string name="permissions">Give permissions</string>
     <string name="proceed">PROCEED</string>
     <string name="camera">Camera</string>
+    <string name="update">UPDATE</string>
 </resources>

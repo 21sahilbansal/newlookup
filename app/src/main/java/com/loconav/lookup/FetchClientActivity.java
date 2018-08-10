@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.loconav.lookup.adapter.ClientAdapter;
+import com.loconav.lookup.base.BaseActivity;
 import com.loconav.lookup.databinding.ActivityFetchClientBinding;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.LookupResponse;
@@ -26,7 +27,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class FetchClientActivity extends AppCompatActivity {
+public class FetchClientActivity extends BaseActivity {
     private ActivityFetchClientBinding binding;
     private ClientAdapter clientAdapter;
     private List<Client> clients = new ArrayList<>();
@@ -42,6 +43,11 @@ public class FetchClientActivity extends AppCompatActivity {
         setAdapter();
         Bundle receivedBundle = getIntent().getExtras();
         passingReason=(PassingReason) receivedBundle.getSerializable("str");
+    }
+
+    @Override
+    public boolean showBackButton() {
+        return true;
     }
 
     private void setFetchClientButton() {

@@ -1,10 +1,7 @@
 package com.loconav.lookup.application;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
-
 import com.loconav.lookup.base.MyDataBindingComponent;
 
 

@@ -38,9 +38,7 @@ public class SimChangeFragment extends Fragment {
     RepairRequirements repairRequirements;
     int reasonid, sizelist;
     PassingReason passingReason;
-    Uri uri;
     private String userChoice;
-    int mCurCheckPosition;
     ArrayList<ImageUri> images =new ArrayList<>();
     ArrayList<Input> addtional = new ArrayList<>();
     ArrayList<String> SpinnerList = new ArrayList<>();
@@ -55,7 +53,6 @@ public class SimChangeFragment extends Fragment {
         binding = DataBindingUtil.inflate(
                 inflater, R.layout.simchange, vg, false);
         passingReason = (PassingReason) getArguments().getSerializable("str");
-       // uri = Uri.parse(getArguments().getString("Image"));
         userChoice = passingReason.getUserChoice();
         if (!openFragment(userChoice).isEmpty() ) {
             for (int i = 0; i < addtional.size(); i++) {
@@ -75,8 +72,10 @@ public class SimChangeFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (binding.SimimageAfter.GetimagesList().size() >= 1) {
+                        editTexts.get(0).setTag("new sim");
+                        editTexts.get(1).setTag("old sim");
                         if (CommonFunction.validate(new EditText[]{editTexts.get(0), editTexts.get(1), binding.remarks,
-                                binding.imei,})) {
+                                binding.imei})&& CommonFunction.validateLength(new EditText[]{editTexts.get(0), editTexts.get(1)})) {
                             if (binding.spinnerSim.getSelectedItem().toString().equals("Select option")) {
                                 Toast.makeText(getContext(), "Select reasons", Toast.LENGTH_LONG).show();
                             } else {
@@ -84,13 +83,14 @@ public class SimChangeFragment extends Fragment {
                                 FragmentManager fragmentManager = getFragmentManager();
                                 RepairAfterForm fragmentRepairAfterForm = new RepairAfterForm();
                                 Bundle bundle = new Bundle();
-                                ArrayList<String> imagesList = new ArrayList<>();
-                                //imagesList.addAll(passingReason.getImagesList());
+                                ArrayList<String> imagesList1 = new ArrayList<>();
+                                imagesList1.addAll(passingReason.getImagesList());
                                 for (ImageUri imageUri : (binding.SimimageAfter.GetimagesList())) {
-                                    imagesList.add(imageUri.getUri().toString());
+                                    imagesList1.add(imageUri.getUri().toString());
                                 }
                                 passingReason.setImagesInRepair(binding.SimimageAfter.GetimagesList().size());
-                                passingReason.setImagesList(imagesList);
+                                passingReason.imagesList.clear();
+                                passingReason.setImagesList(imagesList1);
                                 bundle.putSerializable("req", repairRequirements);
                                 bundle.putSerializable("req2", passingReason);
                                 fragmentRepairAfterForm.setArguments(bundle);
@@ -152,7 +152,6 @@ public class SimChangeFragment extends Fragment {
         SimChangeFragment fragment = new SimChangeFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("str", passingReason1);
-       // bundle.putString("Image", String.valueOf(stringUri));
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -252,22 +251,5 @@ public class SimChangeFragment extends Fragment {
                 }
             }
     }
-//    @Override
-//    public void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        //save your view states
-//        outState.putInt("curChoice", mCurCheckPosition);
-//    }
-//
-//    @Override
-//    public void onActivityCreated(Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//        if (savedInstanceState != null) {
-//            // Restore last state for checked position.
-//            mCurCheckPosition = savedInstanceState.getInt("curChoice", 0);
-//        }
-//    }
-
-
 
 }

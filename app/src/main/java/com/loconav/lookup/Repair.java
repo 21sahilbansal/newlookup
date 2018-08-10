@@ -65,7 +65,6 @@ public class Repair extends BaseFragment {
             }
             passingReason.setImagesList(imagesList);
             passingReason.setImagesPreRepair(deviceImage.GetimagesList().size());
-            userChoice=passingReason.getUserChoice();
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             DeviceIdFragment f1 = DeviceIdFragment.newInstance(passingReason);

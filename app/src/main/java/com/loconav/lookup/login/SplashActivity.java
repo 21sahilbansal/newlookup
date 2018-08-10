@@ -1,8 +1,11 @@
 package com.loconav.lookup.login;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.loconav.lookup.BaseCameraActivity;
@@ -11,6 +14,7 @@ import com.loconav.lookup.R;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.ReasonResponse;
+import com.loconav.lookup.model.VersionResponse;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
@@ -40,7 +44,7 @@ import static com.loconav.lookup.UserPrefs.name;
 
 public class SplashActivity extends BaseCameraActivity {
 
-    private ApiInterface apiService = StagingApiClient.getClient().create(ApiInterface.class);
+    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     private SharedPrefHelper sharedPrefHelper;
 
     @Override
@@ -49,6 +53,7 @@ public class SplashActivity extends BaseCameraActivity {
         setContentView(R.layout.activity_splash);
         sharedPrefHelper = SharedPrefHelper.getInstance(getBaseContext());
         Log.e(TAG, "onCreate: ");
+
     }
 
 
@@ -105,11 +110,5 @@ public class SplashActivity extends BaseCameraActivity {
                 Log.e("res ", "onResponse: " + t.getMessage() );
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.e(TAG, "onResume: ");
     }
 }

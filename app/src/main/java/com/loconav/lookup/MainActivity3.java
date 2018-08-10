@@ -25,6 +25,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.loconav.lookup.adapter.LookupAdapter;
+import com.loconav.lookup.base.BaseActivity;
 import com.loconav.lookup.model.Entity;
 import com.loconav.lookup.model.LookupResponse;
 import com.loconav.lookup.model.PassingReason;
@@ -42,7 +43,7 @@ import retrofit2.Response;
 import static com.loconav.lookup.Constants.DEVICE_ID;
 import static com.loconav.lookup.Constants.USER_CHOICE;
 
-public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class MainActivity3 extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
     @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.rv_info) RecyclerView rvInfo;
     @BindView(R.id.passed) ImageView ivPassed;
@@ -66,6 +67,11 @@ public class MainActivity3 extends AppCompatActivity implements SwipeRefreshLayo
         setShareDetails();
         getSetIntentData();
         Log.e("save ", "onCreate: ");
+    }
+
+    @Override
+    public boolean showBackButton() {
+        return true;
     }
 
     private void setShareDetails() {

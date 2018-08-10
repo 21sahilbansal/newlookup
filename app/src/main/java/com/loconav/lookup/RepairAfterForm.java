@@ -29,6 +29,7 @@ import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.RepairRequirements;
 import com.loconav.lookup.model.RepairResponse;
 import com.loconav.lookup.network.RetrofitCallback;
+import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
 import com.loconav.lookup.network.rest.StagingApiClient;
 
@@ -42,6 +43,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+
+import javax.security.auth.login.LoginException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,8 +61,9 @@ public class RepairAfterForm extends BaseFragment {
     @BindView(R.id.pbHeaderProgress) ProgressBar pbHeaderProgress;
     RepairRequirements repairRequirements;
     PassingReason passingReason;
+    Boolean submitted=false;
     String str;
-    private ApiInterface apiService = StagingApiClient.getClient().create(ApiInterface.class);
+    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
     @Override
     public int setViewId() {
@@ -74,40 +78,46 @@ public class RepairAfterForm extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (vehicleimage.GetimagesList().size() >= 1) {
-                    proceedRep.setVisibility(View.GONE);
-                    pbHeaderProgress.setVisibility(View.VISIBLE);
-                    HandlerThread handlerThread = new HandlerThread("background");
-                    handlerThread.start();
-                    new Handler(handlerThread.getLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            ArrayList<String> imagesList1 = new ArrayList<>();
-                            imagesList1.addAll(passingReason.getImagesList());
-                            for (ImageUri imageUri : (vehicleimage.GetimagesList())) {
-                                imagesList1.add(imageUri.getUri().toString());
+                        proceedRep.setVisibility(View.GONE);
+                        pbHeaderProgress.setVisibility(View.VISIBLE);
+                    if(!submitted) {
+                        submitted=true;
+                        HandlerThread handlerThread = new HandlerThread("background");
+                        handlerThread.start();
+                        new Handler(handlerThread.getLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                ArrayList<String> imagesList1 = new ArrayList<>();
+                                imagesList1.addAll(passingReason.getImagesList());
+                                for (ImageUri imageUri : (vehicleimage.GetimagesList())) {
+                                    imagesList1.add(imageUri.getUri().toString());
+                                }
+                                passingReason.setImagesPostRepair(vehicleimage.GetimagesList().size());
+                                passingReason.imagesList.clear();
+                                passingReason.setImagesList(imagesList1);
+                                Log.e("size", "run: " + passingReason.getImagesList().size());
+                                ArrayList<String> al = new ArrayList<>();
+                                for (int i = 0; i < passingReason.getImagesPreRepair(); i++) {
+                                    String str2 = ((EnterDetails) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
+                                    al.add(str2);
+                                }
+                                repairRequirements.setPre_repair_images(al);
+                                ArrayList<String> al1 = new ArrayList<>();
+                                for (int i = passingReason.getImagesPreRepair(); i < passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i++) {
+                                    String str5 = ((EnterDetails) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
+                                    al1.add(str5);
+                                }
+                                for (int i = passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i < passingReason.getImagesList().size(); i++) {
+                                    String str3 = ((EnterDetails) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
+                                    al1.add(str3);
+                                }
+                                repairRequirements.setPost_repair_images(al1);
+                                hitApi(repairRequirements);
                             }
-                            passingReason.setImagesPostRepair(vehicleimage.GetimagesList().size());
-                            passingReason.imagesList.clear();
-                            passingReason.setImagesList(imagesList1);
-                            ArrayList<String> al = new ArrayList<>();
-                            for (int i = 0; i < passingReason.getImagesPreRepair(); i++) {
-                                String str2 = ((EnterDetails) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
-                                al.add(str2);
-                            }
-                            repairRequirements.setPre_repair_images(al);
-                            ArrayList<String> al1 = new ArrayList<>();
-                            for (int i = passingReason.getImagesPreRepair(); i < passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i++) {
-                                String str5 = ((EnterDetails) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
-                                al1.add(str5);
-                            }
-                            for (int i = passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i < passingReason.getImagesList().size(); i++) {
-                                String str3 = ((EnterDetails) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
-                                al1.add(str3);
-                            }
-                            repairRequirements.setPost_repair_images(al1);
+                        });
+                    }else if(submitted){
                             hitApi(repairRequirements);
                         }
-                    });
                 } else {
                     Toast.makeText(getContext(), "Add Vehicle Image", Toast.LENGTH_SHORT).show();
                 }
@@ -156,48 +166,6 @@ public class RepairAfterForm extends BaseFragment {
         });
     }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        EventBus.getDefault().register(this);
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        EventBus.getDefault().unregister(this);
-//    }
-
-
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void getImagePickingEvents(GalleryEvents event) {
-//        if (event.getMessage().equals(GalleryEvents.IMAGE_COMPRESSED)) {
-//            // Toast.makeText(getContext(), "Image Compressed", Toast.LENGTH_LONG).show();
-//            Log.e("after toast", "" + (String) event.getObject().toString());
-//            File image = new File((String) event.getObject(), "");
-//            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-//            Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(), bmOptions);
-//            str = EncodingDecoding.encodeToBase64(bitmap, Bitmap.CompressFormat.PNG, 0);
-//
-//            Log.e("print ", "getImagePickingEvents: " + str.length());
-//
-//        }
-//    }
-//
-//    public Uri getImageUri(Context inContext, Bitmap inImage) {
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-//        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-//        return Uri.parse(path);
-//    }
-//
-//    public String getRealPathFromURI(Uri uri) {
-//        Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
-//        cursor.moveToFirst();
-//        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-//        return cursor.getString(idx);
-//    }
-
     public Bitmap bitmapTouri(Uri imageUri) {
         Bitmap bm = null;
         try {
@@ -209,12 +177,4 @@ public class RepairAfterForm extends BaseFragment {
         return bm;
     }
 }
-//                    String pathIS=getRealPathFromURI(getImageUri(getContext(),bitmapTouri(uri)));
-//                    Log.e("path is",""+pathIS);
-//                    UtilCompress utilCompress=new UtilCompress(getContext());
-//                    if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.HONEYCOMB)
-//                        utilCompress.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, pathIS);
-//                    else
-//                        utilCompress.execute(pathIS);
-//String str=((EnterDetails) getActivity()).reduceBititmap( bitmapTouri(uri));
 

@@ -33,6 +33,20 @@ public class CommonFunction {
         return true;
     }
 
+    public static boolean validateLength(EditText[] fields){
+        for(int i = 0; i < fields.length; i++) {
+            EditText currentField = fields[i];
+            if (currentField.getTag().equals("new sim") || currentField.getTag().equals("old sim")) {
+                if (currentField.getText().toString().length() < 22) {
+                    currentField.setError("Cannot Be Less Than " + 22);
+                    currentField.requestFocus();
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public static void sendAppMsg(Activity activity, String message) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");

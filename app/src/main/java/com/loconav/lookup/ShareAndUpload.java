@@ -11,9 +11,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.loconav.lookup.application.SharedPrefHelper;
+import com.loconav.lookup.base.BaseActivity;
 
 
-public class ShareAndUpload extends AppCompatActivity {
+public class ShareAndUpload extends BaseActivity {
 
     SharedPrefHelper sharedPrefHelper ;
     String url, message;
@@ -43,6 +44,11 @@ public class ShareAndUpload extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean showBackButton() {
+        return true;
     }
 
     private void initSharedPf() {

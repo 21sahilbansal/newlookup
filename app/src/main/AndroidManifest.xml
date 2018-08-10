@@ -16,6 +16,7 @@
     <application
         android:name=".application.LookUpApplication"
         android:allowBackup="true"
+        android:largeHeap="true"
         android:icon="@drawable/ic_lookup_app_icon"
         android:label="@string/app_name"
         android:roundIcon="@drawable/app_icon"

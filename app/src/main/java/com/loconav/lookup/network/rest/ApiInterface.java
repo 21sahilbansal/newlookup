@@ -11,6 +11,7 @@ import com.loconav.lookup.model.ReasonResponse;
 import com.loconav.lookup.model.RepairRequirements;
 import com.loconav.lookup.model.RepairResponse;
 import com.loconav.lookup.model.VehiclesList;
+import com.loconav.lookup.model.VersionResponse;
 
 import org.json.JSONArray;
 
@@ -54,5 +55,6 @@ public interface ApiInterface {
     @POST("api/installers/repairs/")
     Call<RepairResponse> addRepairs(@Body RepairRequirements repairRequirements);
 
-
+    @GET("api/v2/version_info/lookup_app")
+    Call<VersionResponse> getVersion(@Query("current_version") int versionNum);
 }
