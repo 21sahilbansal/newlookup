@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -41,12 +42,6 @@ public class CommonFunction {
                 currentField.setError("Cannot Be Empty");
                 currentField.requestFocus();
                 return false;
-            } else if(currentField.getId() == R.id.client_id) {
-                if(currentField.getText().length() < 4) {
-                    currentField.setError("Cannot Be Less Than 4");
-                    currentField.requestFocus();
-                    return false;
-                }
             }
         }
         return true;
@@ -55,7 +50,7 @@ public class CommonFunction {
     public static boolean validateLength(ArrayList<EditText> fields){
         for(int i = 0; i < fields.size(); i++) {
             EditText currentField = fields.get(i);
-            if (currentField.getTag().equals("new sim") || currentField.getTag().equals("old sim")) {
+            if (currentField.getTag().toString().equals("new_sim") || currentField.getTag().toString().equals("old_sim")) {
                 if (currentField.getText().toString().length() < 22) {
                     currentField.setError("Cannot Be Less Than " + 22);
                     currentField.requestFocus();

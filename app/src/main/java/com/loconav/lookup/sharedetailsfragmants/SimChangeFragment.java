@@ -1,5 +1,6 @@
 package com.loconav.lookup.sharedetailsfragmants;
 
+import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
@@ -54,7 +55,7 @@ public class SimChangeFragment extends Fragment {
         binding.remarks.setTag("remarks");
         editTexts.add(binding.imei);
         editTexts.add(binding.remarks);
-        if (!openFragment().isEmpty() ) {
+        openFragment();
             for (int i = 0; i < addtional.size(); i++) {
                 if (addtional.get(i).getField_type().equals("text")) {
                     CustomInflater customInflater = new CustomInflater(getContext());
@@ -66,7 +67,7 @@ public class SimChangeFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (binding.SimimageAfter.GetimagesList().size() >= 1) {
-                        if (CommonFunction.validateEdit(editTexts)) {
+                        if (CommonFunction.validateEdit(editTexts) && CommonFunction.validateLength(editTexts)) {
                             if (binding.spinnerSim.getSelectedItem().toString().equals("Select option")) {
                                 Toast.makeText(getContext(), "Select reasons", Toast.LENGTH_LONG).show();
                             } else {
@@ -97,7 +98,6 @@ public class SimChangeFragment extends Fragment {
 
                 }
             });
-        }
         String deviceId = ((EnterDetails) getActivity()).getDeviceID();
         CommonFunction.setEditText(binding.imei, deviceId);
         return binding.getRoot();

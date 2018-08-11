@@ -40,5 +40,7 @@ public class LookupSubActivity extends BaseActivity {
             transaction.add(R.id.frameLayout, fragmentDeviceId);
         }
         transaction.commit();
+        FragmentController fragmentController=new FragmentController(getSupportFragmentManager(),LookupSubActivity.this);
+
     }
 }

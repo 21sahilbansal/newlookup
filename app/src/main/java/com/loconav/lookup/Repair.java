@@ -3,6 +3,7 @@ package com.loconav.lookup;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,12 +22,10 @@ import butterknife.ButterKnife;
  * Created by sejal on 12-07-2018.
  */
 
-public class Repair extends BaseFragment {
+public class Repair extends BaseTitleFragment {
     @BindView (R.id.proceed) Button proceed;
     @BindView (R.id.DeviceImage) CustomImagePicker deviceImage;
-    private ArrayList<String> deviceImageUris = new ArrayList<>();
     private PassingReason passingReason;
-    private String userChoice;
 
 
     @Override
@@ -36,6 +35,7 @@ public class Repair extends BaseFragment {
 
     @Override
     public void onFragmentCreated() {
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Upload repair image");
         passingReason= (PassingReason)getActivity().getIntent().getSerializableExtra("str");
         Log.e("sd",""+passingReason.getDeviceid());
         proceed.setOnClickListener(new View.OnClickListener() {
@@ -81,34 +81,9 @@ public class Repair extends BaseFragment {
         fragment.setArguments(bundle);
         return fragment;
     }
-//    void openFragment(){
-//            FragmentManager fm = getFragmentManager();
-//            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-//            switch (userChoice) {
-//                case "SIM Change": {
-//                    SimChangeFragment f1 = SimChangeFragment.newInstance(passingReason,deviceImage.GetimagesList().get(0).getUri());;
-//                    fragmentTransaction.replace(android.R.id.content, f1);
-//                   // passData("str",passingReason,"str2",repairRequirements);
-//                    break;
-//                }
-//                case "Device Change": {
-//                    DeviceChange f1 = DeviceChange.newInstance(passingReason,deviceImage.GetimagesList().get(0).getUri());;
-//                    fragmentTransaction.replace(android.R.id.content, f1);
-//                 //   passData("str",passingReason,"str2",repairRequirements);
-//                    break;
-//                }
-//                case "vehChange": {
-//                    VehicleChange f1 = new VehicleChange();
-//                    fragmentTransaction.replace(android.R.id.content, f1);
-//                   // passData("str",passingReason,"str2",repairRequirements);
-//                    break;
-//                }
-//                case "Repairs": {
-//                    RepairForm f1 = RepairForm.newInstance(passingReason,deviceImage.GetimagesList().get(0).getUri());
-//                    fragmentTransaction.replace(android.R.id.content, f1);
-//                    break;
-//                }
-//            }
-//            fragmentTransaction.commit();
-//        }
+
+    @Override
+    public String getTitle() {
+        return "Upload repair image";
+    }
 }

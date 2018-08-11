@@ -2,6 +2,7 @@ package com.loconav.lookup;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,21 +32,8 @@ import com.loconav.lookup.model.RepairResponse;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
-import com.loconav.lookup.network.rest.StagingApiClient;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
-
-import javax.security.auth.login.LoginException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -58,8 +46,8 @@ import retrofit2.Response;
 public class RepairAfterForm extends BaseFragment {
     @BindView(R.id.Vehicleimage) CustomImagePicker vehicleimage;
     @BindView(R.id.proceedRep) Button proceedRep;
-    @BindView(R.id.pbHeaderProgress) ProgressBar pbHeaderProgress;
     RepairRequirements repairRequirements;
+    private ProgressDialog progressDialog;
     PassingReason passingReason;
     Boolean submitted=false;
     String str;
@@ -74,12 +62,13 @@ public class RepairAfterForm extends BaseFragment {
     public void onFragmentCreated() {
         repairRequirements = (RepairRequirements) getArguments().getSerializable("req");
         passingReason = (PassingReason) getArguments().getSerializable("req2");
+        initProgressDialog();
         proceedRep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (vehicleimage.GetimagesList().size() >= 1) {
                         proceedRep.setVisibility(View.GONE);
-                        pbHeaderProgress.setVisibility(View.VISIBLE);
+                        progressDialog.show();
                     if(!submitted) {
                         submitted=true;
                         HandlerThread handlerThread = new HandlerThread("background");
@@ -134,6 +123,11 @@ public class RepairAfterForm extends BaseFragment {
     public void getComponentFactory() {
 
     }
+    private void initProgressDialog() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.setCancelable(false);
+    }
 
     public void hitApi(RepairRequirements repairRequirements) {
 
@@ -141,9 +135,9 @@ public class RepairAfterForm extends BaseFragment {
 
             @Override
             public void handleSuccess(Call<RepairResponse> call, Response<RepairResponse> response) {
-                proceedRep.setVisibility(View.VISIBLE);
-                pbHeaderProgress.setVisibility(View.GONE);
-                final AlertDialog.Builder builder= new AlertDialog.Builder(getContext(),R.style.DialogTheme);;
+              //  proceedRep.setVisibility(View.VISIBLE);
+                progressDialog.dismiss();
+                final AlertDialog.Builder builder= new AlertDialog.Builder(getActivity(),R.style.DialogTheme);;
                 builder.setMessage(response.body().getMessage())
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -159,8 +153,8 @@ public class RepairAfterForm extends BaseFragment {
             @Override
             public void handleFailure(Call<RepairResponse> call, Throwable t) {
                 proceedRep.setVisibility(View.VISIBLE);
-                pbHeaderProgress.setVisibility(View.GONE);
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
                 Log.e("error ", t.getMessage());
             }
         });

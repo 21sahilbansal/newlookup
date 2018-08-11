@@ -112,7 +112,7 @@ public class LookUpEntry extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        checkVersion();
+       // checkVersion();
     }
 
     public class FragmentAdapterClass extends FragmentStatePagerAdapter {

@@ -1,7 +1,7 @@
 package com.loconav.lookup;
 
+
 import android.app.Activity;
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,66 +16,29 @@ import java.util.List;
 public class FragmentController extends AppCompatActivity {
 
     public final static String TAG_NAME_FRAGMENT = "ACTIVITY_FRAGMENT";
-    FragmentBackStack fragmentBackStack=new FragmentBackStack();
 
-    // Get exist Fragment by it's tag name.
-    public static Fragment getFragmentByTagName(FragmentManager fragmentManager, String fragmentTagName)
-    {
-        Fragment ret = null;
+    public FragmentController(final FragmentManager fragmentManager, final Activity activity){
+        Log.e(TAG_NAME_FRAGMENT, "onBackStackChanged:3 " );
+        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+                        public void onBackStackChanged() {
+                            Log.e(TAG_NAME_FRAGMENT, "onBackStackChanged: " );
+                           Fragment fragment= getFragmentsStack(fragmentManager);
+                            if(fragment!=null) {
+                                if(fragment instanceof BaseTitleFragment) {
+                                    ((AppCompatActivity)activity).getSupportActionBar().setTitle(((BaseTitleFragment) fragment).getTitle());
+                                }
+                            }
+                        }
+                    });
 
-        // Get all Fragment list.
-        List<Fragment> fragmentList = fragmentManager.getFragments();
-
-        if(fragmentList!=null)
-        {
-            int size = fragmentList.size();
-            for(int i=0;i<size;i++)
-            {
-                Fragment fragment = fragmentList.get(i);
-
-                if(fragment!=null) {
-                    String fragmentTag = fragment.getTag();
-
-                    // If Fragment tag name is equal then return it.
-                    if (fragmentTag.equals(fragmentTagName)) {
-                        ret = fragment;
-                    }
-                }
-            }
         }
 
-        return ret;
-    }
-
-//    public FragmentController(final FragmentManager fragmentManager, final Activity activity, final Context context){
-//
-//        fragmentManager.addOnBackStackChangedListener(
-//                    new FragmentManager.OnBackStackChangedListener() {
-//                        public void onBackStackChanged() {
-//                            if (activity != null) {
-//                                Log.e("sss",""+activity.toString() );
-//                            }else{
-//                                Log.e("as","sdfrf activity is null");
-//                            }
-//                            //
-//                           Fragment fragment= getFragmentsStack(fragmentManager);
-//                            if(fragment!=null) {
-//                                if(fragment instanceof titleFragment) {
-//                            //        Log.e("sss",""+((titleFragment) fragment).getTitle() );
-//                                    //(FragmentBackStack)fragment.getActivity().setActionBarTitle(((titleFragment) fragment).getTitle());
-//
-//                              //      fragmentBackStack.setActionBarTitle(((titleFragment) fragment).getTitle());
-//                                }
-//                            }
-//                        }
-//                    });
-//
-//        }
-
-    public void loadFragment(final Fragment fragment,FragmentManager fragmentManager,int resId) {
+    public void loadFragment(final Fragment fragment,FragmentManager fragmentManager,int resId,Boolean addToBackStack) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(resId, fragment,"");
-    //    transaction.addToBackStack(fragment.getClass().getName());
+        if(addToBackStack) {
+            transaction.addToBackStack(fragment.getClass().getName());
+        }
         transaction.commit();
     }
 

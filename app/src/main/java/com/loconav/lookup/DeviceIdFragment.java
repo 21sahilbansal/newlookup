@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -44,7 +45,7 @@ import static com.loconav.lookup.Constants.USER_ID;
  * Created by sejal on 28-06-2018.
  */
 
-public class DeviceIdFragment extends BaseFragment {
+public class DeviceIdFragment extends BaseTitleFragment {
 
     @BindView(R.id.ib_qr_scanner) ImageButton ibOpenQrScanner;
     @BindView(R.id.et_device_id) EditText etDeviceId;
@@ -74,8 +75,7 @@ public class DeviceIdFragment extends BaseFragment {
     public void onFragmentCreated() {
         ButterKnife.bind(this, getView());
         passingReason = (PassingReason) getArguments().getSerializable("str");
-       // uri.add(Uri.parse(getArguments().getString("Image")));
-        // passingReason= (PassingReason)getActivity().getIntent().getSerializableExtra("str");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Enter device ID");
         initSharedPf();
         setScanner();
         initProgressDialog();
@@ -200,9 +200,7 @@ public class DeviceIdFragment extends BaseFragment {
                     public void onClick(View view) {
                         // TODO Do something
                         if(!input.getText().toString().trim().equals("")) {
-                           // editor.putString(Constants.USER_ID ,Input.getText().toString());
                             sharedPrefHelper.setStringData(USER_ID ,input.getText().toString());
-                            //editor.commit();
                             mAlertDialog.cancel();
                         } else
                             Toast.makeText(getContext(), "User Id can't be Empty", Toast.LENGTH_LONG).show();
@@ -214,7 +212,6 @@ public class DeviceIdFragment extends BaseFragment {
     }
 
     private boolean isUserIdSet() {
-       // return !sharedPreferences.getString(Constants.USER_ID, "").equals("");
         return !sharedPrefHelper.getStringData(USER_ID).equals("");
     }
 
@@ -223,4 +220,9 @@ public class DeviceIdFragment extends BaseFragment {
 
     @Override
     public void getComponentFactory() {}
+
+    @Override
+    public String getTitle() {
+        return "Enter device ID";
+    }
 }
