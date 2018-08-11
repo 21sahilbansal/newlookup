@@ -6,22 +6,15 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.MediaStore;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.loconav.lookup.base.BaseFragment;
@@ -43,7 +36,7 @@ import retrofit2.Response;
  * Created by sejal on 26-07-2018.
  */
 
-public class RepairAfterForm extends BaseFragment {
+public class RepairAfterForm extends BaseTitleFragment {
     @BindView(R.id.Vehicleimage) CustomImagePicker vehicleimage;
     @BindView(R.id.proceedRep) Button proceedRep;
     RepairRequirements repairRequirements;
@@ -61,7 +54,7 @@ public class RepairAfterForm extends BaseFragment {
     @Override
     public void onFragmentCreated() {
         repairRequirements = (RepairRequirements) getArguments().getSerializable("req");
-        passingReason = (PassingReason) getArguments().getSerializable("req2");
+        passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
         initProgressDialog();
         proceedRep.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,20 +77,21 @@ public class RepairAfterForm extends BaseFragment {
                                 passingReason.setImagesPostRepair(vehicleimage.GetimagesList().size());
                                 passingReason.imagesList.clear();
                                 passingReason.setImagesList(imagesList1);
+                                ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
                                 Log.e("size", "run: " + passingReason.getImagesList().size());
                                 ArrayList<String> al = new ArrayList<>();
                                 for (int i = 0; i < passingReason.getImagesPreRepair(); i++) {
-                                    String str2 = ((EnterDetails) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
+                                    String str2 = ((LookupSubActivity) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
                                     al.add(str2);
                                 }
                                 repairRequirements.setPre_repair_images(al);
                                 ArrayList<String> al1 = new ArrayList<>();
                                 for (int i = passingReason.getImagesPreRepair(); i < passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i++) {
-                                    String str5 = ((EnterDetails) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
+                                    String str5 = ((LookupSubActivity) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
                                     al1.add(str5);
                                 }
                                 for (int i = passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i < passingReason.getImagesList().size(); i++) {
-                                    String str3 = ((EnterDetails) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
+                                    String str3 = ((LookupSubActivity) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
                                     al1.add(str3);
                                 }
                                 repairRequirements.setPost_repair_images(al1);
@@ -169,6 +163,11 @@ public class RepairAfterForm extends BaseFragment {
             e.printStackTrace();
         }
         return bm;
+    }
+
+    @Override
+    public String getTitle() {
+        return "Upload Image";
     }
 }
 

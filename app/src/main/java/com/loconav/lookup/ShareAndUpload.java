@@ -13,46 +13,57 @@ import android.widget.Toast;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseActivity;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class ShareAndUpload extends BaseActivity {
+
+public class ShareAndUpload extends BaseTitleFragment {
 
     SharedPrefHelper sharedPrefHelper ;
     String url, message;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_share_and_upload);
-        initSharedPf();
-     //   url = sharedPreferences.getString("upload_url", "");
-        url= sharedPrefHelper.getStringData("upload_url");
-//        message = sharedPreferences.getString("message", "");
-        message= sharedPrefHelper.getStringData("message");
+    @BindView(R.id.upload_document) Button upload_document;
+    @BindView(R.id.share) Button share;
 
-        Button upload_document = (Button) findViewById(R.id.upload_document);
+    @Override
+    public String getTitle() {
+        return "Share Details";
+    }
+
+    @Override
+    public int setViewId() {
+        return R.layout.activity_share_and_upload;
+    }
+
+    @Override
+    public void onFragmentCreated() {
+        initSharedPf();
+        url= sharedPrefHelper.getStringData("upload_url");
+        message= sharedPrefHelper.getStringData("message");
         upload_document.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 send(url);
             }
         });
-
-        Button share = (Button) findViewById(R.id.share);
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendAppMsg(message);
             }
         });
-
     }
 
     @Override
-    public boolean showBackButton() {
-        return true;
+    public void bindView(View view) {
+        ButterKnife.bind(this, getView());
     }
 
+    @Override
+    public void getComponentFactory() {
+
+    }
     private void initSharedPf() {
-        sharedPrefHelper = SharedPrefHelper.getInstance(getBaseContext());
+        sharedPrefHelper = SharedPrefHelper.getInstance(getContext());
     }
 
 
@@ -61,14 +72,13 @@ public class ShareAndUpload extends BaseActivity {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         String text = message;
-        // change with required  application package
         intent.setPackage("com.whatsapp");
 
         if (intent != null) {
             intent.putExtra(Intent.EXTRA_TEXT, text);//
             startActivity(Intent.createChooser(intent, text));
         } else {
-            Toast.makeText(this, "Whatapp not found", Toast.LENGTH_SHORT)
+            Toast.makeText(getContext(), "Whatapp not found", Toast.LENGTH_SHORT)
                     .show();
         }
     }
@@ -80,4 +90,5 @@ public class ShareAndUpload extends BaseActivity {
             startActivity(browserIntent);
         }
     }
+
 }

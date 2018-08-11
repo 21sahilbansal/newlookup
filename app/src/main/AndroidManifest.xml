@@ -28,21 +28,13 @@
             android:windowSoftInputMode="adjustNothing">
 
         </activity>
-        <activity
-            android:name=".MainActivity3"
-            android:theme="@style/AppTheme" />
         <activity android:name=".ShareAndUpload" />
-        <activity android:name=".ShareDetails" />
-        <activity
-            android:name=".EnterDetails"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".UserActivity"
             android:label="User Settings"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".FastTagActivity" />
-        <activity android:name=".FetchClientActivity" />
+        <activity android:name=".FetchClientFragment" />
         <activity
             android:name=".login.LoginActivity"
             android:screenOrientation="portrait"

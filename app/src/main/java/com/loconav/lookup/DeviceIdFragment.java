@@ -40,6 +40,7 @@ import retrofit2.Response;
 import static com.loconav.lookup.Constants.DEVICE_ID;
 import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
 import static com.loconav.lookup.Constants.USER_ID;
+import static com.loconav.lookup.FragmentController.loadFragment;
 
 /**
  * Created by sejal on 28-06-2018.
@@ -74,7 +75,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
     @Override
     public void onFragmentCreated() {
         ButterKnife.bind(this, getView());
-        passingReason = (PassingReason) getArguments().getSerializable("str");
+        passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Enter device ID");
         initSharedPf();
         setScanner();
@@ -110,13 +111,13 @@ public class DeviceIdFragment extends BaseTitleFragment {
                         @Override
                         public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
                             Log.e("handle ", response.code() +"");
-                            Intent intent  = new Intent(getContext(), MainActivity3.class);
+                            DeviceDetailsFragment f1 = new DeviceDetailsFragment();
                             passingReason.setDeviceid(etDeviceId.getText().toString());
+                            ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("lookup_response", response.body());
-                            bundle.putSerializable("str", passingReason);
-                            intent.putExtras(bundle);
-                            startActivity(intent);
+                            f1.setArguments(bundle);
+                            loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
                             progressDialog.dismiss();
                         }
 

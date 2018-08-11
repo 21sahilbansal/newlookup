@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.loconav.lookup.FragmentController.loadFragment;
+
 /**
  * Created by sejal on 12-07-2018.
  */
@@ -36,7 +38,7 @@ public class Repair extends BaseTitleFragment {
     @Override
     public void onFragmentCreated() {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Upload repair image");
-        passingReason= (PassingReason)getActivity().getIntent().getSerializableExtra("str");
+        passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
         Log.e("sd",""+passingReason.getDeviceid());
         proceed.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,12 +67,9 @@ public class Repair extends BaseTitleFragment {
             }
             passingReason.setImagesList(imagesList);
             passingReason.setImagesPreRepair(deviceImage.GetimagesList().size());
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            DeviceIdFragment f1 = DeviceIdFragment.newInstance(passingReason);
-            fragmentTransaction.add(R.id.frameLayout, f1);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
+            DeviceIdFragment f1 =new DeviceIdFragment();
+            loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
         }else
             Toast.makeText(getContext(),"Add Device Image",Toast.LENGTH_SHORT).show();
     }

@@ -1,12 +1,8 @@
 package com.loconav.lookup.sharedetailsfragmants;
 
-import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +13,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.loconav.lookup.BaseTitleFragment;
 import com.loconav.lookup.CustomInflater;
-import com.loconav.lookup.EnterDetails;
 import com.loconav.lookup.Input;
+import com.loconav.lookup.LookupSubActivity;
 import com.loconav.lookup.R;
 import com.loconav.lookup.CommonFunction;
 import com.loconav.lookup.RepairAfterForm;
@@ -30,11 +28,13 @@ import com.loconav.lookup.model.RepairRequirements;
 import org.json.JSONObject;
 import java.util.ArrayList;
 
+import static com.loconav.lookup.FragmentController.loadFragment;
+
 /**
  * Created by prateek on 13/11/17.
  */
 
-public class SimChangeFragment extends Fragment {
+public class SimChangeFragment extends BaseTitleFragment {
     private SimchangeBinding binding;
     RepairRequirements repairRequirements;
     int reasonid, sizelist;
@@ -44,71 +44,70 @@ public class SimChangeFragment extends Fragment {
     ArrayList<String> SpinnerList = new ArrayList<>();
     ArrayList<EditText> editTexts = new ArrayList<>();
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup vg,
-                             Bundle savedInstanceState) {
+    @Override
+    public int setViewId() {
+        return R.layout.simchange;
+    }
 
-        binding = DataBindingUtil.inflate(
-                inflater, R.layout.simchange, vg, false);
-        passingReason = (PassingReason) getArguments().getSerializable("str");
+    @Override
+    public void onFragmentCreated() {
+        passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
         userChoice = passingReason.getUserChoice();
         binding.imei.setTag("imei");
         binding.remarks.setTag("remarks");
         editTexts.add(binding.imei);
         editTexts.add(binding.remarks);
         openFragment();
-            for (int i = 0; i < addtional.size(); i++) {
-                if (addtional.get(i).getField_type().equals("text")) {
-                    CustomInflater customInflater = new CustomInflater(getContext());
-                    LinearLayout linearLayout = binding.ll;
-                    editTexts.add(customInflater.addEditText(linearLayout, addtional.get(i), 0 + i));
-                }
+        for (int i = 0; i < addtional.size(); i++) {
+            if (addtional.get(i).getField_type().equals("text")) {
+                CustomInflater customInflater = new CustomInflater(getContext());
+                LinearLayout linearLayout = binding.ll;
+                editTexts.add(customInflater.addEditText(linearLayout, addtional.get(i), 0 + i));
             }
-            binding.share.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (binding.SimimageAfter.GetimagesList().size() >= 1) {
-                        if (CommonFunction.validateEdit(editTexts) && CommonFunction.validateLength(editTexts)) {
-                            if (binding.spinnerSim.getSelectedItem().toString().equals("Select option")) {
-                                Toast.makeText(getContext(), "Select reasons", Toast.LENGTH_LONG).show();
-                            } else {
-                                willDetails();
-                                FragmentManager fragmentManager = getFragmentManager();
-                                RepairAfterForm fragmentRepairAfterForm = new RepairAfterForm();
-                                Bundle bundle = new Bundle();
-                                ArrayList<String> imagesList1 = new ArrayList<>();
-                                imagesList1.addAll(passingReason.getImagesList());
-                                for (ImageUri imageUri : (binding.SimimageAfter.GetimagesList())) {
-                                    imagesList1.add(imageUri.getUri().toString());
-                                }
-                                passingReason.setImagesInRepair(binding.SimimageAfter.GetimagesList().size());
-                                passingReason.imagesList.clear();
-                                passingReason.setImagesList(imagesList1);
-                                bundle.putSerializable("req", repairRequirements);
-                                bundle.putSerializable("req2", passingReason);
-                                fragmentRepairAfterForm.setArguments(bundle);
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                fragmentTransaction.add(R.id.frameLayoutSecond, fragmentRepairAfterForm, "Fragment One");
-                                fragmentTransaction.addToBackStack(null);
-                                fragmentTransaction.commit();
+        }
+        binding.share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.SimimageAfter.GetimagesList().size() >= 1) {
+                    if (CommonFunction.validateEdit(editTexts) && CommonFunction.validateLength(editTexts)) {
+                        if (binding.spinnerSim.getSelectedItem().toString().equals("Select option")) {
+                            Toast.makeText(getContext(), "Select reasons", Toast.LENGTH_LONG).show();
+                        } else {
+                            willDetails();
+                            RepairAfterForm fragmentRepairAfterForm = new RepairAfterForm();
+                            Bundle bundle = new Bundle();
+                            ArrayList<String> imagesList1 = new ArrayList<>();
+                            imagesList1.addAll(passingReason.getImagesList());
+                            for (ImageUri imageUri : (binding.SimimageAfter.GetimagesList())) {
+                                imagesList1.add(imageUri.getUri().toString());
                             }
+                            passingReason.setImagesInRepair(binding.SimimageAfter.GetimagesList().size());
+                            passingReason.imagesList.clear();
+                            passingReason.setImagesList(imagesList1);
+                            ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
+                            bundle.putSerializable("req", repairRequirements);
+                            fragmentRepairAfterForm.setArguments(bundle);
+                            loadFragment(fragmentRepairAfterForm,getFragmentManager(),R.id.frameLayout,true);
                         }
-                    } else {
-                        Toast.makeText(getContext(), "Add Image After Repair", Toast.LENGTH_SHORT).show();
                     }
-
+                } else {
+                    Toast.makeText(getContext(), "Add Image After Repair", Toast.LENGTH_SHORT).show();
                 }
-            });
-        String deviceId = ((EnterDetails) getActivity()).getDeviceID();
+
+            }
+        });
+        String deviceId =passingReason.getDeviceid();
         CommonFunction.setEditText(binding.imei, deviceId);
-        return binding.getRoot();
     }
 
-    public static SimChangeFragment newInstance(PassingReason passingReason1) {
-        SimChangeFragment fragment = new SimChangeFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("str", passingReason1);
-        fragment.setArguments(bundle);
-        return fragment;
+    @Override
+    public void bindView(View view) {
+        binding = DataBindingUtil.bind(view);
+    }
+
+    @Override
+    public void getComponentFactory() {
+
     }
 
     ArrayList<Input> openFragment() {
@@ -162,4 +161,8 @@ public class SimChangeFragment extends Fragment {
         Log.e("id is", "getSpinnerData: "+reasonid );
     }
 
+    @Override
+    public String getTitle() {
+        return ""+userChoice;
+    }
 }

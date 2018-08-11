@@ -10,33 +10,41 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.loconav.lookup.BaseTitleFragment;
 import com.loconav.lookup.CommonFunction;
-import com.loconav.lookup.EnterDetails;
+import com.loconav.lookup.LookupSubActivity;
 import com.loconav.lookup.R;
 import com.loconav.lookup.ShareAndUpload;
 import com.loconav.lookup.application.SharedPrefHelper;
+import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.NewinstallationBinding;
 import com.loconav.lookup.model.Client;
+import com.loconav.lookup.model.PassingReason;
 
-import static com.loconav.lookup.Constants.USER_ID;
+import static com.loconav.lookup.FragmentController.loadFragment;
 import static com.loconav.lookup.UserPrefs.phoneNumber;
 
 /**
  * Created by prateek on 13/11/17.
  */
 
-public class NewInstallation extends Fragment {
+public class NewInstallation extends BaseTitleFragment {
     private NewinstallationBinding binding;
     SharedPrefHelper sharedPrefHelper;
-    public View onCreateView(LayoutInflater inflater, ViewGroup vg,
-                             Bundle savedInstanceState) {
+    PassingReason passingReason;
+
+    @Override
+    public int setViewId() {
+        return R.layout.newinstallation;
+    }
+
+    @Override
+    public void onFragmentCreated() {
         sharedPrefHelper=SharedPrefHelper.getInstance(getContext());
-        final String deviceId = ((EnterDetails)getActivity()).getDeviceID();
-        final Client client = ((EnterDetails) getActivity()).getClient();
-
-        binding = DataBindingUtil.inflate(inflater, R.layout.newinstallation, vg, false);
-         binding.ownerName.setText(client.getName());
-
+        passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
+        final String deviceId = passingReason.getDeviceid();
+        final Client client = passingReason.getClientId();
+        binding.ownerName.setText(client.getName());
         binding.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,16 +75,24 @@ public class NewInstallation extends Fragment {
                             binding.manufacture.getText().toString()+"&deviceid="+ deviceId;
                     sharedPrefHelper.setStringData("message", message);
                     sharedPrefHelper.setStringData("upload_url", url);
-                    Intent intent = new Intent(getActivity(), ShareAndUpload.class);
-                    startActivity(intent);
+                    ShareAndUpload f1 = new ShareAndUpload();
+                    loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
                 }
             }
         });
         CommonFunction.setEditText(binding.imei, deviceId);
         CommonFunction.setEditText(binding.ownerName, client.getName());
         CommonFunction.setEditText(binding.clientId, client.getClientId());
+    }
 
-        return binding.getRoot();
+    @Override
+    public void bindView(View view) {
+        binding = DataBindingUtil.bind(view);
+    }
+
+    @Override
+    public void getComponentFactory() {
+
     }
 
 
@@ -85,5 +101,10 @@ public class NewInstallation extends Fragment {
             return "YES";
         else
             return "NO";
+    }
+
+    @Override
+    public String getTitle() {
+        return "New Installations";
     }
 }

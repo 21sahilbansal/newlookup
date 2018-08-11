@@ -33,7 +33,7 @@ public class FragmentController extends AppCompatActivity {
 
         }
 
-    public void loadFragment(final Fragment fragment,FragmentManager fragmentManager,int resId,Boolean addToBackStack) {
+    public static void loadFragment(final Fragment fragment,FragmentManager fragmentManager,int resId,Boolean addToBackStack) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(resId, fragment,"");
         if(addToBackStack) {

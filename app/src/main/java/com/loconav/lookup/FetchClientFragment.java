@@ -1,33 +1,33 @@
 package com.loconav.lookup;
 
 import android.content.Intent;
-import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.loconav.lookup.adapter.ClientAdapter;
 import com.loconav.lookup.base.BaseActivity;
+import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.ActivityFetchClientBinding;
 import com.loconav.lookup.model.Client;
-import com.loconav.lookup.model.LookupResponse;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
+import com.loconav.lookup.sharedetailsfragmants.NewInstallation;
 
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class FetchClientActivity extends BaseActivity {
+import static com.loconav.lookup.FragmentController.loadFragment;
+
+public class FetchClientFragment extends BaseTitleFragment {
     private ActivityFetchClientBinding binding;
     private ClientAdapter clientAdapter;
     private List<Client> clients = new ArrayList<>();
@@ -36,18 +36,25 @@ public class FetchClientActivity extends BaseActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_fetch_client);
-        setFetchClientButton();
-        setAdapter();
-        Bundle receivedBundle = getIntent().getExtras();
-        passingReason=(PassingReason) receivedBundle.getSerializable("str");
+    public int setViewId() {
+        return R.layout.activity_fetch_client;
     }
 
     @Override
-    public boolean showBackButton() {
-        return true;
+    public void onFragmentCreated() {
+        setFetchClientButton();
+        setAdapter();
+        passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
+    }
+
+    @Override
+    public void bindView(View view) {
+        binding = DataBindingUtil.bind(view);
+    }
+
+    @Override
+    public void getComponentFactory() {
+
     }
 
     private void setFetchClientButton() {
@@ -77,27 +84,29 @@ public class FetchClientActivity extends BaseActivity {
             @Override
             public void handleFailure(Call<List<Client>> call, Throwable t) {
                 binding.layoutClient.setVisibility(View.GONE);
-                Toast.makeText(getBaseContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                 Log.e("error ", t.getMessage());
             }
         });
     }
 
     private void setAdapter() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.rvClients.setLayoutManager(layoutManager);
         clientAdapter = new ClientAdapter(clients, new Callback() {
             @Override
             public void onEventDone(Object object) {
-                Intent intent = new Intent(FetchClientActivity.this, EnterDetails.class);
+                NewInstallation f1 = new NewInstallation();
                 passingReason.setClientId((Client)object);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("str", passingReason);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
+                loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
             }
         });
         binding.rvClients.setAdapter(clientAdapter);
     }
 
+    @Override
+    public String getTitle() {
+        return "Enter Client";
+    }
 }
