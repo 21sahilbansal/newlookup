@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.loconav.lookup.application.SharedPrefHelper;
 
 import static com.loconav.lookup.Constants.USER_ID;
+import static com.loconav.lookup.UserPrefs.code;
 import static com.loconav.lookup.UserPrefs.phoneNumber;
 import static com.loconav.lookup.Utility.isStringEmptyOrNull;
 
@@ -41,7 +42,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void fillUserId() {
-        CommonFunction.setEditText(userID,SharedPrefHelper.getInstance(getBaseContext()).getStringData(phoneNumber));
+        CommonFunction.setEditText(userID,SharedPrefHelper.getInstance(getBaseContext()).getStringData(code));
     }
 
     @Override

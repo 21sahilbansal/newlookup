@@ -110,6 +110,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
                     apiService.getDeviceLookup(etDeviceId.getText().toString()).enqueue(new RetrofitCallback<LookupResponse>() {
                         @Override
                         public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
+                            JsonUtil.hideKeyboard(getView().findFocus(), getContext());
                             Log.e("handle ", response.code() +"");
                             DeviceDetailsFragment f1 = new DeviceDetailsFragment();
                             passingReason.setDeviceid(etDeviceId.getText().toString());
@@ -142,13 +143,6 @@ public class DeviceIdFragment extends BaseTitleFragment {
         });
     }
 
-    public static DeviceIdFragment newInstance(PassingReason passingReason1) {
-        DeviceIdFragment fragment = new DeviceIdFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("str", passingReason1);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
     private void setScanner() {
         ibOpenQrScanner.setOnClickListener(new View.OnClickListener() {
             @Override

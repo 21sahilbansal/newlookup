@@ -16,7 +16,7 @@ import static com.loconav.lookup.UserPrefs.authenticationToken;
  */
 
 public class LoginApiClient {
-    public static final String BASE_URL = "http://staging.loconav.com/";
+    public static final String BASE_URL = "http://loconav.com/";
     private static Retrofit retrofit = null;
     public static Retrofit getClient() {
         if (retrofit==null) {

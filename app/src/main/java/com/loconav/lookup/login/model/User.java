@@ -24,6 +24,18 @@ public class User {
     @Expose
     private String authenticationToken;
 
+    @SerializedName("code")
+    @Expose
+    private String code;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public Integer getId() {
         return id;
     }

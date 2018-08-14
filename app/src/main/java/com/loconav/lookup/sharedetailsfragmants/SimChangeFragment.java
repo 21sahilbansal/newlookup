@@ -69,7 +69,7 @@ public class SimChangeFragment extends BaseTitleFragment {
             @Override
             public void onClick(View v) {
                 if (binding.SimimageAfter.GetimagesList().size() >= 1) {
-                    if (CommonFunction.validateEdit(editTexts) && CommonFunction.validateLength(editTexts)) {
+                    if (CommonFunction.validateEdit(editTexts)) {
                         if (binding.spinnerSim.getSelectedItem().toString().equals("Select option")) {
                             Toast.makeText(getContext(), "Select reasons", Toast.LENGTH_LONG).show();
                         } else {

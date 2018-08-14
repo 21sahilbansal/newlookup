@@ -53,7 +53,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
     public static ImagePickerDialog newInstance(String id,int limit) {
         ImagePickerDialog imagePickerDialog = new ImagePickerDialog();
 //        Bundle bundle=imagePickerDialog.getArguments();
-//        stringId=bundle.getString("id");
+//        stringId=bundle.getString("id");e
 //        limit1= bundle.getInt("limitImages");
         limit1=limit;
         stringId=id;

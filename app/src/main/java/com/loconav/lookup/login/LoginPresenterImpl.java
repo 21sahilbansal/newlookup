@@ -38,7 +38,6 @@ public class LoginPresenterImpl implements LoginPresenter{
                     loginView.showToast(response.body().getUser().getName());
                     loginView.hideSigningInDialog();
                     loginView.onLoginSuccess(response.body());
-//                    SharedPrefHelper.saveUser(response.body().getUser());
                 }
 
                 @Override
