@@ -26,17 +26,6 @@
                     android:layout_height="wrap_content"
                     android:hint="Remarks"/>
             </android.support.design.widget.TextInputLayout>
-            <!--<android.support.design.widget.TextInputLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
-                <!--<EditText-->
-                    <!--android:layout_marginTop="10dp"-->
-                    <!--android:id="@+id/vehicle_no"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:hint="Vehicle no*"/>-->
-            <!--</android.support.design.widget.TextInputLayout>-->
-
             <Spinner
                 android:id="@+id/spinnerSim"
                 android:layout_marginTop="10dp"
@@ -55,17 +44,6 @@
                     android:inputType="number"
                     android:hint="IMEI*" />
             </android.support.design.widget.TextInputLayout>
-            <!--<android.support.design.widget.TextInputLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
-                <!--<EditText-->
-                    <!--android:layout_marginTop="10dp"-->
-                    <!--android:id="@+id/client_id"-->
-                    <!--android:inputType="number"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:hint="Client ID*"/>-->
-            <!--</android.support.design.widget.TextInputLayout>-->
 
             <com.loconav.lookup.CustomImagePicker
                 android:id="@+id/SimimageAfter"

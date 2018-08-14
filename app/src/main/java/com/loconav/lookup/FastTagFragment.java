@@ -134,7 +134,6 @@ public class FastTagFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 JsonUtil.hideKeyboard(getView().findFocus(), getContext());
-                Log.e("fijriv",""+query);
                 query= (VehiclesList) parent.getItemAtPosition(position);
                 searchAutoComplete.setText(query.getNumber());
                 searchAutoComplete.setSelection(query.getNumber().length());
@@ -151,7 +150,6 @@ public class FastTagFragment extends BaseFragment {
         searchAutoCompleteFastag.setThreshold(1);
         searchAutoCompleteFastag.setAdapter(fastagAdapter);
         binding.searchFastId.setActivated(true);
-      //  binding.searchFastId.setIconified(false);
         searchAutoCompleteFastag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

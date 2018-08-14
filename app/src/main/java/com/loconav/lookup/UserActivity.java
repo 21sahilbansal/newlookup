@@ -11,12 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loconav.lookup.application.SharedPrefHelper;
+import com.loconav.lookup.base.BaseActivity;
 
 import static com.loconav.lookup.Constants.USER_ID;
 import static com.loconav.lookup.UserPrefs.phoneNumber;
 import static com.loconav.lookup.Utility.isStringEmptyOrNull;
 
-public class UserActivity extends AppCompatActivity implements View.OnClickListener{
+public class UserActivity extends BaseActivity implements View.OnClickListener{
     private EditText userID;
     private Button submit;
     SharedPrefHelper sharedPrefHelper ;
@@ -29,6 +30,11 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         initSharedPf();
         attachClickListener();
         fillUserId();
+    }
+
+    @Override
+    public boolean showBackButton() {
+        return true;
     }
 
     private void initSharedPf() {

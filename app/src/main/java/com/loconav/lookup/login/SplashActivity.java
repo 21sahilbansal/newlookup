@@ -40,7 +40,6 @@ import retrofit2.Response;
 import static com.loconav.lookup.Constants.IS_LOGGED_IN;
 import static com.loconav.lookup.Constants.LOG_IN_TIME;
 import static com.loconav.lookup.Constants.REASONS_RESPONSE;
-import static com.loconav.lookup.UserPrefs.name;
 
 public class SplashActivity extends BaseCameraActivity {
 
@@ -63,8 +62,9 @@ public class SplashActivity extends BaseCameraActivity {
         if(SharedPrefHelper.getInstance(getBaseContext()).getBooleanData(IS_LOGGED_IN)) {
             Long currentTime=System.currentTimeMillis();
             Long login=SharedPrefHelper.getInstance(getBaseContext()).getLongData(LOG_IN_TIME);
-            if(currentTime - login > TimeUnit.DAYS.toMillis(1)){
+            if(currentTime - login > TimeUnit.HOURS.toMillis(1)){
                 fetchData();
+                //currentTime - login > TimeUnit.DAYS.toMillis(1)
             }else{
                 Intent intent = new Intent(getBaseContext(), LookUpEntry.class);
                 startActivity(intent);

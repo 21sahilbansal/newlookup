@@ -23,8 +23,8 @@
             <LinearLayout
                 android:background="@color/white"
                 android:gravity="center"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
+                android:paddingTop="25dp"
+                android:paddingBottom="25dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

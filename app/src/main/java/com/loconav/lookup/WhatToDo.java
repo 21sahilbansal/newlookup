@@ -64,17 +64,9 @@ public class WhatToDo extends BaseFragment {
             ArrayList<Input> ll1 = new ArrayList<>();
             ReasonResponse reasonResponse = new ReasonResponse(1, "New Install", ll, ll1, "abc");
             jsonLog.add(reasonResponse);
-            setcolor();
             setPhotoAdapter();
         }else{
             Toast.makeText(getContext(),"something went wrong",Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void setcolor() {
-        int[] rainbow = getContext().getResources().getIntArray(R.array.rainbow);
-        for (int i = 0; i < jsonLog.size(); i++) {
-            jsonLog.get(i).setColor(rainbow[i]);
         }
     }
 

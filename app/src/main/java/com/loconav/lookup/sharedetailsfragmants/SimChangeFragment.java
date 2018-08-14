@@ -41,7 +41,7 @@ public class SimChangeFragment extends BaseTitleFragment {
     PassingReason passingReason;
     private String userChoice;
     ArrayList<Input> addtional = new ArrayList<>();
-    ArrayList<String> SpinnerList = new ArrayList<>();
+    ArrayList<String> spinnerList = new ArrayList<>();
     ArrayList<EditText> editTexts = new ArrayList<>();
 
     @Override
@@ -69,11 +69,11 @@ public class SimChangeFragment extends BaseTitleFragment {
             @Override
             public void onClick(View v) {
                 if (binding.SimimageAfter.GetimagesList().size() >= 1) {
-                    if (CommonFunction.validateEdit(editTexts) && CommonFunction.validateLength(editTexts)) {
+                    if (CommonFunction.validateEdit(editTexts)) {
                         if (binding.spinnerSim.getSelectedItem().toString().equals("Select option")) {
                             Toast.makeText(getContext(), "Select reasons", Toast.LENGTH_LONG).show();
                         } else {
-                            willDetails();
+                            makeJson();
                             RepairAfterForm fragmentRepairAfterForm = new RepairAfterForm();
                             Bundle bundle = new Bundle();
                             ArrayList<String> imagesList1 = new ArrayList<>();
@@ -111,13 +111,13 @@ public class SimChangeFragment extends BaseTitleFragment {
     }
 
     ArrayList<Input> openFragment() {
-        SpinnerList.add("Select option");
+        spinnerList.add("Select option");
         addtional = passingReason.getReasonResponse().getAdditional_fields();
         sizelist = passingReason.getReasonResponse().getReasons().size();
         for (int i = 0; i < sizelist; i++) {
-            SpinnerList.add(passingReason.getReasonResponse().getReasons().get(i).getName());
+            spinnerList.add(passingReason.getReasonResponse().getReasons().get(i).getName());
         }
-        setSpinner(SpinnerList, binding.spinnerSim);
+        setSpinner(spinnerList, binding.spinnerSim);
         return addtional;
     }
     public void setSpinner(ArrayList<String> categories, Spinner spinnerRep ) {
@@ -135,7 +135,7 @@ public class SimChangeFragment extends BaseTitleFragment {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerRep.setAdapter(dataAdapter);
     }
-    public void willDetails() {
+    public void makeJson() {
         getSpinnerData();
         JSONObject jsonObj=new JSONObject();
         try {
@@ -154,7 +154,7 @@ public class SimChangeFragment extends BaseTitleFragment {
     void getSpinnerData() {
         String text = binding.spinnerSim.getSelectedItem().toString();
             for (int i = 0; i < sizelist+1; i++) {
-                if (SpinnerList.get(i).equals(text)) {
+                if (spinnerList.get(i).equals(text)) {
                     reasonid = passingReason.getReasonResponse().getReasons().get(i-1).getId();
                 }
             }
