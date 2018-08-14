@@ -17,6 +17,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -26,6 +28,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -49,32 +52,11 @@ public class CustomInflater extends LinearLayout {
         super(context);
     }
 
-    public CustomInflater(final Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-
-        TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.Options, 0, 0);
-        String titleText = a.getString(R.styleable.Options_titleText);
-        a.recycle();
-
-        setOrientation(LinearLayout.VERTICAL);
-        setGravity(Gravity.CENTER_VERTICAL);
-
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.ci, this, true);
-        linearLayout=findViewById(R.id.linearLayout);
-        TextView  title= addtext(titleText);
-    }
-
-    void addLayout(LinearLayout linearLayout){
-           linearLayout.setOrientation(LinearLayout.VERTICAL);
-           this.linearLayout=linearLayout;
-        }
-     public TextView addtext(String str){
+     public TextView addtext(String str,LinearLayout linearLayout1, Input input, int index){
          TextView textView = new TextView(getContext());
          textView.setText(str);
-       //  linearLayout.addView(textView);
+         textView.setTag(input);
+         linearLayout1.addView(textView,index);
          return textView;
      }
 
@@ -141,10 +123,47 @@ public class CustomInflater extends LinearLayout {
         editText.setTextColor(getResources().getColor(R.color.black));
         editText.setHint(str.getName());
         editText.setHintTextColor(getResources().getColor(R.color.gray));
-
         til.addView(editText, editTextParams);
         editText.setTag(str.getKey());
+        til.setTag(str);
         return  editText;
     }
 
+    public void addSpinner(LinearLayout linearLayout, ArrayList<String> spinnerList, int index, Input input) {
+        Spinner spinner=new Spinner(getContext());
+        LinearLayout.LayoutParams editTextParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        editTextParams.setMargins(0,40,0,40);
+        spinner.setLayoutParams(editTextParams);
+        spinner.setTag(input);
+        linearLayout.addView(spinner,index);
+        setSpinner(spinnerList,spinner);
+    }
+
+    public void setSpinner(ArrayList<String> categories, Spinner spinnerRep ) {
+        spinnerRep.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, categories);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerRep.setAdapter(dataAdapter);
+    }
+
+    public void addImagePicker(LinearLayout linearLayout, int index, Input input, String titleText,int limit1,String idText1) {
+        CustomImagePicker customImagePicker=new CustomImagePicker(getContext(),titleText,limit1,idText1);
+        LinearLayout.LayoutParams editTextParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        editTextParams.setMargins(0,40,0,40);
+        customImagePicker.setLayoutParams(editTextParams);
+        customImagePicker.setTag(input);
+        linearLayout.addView(customImagePicker,index);
+
+    }
 }

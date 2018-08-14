@@ -79,6 +79,37 @@ public class CustomImagePicker extends LinearLayout{
 
     }
 
+    public CustomImagePicker(final Context context, String titleText, final int limit1, final String idText1) {
+        super(context);
+        limit=limit1;
+        idText=idText1;
+        if(limit==0) {
+            throw new RuntimeException();
+        }
+        setOrientation(LinearLayout.VERTICAL);
+        setGravity(Gravity.CENTER_VERTICAL);
+
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.custom_image_picker, this, true);
+
+        TextView title=findViewById(R.id.devText1);
+        title.setText(titleText);
+        iv=findViewById(R.id.devImage1);
+        android.support.v4.app.FragmentActivity fragmentActivity = (android.support.v4.app.FragmentActivity) getContext();
+        final FragmentManager fm = fragmentActivity.getSupportFragmentManager();
+        iv.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ImagePickerDialog imagePickerDialog=ImagePickerDialog.newInstance(idText,limit);
+                imagePickerDialog.show(fm,getClass().getSimpleName());
+            }
+        });
+
+        EventBus.getDefault().register(this);
+        setPhotoAdapter();
+    }
+
     private void setPhotoAdapter() {
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(),3,GridLayoutManager.VERTICAL,false);
         layoutManager.setInitialPrefetchItemCount(4);
@@ -138,7 +169,6 @@ public class CustomImagePicker extends LinearLayout{
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         Log.e("vdgv","unregister");
-        // View is now detached, and about to be destroyed
         EventBus.getDefault().unregister(this);
 
     }

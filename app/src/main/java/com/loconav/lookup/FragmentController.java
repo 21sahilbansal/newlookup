@@ -42,6 +42,15 @@ public class FragmentController extends AppCompatActivity {
         transaction.commit();
     }
 
+    public static void replaceFragment(final Fragment fragment,FragmentManager fragmentManager,int resId,Boolean addToBackStack) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(resId, fragment,"");
+        if(addToBackStack) {
+            transaction.addToBackStack(fragment.getClass().getName());
+        }
+        transaction.commit();
+    }
+
     private Fragment getFragmentsStack(FragmentManager fragmentManager) {
         List<Fragment> fragmentList = fragmentManager.getFragments();
             int size = fragmentList.size();

@@ -9,16 +9,33 @@ import java.util.ArrayList;
 
 public class Input implements Serializable {
 
-    String name;
-    String key;
-    String field_type;
-    String validations;
-    String[] data;
+    private String name;
+    private String key;
+    private String field_type;
+    private String validations;
+    private String hint;
+    private ArrayList<String> data;
 
-    public Input(String name, String key, String field_type) {
+    public Input(String name, String key, String field_type, String hint) {
+        this.name = name;
+        this.key = key;
+        this.hint=hint;
+        this.field_type = field_type;
+    }
+
+    public Input(String name, String key, String field_type, ArrayList<String> spinnerList) {
         this.name = name;
         this.key = key;
         this.field_type = field_type;
+        this.data=spinnerList;
+    }
+
+    public String getHint() {
+        return hint;
+    }
+
+    public void setHint(String hint) {
+        this.hint = hint;
     }
 
     public String getField_type() {
@@ -37,11 +54,11 @@ public class Input implements Serializable {
         this.validations = validations;
     }
 
-    public String[] getData() {
+    public  ArrayList<String> getData() {
         return data;
     }
 
-    public void setData(String[] data) {
+    public void setData( ArrayList<String> data) {
         this.data = data;
     }
 

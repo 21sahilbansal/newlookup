@@ -24,11 +24,10 @@ import static android.view.View.VISIBLE;
 
 public class RecycleGridAdapter extends BaseAdapter {
 
-    List<ImageUri> data;
-    ImageView context;
-    int limit;
+    private List<ImageUri> data;
+    private ImageView context;
+    private int limit;
     private Callback callback;
-    // Provide repair suitable constructor (depends on the kind of dataset)
     public RecycleGridAdapter(List<ImageUri> myDataset, ImageView context,int limit, Callback callback) {
         data = myDataset;
         this.context=context;
@@ -50,9 +49,7 @@ public class RecycleGridAdapter extends BaseAdapter {
     public void onItemClick(Object object, int position) {
         Log.e("item ", "onItemClick: "+ ((ImageUri) object).getUri());
         data.remove(data.get(position));
-        Log.e("item ", "onItemClick: "+ data.size());
-//        CustomImagePicker cs=new CustomImagePicker(context);
-//        cs.checkLimit(data);
+        Log.e("item ", "onItemClick: "+ data.size());;
         checkLimit(data);
         notifyDataSetChanged();
         callback.onEventDone(object);
@@ -65,7 +62,7 @@ public class RecycleGridAdapter extends BaseAdapter {
     public int getItemCount() {
         return data.size();
     }
-    public void checkLimit(List<ImageUri> imageUri){
+    private void checkLimit(List<ImageUri> imageUri){
         if(imageUri.size()>=limit){
             context.setVisibility(GONE);
         }else {

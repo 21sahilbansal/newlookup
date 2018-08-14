@@ -52,9 +52,6 @@ public class ImagePickerDialog extends BaseDialogFragment {
     ArrayList<ImageUri> imagesUriArrayList=new ArrayList<>(); ;
     public static ImagePickerDialog newInstance(String id,int limit) {
         ImagePickerDialog imagePickerDialog = new ImagePickerDialog();
-//        Bundle bundle=imagePickerDialog.getArguments();
-//        stringId=bundle.getString("id");
-//        limit1= bundle.getInt("limitImages");
         limit1=limit;
         stringId=id;
         return imagePickerDialog;
@@ -168,49 +165,10 @@ public class ImagePickerDialog extends BaseDialogFragment {
             e.printStackTrace();
         }
         thumbnail=Bitmap.createScaledBitmap(thumbnail,thumbnail.getWidth()*3 , thumbnail.getHeight()*3, true);
-      //  Log.e("w",""+thumbnail.getWidth()+"h"+thumbnail.getHeight());
         String path = MediaStore.Images.Media.insertImage(getContext().getContentResolver(),thumbnail, "Title", null);
         ImageUri imageUri=new ImageUri();
         imageUri.setUri(Uri.parse(path));
         imagesUriArrayList=new ArrayList<>();
         imagesUriArrayList.add(imageUri);
     }
-// Log.e("SIZE", imagesUriArrayList.size() + ""+imagesUriArrayList+"ssd"+siz);
-//        if(data.getClipData()==null){
-//        if(imagesUriArrayList.size()<limit1) {
-//            ImageUri imageUri = new ImageUri();
-//            imageUri.setUri(data.getData());
-//            imagesUriArrayList.add(imageUri);
-//        }
-//    }else {
-//        if((data.getClipData().getItemCount()+imagesUriArrayList.size())<=limit1) {
-//            for (int i = 0; i < data.getClipData().getItemCount(); i++) {
-//                ImageUri imageUri = new ImageUri();
-//                imageUri.setUri(data.getClipData().getItemAt(i).getUri());
-//                imagesUriArrayList.add(imageUri);
-//            }
-//        }else {
-//            if(imagesUriArrayList.size()>0) {
-//                for (int i = 0; i < (limit1 - imagesUriArrayList.size()); i++) {
-//
-//                    ImageUri imageUri = new ImageUri();
-//                    imageUri.setUri(data.getClipData().getItemAt(i).getUri());
-//                    imagesUriArrayList.add(imageUri);
-//                }
-//            }else {
-//                for (int i = 0; i<limit1; i++) {
-//
-//                    ImageUri imageUri = new ImageUri();
-//                    imageUri.setUri(data.getClipData().getItemAt(i).getUri());
-//                    imagesUriArrayList.add(imageUri);
-//                }
-//            }
-//            Toast.makeText(getContext(), "size limit upto "+limit1, Toast.LENGTH_SHORT).show();
-//        }
-//    }
-//    siz=imagesUriArrayList.size();
-//        Log.e("SIZE", imagesUriArrayList.size() + ""+imagesUriArrayList+"ssd"+siz);
-//
-
-
 }
