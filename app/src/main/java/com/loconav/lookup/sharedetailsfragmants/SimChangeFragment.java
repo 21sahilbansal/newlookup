@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.loconav.lookup.BaseTitleFragment;
@@ -66,11 +67,17 @@ public class SimChangeFragment extends BaseTitleFragment {
         binding.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(int i=0;i<binding.ll.getChildCount()-1;i++){
-                    View view=binding.ll.getChildAt(i);
-                    Input input=(Input)view.getTag();
-                    Log.e("ss", "onFragmentCreated: "+input.getName() );
+                for(int i=0;i<binding.ll.getChildCount()-1;i++) {
+                    View view = binding.ll.getChildAt(i);
+                    Input input = (Input) view.getTag();
+                    Log.e("ss", "onFragmentCreated: " + input.getName());
+                    if (addtional.get(i).getField_type().equals("text")) {
+                        EditText editText=(EditText)view;
+                        editText.getText().toString();
+                    } else if (addtional.get(i).getField_type().equals("spinner")) {
 
+                    } else if (addtional.get(i).getField_type().equals("ImagePicker")) {
+                    }
                 }
 //                if (binding.SimimageAfter.GetimagesList().size() >= 1) {
                     if (CommonFunction.validateEdit(editTexts)) {
