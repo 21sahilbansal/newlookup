@@ -35,6 +35,15 @@ public class CommonFunction {
         }
         return true;
     }
+    public static boolean validateEdit(EditText fields){
+            EditText currentField = fields;
+            if(currentField.getText().toString().length() <= 0){
+                currentField.setError("Cannot Be Empty");
+                currentField.requestFocus();
+                return false;
+            }
+        return true;
+    }
     public static boolean validateEdit(ArrayList<EditText> fields){
         for(int i = 0; i < fields.size(); i++){
             EditText currentField = fields.get(i);

@@ -124,8 +124,8 @@ public class CustomInflater extends LinearLayout {
         editText.setHint(str.getName());
         editText.setHintTextColor(getResources().getColor(R.color.gray));
         til.addView(editText, editTextParams);
-        editText.setTag(str.getKey());
-        til.setTag(str);
+        //editText.setTag(str.getKey());
+       editText.setTag(str);
         return  editText;
     }
 

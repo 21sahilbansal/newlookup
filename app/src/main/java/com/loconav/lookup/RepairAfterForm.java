@@ -59,7 +59,7 @@ public class RepairAfterForm extends BaseTitleFragment {
         proceedRep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (vehicleimage.GetimagesList().size() >= 1) {
+                if (vehicleimage.getimagesList().size() >= 1) {
                         proceedRep.setVisibility(View.GONE);
                         progressDialog.show();
                     if(!submitted) {
@@ -71,10 +71,10 @@ public class RepairAfterForm extends BaseTitleFragment {
                             public void run() {
                                 ArrayList<String> imagesList1 = new ArrayList<>();
                                 imagesList1.addAll(passingReason.getImagesList());
-                                for (ImageUri imageUri : (vehicleimage.GetimagesList())) {
+                                for (ImageUri imageUri : (vehicleimage.getimagesList())) {
                                     imagesList1.add(imageUri.getUri().toString());
                                 }
-                                passingReason.setImagesPostRepair(vehicleimage.GetimagesList().size());
+                                passingReason.setImagesPostRepair(vehicleimage.getimagesList().size());
                                 passingReason.imagesList.clear();
                                 passingReason.setImagesList(imagesList1);
                                 ((LookupSubActivity)getActivity()).setPassingReason(passingReason);

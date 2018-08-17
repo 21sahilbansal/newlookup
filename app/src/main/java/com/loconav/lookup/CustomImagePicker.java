@@ -172,7 +172,7 @@ public class CustomImagePicker extends LinearLayout{
         EventBus.getDefault().unregister(this);
 
     }
-    public  ArrayList<ImageUri> GetimagesList(){
+    public  ArrayList<ImageUri> getimagesList(){
         return imageUris;
     }
 
