@@ -51,8 +51,8 @@ public class CommonFunction {
         for(int i = 0; i < fields.size(); i++) {
             EditText currentField = fields.get(i);
             if (currentField.getTag().toString().equals("new_sim") || currentField.getTag().toString().equals("old_sim")) {
-                if (currentField.getText().toString().length() < 22) {
-                    currentField.setError("Cannot Be Less Than " + 22);
+                if (currentField.getText().toString().length() < 10) {
+                    currentField.setError("Cannot Be Less Than " + 10);
                     currentField.requestFocus();
                     return false;
                 }

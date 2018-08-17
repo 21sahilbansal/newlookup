@@ -22,6 +22,7 @@ import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.PassingReason;
 
 import static com.loconav.lookup.FragmentController.loadFragment;
+import static com.loconav.lookup.UserPrefs.code;
 import static com.loconav.lookup.UserPrefs.phoneNumber;
 
 /**
@@ -64,11 +65,10 @@ public class NewInstallation extends BaseTitleFragment {
                     message += "Sim No: "+ binding.simNo.getText().toString() + "\n";
                     message += "IMEI: "+ binding.imei.getText().toString() + "\n";
                     message += "Device Model: "+ binding.deviceModel.getText().toString()+"\n";
-                    message += "USER ID: " + SharedPrefHelper.getInstance(getContext()).getStringData(phoneNumber) +  "\n";
+                    message += "USER ID: " + SharedPrefHelper.getInstance(getContext()).getStringData(code) +  "\n";
                     message += "SOS: " + getFeatures(binding.cbSos) +  "\n";
                     message += "Trip Button: " + getFeatures(binding.cbTrip) +  "\n";
                     message += "Immobilizer: " + getFeatures(binding.cbImm) +  "\n";
-                    message += "USER ID: " + SharedPrefHelper.getInstance(getContext()).getStringData(phoneNumber) +  "\n";
                     message += "Sent By Device Checker:"+ " " + System.currentTimeMillis() ;
                     String url = "http://www.loconav.com/?type=new_vehicle&model="+
                             binding.model.getText().toString()+"&manufacturer="+
