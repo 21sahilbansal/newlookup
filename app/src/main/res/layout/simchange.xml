@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <ScrollView
     android:id="@+id/sv"
     android:layout_width="match_parent"
@@ -25,7 +24,7 @@
                 android:layout_marginBottom="18dp"
                 android:gravity="center"
                 android:textSize="18sp"
-                android:text="Share"/>
+                android:text="@string/proceed"/>
         </LinearLayout>
     </ScrollView>
 </layout>

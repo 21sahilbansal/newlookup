@@ -110,7 +110,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
                     apiService.getDeviceLookup(etDeviceId.getText().toString()).enqueue(new RetrofitCallback<LookupResponse>() {
                         @Override
                         public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
-                            JsonUtil.hideKeyboard(getView().findFocus(), getContext());
+                            Utility.hideKeyboard(getActivity());
                             Log.e("handle ", response.code() +"");
                             DeviceDetailsFragment f1 = new DeviceDetailsFragment();
                             passingReason.setDeviceid(etDeviceId.getText().toString());

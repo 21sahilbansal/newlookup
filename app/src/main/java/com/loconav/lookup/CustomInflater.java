@@ -126,6 +126,8 @@ public class CustomInflater extends LinearLayout {
         til.addView(editText, editTextParams);
         //editText.setTag(str.getKey());
        editText.setTag(str);
+       til.setTag(str);
+
         return  editText;
     }
 

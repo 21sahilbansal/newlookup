@@ -18,7 +18,10 @@ import com.loconav.lookup.LookupSubActivity;
 import com.loconav.lookup.R;
 import com.loconav.lookup.CommonFunction;
 import com.loconav.lookup.RepairAfterForm;
+import com.loconav.lookup.Utility;
 import com.loconav.lookup.databinding.SimchangeBinding;
+import com.loconav.lookup.formData.Validation;
+import com.loconav.lookup.model.ImageUri;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.RepairRequirements;
 
@@ -40,7 +43,6 @@ public class SimChangeFragment extends BaseTitleFragment {
     private String userChoice;
     ArrayList<Input> addtional = new ArrayList<>();
     ArrayList<String> spinnerList = new ArrayList<>();
-    // ArrayList<EditText> editTexts = new ArrayList<>();
     JSONObject jsonObj = new JSONObject();
 
     @Override
@@ -74,19 +76,45 @@ public class SimChangeFragment extends BaseTitleFragment {
             public void onClick(View v) {
                 for (int i = 0; i < binding.ll.getChildCount() - 1; i++) {
                     View view = binding.ll.getChildAt(i);
-                    if (addtional.get(i).getField_type().equals("text")) {
+                    Input input=(Input)view.getTag();
+                    Log.e("ss", "onClick:2 "+input.getName()+input.getValidations() );
+
+                    if (input.getField_type().equals("text")) {
                         TextInputLayout textInputLayout = (TextInputLayout) view;
                         EditText editText = textInputLayout.getEditText();
+//                        Boolean flag= Utility.matchregex(editText.getText().toString(),input.getValidations());
+//                        Log.e("ss","fnjdnfjnrdj"+flag);
                         makeJson(editText);
-                    } else if (addtional.get(i).getField_type().equals("spinner")) {
+                    } else if (input.getField_type().equals("spinner")) {
                         Spinner spinner = (Spinner) view;
                         getSpinnerData(spinner);
-                    } else if (addtional.get(i).getField_type().equals("ImagePicker")) {
+                    } else if (input.getField_type().equals("ImagePicker")) {
                         CustomImagePicker customImagePicker = (CustomImagePicker) view;
-                        customImagePicker.getimagesList();
+                        passImages(customImagePicker.getimagesList());
                     }
                 }
             }});
+    }
+
+    private void passImages(ArrayList<ImageUri> imageUris) {
+        if (imageUris.size() >= 1) {
+            ArrayList<String> imagesList1 = new ArrayList<>();
+            imagesList1.addAll(passingReason.getImagesList());
+            for (ImageUri imageUri : (imageUris)) {
+                imagesList1.add(imageUri.getUri().toString());
+            }
+            passingReason.setImagesInRepair(imageUris.size());
+            passingReason.imagesList.clear();
+            passingReason.setImagesList(imagesList1);
+            ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
+            RepairAfterForm fragmentRepairAfterForm = new RepairAfterForm();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("req", repairRequirements);
+            fragmentRepairAfterForm.setArguments(bundle);
+            loadFragment(fragmentRepairAfterForm, getFragmentManager(), R.id.frameLayout, true);
+        } else {
+            Toast.makeText(getContext(), "Add Image After Repair", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -136,10 +164,10 @@ public class SimChangeFragment extends BaseTitleFragment {
         }
 
     private void addOtherFields() {
-        Input i1 = new Input("deviceId", "imei", "textView", "Device Id :");
-        Input i2 = new Input("remarks", "remarks", "text", "");
-        Input i3 = new Input("reasons", "reasons", "spinner", spinnerList);
-        Input i4 = new Input("addImage", "addImage", "ImagePicker", "");
+        Input i1 = new Input("deviceId", "imei", "textView", "","Device Id :");
+        Input i2 = new Input("remarks", "remarks", "text", Validation.empty,"");
+        Input i3 = new Input("reasons", "reasons", "spinner","","", spinnerList);
+        Input i4 = new Input("addImage", "addImage", "ImagePicker", "","");
         addtional.add(i1);
         addtional.add(i2);
         addtional.add(i3);
@@ -156,29 +184,12 @@ public class SimChangeFragment extends BaseTitleFragment {
     }
 }
 
-    //                if (binding.SimimageAfter.GetimagesList().size() >= 1) {
+    //
     // if (CommonFunction.validateEdit(editTexts)) {
 //                       else {
     //  makeJson();
-//    RepairAfterForm fragmentRepairAfterForm = new RepairAfterForm();
-//    Bundle bundle = new Bundle();
-//    ArrayList<String> imagesList1 = new ArrayList<>();
-//                imagesList1.addAll(passingReason.getImagesList());
-////                            for (ImageUri imageUri : (binding.SimimageAfter.GetimagesList())) {
-////                                imagesList1.add(imageUri.getUri().toString());
-////                            }
-//                        //  passingReason.setImagesInRepair(binding.SimimageAfter.GetimagesList().size());
-//                        passingReason.imagesList.clear();
-//                        passingReason.setImagesList(imagesList1);
-//                        ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
-////                            bundle.putSerializable("req", repairRequirements);
-////                            fragmentRepairAfterForm.setArguments(bundle);
-////                            loadFragment(fragmentRepairAfterForm,getFragmentManager(),R.id.frameLayout,true);
-//                        // }
-//                        // }
-////                } else {
-////                    Toast.makeText(getContext(), "Add Image After Repair", Toast.LENGTH_SHORT).show();
-//                        // }
+//
+////                }
 //
 //                        }
 //                        });

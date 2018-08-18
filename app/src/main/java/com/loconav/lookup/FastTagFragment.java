@@ -133,7 +133,7 @@ public class FastTagFragment extends BaseFragment {
         searchAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                JsonUtil.hideKeyboard(getView().findFocus(), getContext());
+                Utility.hideKeyboard(getActivity());
                 query= (VehiclesList) parent.getItemAtPosition(position);
                 searchAutoComplete.setText(query.getNumber());
                 searchAutoComplete.setSelection(query.getNumber().length());
@@ -153,7 +153,7 @@ public class FastTagFragment extends BaseFragment {
         searchAutoCompleteFastag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                JsonUtil.hideKeyboard(getView().findFocus(), getContext());
+                Utility.hideKeyboard(getActivity());
                 queryFastags= (FastagsList) parent.getItemAtPosition(position);
                 searchAutoCompleteFastag.setText(queryFastags.getSerialNumber()+" "+queryFastags.getColor());
                 searchAutoCompleteFastag.setSelection(queryFastags.getSerialNumber().length()+queryFastags.getColor().length());

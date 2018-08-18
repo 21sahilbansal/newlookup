@@ -17,14 +17,24 @@
         android:background="?android:selectableItemBackground"
         custom:titleText="Upload Vehicle Image"
         custom:limitImages="1"/>
-    <Button
-        android:id="@+id/proceedRep"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginEnd="30dp"
-        android:text="Submit"
-        android:layout_marginRight="30dp"
-        android:layout_marginStart="30dp" />
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:orientation="vertical" >
+        <Button
+            android:id="@+id/proceedRep"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:text="Submit"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="150dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginStart="30dp" />
+    </LinearLayout>
 </LinearLayout>

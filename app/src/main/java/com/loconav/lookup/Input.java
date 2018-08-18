@@ -16,18 +16,21 @@ public class Input implements Serializable {
     private String hint;
     private ArrayList<String> data;
 
-    public Input(String name, String key, String field_type, String hint) {
+    public Input(String name, String key, String field_type,String validations, String hint) {
         this.name = name;
         this.key = key;
         this.hint=hint;
         this.field_type = field_type;
+        this.validations = validations;
     }
 
-    public Input(String name, String key, String field_type, ArrayList<String> spinnerList) {
+    public Input(String name, String key, String field_type, String validations, String hint, ArrayList<String> data) {
         this.name = name;
         this.key = key;
         this.field_type = field_type;
-        this.data=spinnerList;
+        this.validations = validations;
+        this.hint = hint;
+        this.data = data;
     }
 
     public String getHint() {

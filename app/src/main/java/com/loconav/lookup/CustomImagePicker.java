@@ -2,6 +2,7 @@ package com.loconav.lookup;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +12,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,6 +55,18 @@ public class CustomImagePicker extends LinearLayout{
             if(limit==0) {
               throw new RuntimeException();
             }
+//        final View parent = (View) delegate.getParent();
+//        parent.post( new Runnable() {
+//            // Post in the parent's message queue to make sure the parent
+//            // lays out its children before we call getHitRect()
+//            public void run() {
+//                final Rect r = new Rect();
+//                delegate.getHitRect(r);
+//                r.top -= 4;
+//                r.bottom += 4;
+//                parent.setTouchDelegate( new TouchDelegate( r , delegate));
+//            }
+//        });
         a.recycle();
         setOrientation(LinearLayout.VERTICAL);
         setGravity(Gravity.CENTER_VERTICAL);

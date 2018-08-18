@@ -5,4 +5,5 @@ package com.loconav.lookup.formData;
  */
 
 public class Validation {
+    public static final String empty="^$";
 }
