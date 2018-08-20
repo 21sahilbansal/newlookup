@@ -48,7 +48,7 @@ public class ShareAndUpload extends BaseTitleFragment {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendAppMsg(message);
+                shareOnWhatsApp(message,getContext());
             }
         });
     }
@@ -66,6 +66,19 @@ public class ShareAndUpload extends BaseTitleFragment {
         sharedPrefHelper = SharedPrefHelper.getInstance(getContext());
     }
 
+    public void shareOnWhatsApp( String text, Context context) {
+        Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+        whatsappIntent.setType("text/html");
+        whatsappIntent.setPackage("com.whatsapp");
+        whatsappIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        whatsappIntent.putExtra(Intent.EXTRA_TEXT,  text);
+        try {
+            context.startActivity(whatsappIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(getContext(), "Whatapp not found", Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
 
     public void sendAppMsg(String message) {
         Log.e("message ", message);
