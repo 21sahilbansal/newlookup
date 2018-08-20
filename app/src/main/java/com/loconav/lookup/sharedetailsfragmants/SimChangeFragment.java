@@ -79,29 +79,17 @@ public class SimChangeFragment extends BaseTitleFragment {
                 for (int i = 0; i < binding.ll.getChildCount() - 1; i++) {
                     View view = binding.ll.getChildAt(i);
                     validate = validator(view);
-                }
-                for (int i = 0; i < binding.ll.getChildCount() - 1; i++) {
-                    View view = binding.ll.getChildAt(i);
-                    Input input = (Input) view.getTag();
-                    if (validate) {
-                        if (input.getField_type().equals("text")) {
-                            TextInputLayout textInputLayout = (TextInputLayout) view;
-                            EditText editText = textInputLayout.getEditText();
-                            makeJson(editText);
-                        } else if (input.getField_type().equals("spinner")) {
-                            Spinner spinner = (Spinner) view;
-                            getSpinnerData(spinner);
-                        } else if (input.getField_type().equals("ImagePicker")) {
-                            CustomImagePicker customImagePicker = (CustomImagePicker) view;
-                            passImages(customImagePicker.getimagesList());
-                        }
+                    if(!validate){
+                        break;
                     }
                 }
+                if(validate) {
                     RepairAfterForm fragmentRepairAfterForm = new RepairAfterForm();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("req", repairRequirements);
                     fragmentRepairAfterForm.setArguments(bundle);
                     loadFragment(fragmentRepairAfterForm, getFragmentManager(), R.id.frameLayout, true);
+                }
             }
         });
     }
@@ -110,18 +98,26 @@ public class SimChangeFragment extends BaseTitleFragment {
         if (object instanceof TextInputLayout) {
             TextInputLayout textInputLayout = (TextInputLayout) object;
             EditText editText = textInputLayout.getEditText();
-            return CommonFunction.validateEdit(editText);
+            if(CommonFunction.validateEdit(editText)){
+                makeJson(editText);
+            }else{
+                return false;
+            }
         } else if (object instanceof Spinner) {
             Spinner spinner=(Spinner)object;
             if (spinner.getSelectedItem().toString().equals("Select option")) {
                 Toast.makeText(getContext(), "Select reasons", Toast.LENGTH_LONG).show();
                 return false;
+            }else{
+                getSpinnerData(spinner);
             }
         } else if (object instanceof CustomImagePicker) {
             CustomImagePicker customImagePicker = (CustomImagePicker) object;
             if (customImagePicker.getimagesList().size() < 1) {
                 Toast.makeText(getContext(), "Add Image After Repair", Toast.LENGTH_SHORT).show();
                 return false;
+            }else{
+                passImages(customImagePicker.getimagesList());
             }
         }
         return true;
