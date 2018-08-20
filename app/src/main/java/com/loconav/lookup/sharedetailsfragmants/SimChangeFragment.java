@@ -41,6 +41,7 @@ public class SimChangeFragment extends BaseTitleFragment {
     int reasonid, sizelist;
     PassingReason passingReason;
     private String userChoice;
+    private Boolean validate=false;
     ArrayList<Input> addtional = new ArrayList<>();
     ArrayList<String> spinnerList = new ArrayList<>();
     JSONObject jsonObj = new JSONObject();
@@ -57,6 +58,7 @@ public class SimChangeFragment extends BaseTitleFragment {
         addSpinnerData();
         CustomInflater customInflater = new CustomInflater(getContext());
         LinearLayout linearLayout = binding.ll;
+        repairRequirements=new RepairRequirements();
         userChoice = passingReason.getUserChoice();
         for (int i = 0; i < addtional.size(); i++) {
             if (addtional.get(i).getField_type().equals("textView")) {
@@ -76,28 +78,53 @@ public class SimChangeFragment extends BaseTitleFragment {
             public void onClick(View v) {
                 for (int i = 0; i < binding.ll.getChildCount() - 1; i++) {
                     View view = binding.ll.getChildAt(i);
-                    Input input=(Input)view.getTag();
-                    Log.e("ss", "onClick:2 "+input.getName()+input.getValidations() );
-
-                    if (input.getField_type().equals("text")) {
-                        TextInputLayout textInputLayout = (TextInputLayout) view;
-                        EditText editText = textInputLayout.getEditText();
-//                        Boolean flag= Utility.matchregex(editText.getText().toString(),input.getValidations());
-//                        Log.e("ss","fnjdnfjnrdj"+flag);
-                        makeJson(editText);
-                    } else if (input.getField_type().equals("spinner")) {
-                        Spinner spinner = (Spinner) view;
-                        getSpinnerData(spinner);
-                    } else if (input.getField_type().equals("ImagePicker")) {
-                        CustomImagePicker customImagePicker = (CustomImagePicker) view;
-                        passImages(customImagePicker.getimagesList());
+                    Input input = (Input) view.getTag();
+                    validator(view);
+                    if (validate) {
+                        if (input.getField_type().equals("text")) {
+                            TextInputLayout textInputLayout = (TextInputLayout) view;
+                            EditText editText = textInputLayout.getEditText();
+                            makeJson(editText);
+                        } else if (input.getField_type().equals("spinner")) {
+                            Spinner spinner = (Spinner) view;
+                            getSpinnerData(spinner);
+                        } else if (input.getField_type().equals("ImagePicker")) {
+                            CustomImagePicker customImagePicker = (CustomImagePicker) view;
+                            passImages(customImagePicker.getimagesList());
+                        }
                     }
                 }
-            }});
+                    RepairAfterForm fragmentRepairAfterForm = new RepairAfterForm();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("req", repairRequirements);
+                    fragmentRepairAfterForm.setArguments(bundle);
+                    loadFragment(fragmentRepairAfterForm, getFragmentManager(), R.id.frameLayout, true);
+            }
+        });
+    }
+
+    private void validator(View object) {
+        if (object instanceof TextInputLayout) {
+            TextInputLayout textInputLayout = (TextInputLayout) object;
+            EditText editText = textInputLayout.getEditText();
+            validate=CommonFunction.validateEdit(editText);
+        } else if (object instanceof Spinner) {
+            Spinner spinner=(Spinner)object;
+            if (spinner.getSelectedItem().toString().equals("Select option")) {
+                Toast.makeText(getContext(), "Select reasons", Toast.LENGTH_LONG).show();
+                validate=false;
+            }
+        } else if (object instanceof CustomImagePicker) {
+            CustomImagePicker customImagePicker = (CustomImagePicker) object;
+            if (customImagePicker.getimagesList().size() < 1) {
+                Toast.makeText(getContext(), "Add Image After Repair", Toast.LENGTH_SHORT).show();
+                validate=false;
+            }
+        }
     }
 
     private void passImages(ArrayList<ImageUri> imageUris) {
-        if (imageUris.size() >= 1) {
+
             ArrayList<String> imagesList1 = new ArrayList<>();
             imagesList1.addAll(passingReason.getImagesList());
             for (ImageUri imageUri : (imageUris)) {
@@ -107,14 +134,6 @@ public class SimChangeFragment extends BaseTitleFragment {
             passingReason.imagesList.clear();
             passingReason.setImagesList(imagesList1);
             ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
-            RepairAfterForm fragmentRepairAfterForm = new RepairAfterForm();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("req", repairRequirements);
-            fragmentRepairAfterForm.setArguments(bundle);
-            loadFragment(fragmentRepairAfterForm, getFragmentManager(), R.id.frameLayout, true);
-        } else {
-            Toast.makeText(getContext(), "Add Image After Repair", Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
@@ -128,35 +147,31 @@ public class SimChangeFragment extends BaseTitleFragment {
     }
 
     public void makeJson(EditText editText) {
-        if (CommonFunction.validateEdit(editText)) {
-            Input i = (Input) editText.getTag();
-            Log.e("ss", "makeJson: " + i + i.getName());
-            try {
-                jsonObj.put(userChoice, "yes");
-                jsonObj.put(i.getName(), editText.getText().toString());
-            } catch (Exception e) {
-                e.printStackTrace();
+        Input i = (Input) editText.getTag();
+        try {
+            jsonObj.put(userChoice, "yes");
+            jsonObj.put(i.getName(), editText.getText().toString());
+            if(i.getName().equals("remarks")){
+                repairRequirements.setRemarks(editText.getText().toString());
             }
-            Log.e("sej6", "" + jsonObj);
-            ArrayList<String> al = new ArrayList<>();
-            ArrayList<String> al1 = new ArrayList<>();
-            repairRequirements = new RepairRequirements(passingReason.getDeviceid(), reasonid, "", jsonObj.toString(), al, al1);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        Log.e("sej6", "" + jsonObj);
+        repairRequirements.setRepair_data(jsonObj.toString());
     }
 
     void getSpinnerData(Spinner spinner) {
         String text = spinner.getSelectedItem().toString();
-        if (spinner.getSelectedItem().toString().equals("Select option")) {
-            Toast.makeText(getContext(), "Select reasons", Toast.LENGTH_LONG).show();
-        } else {
-            for (int i = 0; i < sizelist + 1; i++) {
-                if (spinnerList.get(i).equals(text)) {
-                    reasonid = passingReason.getReasonResponse().getReasons().get(i - 1).getId();
-                }
+        for (int i = 0; i < sizelist + 1; i++) {
+            if (spinnerList.get(i).equals(text)) {
+                reasonid = passingReason.getReasonResponse().getReasons().get(i - 1).getId();
             }
         }
-            Log.e("id is", "getSpinnerData: " + reasonid);
-        }
+        Log.e("id is", "getSpinnerData: " + reasonid);
+        repairRequirements.setDevice_id(passingReason.getDeviceid());
+        repairRequirements.setReason_id(reasonid);
+    }
 
         @Override
         public String getTitle () {
@@ -183,15 +198,3 @@ public class SimChangeFragment extends BaseTitleFragment {
         }
     }
 }
-
-    //
-    // if (CommonFunction.validateEdit(editTexts)) {
-//                       else {
-    //  makeJson();
-//
-////                }
-//
-//                        }
-//                        });
-//                        String deviceId = passingReason.getDeviceid();
-//CommonFunction.setEditText(binding.imei, deviceId);

@@ -43,7 +43,6 @@ public class RepairAfterForm extends BaseTitleFragment {
     private ProgressDialog progressDialog;
     PassingReason passingReason;
     Boolean submitted=false;
-    String str;
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
     @Override
