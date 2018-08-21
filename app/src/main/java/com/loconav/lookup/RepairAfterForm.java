@@ -60,51 +60,57 @@ public class RepairAfterForm extends BaseTitleFragment {
             @Override
             public void onClick(View v) {
                 if (vehicleimage.GetimagesList().size() >= 1) {
+                    if (Utility.isNetworkAvailable(getActivity())) {
                         proceedRep.setVisibility(View.GONE);
                         progressDialog.show();
-                    if(!submitted) {
-                        submitted=true;
-                        HandlerThread handlerThread = new HandlerThread("background");
-                        handlerThread.start();
-                        new Handler(handlerThread.getLooper()).post(new Runnable() {
-                            @Override
-                            public void run() {
-                                ArrayList<String> imagesList1 = new ArrayList<>();
-                                imagesList1.addAll(passingReason.getImagesList());
-                                for (ImageUri imageUri : (vehicleimage.GetimagesList())) {
-                                    imagesList1.add(imageUri.getUri().toString());
+                        if (!submitted) {
+                            submitted = true;
+                            HandlerThread handlerThread = new HandlerThread("background");
+                            handlerThread.start();
+                            new Handler(handlerThread.getLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ArrayList<String> imagesList1 = new ArrayList<>();
+                                    imagesList1.addAll(passingReason.getImagesList());
+                                    for (ImageUri imageUri : (vehicleimage.GetimagesList())) {
+                                        imagesList1.add(imageUri.getUri().toString());
+                                    }
+                                    passingReason.setImagesPostRepair(vehicleimage.GetimagesList().size());
+                                    passingReason.imagesList.clear();
+                                    passingReason.setImagesList(imagesList1);
+                                    ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
+                                    Log.e("size", "run: " + passingReason.getImagesList().size());
+                                    ArrayList<String> al = new ArrayList<>();
+                                    for (int i = 0; i < passingReason.getImagesPreRepair(); i++) {
+                                        String str2 = ((LookupSubActivity) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
+                                        al.add(str2);
+                                    }
+                                    repairRequirements.setPre_repair_images(al);
+                                    ArrayList<String> al1 = new ArrayList<>();
+                                    for (int i = passingReason.getImagesPreRepair(); i < passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i++) {
+                                        String str5 = ((LookupSubActivity) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
+                                        al1.add(str5);
+                                    }
+                                    for (int i = passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i < passingReason.getImagesList().size(); i++) {
+                                        String str3 = ((LookupSubActivity) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
+                                        al1.add(str3);
+                                    }
+                                    repairRequirements.setPost_repair_images(al1);
+                                    hitApi(repairRequirements);
                                 }
-                                passingReason.setImagesPostRepair(vehicleimage.GetimagesList().size());
-                                passingReason.imagesList.clear();
-                                passingReason.setImagesList(imagesList1);
-                                ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
-                                Log.e("size", "run: " + passingReason.getImagesList().size());
-                                ArrayList<String> al = new ArrayList<>();
-                                for (int i = 0; i < passingReason.getImagesPreRepair(); i++) {
-                                    String str2 = ((LookupSubActivity) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
-                                    al.add(str2);
-                                }
-                                repairRequirements.setPre_repair_images(al);
-                                ArrayList<String> al1 = new ArrayList<>();
-                                for (int i = passingReason.getImagesPreRepair(); i < passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i++) {
-                                    String str5 = ((LookupSubActivity) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
-                                    al1.add(str5);
-                                }
-                                for (int i = passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i < passingReason.getImagesList().size(); i++) {
-                                    String str3 = ((LookupSubActivity) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
-                                    al1.add(str3);
-                                }
-                                repairRequirements.setPost_repair_images(al1);
-                                hitApi(repairRequirements);
-                            }
-                        });
-                    }else if(submitted){
+                            });
+                        } else if (submitted) {
                             hitApi(repairRequirements);
                         }
-                } else {
+                    } else
+                        Toast.makeText(getContext(), "Internet not available", Toast.LENGTH_SHORT).show();
+                }
+                else {
                     Toast.makeText(getContext(), "Add Vehicle Image", Toast.LENGTH_SHORT).show();
                 }
+
             }
+
         });
     }
 
@@ -124,33 +130,33 @@ public class RepairAfterForm extends BaseTitleFragment {
     }
 
     public void hitApi(RepairRequirements repairRequirements) {
+            apiService.addRepairs(repairRequirements).enqueue(new RetrofitCallback<RepairResponse>() {
 
-        apiService.addRepairs(repairRequirements).enqueue(new RetrofitCallback<RepairResponse>() {
+                @Override
+                public void handleSuccess(Call<RepairResponse> call, Response<RepairResponse> response) {
+                    progressDialog.dismiss();
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
+                    ;
+                    builder.setMessage(response.body().getMessage())
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(getContext(), LookUpEntry.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                }
+                            })
+                            .setCancelable(false)
+                            .show();
+                }
 
-            @Override
-            public void handleSuccess(Call<RepairResponse> call, Response<RepairResponse> response) {
-                progressDialog.dismiss();
-                final AlertDialog.Builder builder= new AlertDialog.Builder(getActivity(),R.style.DialogTheme);;
-                builder.setMessage(response.body().getMessage())
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent=new Intent(getContext(),LookUpEntry.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                            }
-                        })
-                        .setCancelable(false)
-                        .show();
-            }
-
-            @Override
-            public void handleFailure(Call<RepairResponse> call, Throwable t) {
-                proceedRep.setVisibility(View.VISIBLE);
-                progressDialog.dismiss();
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-                Log.e("error ", t.getMessage());
-            }
-        });
+                @Override
+                public void handleFailure(Call<RepairResponse> call, Throwable t) {
+                    proceedRep.setVisibility(View.VISIBLE);
+                    progressDialog.dismiss();
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.e("error ", t.getMessage());
+                }
+            });
     }
 
     public Bitmap bitmapTouri(Uri imageUri) {

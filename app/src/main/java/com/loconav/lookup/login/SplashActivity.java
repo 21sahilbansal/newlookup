@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.loconav.lookup.BaseCameraActivity;
 import com.loconav.lookup.LookUpEntry;
 import com.loconav.lookup.R;
+import com.loconav.lookup.Utility;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.ReasonResponse;
@@ -88,27 +89,32 @@ public class SplashActivity extends BaseCameraActivity {
     }
 
     void fetchData() {
-        apiService.getReasons().enqueue(new Callback<ResponseBody>() {
-            String str;
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    str=response.body().string();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                sharedPrefHelper.setStringData(REASONS_RESPONSE, str);
-                sharedPrefHelper.setLongData(LOG_IN_TIME, System.currentTimeMillis());
-                Intent intent = new Intent(getBaseContext(), LookUpEntry.class);
-                startActivity(intent);
-                finish();
-            }
+        if (Utility.isNetworkAvailable(this)) {
+            apiService.getReasons().enqueue(new Callback<ResponseBody>() {
+                String str;
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getBaseContext(),t.getMessage().toString(),Toast.LENGTH_SHORT).show();
-                Log.e("res ", "onResponse: " + t.getMessage() );
-            }
-        });
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    try {
+                        str = response.body().string();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    sharedPrefHelper.setStringData(REASONS_RESPONSE, str);
+                    sharedPrefHelper.setLongData(LOG_IN_TIME, System.currentTimeMillis());
+                    Intent intent = new Intent(getBaseContext(), LookUpEntry.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(getBaseContext(), t.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    Log.e("res ", "onResponse: " + t.getMessage());
+                }
+            });
+        } else
+            Toast.makeText(getBaseContext(), "Internet not available", Toast.LENGTH_SHORT).show();
     }
+
 }

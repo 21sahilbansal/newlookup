@@ -12,4 +12,5 @@ public interface LoginView extends BaseView{
     void onLoginFailure();
     void showSigningInDialog();
     void hideSigningInDialog();
+    boolean isUserOnline();
 }

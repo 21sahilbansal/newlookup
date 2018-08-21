@@ -106,29 +106,34 @@ public class DeviceIdFragment extends BaseTitleFragment {
             public void onClick(View view) {
                 String deviceId = etDeviceId.getText().toString().trim();
                 if(!deviceId.isEmpty()) {
-                    progressDialog.show();
-                    apiService.getDeviceLookup(etDeviceId.getText().toString()).enqueue(new RetrofitCallback<LookupResponse>() {
-                        @Override
-                        public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
-                            JsonUtil.hideKeyboard(getView().findFocus(), getContext());
-                            Log.e("handle ", response.code() +"");
-                            DeviceDetailsFragment f1 = new DeviceDetailsFragment();
-                            passingReason.setDeviceid(etDeviceId.getText().toString());
-                            ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("lookup_response", response.body());
-                            f1.setArguments(bundle);
-                            loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
-                            progressDialog.dismiss();
-                        }
+                    if (Utility.isNetworkAvailable(getActivity())) {
+                        progressDialog.show();
+                        apiService.getDeviceLookup(etDeviceId.getText().toString()).enqueue(new RetrofitCallback<LookupResponse>() {
+                            @Override
+                            public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
+                                JsonUtil.hideKeyboard(getView().findFocus(), getContext());
+                                Log.e("handle ", response.code() + "");
+                                DeviceDetailsFragment f1 = new DeviceDetailsFragment();
+                                passingReason.setDeviceid(etDeviceId.getText().toString());
+                                ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("lookup_response", response.body());
+                                f1.setArguments(bundle);
+                                loadFragment(f1, getFragmentManager(), R.id.frameLayout, true);
+                                progressDialog.dismiss();
+                            }
 
-                        @Override
-                        public void handleFailure(Call<LookupResponse> call, Throwable t) {
-                            progressDialog.dismiss();
-                            Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
-                } else
+                            @Override
+                            public void handleFailure(Call<LookupResponse> call, Throwable t) {
+                                progressDialog.dismiss();
+                                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(getContext(), "Internet not available", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                    else
                     Toast.makeText(getContext(), "Device id can't be empty", Toast.LENGTH_LONG).show();
 
             }

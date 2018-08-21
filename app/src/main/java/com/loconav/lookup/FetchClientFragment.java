@@ -69,25 +69,28 @@ public class FetchClientFragment extends BaseTitleFragment {
     }
 
     private void getSetData(final String clientId) {
-        apiService.getClients(clientId).enqueue(new RetrofitCallback<List<Client>>() {
-            @Override
-            public void handleSuccess(Call<List<Client>> call, Response<List<Client>> response) {
-                if(response.body()!=null && response.body().size()>0) {
-                    binding.layoutClient.setVisibility(View.VISIBLE);
-                    clients.clear();
-                    clients.addAll(response.body());
-                    clientAdapter.notifyDataSetChanged();
-                } else
-                    handleFailure(call, new Throwable("Client id doesn't exist"));
-            }
+        if (Utility.isNetworkAvailable(getActivity())) {
+            apiService.getClients(clientId).enqueue(new RetrofitCallback<List<Client>>() {
+                @Override
+                public void handleSuccess(Call<List<Client>> call, Response<List<Client>> response) {
+                    if (response.body() != null && response.body().size() > 0) {
+                        binding.layoutClient.setVisibility(View.VISIBLE);
+                        clients.clear();
+                        clients.addAll(response.body());
+                        clientAdapter.notifyDataSetChanged();
+                    } else
+                        handleFailure(call, new Throwable("Client id doesn't exist"));
+                }
 
-            @Override
-            public void handleFailure(Call<List<Client>> call, Throwable t) {
-                binding.layoutClient.setVisibility(View.GONE);
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-                Log.e("error ", t.getMessage());
-            }
-        });
+                @Override
+                public void handleFailure(Call<List<Client>> call, Throwable t) {
+                    binding.layoutClient.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.e("error ", t.getMessage());
+                }
+            });
+        } else
+            Toast.makeText(getContext(), "Internet not available", Toast.LENGTH_SHORT).show();
     }
 
     private void setAdapter() {

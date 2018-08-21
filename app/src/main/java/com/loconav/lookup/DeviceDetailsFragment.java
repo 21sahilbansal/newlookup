@@ -1,5 +1,7 @@
 package com.loconav.lookup;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -126,20 +128,23 @@ public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRef
     }
 
     private void getSetFreshData(String deviceID) {
-        apiService.getDeviceLookup(deviceID).enqueue(new RetrofitCallback<LookupResponse>() {
-            @Override
-            public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
-                Log.e("handle ", response.code() +"");
-                setData(response.body());
-                swipeRefreshLayout.setRefreshing(false);
-            }
+        if(Utility.isNetworkAvailable(getActivity())) {
+            apiService.getDeviceLookup(deviceID).enqueue(new RetrofitCallback<LookupResponse>() {
+                @Override
+                public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
+                    Log.e("handle ", response.code() + "");
+                    setData(response.body());
+                    swipeRefreshLayout.setRefreshing(false);
+                }
 
-            @Override
-            public void handleFailure(Call<LookupResponse> call, Throwable t) {
-                swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+                @Override
+                public void handleFailure(Call<LookupResponse> call, Throwable t) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }else
+            Toast.makeText(getContext(), "Internet not available", Toast.LENGTH_SHORT).show();
     }
 
     private void getSetIntentData() {

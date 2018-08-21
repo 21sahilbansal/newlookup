@@ -133,7 +133,7 @@ public class FastTagFragment extends BaseFragment {
         searchAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                JsonUtil.hideKeyboard(getView().findFocus(), getContext());
+                //JsonUtil.hideKeyboard(getView().findFocus(), getContext());
                 Log.e("fijriv",""+query);
                 query= (VehiclesList) parent.getItemAtPosition(position);
                 searchAutoComplete.setText(query.getNumber());
@@ -150,12 +150,12 @@ public class FastTagFragment extends BaseFragment {
         fastagAdapter= new FastagAdapter(getContext(),fastagsLists);
         searchAutoCompleteFastag.setThreshold(1);
         searchAutoCompleteFastag.setAdapter(fastagAdapter);
-        binding.searchFastId.setActivated(true);
-      //  binding.searchFastId.setIconified(false);
+       // binding.searchFastId.setActivated(true);
+        binding.searchFastId.setIconified(false);
         searchAutoCompleteFastag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                JsonUtil.hideKeyboard(getView().findFocus(), getContext());
+                //JsonUtil.hideKeyboard(getView().findFocus(), getContext());
                 queryFastags= (FastagsList) parent.getItemAtPosition(position);
                 searchAutoCompleteFastag.setText(queryFastags.getSerialNumber()+" "+queryFastags.getColor());
                 searchAutoCompleteFastag.setSelection(queryFastags.getSerialNumber().length()+queryFastags.getColor().length());
@@ -178,9 +178,5 @@ public class FastTagFragment extends BaseFragment {
                 Log.e("error ", t.getMessage());
             }
         });
-    }
-
-    public void onBackPressed() {
-
     }
 }

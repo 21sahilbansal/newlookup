@@ -28,16 +28,14 @@
                 android:id="@+id/searchTruck"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                app:iconifiedByDefault="false" />
+                android:gravity="end" />
 
             <android.support.v7.widget.SearchView
                 android:id="@+id/searchFastId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:gravity="end"
-                app:iconifiedByDefault="false" />
+                android:gravity="end" />
 
             <com.loconav.lookup.CustomImagePicker
                 android:id="@+id/view2"

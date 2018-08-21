@@ -1,10 +1,13 @@
 package com.loconav.lookup;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -20,6 +23,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -53,40 +57,45 @@ public class LookUpEntry extends BaseActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
     private void checkVersion() {
-        String version="";
+        String version = "";
         try {
             PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
-            version= pInfo.versionName;
+            version = pInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        apiService.getVersion((int) Float.parseFloat(version)).enqueue(new RetrofitCallback<VersionResponse>() {
-            @Override
-            public void handleSuccess(Call<VersionResponse> call, Response<VersionResponse> response) {
-                isForceUpdate=response.body().getForce_update();
-                if(response.body().getForce_update()){
-                    AlertDialog.Builder builder= new AlertDialog.Builder(LookUpEntry.this,R.style.DialogTheme);;
-                    builder.setMessage("Update App                                        ")
-                            .setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Uri uri = Uri.parse("http://play.loconav.com");
-                                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                                    startActivity(intent);
-                                }
-                            })
-                            .setCancelable(false)
-                            .show();
+        if (Utility.isNetworkAvailable(this)) {
+            apiService.getVersion((int) Float.parseFloat(version)).enqueue(new RetrofitCallback<VersionResponse>() {
+                @Override
+                public void handleSuccess(Call<VersionResponse> call, Response<VersionResponse> response) {
+                    isForceUpdate = response.body().getForce_update();
+                    if (response.body().getForce_update()) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(LookUpEntry.this, R.style.DialogTheme);
+                        ;
+                        builder.setMessage("Update App                                        ")
+                                .setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Uri uri = Uri.parse("http://play.loconav.com");
+                                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .setCancelable(false)
+                                .show();
+                    }
                 }
-            }
 
-            @Override
-            public void handleFailure(Call<VersionResponse> call, Throwable t) {
-                Log.e("ss", "handleFailure: " );
-            }
-        });
+                @Override
+                public void handleFailure(Call<VersionResponse> call, Throwable t) {
+                    Log.e("ss", "handleFailure: ");
+                }
+            });
+        } else
+            Toast.makeText(getBaseContext(), "Internet not available", Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onBackPressed() {
+        Log.e("ss", "onBackPressed: "+isNetworkAvailable() );
         Log.e("ss", "onBackPressed: " );
         if (viewPager.getCurrentItem() != 0) {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1,false);
@@ -172,5 +181,11 @@ public class LookUpEntry extends BaseActivity {
 
         }
 
+    }
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

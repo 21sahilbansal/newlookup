@@ -1,5 +1,6 @@
 package com.loconav.lookup.login;
 
+import com.loconav.lookup.Utility;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.login.model.Creds;
 import com.loconav.lookup.login.model.LoginResponse;
@@ -26,12 +27,14 @@ public class LoginPresenterImpl implements LoginPresenter{
 
     @Override
     public void validateUser(Creds creds) {
-        if (creds.getPhoneNumber() == null || creds.getPhoneNumber().isEmpty()) {
+        if(!loginView.isUserOnline())
+            loginView.showToast("Internet not available");
+        else if (creds.getPhoneNumber() == null || creds.getPhoneNumber().isEmpty()) {
             loginView.showToast("Username Can't Be Empty");
         }else if(creds.getPassword() == null || creds.getPassword().isEmpty()) {
             loginView.showToast("Password Can't Be Empty");
         } else {
-            loginView.showSigningInDialog();
+                loginView.showSigningInDialog();
             apiService.validateUser(creds).enqueue(new RetrofitCallback<LoginResponse>() {
                 @Override
                 public void handleSuccess(Call<LoginResponse> call, Response<LoginResponse> response) {

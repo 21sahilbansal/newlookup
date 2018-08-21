@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.loconav.lookup.LookUpEntry;
 import com.loconav.lookup.R;
+import com.loconav.lookup.Util;
+import com.loconav.lookup.Utility;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.databinding.ActivityLoginBinding;
 import com.loconav.lookup.login.model.Creds;
@@ -82,6 +84,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     @Override
     public void hideSigningInDialog() {
         dialog.dismiss();
+    }
+
+    @Override
+    public boolean isUserOnline() {
+        return Utility.isNetworkAvailable(this);
     }
 
 }
