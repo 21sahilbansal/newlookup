@@ -12,25 +12,14 @@ public class Input implements Serializable {
     private String name;
     private String key;
     private String field_type;
-    private String validations;
     private String hint;
     private ArrayList<String> data;
 
-    public Input(String name, String key, String field_type,String validations, String hint) {
+    public Input(String name, String key, String field_type, String hint) {
         this.name = name;
         this.key = key;
         this.hint=hint;
         this.field_type = field_type;
-        this.validations = validations;
-    }
-
-    public Input(String name, String key, String field_type, String validations, String hint, ArrayList<String> data) {
-        this.name = name;
-        this.key = key;
-        this.field_type = field_type;
-        this.validations = validations;
-        this.hint = hint;
-        this.data = data;
     }
 
     public String getHint() {
@@ -47,14 +36,6 @@ public class Input implements Serializable {
 
     public void setField_type(String field_type) {
         this.field_type = field_type;
-    }
-
-    public String getValidations() {
-        return validations;
-    }
-
-    public void setValidations(String validations) {
-        this.validations = validations;
     }
 
     public  ArrayList<String> getData() {

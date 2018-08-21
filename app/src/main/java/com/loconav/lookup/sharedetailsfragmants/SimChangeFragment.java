@@ -54,12 +54,12 @@ public class SimChangeFragment extends BaseTitleFragment {
     @Override
     public void onFragmentCreated() {
         passingReason = ((LookupSubActivity) getActivity()).getPassingReason();
-        addOtherFields();
         addSpinnerData();
         CustomInflater customInflater = new CustomInflater(getContext());
         LinearLayout linearLayout = binding.ll;
         repairRequirements=new RepairRequirements();
         userChoice = passingReason.getUserChoice();
+        addtional.addAll(passingReason.getReasonResponse().getAdditional_fields());
         for (int i = 0; i < addtional.size(); i++) {
             if (addtional.get(i).getField_type().equals("textView")) {
                 customInflater.addtext(addtional.get(i).getHint() + passingReason.getDeviceid(), linearLayout, addtional.get(i), 0 + i);
@@ -124,7 +124,6 @@ public class SimChangeFragment extends BaseTitleFragment {
     }
 
     private void passImages(ArrayList<ImageUri> imageUris) {
-
             ArrayList<String> imagesList1 = new ArrayList<>();
             imagesList1.addAll(passingReason.getImagesList());
             for (ImageUri imageUri : (imageUris)) {
@@ -178,23 +177,13 @@ public class SimChangeFragment extends BaseTitleFragment {
             return "" + userChoice;
         }
 
-    private void addOtherFields() {
-        Input i1 = new Input("deviceId", "imei", "textView", "","Device Id :");
-        Input i2 = new Input("remarks", "remarks", "text", Validation.empty,"");
-        Input i3 = new Input("reasons", "reasons", "spinner","","", spinnerList);
-        Input i4 = new Input("addImage", "addImage", "ImagePicker", "","");
-        addtional.add(i1);
-        addtional.add(i2);
-        addtional.add(i3);
-        addtional.add(i4);
-    }
 
     void addSpinnerData() {
         spinnerList.add("Select option");
-        addtional.addAll(passingReason.getReasonResponse().getAdditional_fields());
         sizelist = passingReason.getReasonResponse().getReasons().size();
         for (int i = 0; i < sizelist; i++) {
             spinnerList.add(passingReason.getReasonResponse().getReasons().get(i).getName());
         }
+
     }
 }
