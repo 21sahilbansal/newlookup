@@ -87,7 +87,7 @@ public class LookUpEntry extends BaseActivity {
     }
     @Override
     public void onBackPressed() {
-
+        Log.e("ss", "onBackPressed: " );
         if (viewPager.getCurrentItem() != 0) {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1,false);
         }else{
