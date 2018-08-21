@@ -56,5 +56,12 @@ public class SharedPrefHelper {
         return getSharedPref().getLong(key,-1);
     }
 
+    public void removeStringData(String key) {
+        SharedPreferences.Editor editor=getSharedPref().edit();
+        editor.remove(key);
+        editor.apply();
+    }
+
+
 }
 

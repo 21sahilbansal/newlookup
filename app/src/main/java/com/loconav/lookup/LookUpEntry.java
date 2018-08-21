@@ -63,8 +63,8 @@ public class LookUpEntry extends BaseActivity {
         apiService.getVersion((int) Float.parseFloat(version)).enqueue(new RetrofitCallback<VersionResponse>() {
             @Override
             public void handleSuccess(Call<VersionResponse> call, Response<VersionResponse> response) {
-                isForceUpdate=response.body().getUpdate_available();
-                if(response.body().getUpdate_available()){
+                isForceUpdate=response.body().getForce_update();
+                if(response.body().getForce_update()){
                     AlertDialog.Builder builder= new AlertDialog.Builder(LookUpEntry.this,R.style.DialogTheme);;
                     builder.setMessage("Update App                                        ")
                             .setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
@@ -85,7 +85,16 @@ public class LookUpEntry extends BaseActivity {
             }
         });
     }
+    @Override
+    public void onBackPressed() {
 
+        if (viewPager.getCurrentItem() != 0) {
+            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1,false);
+        }else{
+            finish();
+        }
+
+    }
 
     @Override
     public boolean showBackButton() {
@@ -112,7 +121,7 @@ public class LookUpEntry extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-       // checkVersion();
+        checkVersion();
     }
 
     public class FragmentAdapterClass extends FragmentStatePagerAdapter {

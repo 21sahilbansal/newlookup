@@ -129,7 +129,6 @@ public class RepairAfterForm extends BaseTitleFragment {
 
             @Override
             public void handleSuccess(Call<RepairResponse> call, Response<RepairResponse> response) {
-              //  proceedRep.setVisibility(View.VISIBLE);
                 progressDialog.dismiss();
                 final AlertDialog.Builder builder= new AlertDialog.Builder(getActivity(),R.style.DialogTheme);;
                 builder.setMessage(response.body().getMessage())

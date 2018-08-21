@@ -179,4 +179,8 @@ public class FastTagFragment extends BaseFragment {
             }
         });
     }
+
+    public void onBackPressed() {
+
+    }
 }

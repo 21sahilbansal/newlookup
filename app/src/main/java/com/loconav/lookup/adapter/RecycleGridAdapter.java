@@ -5,7 +5,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.loconav.lookup.C;
 import com.loconav.lookup.Callback;
 import com.loconav.lookup.CustomImagePicker;
 import com.loconav.lookup.R;
@@ -24,12 +26,13 @@ import static android.view.View.VISIBLE;
 
 public class RecycleGridAdapter extends BaseAdapter {
 
-    List<ImageUri> data;
-    ImageView context;
+    List<ImageUri> data;;
     int limit;
+    Context context;
+    int pos;
     private Callback callback;
     // Provide repair suitable constructor (depends on the kind of dataset)
-    public RecycleGridAdapter(List<ImageUri> myDataset, ImageView context,int limit, Callback callback) {
+    public RecycleGridAdapter(List<ImageUri> myDataset, int limit, Callback callback, Context context) {
         data = myDataset;
         this.context=context;
         this.callback = callback;
@@ -41,6 +44,7 @@ public class RecycleGridAdapter extends BaseAdapter {
         return data.get(position);
     }
 
+
     @Override
     public int getLayoutIdForType(int viewType) {
         return R.layout.gridview_layout;
@@ -48,13 +52,6 @@ public class RecycleGridAdapter extends BaseAdapter {
 
     @Override
     public void onItemClick(Object object, int position) {
-        Log.e("item ", "onItemClick: "+ ((ImageUri) object).getUri());
-        data.remove(data.get(position));
-        Log.e("item ", "onItemClick: "+ data.size());
-//        CustomImagePicker cs=new CustomImagePicker(context);
-//        cs.checkLimit(data);
-        checkLimit(data);
-        notifyDataSetChanged();
         callback.onEventDone(object);
     }
 
@@ -65,14 +62,18 @@ public class RecycleGridAdapter extends BaseAdapter {
     public int getItemCount() {
         return data.size();
     }
-    public void checkLimit(List<ImageUri> imageUri){
-        if(imageUri.size()>=limit){
-            context.setVisibility(GONE);
-        }else {
-            context.setVisibility(VISIBLE);
-        }
-        notifyDataSetChanged();
+
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
+        super.onBindViewHolder(holder, position);
+        View view = holder.itemView;
+        ImageView imageView = view.findViewById(R.id.remove);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                data.remove(data.get(position));
+                notifyDataSetChanged();
+            }
+        });
     }
-
-
 }

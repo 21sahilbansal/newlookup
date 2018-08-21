@@ -30,6 +30,7 @@ public class ClientAdapter extends BaseAdapter {
         return data.get(position);
     }
 
+
     @Override
     public int getLayoutIdForType(int viewType) {
         return R.layout.item_client;
@@ -45,13 +46,6 @@ public class ClientAdapter extends BaseAdapter {
     public void editHeightWidthItem(View view, ViewGroup parent) {
 
     }
-
-//    @Override
-//    public void onItemClick(Object object) {
-//        Log.e("item ", "onItemClick: "+ ((Client) object).getName());
-//        callback.onEventDone(object);
-//    }
-
     @Override
     public int getItemCount() {
         return data.size();

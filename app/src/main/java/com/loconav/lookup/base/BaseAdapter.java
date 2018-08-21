@@ -55,9 +55,12 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyVie
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.bind(getDataAtPosition(position));
+      //  getViewHolderAtPosition(holder,position);
     }
 
     public abstract Object getDataAtPosition(int position);
+
+  //  public abstract void getViewHolderAtPosition(MyViewHolder holder,int position);
 
     public abstract int getLayoutIdForType(int viewType);
 

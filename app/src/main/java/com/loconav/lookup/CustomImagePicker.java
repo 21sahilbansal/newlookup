@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -15,6 +16,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.loconav.lookup.adapter.RecycleGridAdapter;
 import com.loconav.lookup.dialog.ImagePickerDialog;
 import com.loconav.lookup.model.ImageUri;
@@ -33,7 +36,7 @@ import java.util.List;
 public class CustomImagePicker extends LinearLayout{
     private ArrayList<ImageUri> imageUris = new ArrayList<>();
     List<ImageUri>ll=new ArrayList<>();
-    private ImageView iv;
+    private LinearLayout iv;
     private String idText;
     public int limit;
     RecycleGridAdapter adapter;
@@ -69,8 +72,12 @@ public class CustomImagePicker extends LinearLayout{
          iv.setOnClickListener(new OnClickListener() {
              @Override
              public void onClick(View view) {
-                 ImagePickerDialog imagePickerDialog=ImagePickerDialog.newInstance(idText,limit);
-                 imagePickerDialog.show(fm,getClass().getSimpleName());
+                 if (imageUris.size()==limit) {
+                     Toast.makeText(getContext(),"Not more than "+limit+" images",Toast.LENGTH_SHORT).show();
+                 }else{
+                     ImagePickerDialog imagePickerDialog = ImagePickerDialog.newInstance(idText, limit);
+                     imagePickerDialog.show(fm, getClass().getSimpleName());
+                 }
              }
          });
 
@@ -80,15 +87,16 @@ public class CustomImagePicker extends LinearLayout{
     }
 
     private void setPhotoAdapter() {
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),3,GridLayoutManager.VERTICAL,false);
-        layoutManager.setInitialPrefetchItemCount(4);
+        LinearLayoutManager linearLayoutManager= new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
+//        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),3,GridLayoutManager.VERTICAL,false);
+        linearLayoutManager.setInitialPrefetchItemCount(4);
         RecyclerView recyclerImages=findViewById(R.id.rvImages);
-        recyclerImages.setLayoutManager(layoutManager);
-        adapter = new RecycleGridAdapter(imageUris,iv,limit, new Callback() {
+        recyclerImages.setLayoutManager(linearLayoutManager);
+        adapter = new RecycleGridAdapter(imageUris,limit, new Callback() {
             @Override
             public void onEventDone(Object object) {
             }
-        });
+        },getContext());
         recyclerImages.setAdapter(adapter);
         recyclerImages.setNestedScrollingEnabled(false);
     }
@@ -103,35 +111,42 @@ public class CustomImagePicker extends LinearLayout{
             ll.clear();
             ll.addAll((List<ImageUri>) event.getObject());
             Log.e("size34", "" + ll.size());
+            if (imageUris.size() + ll.size() > limit)
+                Toast.makeText(getContext(), "Not more than " + limit + " images", Toast.LENGTH_SHORT).show();
             for (int i = 0; i < ll.size(); i++) {
                 if (imageUris.size() < limit) {
                     this.imageUris.add(i, ll.get(i));
                 }
             }
-            checkLimit(imageUris);
+            //checkLimit(imageUris,ll);
             adapter.notifyDataSetChanged();
             Log.e("size", "" + imageUris);
         } else if (message.equals(str2)) {
             ll.clear();
             ll.addAll((List<ImageUri>) event.getObject());
             Log.e("size34", "" + ll.size());
+            if (imageUris.size() + ll.size() > limit)
+                Toast.makeText(getContext(), "Not more than " + limit + " images", Toast.LENGTH_SHORT).show();
             for (int i = 0; i < ll.size(); i++) {
                 if (imageUris.size() < limit) {
                     this.imageUris.add(i, ll.get(i));
                 }
             }
-            checkLimit(imageUris);
+           // checkLimit(imageUris,ll);
             adapter.notifyDataSetChanged();
             Log.e("size", "" + imageUris);
         }
     }
-    public void checkLimit(List<ImageUri> imageUri){
-        if(imageUri.size()>=limit){
-            iv.setVisibility(GONE);
-        }else {
-            iv.setVisibility(VISIBLE);
+    public Boolean checkLimit(List<ImageUri> imageUri,List<ImageUri> ll){
+        if(ll.size()>limit){
+            Toast.makeText(getContext(),"Not more than "+limit+" images",Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(imageUri.size()>limit){
+            Toast.makeText(getContext(),"Not more than "+limit+" images",Toast.LENGTH_SHORT).show();
+            return false;
         }
         adapter.notifyDataSetChanged();
+        return true;
     }
 
     @Override
