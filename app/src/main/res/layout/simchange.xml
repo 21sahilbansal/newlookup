@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <ScrollView
     android:id="@+id/sv"
     android:layout_width="match_parent"
@@ -15,67 +14,6 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/remarks"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Remarks"/>
-            </android.support.design.widget.TextInputLayout>
-            <!--<android.support.design.widget.TextInputLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
-                <!--<EditText-->
-                    <!--android:layout_marginTop="10dp"-->
-                    <!--android:id="@+id/vehicle_no"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:hint="Vehicle no*"/>-->
-            <!--</android.support.design.widget.TextInputLayout>-->
-
-            <Spinner
-                android:id="@+id/spinnerSim"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:hint="Reason For Repair"/>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/imei"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:hint="IMEI*" />
-            </android.support.design.widget.TextInputLayout>
-            <!--<android.support.design.widget.TextInputLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
-                <!--<EditText-->
-                    <!--android:layout_marginTop="10dp"-->
-                    <!--android:id="@+id/client_id"-->
-                    <!--android:inputType="number"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:hint="Client ID*"/>-->
-            <!--</android.support.design.widget.TextInputLayout>-->
-
-            <com.loconav.lookup.CustomImagePicker
-                android:id="@+id/SimimageAfter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                custom:id="view4"
-                android:background="?android:selectableItemBackground"
-                custom:titleText="Upload Image After Repair"
-                custom:limitImages="2"/>
 
             <Button
                 android:layout_marginTop="20dp"

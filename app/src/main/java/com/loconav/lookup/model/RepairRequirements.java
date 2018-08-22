@@ -2,9 +2,6 @@ package com.loconav.lookup.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.loconav.lookup.JsonUtil;
-
-import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -39,12 +36,13 @@ public class RepairRequirements implements Serializable {
     @Expose
     private ArrayList<String> post_repair_images;
 
+    public RepairRequirements(){}
+
     public RepairRequirements(String device_serial_number, int reason_id, String remarks, String repair_data, ArrayList<String> pre_repair_images, ArrayList<String> post_repair_images) {
         this.device_serial_number =device_serial_number;
         this.reason_id =reason_id;
         this.remarks =remarks;
         this.repair_data =repair_data;
-                //repair_data.replace("\"", "\\\"");
          this.pre_repair_images=pre_repair_images;
         this.post_repair_images =post_repair_images;
     }

@@ -9,12 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.login.SplashActivity;
-
+import com.loconav.lookup.base.BaseActivity;
 import static com.loconav.lookup.Constants.IS_LOGGED_IN;
 import static com.loconav.lookup.Constants.USER_ID;
 import static com.loconav.lookup.UserPrefs.authenticationToken;
@@ -22,9 +19,8 @@ import static com.loconav.lookup.UserPrefs.code;
 import static com.loconav.lookup.UserPrefs.location;
 import static com.loconav.lookup.UserPrefs.name;
 import static com.loconav.lookup.UserPrefs.phoneNumber;
-import static com.loconav.lookup.Utility.isStringEmptyOrNull;
 
-public class UserActivity extends AppCompatActivity implements View.OnClickListener{
+public class UserActivity extends BaseActivity implements View.OnClickListener{
     private EditText userID;
     private Button submit;
     SharedPrefHelper sharedPrefHelper ;
@@ -37,6 +33,11 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         initSharedPf();
         attachClickListener();
         fillUserId();
+    }
+
+    @Override
+    public boolean showBackButton() {
+        return true;
     }
 
     private void initSharedPf() {

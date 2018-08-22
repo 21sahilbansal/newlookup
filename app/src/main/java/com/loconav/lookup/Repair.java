@@ -60,13 +60,13 @@ public class Repair extends BaseTitleFragment {
 
     private void onProceedClicked(){
 
-        if(!deviceImage.GetimagesList().isEmpty()) {
+        if(!deviceImage.getimagesList().isEmpty()) {
             ArrayList<String> imagesList = new ArrayList<>();
-            for(ImageUri imageUri : deviceImage.GetimagesList()) {
+            for(ImageUri imageUri : deviceImage.getimagesList()) {
                 imagesList.add(imageUri.getUri().toString());
             }
             passingReason.setImagesList(imagesList);
-            passingReason.setImagesPreRepair(deviceImage.GetimagesList().size());
+            passingReason.setImagesPreRepair(deviceImage.getimagesList().size());
             ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
             DeviceIdFragment f1 =new DeviceIdFragment();
             loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);

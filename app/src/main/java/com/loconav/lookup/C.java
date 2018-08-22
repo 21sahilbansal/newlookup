@@ -2,6 +2,7 @@ package com.loconav.lookup;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.loconav.lookup.Utility.matchregex;
 
 /**
  * Created by sejal on 12-07-2018.
@@ -76,17 +79,17 @@ public class C extends BaseTitleFragment {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//
+//                FragmentManager fragmentManager = getFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                Repair2 fragmentOne = new Repair2();
+//                fragmentTransaction.replace(R.id.fragmentContainer, fragmentOne, "Fragment One");
+//                fragmentTransaction.addToBackStack("str");
+//                fragmentTransaction.commit();
 
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                Repair2 fragmentOne = new Repair2();
-                fragmentTransaction.replace(R.id.fragmentContainer, fragmentOne, "Fragment One");
-                fragmentTransaction.addToBackStack("str");
-                fragmentTransaction.commit();
 
-
-//                String str=ed1.getText().toString();
-//             //   String str2="^$";
+               String str=ed1.getText().toString();
+                String str2="^$";
 //            //   String str2="^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 //               //String str2="^(([\\w-]+\\\\.)+[\\\\w-]+|([a-zA-Z]{1}|[\\\\w-]{2,}))@\"\n" +
 ////                       "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\\\.([0-1]?\"\n" +
@@ -96,9 +99,9 @@ public class C extends BaseTitleFragment {
 ////                       "([a-zA-Z]+[\\\\w-]+\\\\.)+[a-zA-Z]{2,4})$";
 //               // String str2="^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";
 //                    String str2="^[0-9]{9}$";
-//                Boolean flag=matchregex(str,str2);
-//                Log.e("ss",""+str+str2+flag);
-//                tv.setText(flag.toString());
+                Boolean flag=matchregex(str,str2);
+                Log.e("ss",""+str+str2+flag);
+                tv.setText(flag.toString());
             }
         });
 

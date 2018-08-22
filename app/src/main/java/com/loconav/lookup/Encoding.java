@@ -51,7 +51,7 @@ Button b1;
               @Override
               public void onClick(View view) {
                   ll.clear();
-                  ll.addAll(customImagePicker.GetimagesList());
+                  ll.addAll(customImagePicker.getimagesList());
 //                  displayImage();
               }
           });

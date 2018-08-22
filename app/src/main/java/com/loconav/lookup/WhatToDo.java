@@ -20,6 +20,7 @@ import com.loconav.lookup.adapter.RecycleGridAdapter;
 import com.loconav.lookup.adapter.WhatToDoAdapter;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseFragment;
+import com.loconav.lookup.formData.Validation;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.ReasonResponse;
 import com.loconav.lookup.model.ReasonTypeResponse;
@@ -47,6 +48,7 @@ public class WhatToDo extends BaseFragment {
     @BindView(R.id.rvLay)
     RecyclerView recyclerView;
     WhatToDoAdapter adapter;
+    ArrayList<Input> addtional = new ArrayList<>();
     ArrayList<ReasonResponse> jsonLog = new ArrayList<>();
 
     @Override
@@ -67,6 +69,21 @@ public class WhatToDo extends BaseFragment {
             setPhotoAdapter();
         }else{
             Toast.makeText(getContext(),"something went wrong",Toast.LENGTH_LONG).show();
+        }
+    }
+    private void addOtherFields(String userChoice) {
+            Input i1 = new Input("deviceId", "imei", "textView", "Device Id :");
+            Input i2 = new Input("remarks", "remarks", "text", "");
+            Input i3 = new Input("reasons", "reasons", "spinner", "");
+            Input i4 = new Input("addImage", "addImage", "ImagePicker", "");
+            addtional.add(i1);
+            addtional.add(i2);
+            addtional.add(i3);
+            addtional.add(i4);
+        for(int i=0;i<jsonLog.size();i++) {
+            if (jsonLog.get(i).getName().equals(userChoice)) {
+                addtional.addAll(jsonLog.get(i).getAdditional_fields());
+            }
         }
     }
 
@@ -91,6 +108,8 @@ public class WhatToDo extends BaseFragment {
                 PassingReason passingReason = new PassingReason();
                 passingReason.setReasonResponse(reasonResponse);
                 passingReason.setUserChoice(reasonResponse.getName());
+                addOtherFields(passingReason.getUserChoice());
+                reasonResponse.setAdditional_fields(addtional);
                 passIntent("str", passingReason);
             }
         });

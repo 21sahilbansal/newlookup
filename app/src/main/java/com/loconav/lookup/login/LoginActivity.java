@@ -7,18 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.loconav.lookup.LookUpEntry;
 import com.loconav.lookup.R;
-import com.loconav.lookup.Util;
 import com.loconav.lookup.Utility;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.databinding.ActivityLoginBinding;
 import com.loconav.lookup.login.model.Creds;
 import com.loconav.lookup.login.model.LoginResponse;
-
 import static com.loconav.lookup.Constants.IS_LOGGED_IN;
-import static com.loconav.lookup.Constants.LOG_IN_TIME;
 import static com.loconav.lookup.Constants.USER_ID;
 import static com.loconav.lookup.UserPrefs.code;
 import static com.loconav.lookup.UserPrefs.location;

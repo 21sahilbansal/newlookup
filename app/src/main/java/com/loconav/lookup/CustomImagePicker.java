@@ -2,6 +2,7 @@ package com.loconav.lookup;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +13,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,6 +47,7 @@ public class CustomImagePicker extends LinearLayout{
     public CustomImagePicker(Context context) {
         super(context, null);
     }
+
     public CustomImagePicker(final Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
@@ -86,6 +89,41 @@ public class CustomImagePicker extends LinearLayout{
 
     }
 
+    public CustomImagePicker(final Context context, String titleText, final int limit1, final String idText1) {
+        super(context);
+        limit=limit1;
+        idText=idText1;
+        if(limit==0) {
+            throw new RuntimeException();
+        }
+        setOrientation(LinearLayout.VERTICAL);
+        setGravity(Gravity.CENTER_VERTICAL);
+
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.custom_image_picker, this, true);
+
+        TextView title=findViewById(R.id.devText1);
+        title.setText(titleText);
+        iv=findViewById(R.id.devImage1);
+        android.support.v4.app.FragmentActivity fragmentActivity = (android.support.v4.app.FragmentActivity) getContext();
+        final FragmentManager fm = fragmentActivity.getSupportFragmentManager();
+        iv.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (imageUris.size() == limit) {
+                    Toast.makeText(getContext(), "Not more than " + limit + " images", Toast.LENGTH_SHORT).show();
+                } else {
+                    ImagePickerDialog imagePickerDialog = ImagePickerDialog.newInstance(idText, limit);
+                    imagePickerDialog.show(fm, getClass().getSimpleName());
+                }
+            }
+        });
+
+        EventBus.getDefault().register(this);
+        setPhotoAdapter();
+    }
+
     private void setPhotoAdapter() {
         LinearLayoutManager linearLayoutManager= new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
 //        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),3,GridLayoutManager.VERTICAL,false);
@@ -118,7 +156,6 @@ public class CustomImagePicker extends LinearLayout{
                     this.imageUris.add(i, ll.get(i));
                 }
             }
-            //checkLimit(imageUris,ll);
             adapter.notifyDataSetChanged();
             Log.e("size", "" + imageUris);
         } else if (message.equals(str2)) {
@@ -132,7 +169,6 @@ public class CustomImagePicker extends LinearLayout{
                     this.imageUris.add(i, ll.get(i));
                 }
             }
-           // checkLimit(imageUris,ll);
             adapter.notifyDataSetChanged();
             Log.e("size", "" + imageUris);
         }
@@ -153,11 +189,10 @@ public class CustomImagePicker extends LinearLayout{
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         Log.e("vdgv","unregister");
-        // View is now detached, and about to be destroyed
         EventBus.getDefault().unregister(this);
 
     }
-    public  ArrayList<ImageUri> GetimagesList(){
+    public  ArrayList<ImageUri> getimagesList(){
         return imageUris;
     }
 

@@ -43,7 +43,6 @@ public class RepairAfterForm extends BaseTitleFragment {
     private ProgressDialog progressDialog;
     PassingReason passingReason;
     Boolean submitted=false;
-    String str;
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
     @Override
@@ -59,7 +58,7 @@ public class RepairAfterForm extends BaseTitleFragment {
         proceedRep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (vehicleimage.GetimagesList().size() >= 1) {
+                if (vehicleimage.getimagesList().size() >= 1) {
                     if (Utility.isNetworkAvailable(getActivity())) {
                         proceedRep.setVisibility(View.GONE);
                         progressDialog.show();
@@ -72,10 +71,10 @@ public class RepairAfterForm extends BaseTitleFragment {
                                 public void run() {
                                     ArrayList<String> imagesList1 = new ArrayList<>();
                                     imagesList1.addAll(passingReason.getImagesList());
-                                    for (ImageUri imageUri : (vehicleimage.GetimagesList())) {
+                                    for (ImageUri imageUri : (vehicleimage.getimagesList())) {
                                         imagesList1.add(imageUri.getUri().toString());
                                     }
-                                    passingReason.setImagesPostRepair(vehicleimage.GetimagesList().size());
+                                    passingReason.setImagesPostRepair(vehicleimage.getimagesList().size());
                                     passingReason.imagesList.clear();
                                     passingReason.setImagesList(imagesList1);
                                     ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
