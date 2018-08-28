@@ -34,6 +34,8 @@ import com.loconav.lookup.model.VersionResponse;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
+import com.loconav.lookup.sharedetailsfragmants.SimChangeFragment;
+
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -49,7 +51,6 @@ public class LookUpEntry extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.look_up_entry);
             getSupportActionBar().setElevation(0);
-
         tabLayout = (TabLayout) findViewById(R.id.tab_layout1);
         viewPager = (ViewPager) findViewById(R.id.pager1);
         fragmentAdapter = new FragmentAdapterClass(getSupportFragmentManager(),2);
@@ -71,7 +72,6 @@ public class LookUpEntry extends BaseActivity {
                     isForceUpdate = response.body().getForce_update();
                     if (response.body().getForce_update()) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(LookUpEntry.this, R.style.DialogTheme);
-                        ;
                         builder.setMessage("Update App                                        ")
                                 .setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
@@ -96,7 +96,6 @@ public class LookUpEntry extends BaseActivity {
     @Override
     public void onBackPressed() {
         Log.e("ss", "onBackPressed: "+isNetworkAvailable() );
-        Log.e("ss", "onBackPressed: " );
         if (viewPager.getCurrentItem() != 0) {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1,false);
         }else{
@@ -104,7 +103,6 @@ public class LookUpEntry extends BaseActivity {
         }
 
     }
-
     @Override
     public boolean showBackButton() {
         return false;

@@ -24,19 +24,16 @@ import static android.view.View.VISIBLE;
  * Created by sejal on 06-07-2018.
  */
 
-public class RecycleGridAdapter extends BaseAdapter {
+public class RecycleCustomImageAdapter extends BaseAdapter {
 
-    List<ImageUri> data;;
-    int limit;
+    List<ImageUri> data;
     Context context;
-    int pos;
     private Callback callback;
     // Provide repair suitable constructor (depends on the kind of dataset)
-    public RecycleGridAdapter(List<ImageUri> myDataset, int limit, Callback callback, Context context) {
+    public RecycleCustomImageAdapter(List<ImageUri> myDataset, Callback callback, Context context) {
         data = myDataset;
         this.context=context;
         this.callback = callback;
-        this.limit=limit;
     }
 
     @Override

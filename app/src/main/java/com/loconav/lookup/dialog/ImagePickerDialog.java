@@ -2,12 +2,17 @@ package com.loconav.lookup.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -47,16 +52,15 @@ public class ImagePickerDialog extends BaseDialogFragment {
     @BindView(R.id.camera) LinearLayout camera;
     @BindView(R.id.gallery) LinearLayout gallery;
     int REQUEST_CAMERA = 0,SELECT_FILE = 1;
-    static String stringId;
-    static int limit1;
+     String stringId;
+     int limit;
     ArrayList<ImageUri> imagesUriArrayList=new ArrayList<>(); ;
     public static ImagePickerDialog newInstance(String id,int limit) {
         ImagePickerDialog imagePickerDialog = new ImagePickerDialog();
-//        Bundle bundle=imagePickerDialog.getArguments();
-//        stringId=bundle.getString("id");
-//        limit1= bundle.getInt("limitImages");
-        limit1=limit;
-        stringId=id;
+        Bundle bundle=new Bundle();
+        bundle.putString("id",id);
+        bundle.putInt("limitImages",limit);
+        imagePickerDialog.setArguments(bundle);
         return imagePickerDialog;
     }
 
@@ -69,6 +73,8 @@ public class ImagePickerDialog extends BaseDialogFragment {
                         false);
         ButterKnife.bind(this, dialogView);
 
+        stringId=getArguments().getString("id");
+        limit=getArguments().getInt("limitImages");
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,12 +128,13 @@ public class ImagePickerDialog extends BaseDialogFragment {
     }
 
     public void parsingGalleryImage(Intent data)  {
+        data.getExtras();
         if(data.getClipData()==null){
             ImageUri imageUri = new ImageUri();
             imageUri.setUri(data.getData());
             imagesUriArrayList.add(imageUri);
         }else {
-            if(data.getClipData().getItemCount()<=limit1) {
+            if(data.getClipData().getItemCount()<=limit) {
                 Log.e("clip3",""+data.getClipData().getItemCount());
                 for (int i = 0; i < data.getClipData().getItemCount(); i++) {
 
@@ -136,13 +143,13 @@ public class ImagePickerDialog extends BaseDialogFragment {
                     imagesUriArrayList.add(imageUri);
                 }
             }else {
-                for (int i = 0; i <limit1; i++) {
+                for (int i = 0; i <limit; i++) {
 
                     ImageUri imageUri = new ImageUri();
                     imageUri.setUri(data.getClipData().getItemAt(i).getUri());
                     imagesUriArrayList.add(imageUri);
                 }
-                Toast.makeText(getContext(), "size limit upto "+limit1, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "size limit upto "+limit, Toast.LENGTH_SHORT).show();
             }
         }
         Log.e("SIZE", imagesUriArrayList.size() + ""+imagesUriArrayList);
@@ -151,6 +158,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
     public void parsingCameraImage(Intent data){
         Bitmap thumbnail = (Bitmap)data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail=Bitmap.createScaledBitmap(thumbnail,thumbnail.getWidth()*3 , thumbnail.getHeight()*3, true);
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
         File destination = new File(Environment.getExternalStorageDirectory(),
                 System.currentTimeMillis() + ".jpg");
@@ -165,10 +173,8 @@ public class ImagePickerDialog extends BaseDialogFragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        thumbnail=Bitmap.createScaledBitmap(thumbnail,thumbnail.getWidth()*3 , thumbnail.getHeight()*3, true);
-        String path = MediaStore.Images.Media.insertImage(getContext().getContentResolver(),thumbnail, "Title", null);
         ImageUri imageUri=new ImageUri();
-        imageUri.setUri(Uri.parse(path));
+        imageUri.setUri(( Uri.fromFile(destination)));
         imagesUriArrayList=new ArrayList<>();
         imagesUriArrayList.add(imageUri);
     }

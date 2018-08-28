@@ -2,25 +2,20 @@ package com.loconav.lookup;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Rect;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.TouchDelegate;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loconav.lookup.adapter.RecycleGridAdapter;
+import com.loconav.lookup.adapter.RecycleCustomImageAdapter;
 import com.loconav.lookup.dialog.ImagePickerDialog;
 import com.loconav.lookup.model.ImageUri;
 
@@ -37,12 +32,11 @@ import java.util.List;
 
 public class CustomImagePicker extends LinearLayout{
     private ArrayList<ImageUri> imageUris = new ArrayList<>();
-    List<ImageUri>ll=new ArrayList<>();
-    private LinearLayout iv;
-    private String idText;
+    private LinearLayout linearLayout;
+    private String textID ,titleText;
     public int limit;
-    RecycleGridAdapter adapter;
-    TypedArray a;
+    RecycleCustomImageAdapter recycleCustomImageAdapter;
+    TypedArray typedArrayCustom;
 
     public CustomImagePicker(Context context) {
         super(context, null);
@@ -51,15 +45,19 @@ public class CustomImagePicker extends LinearLayout{
     public CustomImagePicker(final Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
-         a= context.obtainStyledAttributes(attrs,
+         typedArrayCustom = context.obtainStyledAttributes(attrs,
                 R.styleable.Options, 0, 0);
-        String titleText = a.getString(R.styleable.Options_titleText);
-        idText = a.getString(R.styleable.Options_id);
-        limit = a.getInt(R.styleable.Options_limitImages,4);
+        titleText= typedArrayCustom.getString(R.styleable.Options_titleText);
+        textID = typedArrayCustom.getString(R.styleable.Options_id);
+        limit = typedArrayCustom.getInt(R.styleable.Options_limitImages,4);
             if(limit==0) {
               throw new RuntimeException();
             }
-        a.recycle();
+        typedArrayCustom.recycle();
+        setItem(context);
+    }
+
+    private void setItem(Context context) {
         setOrientation(LinearLayout.VERTICAL);
         setGravity(Gravity.CENTER_VERTICAL);
 
@@ -69,59 +67,33 @@ public class CustomImagePicker extends LinearLayout{
 
         TextView title=findViewById(R.id.devText1);
         title.setText(titleText);
-        iv=findViewById(R.id.devImage1);
+        linearLayout =findViewById(R.id.devImage1);
         android.support.v4.app.FragmentActivity fragmentActivity = (android.support.v4.app.FragmentActivity) getContext();
         final FragmentManager fm = fragmentActivity.getSupportFragmentManager();
-         iv.setOnClickListener(new OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 if (imageUris.size()==limit) {
-                     Toast.makeText(getContext(),"Not more than "+limit+" images",Toast.LENGTH_SHORT).show();
-                 }else{
-                     ImagePickerDialog imagePickerDialog = ImagePickerDialog.newInstance(idText, limit);
-                     imagePickerDialog.show(fm, getClass().getSimpleName());
-                 }
-             }
-         });
-
+        linearLayout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (imageUris.size()==limit) {
+                    Toast.makeText(getContext(),"Not more than "+limit+" images",Toast.LENGTH_SHORT).show();
+                }else{
+                    ImagePickerDialog imagePickerDialog = ImagePickerDialog.newInstance(textID, limit);
+                    imagePickerDialog.show(fm, getClass().getSimpleName());
+                }
+            }
+        });
         EventBus.getDefault().register(this);
         setPhotoAdapter();
-
     }
 
     public CustomImagePicker(final Context context, String titleText, final int limit1, final String idText1) {
         super(context);
         limit=limit1;
-        idText=idText1;
+        textID =idText1;
+        this.titleText=titleText;
         if(limit==0) {
             throw new RuntimeException();
         }
-        setOrientation(LinearLayout.VERTICAL);
-        setGravity(Gravity.CENTER_VERTICAL);
-
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.custom_image_picker, this, true);
-
-        TextView title=findViewById(R.id.devText1);
-        title.setText(titleText);
-        iv=findViewById(R.id.devImage1);
-        android.support.v4.app.FragmentActivity fragmentActivity = (android.support.v4.app.FragmentActivity) getContext();
-        final FragmentManager fm = fragmentActivity.getSupportFragmentManager();
-        iv.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (imageUris.size() == limit) {
-                    Toast.makeText(getContext(), "Not more than " + limit + " images", Toast.LENGTH_SHORT).show();
-                } else {
-                    ImagePickerDialog imagePickerDialog = ImagePickerDialog.newInstance(idText, limit);
-                    imagePickerDialog.show(fm, getClass().getSimpleName());
-                }
-            }
-        });
-
-        EventBus.getDefault().register(this);
-        setPhotoAdapter();
+        setItem(context);
     }
 
     private void setPhotoAdapter() {
@@ -130,67 +102,50 @@ public class CustomImagePicker extends LinearLayout{
         linearLayoutManager.setInitialPrefetchItemCount(4);
         RecyclerView recyclerImages=findViewById(R.id.rvImages);
         recyclerImages.setLayoutManager(linearLayoutManager);
-        adapter = new RecycleGridAdapter(imageUris,limit, new Callback() {
+        recycleCustomImageAdapter = new RecycleCustomImageAdapter(imageUris, new Callback() {
             @Override
             public void onEventDone(Object object) {
             }
         },getContext());
-        recyclerImages.setAdapter(adapter);
+        recyclerImages.setAdapter(recycleCustomImageAdapter);
         recyclerImages.setNestedScrollingEnabled(false);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getImagePickingEvents(ImagePickerEvent event) {
         String message = event.getMessage();
-        String str4=ImagePickerEvent.IMAGE_SELECTED_FROM_CAMERA+idText;
-        String str2=ImagePickerEvent.IMAGE_SELECTED_FROM_GALLERY+idText;
-        Log.e("gdyfg",""+message+" mes str4"+str4);
-        if (message.equals(str4)) {
-            ll.clear();
-            ll.addAll((List<ImageUri>) event.getObject());
-            Log.e("size34", "" + ll.size());
-            if (imageUris.size() + ll.size() > limit)
+        String imageEventCamera=ImagePickerEvent.IMAGE_SELECTED_FROM_CAMERA+ textID;
+        String imageEventGallery=ImagePickerEvent.IMAGE_SELECTED_FROM_GALLERY+ textID;
+        List<ImageUri> resultLinkedList=new ArrayList<>();
+        if (message.equals(imageEventCamera)) {
+            resultLinkedList.clear();
+            resultLinkedList.addAll((List<ImageUri>) event.getObject());
+            if (imageUris.size() + resultLinkedList.size() > limit)
                 Toast.makeText(getContext(), "Not more than " + limit + " images", Toast.LENGTH_SHORT).show();
-            for (int i = 0; i < ll.size(); i++) {
+            for (int i = 0; i < resultLinkedList.size(); i++) {
                 if (imageUris.size() < limit) {
-                    this.imageUris.add(i, ll.get(i));
+                    this.imageUris.add(i, resultLinkedList.get(i));
                 }
             }
-            adapter.notifyDataSetChanged();
-            Log.e("size", "" + imageUris);
-        } else if (message.equals(str2)) {
-            ll.clear();
-            ll.addAll((List<ImageUri>) event.getObject());
-            Log.e("size34", "" + ll.size());
-            if (imageUris.size() + ll.size() > limit)
+            recycleCustomImageAdapter.notifyDataSetChanged();
+        } else if (message.equals(imageEventGallery)) {
+            resultLinkedList.clear();
+            resultLinkedList.addAll((List<ImageUri>) event.getObject());
+            if (imageUris.size() + resultLinkedList.size() > limit)
                 Toast.makeText(getContext(), "Not more than " + limit + " images", Toast.LENGTH_SHORT).show();
-            for (int i = 0; i < ll.size(); i++) {
+            for (int i = 0; i < resultLinkedList.size(); i++) {
                 if (imageUris.size() < limit) {
-                    this.imageUris.add(i, ll.get(i));
+                    this.imageUris.add(i, resultLinkedList.get(i));
                 }
             }
-            adapter.notifyDataSetChanged();
+            recycleCustomImageAdapter.notifyDataSetChanged();
             Log.e("size", "" + imageUris);
         }
     }
-    public Boolean checkLimit(List<ImageUri> imageUri,List<ImageUri> ll){
-        if(ll.size()>limit){
-            Toast.makeText(getContext(),"Not more than "+limit+" images",Toast.LENGTH_SHORT).show();
-            return false;
-        }else if(imageUri.size()>limit){
-            Toast.makeText(getContext(),"Not more than "+limit+" images",Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        adapter.notifyDataSetChanged();
-        return true;
-    }
-
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        Log.e("vdgv","unregister");
         EventBus.getDefault().unregister(this);
-
     }
     public  ArrayList<ImageUri> getimagesList(){
         return imageUris;

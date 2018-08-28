@@ -1,10 +1,9 @@
 package com.loconav.lookup;
 
-import com.loconav.lookup.adapter.RecycleGridAdapter;
+import com.loconav.lookup.adapter.FastagAdapter;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FragmentFastagBinding;
 import com.loconav.lookup.model.FastagsList;
-import com.loconav.lookup.model.ImageUri;
 import com.loconav.lookup.model.InstallationRequirements;
 import com.loconav.lookup.model.InstallationResponse;
 import com.loconav.lookup.network.rest.ApiInterface;
@@ -12,7 +11,6 @@ import com.loconav.lookup.adapter.VehiclesAdapter;
 
 import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
@@ -22,14 +20,9 @@ import com.loconav.lookup.model.VehiclesList;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.StagingApiClient;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.ArrayList;
 import java.util.List;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -133,7 +126,6 @@ public class FastTagFragment extends BaseFragment {
         searchAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("fijriv",""+query);
                 Utility.hideKeyboard(getActivity());
                 query= (VehiclesList) parent.getItemAtPosition(position);
                 searchAutoComplete.setText(query.getNumber());
@@ -147,7 +139,7 @@ public class FastTagFragment extends BaseFragment {
 
     @SuppressLint("RestrictedApi")
     private void setSearchViewFastags() {
-        fastagAdapter= new FastagAdapter(getContext(),fastagsLists);
+        fastagAdapter= new FastagAdapter(getContext(),fastagsLists,searchAutoCompleteFastag);
         searchAutoCompleteFastag.setThreshold(1);
         searchAutoCompleteFastag.setAdapter(fastagAdapter);
         binding.searchFastId.setActivated(true);

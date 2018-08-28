@@ -53,22 +53,22 @@ public class NewInstallation extends BaseTitleFragment {
                         binding.model, binding.typeOfGoods, binding.odometerReading, binding.simNo, binding.imei, binding.deviceModel})) {
                     String message = "";
                     message += "Dealer's name: "+ binding.dealerName.getText().toString() + "\n";
+                    message += "Owner Name: "+ binding.ownerName.getText().toString() + "\n";
+                    message += "Client Id: "+ binding.clientId.getText().toString() + "\n";
                     message += "Location: "+ binding.location.getText().toString() + "\n";
                     message += "Registration no.: "+ binding.registrationNo.getText().toString()+ "\n";
                     message += "Chassis no: "+ binding.chassisNo.getText().toString() + "\n";
                     message += "Manufacture: "+ binding.manufacture.getText().toString() + "\n";
                     message += "Model: "+ binding.model.getText().toString() + "\n";
-                    message += "Client Id: "+ binding.clientId.getText().toString() + "\n";
-                    message += "Owner Name: "+ binding.ownerName.getText().toString() + "\n";
                     message += "Type of goods: "+ binding.typeOfGoods.getText().toString() + "\n";
                     message += "Odometer Reading: "+ binding.odometerReading.getText().toString() + "\n";
                     message += "Sim No: "+ binding.simNo.getText().toString() + "\n";
                     message += "IMEI: "+ binding.imei.getText().toString() + "\n";
                     message += "Device Model: "+ binding.deviceModel.getText().toString()+"\n";
-                    message += "USER ID: " + SharedPrefHelper.getInstance(getContext()).getStringData(code) +  "\n";
                     message += "SOS: " + getFeatures(binding.cbSos) +  "\n";
                     message += "Trip Button: " + getFeatures(binding.cbTrip) +  "\n";
                     message += "Immobilizer: " + getFeatures(binding.cbImm) +  "\n";
+                    message += "USER ID: " + SharedPrefHelper.getInstance(getContext()).getStringData(code) +  "\n";
                     message += "Sent By Device Checker:"+ " " + System.currentTimeMillis() ;
                     String url = "http://www.loconav.com/?type=new_vehicle&model="+
                             binding.model.getText().toString()+"&manufacturer="+

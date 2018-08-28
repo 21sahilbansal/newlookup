@@ -109,34 +109,31 @@ public class CustomInflater extends LinearLayout {
     }
 
    public EditText addEditText(LinearLayout linearLayout1, Input str,int index){
-        TextInputLayout til=new TextInputLayout(getContext());
-        til.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+        TextInputLayout textInputLayout=new TextInputLayout(getContext());
+        textInputLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        linearLayout1.addView(til,index);
+        linearLayout1.addView(textInputLayout,index);
         EditText editText = new EditText(getContext());
         LinearLayout.LayoutParams editTextParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         editText.setLayoutParams(editTextParams);
-
         editText.setTextSize(16);
         editText.setTextColor(getResources().getColor(R.color.black));
         editText.setHint(str.getName());
         editText.setHintTextColor(getResources().getColor(R.color.gray));
-        til.addView(editText, editTextParams);
-        //editText.setTag(str.getKey());
+        textInputLayout.addView(editText, editTextParams);
        editText.setTag(str);
-       til.setTag(str);
-
+       textInputLayout.setTag(str);
         return  editText;
     }
 
     public void addSpinner(LinearLayout linearLayout, ArrayList<String> spinnerList, int index, Input input) {
         Spinner spinner=new Spinner(getContext());
-        LinearLayout.LayoutParams editTextParams = new LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams spinnerTextParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        editTextParams.setMargins(0,40,0,40);
-        spinner.setLayoutParams(editTextParams);
+        spinnerTextParams.setMargins(0,40,0,40);
+        spinner.setLayoutParams(spinnerTextParams);
         spinner.setTag(input);
         linearLayout.addView(spinner,index);
         setSpinner(spinnerList,spinner);
@@ -160,12 +157,11 @@ public class CustomInflater extends LinearLayout {
 
     public void addImagePicker(LinearLayout linearLayout, int index, Input input, String titleText,int limit1,String idText1) {
         CustomImagePicker customImagePicker=new CustomImagePicker(getContext(),titleText,limit1,idText1);
-        LinearLayout.LayoutParams editTextParams = new LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams imagePickereditTextParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        editTextParams.setMargins(0,40,0,40);
-        customImagePicker.setLayoutParams(editTextParams);
+        imagePickereditTextParams.setMargins(0,40,0,40);
+        customImagePicker.setLayoutParams(imagePickereditTextParams);
         customImagePicker.setTag(input);
         linearLayout.addView(customImagePicker,index);
-
     }
 }

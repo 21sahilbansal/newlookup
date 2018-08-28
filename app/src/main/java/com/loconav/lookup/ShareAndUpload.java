@@ -80,22 +80,6 @@ public class ShareAndUpload extends BaseTitleFragment {
         }
     }
 
-    public void sendAppMsg(String message) {
-        Log.e("message ", message);
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        String text = message;
-        intent.setPackage("com.whatsapp");
-
-        if (intent != null) {
-            intent.putExtra(Intent.EXTRA_TEXT, text);//
-            startActivity(Intent.createChooser(intent, text));
-        } else {
-            Toast.makeText(getContext(), "Whatapp not found", Toast.LENGTH_SHORT)
-                    .show();
-        }
-    }
-
     public void send(String message) {
         if(!message.equals("")) {
             Log.e("message to open ", message);

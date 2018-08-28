@@ -39,7 +39,6 @@ public class Repair extends BaseTitleFragment {
     public void onFragmentCreated() {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Upload repair image");
         passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
-        Log.e("sd",""+passingReason.getDeviceid());
         proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,7 +58,6 @@ public class Repair extends BaseTitleFragment {
     }
 
     private void onProceedClicked(){
-
         if(!deviceImage.getimagesList().isEmpty()) {
             ArrayList<String> imagesList = new ArrayList<>();
             for(ImageUri imageUri : deviceImage.getimagesList()) {

@@ -113,13 +113,13 @@ public class DeviceIdFragment extends BaseTitleFragment {
                             public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
                                 Utility.hideKeyboard(getActivity());
                                 Log.e("handle ", response.code() + "");
-                                DeviceDetailsFragment f1 = new DeviceDetailsFragment();
+                                DeviceDetailsFragment DeviceDetailsFragment = new DeviceDetailsFragment();
                                 passingReason.setDeviceid(etDeviceId.getText().toString());
                                 ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("lookup_response", response.body());
-                                f1.setArguments(bundle);
-                                loadFragment(f1, getFragmentManager(), R.id.frameLayout, true);
+                                DeviceDetailsFragment.setArguments(bundle);
+                                loadFragment(DeviceDetailsFragment, getFragmentManager(), R.id.frameLayout, true);
                                 progressDialog.dismiss();
                             }
 

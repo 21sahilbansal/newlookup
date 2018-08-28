@@ -1,8 +1,9 @@
-package com.loconav.lookup;
+package com.loconav.lookup.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
 
+import com.loconav.lookup.R;
+import com.loconav.lookup.base.BaseArrayAdapter;
 import com.loconav.lookup.model.FastagsList;
 import com.loconav.lookup.model.VehiclesList;
 
@@ -19,45 +22,29 @@ import java.util.ArrayList;
  * Created by sejal on 18-07-2018.
  */
 
-public class FastagAdapter extends ArrayAdapter<FastagsList> {
-    ArrayList<FastagsList> fastagsList;
-    ArrayList<FastagsList> tempCustomer, suggestions;
-
-    public FastagAdapter(@NonNull Context context, ArrayList<FastagsList> fastagsList) {
-        super(context,R.layout.activity_get_fastag,fastagsList);
-        this.fastagsList = fastagsList;
-        this.tempCustomer = new ArrayList<FastagsList>(fastagsList);
+public class FastagAdapter extends BaseArrayAdapter<FastagsList> {
+    ArrayList<FastagsList>  suggestions;
+    SearchView.SearchAutoComplete searchAutoComplete;
+    public FastagAdapter(@NonNull Context context, ArrayList<FastagsList> fastagsList, SearchView.SearchAutoComplete searchAutoComplete) {
+        super(context, 0, fastagsList);
         this.suggestions = new ArrayList<FastagsList>(fastagsList);
-    }
-
-
-    @Override
-    public int getCount() {
-        return fastagsList.size();
+        this.searchAutoComplete=searchAutoComplete;
     }
 
     @Override
-    public FastagsList getItem(int i) {
-        return fastagsList.get(i);
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public void setData(View view, int position) {
         FastagsList vl = getItem(position);
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_get_fastag, parent, false);
-        }
-        TextView name = (TextView) convertView.findViewById(R.id.fastag_no);
+        TextView name = (TextView) view.findViewById(R.id.vehicle_no);
         if (name != null)
             name.setText(vl.getSerialNumber());
-        TextView color = (TextView) convertView.findViewById(R.id.fastag_color);
+        TextView color = (TextView) view.findViewById(R.id.fastag_color);
         if (color != null)
             color.setText(vl.getColor());
-        return convertView;
+    }
+
+    @Override
+    public int getItemViewId() {
+        return R.layout.activity_get_fastag;
     }
 
     @Override
@@ -76,7 +63,7 @@ public class FastagAdapter extends ArrayAdapter<FastagsList> {
         protected FilterResults performFiltering(CharSequence constraint) {
             if (constraint != null) {
                 suggestions.clear();
-                for (FastagsList people : tempCustomer) {
+                for (FastagsList people : list) {
                     if (people.getSerialNumber().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
                         suggestions.add(people);
                     }
@@ -92,10 +79,10 @@ public class FastagAdapter extends ArrayAdapter<FastagsList> {
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            ArrayList<FastagsList> c = (ArrayList<FastagsList>) results.values;
+            ArrayList<VehiclesList> c = (ArrayList<VehiclesList>) results.values;
             if (results != null && results.count > 0) {
                 clear();
-                for (FastagsList cust : c) {
+                for (VehiclesList cust : c) {
                     add(cust);
                     notifyDataSetChanged();
                 }

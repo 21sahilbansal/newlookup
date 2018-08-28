@@ -18,7 +18,6 @@ public class FragmentController extends AppCompatActivity {
     public final static String TAG_NAME_FRAGMENT = "ACTIVITY_FRAGMENT";
 
     public FragmentController(final FragmentManager fragmentManager, final Activity activity){
-        Log.e(TAG_NAME_FRAGMENT, "onBackStackChanged:3 " );
         fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
                         public void onBackStackChanged() {
                             Log.e(TAG_NAME_FRAGMENT, "onBackStackChanged: " );
@@ -51,7 +50,7 @@ public class FragmentController extends AppCompatActivity {
         transaction.commit();
     }
 
-    private Fragment getFragmentsStack(FragmentManager fragmentManager) {
+    public Fragment getFragmentsStack(FragmentManager fragmentManager) {
         List<Fragment> fragmentList = fragmentManager.getFragments();
             int size = fragmentList.size();
             Fragment fragment = null;

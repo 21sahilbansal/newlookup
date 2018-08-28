@@ -129,7 +129,7 @@ Button b1;
             }
         }
 
-//      setting inSampleSize value allows to load a scaled down version of the original image
+//      setting inSampleSize value allows to load typedArrayCustom scaled down version of the original image
 
         options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight);
 

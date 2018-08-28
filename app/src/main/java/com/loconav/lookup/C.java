@@ -91,13 +91,13 @@ public class C extends BaseTitleFragment {
                String str=ed1.getText().toString();
                 String str2="^$";
 //            //   String str2="^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-//               //String str2="^(([\\w-]+\\\\.)+[\\\\w-]+|([a-zA-Z]{1}|[\\\\w-]{2,}))@\"\n" +
+//               //String str2="^(([\\w-]+\\\\.)+[\\\\w-]+|([typedArrayCustom-zA-Z]{1}|[\\\\w-]{2,}))@\"\n" +
 ////                       "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\\\.([0-1]?\"\n" +
 ////                       "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\\\.\"\n" +
 ////                       "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\\\.([0-1]?\"\n" +
 ////                        "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|\"\n" +
-////                       "([a-zA-Z]+[\\\\w-]+\\\\.)+[a-zA-Z]{2,4})$";
-//               // String str2="^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";
+////                       "([typedArrayCustom-zA-Z]+[\\\\w-]+\\\\.)+[typedArrayCustom-zA-Z]{2,4})$";
+//               // String str2="^([typedArrayCustom-zA-Z0-9_\\-\\.]+)@([typedArrayCustom-zA-Z0-9_\\-\\.]+)\\.([typedArrayCustom-zA-Z]{2,5})$";
 //                    String str2="^[0-9]{9}$";
                 Boolean flag=matchregex(str,str2);
                 Log.e("ss",""+str+str2+flag);

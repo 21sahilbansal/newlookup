@@ -44,55 +44,10 @@ public class CommonFunction {
             }
         return true;
     }
-    public static boolean validateEdit(ArrayList<EditText> fields){
-        for(int i = 0; i < fields.size(); i++){
-            EditText currentField = fields.get(i);
-            if(currentField.getText().toString().length() <= 0){
-                currentField.setError("Cannot Be Empty");
-                currentField.requestFocus();
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static boolean validateLength(ArrayList<EditText> fields){
-        for(int i = 0; i < fields.size(); i++) {
-            EditText currentField = fields.get(i);
-            if (currentField.getTag().toString().equals("new_sim") || currentField.getTag().toString().equals("old_sim")) {
-                if (currentField.getText().toString().length() < 10) {
-                    currentField.setError("Cannot Be Less Than " + 10);
-                    currentField.requestFocus();
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    public static void sendAppMsg(Activity activity, String message) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        String text = message;
-        // change with required  application package
-        intent.setPackage("com.whatsapp");
-
-        if (intent != null) {
-            intent.putExtra(Intent.EXTRA_TEXT, text);//
-            activity.startActivity(Intent.createChooser(intent, text));
-        } else {
-            Toast.makeText(activity , "Whatapp not found", Toast.LENGTH_SHORT)
-                    .show();
-        }
-    }
-
-
     private static void setData(EditText editText) {
         editText.setEnabled(false);
         editText.clearFocus();
     }
-
-
     public static void setEditText( EditText imei, String deviceId) {
         imei.setText(deviceId);
         setData(imei);

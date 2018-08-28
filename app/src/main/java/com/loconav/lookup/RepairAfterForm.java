@@ -162,7 +162,6 @@ public class RepairAfterForm extends BaseTitleFragment {
         Bitmap bm = null;
         try {
             bm = (MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri));
-            Log.e("bitmap is", "" + bm.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
