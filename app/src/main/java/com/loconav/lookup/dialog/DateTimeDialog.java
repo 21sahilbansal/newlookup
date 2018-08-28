@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.loconav.lookup.C;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseDialogFragment;
 
@@ -49,7 +48,6 @@ public class DateTimeDialog extends BaseDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final C newc=new C();
         final View dialogView = getActivity().getLayoutInflater()
                 .inflate(R.layout.dialog_date_time_picker, new LinearLayout(getActivity()),
                         false);

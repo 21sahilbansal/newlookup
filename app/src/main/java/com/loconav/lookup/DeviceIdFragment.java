@@ -22,7 +22,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.loconav.lookup.application.SharedPrefHelper;
-import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.model.ImageUri;
 import com.loconav.lookup.model.LookupResponse;
 import com.loconav.lookup.model.PassingReason;
@@ -152,7 +151,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
             @Override
             public void onClick(View view) {
                 Utility.hideKeyboard(getActivity());
-                QRScannerFragment1 qrScannerFragment = new QRScannerFragment1();
+                QRScannerFragment qrScannerFragment = new QRScannerFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.container,qrScannerFragment).addToBackStack("qr_scanner");
                 transaction.commit();

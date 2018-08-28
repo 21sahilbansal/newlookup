@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.databinding.DataBindingUtil;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -29,6 +30,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseActivity;
+import com.loconav.lookup.databinding.LookUpEntryBinding;
 import com.loconav.lookup.model.ReasonResponse;
 import com.loconav.lookup.model.VersionResponse;
 import com.loconav.lookup.network.RetrofitCallback;
@@ -41,22 +43,22 @@ import retrofit2.Response;
 
 public class LookUpEntry extends BaseActivity {
 
-    TabLayout tabLayout ;
-    ViewPager viewPager ;
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-    FragmentAdapterClass fragmentAdapter ;
-    Boolean isForceUpdate=false;
+    private FragmentAdapterClass fragmentAdapter ;
+    private LookUpEntryBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.look_up_entry);
-            getSupportActionBar().setElevation(0);
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout1);
-        viewPager = (ViewPager) findViewById(R.id.pager1);
+        binding = DataBindingUtil.setContentView(this, R.layout.look_up_entry);
+//        To remove shadow partition between tabs and title bar.
+        getSupportActionBar().setElevation(0);
         fragmentAdapter = new FragmentAdapterClass(getSupportFragmentManager(),2);
-        viewPager.setAdapter(fragmentAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+        binding.pager.setAdapter(fragmentAdapter);
+        binding.tabLayout.setupWithViewPager(binding.pager);
+        checkVersion();
     }
+
     private void checkVersion() {
         String version = "";
         try {
@@ -69,7 +71,6 @@ public class LookUpEntry extends BaseActivity {
             apiService.getVersion((int) Float.parseFloat(version)).enqueue(new RetrofitCallback<VersionResponse>() {
                 @Override
                 public void handleSuccess(Call<VersionResponse> call, Response<VersionResponse> response) {
-                    isForceUpdate = response.body().getForce_update();
                     if (response.body().getForce_update()) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(LookUpEntry.this, R.style.DialogTheme);
                         builder.setMessage("Update App                                        ")
@@ -95,14 +96,15 @@ public class LookUpEntry extends BaseActivity {
     }
     @Override
     public void onBackPressed() {
-        Log.e("ss", "onBackPressed: "+isNetworkAvailable() );
-        if (viewPager.getCurrentItem() != 0) {
-            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1,false);
+        Log.e("ss", "onBackPressed: "+ Utility.isNetworkAvailable(this));
+        if (binding.pager.getCurrentItem() != 0) {
+            binding.pager.setCurrentItem(binding.pager.getCurrentItem() - 1,false);
         }else{
             finish();
         }
 
     }
+
     @Override
     public boolean showBackButton() {
         return false;
@@ -125,35 +127,19 @@ public class LookUpEntry extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        checkVersion();
-    }
 
     public class FragmentAdapterClass extends FragmentStatePagerAdapter {
-
-        int TabCount;
-
-        public FragmentAdapterClass(FragmentManager fragmentManager, int CountTabs) {
-
+        FragmentAdapterClass(FragmentManager fragmentManager, int CountTabs) {
             super(fragmentManager);
-
-            this.TabCount = CountTabs;
         }
 
         @Override
         public Fragment getItem(int position) {
-
             switch (position) {
                 case 0:
-                    WhatToDo tab1 = new WhatToDo();
-                    return tab1;
-
+                    return new WhatToDo();
                 case 1:
-                    FastTagFragment tab2 = new FastTagFragment();
-                    return tab2;
-
+                    return new FastTagFragment();
                 default:
                     return null;
             }
@@ -161,7 +147,7 @@ public class LookUpEntry extends BaseActivity {
 
         @Override
         public int getCount() {
-            return TabCount;
+            return 2;
         }
 
         @Nullable
@@ -176,14 +162,12 @@ public class LookUpEntry extends BaseActivity {
                 default:
                     return super.getPageTitle(position);
             }
-
         }
-
     }
-    public boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding.unbind();
     }
 }

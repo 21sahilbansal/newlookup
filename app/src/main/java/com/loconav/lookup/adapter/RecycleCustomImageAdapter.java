@@ -1,23 +1,15 @@
 package com.loconav.lookup.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.loconav.lookup.C;
 import com.loconav.lookup.Callback;
-import com.loconav.lookup.CustomImagePicker;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseAdapter;
-import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.ImageUri;
 import java.util.List;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
 
 /**

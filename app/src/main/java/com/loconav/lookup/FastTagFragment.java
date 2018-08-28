@@ -31,9 +31,10 @@ import retrofit2.Response;
  */
 
 public class FastTagFragment extends BaseFragment {
-    FragmentFastagBinding binding;
+
+    private FragmentFastagBinding binding;
     private ApiInterface apiService = StagingApiClient.getClient().create(ApiInterface.class);
-    SearchView.SearchAutoComplete searchAutoComplete;
+    private SearchView.SearchAutoComplete searchAutoComplete;
     SearchView.SearchAutoComplete searchAutoCompleteFastag;
     VehiclesList query;
     FastagsList queryFastags;

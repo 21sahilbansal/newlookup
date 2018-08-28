@@ -3,6 +3,7 @@ package com.loconav.lookup;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.loconav.lookup.application.SharedPrefHelper;
+import com.loconav.lookup.databinding.ActivityUserBinding;
 import com.loconav.lookup.login.SplashActivity;
 import com.loconav.lookup.base.BaseActivity;
 import static com.loconav.lookup.Constants.IS_LOGGED_IN;
@@ -21,15 +23,12 @@ import static com.loconav.lookup.UserPrefs.name;
 import static com.loconav.lookup.UserPrefs.phoneNumber;
 
 public class UserActivity extends BaseActivity implements View.OnClickListener{
-    private EditText userID;
-    private Button submit;
-    SharedPrefHelper sharedPrefHelper ;
+    private SharedPrefHelper sharedPrefHelper ;
+    private ActivityUserBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
-        userID = (EditText) findViewById(R.id.user_id);
-        submit = (Button) findViewById(R.id.submit);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_user);
         initSharedPf();
         attachClickListener();
         fillUserId();
@@ -41,12 +40,11 @@ public class UserActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private void initSharedPf() {
-      sharedPrefHelper=SharedPrefHelper.getInstance(getBaseContext());
+      sharedPrefHelper = SharedPrefHelper.getInstance(getBaseContext());
     }
 
-
     private void attachClickListener() {
-        submit.setOnClickListener(new View.OnClickListener() {
+        binding.submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sharedPrefHelper.removeStringData(code);
@@ -65,7 +63,7 @@ public class UserActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private void fillUserId() {
-        CommonFunction.setEditText(userID,SharedPrefHelper.getInstance(getBaseContext()).getStringData(code));
+        CommonFunction.setEditText(binding.userId,SharedPrefHelper.getInstance(getBaseContext()).getStringData(code));
     }
 
     @Override

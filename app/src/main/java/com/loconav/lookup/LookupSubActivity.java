@@ -18,8 +18,7 @@ import static com.loconav.lookup.FragmentController.loadFragment;
 
 public class LookupSubActivity extends BaseActivity {
 
-    Repair repairFragment;
-    Uri uri;
+    private Repair repairFragment;
     ArrayList<Input> addtionalFields = new ArrayList<>();
     public PassingReason passingReason;
     ReasonResponse reasonResponse;
@@ -51,8 +50,6 @@ public class LookupSubActivity extends BaseActivity {
         }else {
             loadFragment(repairFragment,getSupportFragmentManager(),R.id.frameLayout,false);
         }
-        FragmentController fragmentController=new FragmentController(getSupportFragmentManager(),LookupSubActivity.this);
-
     }
 
     public PassingReason getPassingReason(){

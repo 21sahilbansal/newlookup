@@ -1,6 +1,7 @@
 package com.loconav.lookup;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 import com.loconav.lookup.adapter.WhatToDoAdapter;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseFragment;
+import com.loconav.lookup.databinding.WhatToDoFragmentBinding;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.ReasonResponse;
 import com.loconav.lookup.model.ReasonTypeResponse;
@@ -30,8 +32,8 @@ import static com.loconav.lookup.Constants.REASONS_RESPONSE;
 
 public class WhatToDo extends BaseFragment {
 
-    PassingReason passingReason = new PassingReason();
-    @BindView(R.id.rvLay) RecyclerView recyclerView;
+    private WhatToDoFragmentBinding binding;
+    private PassingReason passingReason = new PassingReason();
     WhatToDoAdapter adapter;
     ReasonResponse reasonResponse;
     ArrayList<ReasonResponse> jsonLog = new ArrayList<>();
@@ -60,18 +62,16 @@ public class WhatToDo extends BaseFragment {
 
     @Override
     public void bindView(View view) {
-        ButterKnife.bind(this, getView());
+        binding = DataBindingUtil.bind(view);
     }
 
     @Override
-    public void getComponentFactory() {
-
-    }
+    public void getComponentFactory() { }
 
 
     private void setPhotoAdapter() {
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
+        binding.rvTasks.setLayoutManager(layoutManager);
         adapter = new WhatToDoAdapter(jsonLog, new Callback() {
             @Override
             public void onEventDone(Object object) {
@@ -80,17 +80,18 @@ public class WhatToDo extends BaseFragment {
                 passIntent();
             }
         });
-        recyclerView.setAdapter(adapter);
-        recyclerView.setNestedScrollingEnabled(false);
+        binding.rvTasks.setAdapter(adapter);
+        binding.rvTasks.setNestedScrollingEnabled(false);
     }
 
-    void passIntent() {
+    private void passIntent() {
         Intent intent = new Intent(getContext(), LookupSubActivity.class);
-        Bundle bundle=new Bundle();
+        Bundle bundle = new Bundle();
         bundle.putSerializable("PassingReason",passingReason);
         bundle.putSerializable("reasonResponse",reasonResponse);
         intent.putExtras(bundle);
         startActivity(intent);
     }
+
 
 }

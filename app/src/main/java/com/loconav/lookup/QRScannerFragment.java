@@ -25,7 +25,7 @@ import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
  * Created by prateek on 15/05/18.
  */
 
-public class QRScannerFragment1 extends BaseFragment implements BarcodeRetriever {
+public class QRScannerFragment extends BaseFragment implements BarcodeRetriever {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,7 +35,7 @@ public class QRScannerFragment1 extends BaseFragment implements BarcodeRetriever
 
     @Override
     public int setViewId() {
-        return R.layout.fargment_qr_scanner1;
+        return R.layout.fargment_qr_scanner;
     }
 
     @Override
