@@ -59,9 +59,7 @@ public class UserActivity extends BaseActivity implements View.OnClickListener{
                 startActivity(intent);
             }
         });
-
     }
-
     private void fillUserId() {
         CommonFunction.setEditText(binding.userId,SharedPrefHelper.getInstance(getBaseContext()).getStringData(code));
     }
@@ -69,5 +67,10 @@ public class UserActivity extends BaseActivity implements View.OnClickListener{
     @Override
     public void onClick(View view) {
             finish();
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding.unbind();
     }
 }

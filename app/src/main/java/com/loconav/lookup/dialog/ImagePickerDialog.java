@@ -6,6 +6,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -28,6 +29,7 @@ import com.loconav.lookup.GalleryEvents;
 import com.loconav.lookup.ImagePickerEvent;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseDialogFragment;
+import com.loconav.lookup.databinding.DialogImagePickerBinding;
 import com.loconav.lookup.model.ImageUri;
 
 import org.greenrobot.eventbus.EventBus;
@@ -39,22 +41,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * Created by prateek on 09/07/18.
  */
 
 public class ImagePickerDialog extends BaseDialogFragment {
-
-    @BindView(R.id.camera) LinearLayout camera;
-    @BindView(R.id.gallery) LinearLayout gallery;
-    int REQUEST_CAMERA = 0,SELECT_FILE = 1;
-     String stringId;
-     int limit;
-    ArrayList<ImageUri> imagesUriArrayList=new ArrayList<>(); ;
+    private DialogImagePickerBinding binding;
+    private int REQUEST_CAMERA = 0,SELECT_FILE = 1;
+    private String stringId;
+    private int limit;
+    private ArrayList<ImageUri> imagesUriArrayList=new ArrayList<>(); ;
     public static ImagePickerDialog newInstance(String id,int limit) {
         ImagePickerDialog imagePickerDialog = new ImagePickerDialog();
         Bundle bundle=new Bundle();
@@ -71,18 +67,18 @@ public class ImagePickerDialog extends BaseDialogFragment {
         final View dialogView = getActivity().getLayoutInflater()
                 .inflate(R.layout.dialog_image_picker, new LinearLayout(getActivity()),
                         false);
-        ButterKnife.bind(this, dialogView);
+       binding= DataBindingUtil.bind(dialogView);
 
         stringId=getArguments().getString("id");
         limit=getArguments().getInt("limitImages");
-        camera.setOnClickListener(new View.OnClickListener() {
+        binding.camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cameraIntent();
             }
         });
 
-        gallery.setOnClickListener(new View.OnClickListener() {
+        binding.gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 galleryIntent();
@@ -177,5 +173,10 @@ public class ImagePickerDialog extends BaseDialogFragment {
         imageUri.setUri(( Uri.fromFile(destination)));
         imagesUriArrayList=new ArrayList<>();
         imagesUriArrayList.add(imageUri);
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding.unbind();
     }
 }

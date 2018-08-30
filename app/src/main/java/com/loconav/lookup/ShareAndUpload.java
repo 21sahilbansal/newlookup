@@ -2,6 +2,7 @@ package com.loconav.lookup;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,18 +12,14 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.loconav.lookup.application.SharedPrefHelper;
-import com.loconav.lookup.base.BaseActivity;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
+import com.loconav.lookup.databinding.ActivityShareAndUploadBinding;
 
 public class ShareAndUpload extends BaseTitleFragment {
 
-    SharedPrefHelper sharedPrefHelper ;
-    String url, message;
-    @BindView(R.id.upload_document) Button upload_document;
-    @BindView(R.id.share) Button share;
+    private SharedPrefHelper sharedPrefHelper ;
+    private String url, message;
+    private ActivityShareAndUploadBinding binding;
+
 
     @Override
     public String getTitle() {
@@ -39,13 +36,13 @@ public class ShareAndUpload extends BaseTitleFragment {
         initSharedPf();
         url= sharedPrefHelper.getStringData("upload_url");
         message= sharedPrefHelper.getStringData("message");
-        upload_document.setOnClickListener(new View.OnClickListener() {
+        binding.uploadDocument.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 send(url);
             }
         });
-        share.setOnClickListener(new View.OnClickListener() {
+        binding.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 shareOnWhatsApp(message,getContext());
@@ -55,8 +52,7 @@ public class ShareAndUpload extends BaseTitleFragment {
 
     @Override
     public void bindView(View view) {
-        ButterKnife.bind(this, getView());
-    }
+        binding= DataBindingUtil.bind(view);}
 
     @Override
     public void getComponentFactory() {
@@ -87,5 +83,9 @@ public class ShareAndUpload extends BaseTitleFragment {
             startActivity(browserIntent);
         }
     }
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding.unbind();
+    }
 }

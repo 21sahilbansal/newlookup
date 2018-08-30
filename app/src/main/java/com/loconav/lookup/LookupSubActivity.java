@@ -19,9 +19,9 @@ import static com.loconav.lookup.FragmentController.loadFragment;
 public class LookupSubActivity extends BaseActivity {
 
     private Repair repairFragment;
-    ArrayList<Input> addtionalFields = new ArrayList<>();
+    private ArrayList<Input> addtionalFields = new ArrayList<>();
     public PassingReason passingReason;
-    ReasonResponse reasonResponse;
+    private ReasonResponse reasonResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

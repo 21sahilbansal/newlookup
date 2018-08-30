@@ -1,6 +1,7 @@
 package com.loconav.lookup;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -12,10 +13,11 @@ import com.google.android.gms.samples.vision.barcodereader.BarcodeCapture;
 import com.google.android.gms.samples.vision.barcodereader.BarcodeGraphic;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.loconav.lookup.base.BaseFragment;
+import com.loconav.lookup.databinding.FargmentQrScannerBinding;
+import com.loconav.lookup.databinding.FragmentDeviceIdBinding;
 
 import java.util.List;
 
-import butterknife.ButterKnife;
 import xyz.belvi.mobilevisionbarcodescanner.BarcodeRetriever;
 
 import static com.loconav.lookup.Constants.DEVICE_ID;
@@ -27,6 +29,7 @@ import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
 
 public class QRScannerFragment extends BaseFragment implements BarcodeRetriever {
 
+    private FargmentQrScannerBinding binding;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,7 +49,7 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
 
     @Override
     public void bindView(View view) {
-        ButterKnife.bind(this, view);
+        binding= DataBindingUtil.bind(view);
         Log.e("time ", "bindView: "+ System.currentTimeMillis());
     }
 
@@ -92,5 +95,9 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
                     getActivity().onBackPressed();
             }});
     }
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding.unbind();
+    }
 }

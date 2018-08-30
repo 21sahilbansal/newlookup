@@ -17,13 +17,8 @@ import com.loconav.lookup.databinding.WhatToDoFragmentBinding;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.ReasonResponse;
 import com.loconav.lookup.model.ReasonTypeResponse;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import static com.loconav.lookup.Constants.REASONS_RESPONSE;
 
 /**
@@ -92,6 +87,10 @@ public class WhatToDo extends BaseFragment {
         intent.putExtras(bundle);
         startActivity(intent);
     }
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding.unbind();
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.loconav.lookup;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -9,14 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.loconav.lookup.base.BaseFragment;
+import com.loconav.lookup.databinding.RepairBinding;
 import com.loconav.lookup.model.ImageUri;
 import com.loconav.lookup.model.PassingReason;
 
 import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.loconav.lookup.FragmentController.loadFragment;
 
@@ -25,8 +23,7 @@ import static com.loconav.lookup.FragmentController.loadFragment;
  */
 
 public class Repair extends BaseTitleFragment {
-    @BindView (R.id.proceed) Button proceed;
-    @BindView (R.id.DeviceImage) CustomImagePicker deviceImage;
+    private RepairBinding binding;
     private PassingReason passingReason;
 
 
@@ -39,7 +36,7 @@ public class Repair extends BaseTitleFragment {
     public void onFragmentCreated() {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Upload repair image");
         passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
-        proceed.setOnClickListener(new View.OnClickListener() {
+        binding.proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onProceedClicked();
@@ -49,7 +46,7 @@ public class Repair extends BaseTitleFragment {
 
     @Override
     public void bindView(View view) {
-        ButterKnife.bind(this, getView());
+        binding= DataBindingUtil.bind(view);
     }
 
     @Override
@@ -58,13 +55,13 @@ public class Repair extends BaseTitleFragment {
     }
 
     private void onProceedClicked(){
-        if(!deviceImage.getimagesList().isEmpty()) {
+        if(!binding.DeviceImage.getimagesList().isEmpty()) {
             ArrayList<String> imagesList = new ArrayList<>();
-            for(ImageUri imageUri : deviceImage.getimagesList()) {
+            for(ImageUri imageUri : binding.DeviceImage.getimagesList()) {
                 imagesList.add(imageUri.getUri().toString());
             }
             passingReason.setImagesList(imagesList);
-            passingReason.setImagesPreRepair(deviceImage.getimagesList().size());
+            passingReason.setImagesPreRepair(binding.DeviceImage.getimagesList().size());
             ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
             DeviceIdFragment f1 =new DeviceIdFragment();
             loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
@@ -82,5 +79,10 @@ public class Repair extends BaseTitleFragment {
     @Override
     public String getTitle() {
         return "Upload repair image";
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding.unbind();
     }
 }

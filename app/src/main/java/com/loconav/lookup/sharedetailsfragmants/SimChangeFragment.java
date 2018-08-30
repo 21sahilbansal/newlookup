@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.loconav.lookup.BaseTitleFragment;
 import com.loconav.lookup.CustomImagePicker;
 import com.loconav.lookup.CustomInflater;
@@ -18,9 +17,7 @@ import com.loconav.lookup.LookupSubActivity;
 import com.loconav.lookup.R;
 import com.loconav.lookup.CommonFunction;
 import com.loconav.lookup.RepairAfterForm;
-import com.loconav.lookup.Utility;
 import com.loconav.lookup.databinding.SimchangeBinding;
-import com.loconav.lookup.formData.Validation;
 import com.loconav.lookup.model.ImageUri;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.RepairRequirements;
@@ -37,14 +34,14 @@ import static com.loconav.lookup.FragmentController.loadFragment;
 
 public class SimChangeFragment extends BaseTitleFragment {
     private SimchangeBinding binding;
-    RepairRequirements repairRequirements;
-    int reasonid, sizelist;
-    PassingReason passingReason;
+    private RepairRequirements repairRequirements;
+    private int reasonid, sizelist;
+    private PassingReason passingReason;
     private String userChoice;
     private Boolean validate=false;
-    ArrayList<Input> addtional = new ArrayList<>();
-    ArrayList<String> spinnerList = new ArrayList<>();
-    JSONObject jsonObj = new JSONObject();
+    private ArrayList<Input> addtional = new ArrayList<>();
+    private ArrayList<String> spinnerList = new ArrayList<>();
+    private JSONObject jsonObj = new JSONObject();
 
     @Override
     public int setViewId() {
@@ -185,5 +182,10 @@ public class SimChangeFragment extends BaseTitleFragment {
             spinnerList.add(passingReason.getReasonResponse().getReasons().get(i).getName());
         }
 
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding.unbind();
     }
 }

@@ -3,6 +3,7 @@ package com.loconav.lookup;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,21 +16,23 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.loconav.lookup.adapter.ClientAdapter;
 import com.loconav.lookup.adapter.LookupAdapter;
 import com.loconav.lookup.base.BaseFragment;
+import com.loconav.lookup.databinding.FragmentDeviceIdBinding;
+import com.loconav.lookup.databinding.MainActivity3Binding;
+import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.Entity;
 import com.loconav.lookup.model.LookupResponse;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
+import com.loconav.lookup.sharedetailsfragmants.NewInstallation;
 import com.loconav.lookup.sharedetailsfragmants.SimChangeFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -41,17 +44,12 @@ import static com.loconav.lookup.FragmentController.loadFragment;
 
 public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.rv_info) RecyclerView rvInfo;
-    @BindView(R.id.passed) ImageView ivPassed;
-    @BindView(R.id.share_details) Button shareDetails;
-    @BindView(R.id.refresh) Button refresh;
-    Uri uri;
+    private MainActivity3Binding binding;
     private LookupAdapter lookupAdapter;
     private List<Entity> entities = new ArrayList<>();
     private Bundle receivedBundle;
     private String deviceID;
-    PassingReason passingReason;
+    private PassingReason passingReason;
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
 
@@ -71,7 +69,7 @@ public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRef
 
     @Override
     public void bindView(View view) {
-        ButterKnife.bind(this,getView());
+        binding= DataBindingUtil.bind(view);
     }
 
     @Override
@@ -79,7 +77,7 @@ public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRef
 
     }
     private void setShareDetails() {
-        shareDetails.setOnClickListener(new View.OnClickListener() {
+        binding.shareDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (passingReason.getUserChoice().equals("New Install")) {
@@ -96,16 +94,15 @@ public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRef
     }
 
     private void setRecyclerView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        binding.rvInfo.setLayoutManager(layoutManager);
         lookupAdapter = new LookupAdapter(entities);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        rvInfo.setLayoutManager(mLayoutManager);
-        rvInfo.setItemAnimator(new DefaultItemAnimator());
-        rvInfo.setAdapter(lookupAdapter);
+        binding.rvInfo.setAdapter(lookupAdapter);
     }
 
     private void setSwipeRefresh() {
-        swipeRefreshLayout.setOnRefreshListener(this);
-        refresh.setOnClickListener(new View.OnClickListener() {
+        binding.swipeRefresh.setOnRefreshListener(this);
+        binding.refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onRefresh();
@@ -115,7 +112,7 @@ public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRef
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(true);
+        binding.swipeRefresh.setRefreshing(true);
         getSetFreshData(deviceID);
     }
 
@@ -134,12 +131,12 @@ public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRef
                 public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
                     Log.e("handle ", response.code() + "");
                     setData(response.body());
-                    swipeRefreshLayout.setRefreshing(false);
+                    binding.swipeRefresh.setRefreshing(false);
                 }
 
                 @Override
                 public void handleFailure(Call<LookupResponse> call, Throwable t) {
-                    swipeRefreshLayout.setRefreshing(false);
+                    binding.swipeRefresh.setRefreshing(false);
                     Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
@@ -160,12 +157,12 @@ public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRef
         setDeviceId(lookupResponse.getData());
         entities.addAll(lookupResponse.getData());
         if(lookupResponse.getPassed()) {
-            ivPassed.setImageResource(R.drawable.passed);
-            shareDetails.setVisibility(View.VISIBLE);
+            binding.passed.setImageResource(R.drawable.passed);
+            binding.shareDetails.setVisibility(View.VISIBLE);
         }
         else {
-            ivPassed.setImageResource(android.R.color.transparent);
-            shareDetails.setVisibility(View.GONE);
+            binding.passed.setImageResource(android.R.color.transparent);
+            binding.shareDetails.setVisibility(View.GONE);
         }
         lookupAdapter.notifyDataSetChanged();
     }
@@ -181,5 +178,10 @@ public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRef
     @Override
     public String getTitle() {
         return "Device Details";
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding.unbind();
     }
 }

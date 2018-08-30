@@ -31,8 +31,8 @@ import static com.loconav.lookup.UserPrefs.phoneNumber;
 
 public class NewInstallation extends BaseTitleFragment {
     private NewinstallationBinding binding;
-    SharedPrefHelper sharedPrefHelper;
-    PassingReason passingReason;
+    private SharedPrefHelper sharedPrefHelper;
+    private PassingReason passingReason;
 
     @Override
     public int setViewId() {
@@ -93,6 +93,11 @@ public class NewInstallation extends BaseTitleFragment {
     @Override
     public void getComponentFactory() {
 
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding.unbind();
     }
 
 

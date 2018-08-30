@@ -27,11 +27,5 @@
     <color name="violet">#7F00FF</color>
     <color name="magenta">#FF00FF</color>
     <color name="grey">#f5f5f5</color>
-
-    <array name="rainbow">
-        <item>@color/pressed</item>
-        <item>@color/orange</item>
-        <item>@color/blue</item>
-        <item>@color/red</item>
-    </array>
+    <color name="transparent">#00000000</color>
 </resources>

@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
@@ -22,6 +24,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.loconav.lookup.application.SharedPrefHelper;
+import com.loconav.lookup.databinding.FragmentDeviceIdBinding;
 import com.loconav.lookup.model.ImageUri;
 import com.loconav.lookup.model.LookupResponse;
 import com.loconav.lookup.model.PassingReason;
@@ -30,9 +33,6 @@ import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
 
 import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -47,22 +47,19 @@ import static com.loconav.lookup.FragmentController.loadFragment;
 
 public class DeviceIdFragment extends BaseTitleFragment {
 
-    @BindView(R.id.ib_qr_scanner) ImageButton ibOpenQrScanner;
-    @BindView(R.id.et_device_id) EditText etDeviceId;
-    @BindView(R.id.bt_get_info) Button btGetInfo;
-    @BindView(R.id.fast_tag) Button fastTag;
+
+    private FragmentDeviceIdBinding binding;
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     private ProgressDialog progressDialog;
     private SharedPrefHelper sharedPrefHelper;
-    ArrayList<ImageUri> uri;
-    PassingReason passingReason;
+    private PassingReason passingReason;
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra(DEVICE_ID);
             Log.d("receiver", "Got message: " + message);
-            etDeviceId.setText(message);
-            etDeviceId.setSelection(etDeviceId.getText().length());
+            binding.etDeviceId.setText(message);
+            binding.etDeviceId.setSelection(binding.etDeviceId.getText().length());
         }
     };
 
@@ -73,7 +70,6 @@ public class DeviceIdFragment extends BaseTitleFragment {
 
     @Override
     public void onFragmentCreated() {
-        ButterKnife.bind(this, getView());
         passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Enter device ID");
         initSharedPf();
@@ -83,7 +79,8 @@ public class DeviceIdFragment extends BaseTitleFragment {
         registerBroadcast();
         checkAndShowUserIdDialog();
     }
-        private void initSharedPf() {
+
+    private void initSharedPf() {
         sharedPrefHelper = SharedPrefHelper.getInstance(getContext());
     }
 
@@ -100,20 +97,20 @@ public class DeviceIdFragment extends BaseTitleFragment {
     }
 
     private void setInfoButton() {
-        btGetInfo.setOnClickListener(new View.OnClickListener() {
+        binding.btGetInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String deviceId = etDeviceId.getText().toString().trim();
+                String deviceId = binding.etDeviceId.getText().toString().trim();
                 if(!deviceId.isEmpty()) {
                     if (Utility.isNetworkAvailable(getActivity())) {
                         progressDialog.show();
-                        apiService.getDeviceLookup(etDeviceId.getText().toString()).enqueue(new RetrofitCallback<LookupResponse>() {
+                        apiService.getDeviceLookup(binding.etDeviceId.getText().toString()).enqueue(new RetrofitCallback<LookupResponse>() {
                             @Override
                             public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
                                 Utility.hideKeyboard(getActivity());
                                 Log.e("handle ", response.code() + "");
                                 DeviceDetailsFragment DeviceDetailsFragment = new DeviceDetailsFragment();
-                                passingReason.setDeviceid(etDeviceId.getText().toString());
+                                passingReason.setDeviceid(binding.etDeviceId.getText().toString());
                                 ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("lookup_response", response.body());
@@ -137,7 +134,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
 
             }
         });
-        fastTag.setOnClickListener(new View.OnClickListener() {
+        binding.fastTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                TODO : Open new activity ...
@@ -147,7 +144,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
         });
     }
     private void setScanner() {
-        ibOpenQrScanner.setOnClickListener(new View.OnClickListener() {
+        binding.ibQrScanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Utility.hideKeyboard(getActivity());
@@ -174,6 +171,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
     public void onDestroy() {
         super.onDestroy();
         unRegisterBroadcastReceiver();
+        binding.unbind();
     }
 
     private void showEnterIdDialog() {
@@ -214,7 +212,9 @@ public class DeviceIdFragment extends BaseTitleFragment {
     }
 
     @Override
-    public void bindView(View view) {}
+    public void bindView(View view) {
+        binding = DataBindingUtil.bind(view);
+    }
 
     @Override
     public void getComponentFactory() {}
@@ -223,4 +223,5 @@ public class DeviceIdFragment extends BaseTitleFragment {
     public String getTitle() {
         return "Enter device ID";
     }
+
 }

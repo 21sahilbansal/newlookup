@@ -40,9 +40,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan"/>
-        <activity android:name=".Encoding" >
-
-        </activity>
         <activity android:name=".login.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,9 +48,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".LookupSubActivity">
-
-        </activity>
-        <activity android:name=".MainActivity">
 
         </activity>
     </application>

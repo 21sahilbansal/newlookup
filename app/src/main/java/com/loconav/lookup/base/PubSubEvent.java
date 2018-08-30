@@ -5,6 +5,7 @@ package com.loconav.lookup.base;
  */
 
 public class PubSubEvent {
+
     private Object object;
     private String message;
 

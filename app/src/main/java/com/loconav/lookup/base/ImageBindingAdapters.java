@@ -28,10 +28,13 @@ public class ImageBindingAdapters {
         Picasso.get().load(id).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).into(view);
     }
 
-    @BindingAdapter({"android:src"})
+    @BindingAdapter({"android:uri"})
     public void loadImage(ImageView view, Uri id) {
         Picasso.get().load(id).into(view);
     }
 
-
+    @BindingAdapter({"android:drawable"})
+    public void loadImageNoPlacehoalder(ImageView view, int id) {
+        Picasso.get().load(id).into(view);
+    }
 }
