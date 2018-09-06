@@ -1,50 +1,76 @@
 package com.loconav.lookup;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
+import com.loconav.lookup.application.SharedPrefHelper;
+import com.loconav.lookup.databinding.ActivityUserBinding;
+import com.loconav.lookup.login.SplashActivity;
+import com.loconav.lookup.base.BaseActivity;
+import static com.loconav.lookup.Constants.IS_LOGGED_IN;
 import static com.loconav.lookup.Constants.USER_ID;
-import static com.loconav.lookup.Utility.isStringEmptyOrNull;
-import static com.loconav.lookup.application.LookUpApplication.editor;
-import static com.loconav.lookup.application.LookUpApplication.sharedPreferences;
+import static com.loconav.lookup.UserPrefs.authenticationToken;
+import static com.loconav.lookup.UserPrefs.code;
+import static com.loconav.lookup.UserPrefs.location;
+import static com.loconav.lookup.UserPrefs.name;
+import static com.loconav.lookup.UserPrefs.phoneNumber;
 
-public class UserActivity extends AppCompatActivity implements View.OnClickListener{
-    EditText userID;
-    Button submit;
+public class UserActivity extends BaseActivity implements View.OnClickListener{
+    private SharedPrefHelper sharedPrefHelper ;
+    private ActivityUserBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
-        userID = (EditText) findViewById(R.id.user_id);
-        submit = (Button) findViewById(R.id.submit);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_user);
+        initSharedPf();
         attachClickListener();
         fillUserId();
     }
 
-
-    private void attachClickListener() {
-        submit.setOnClickListener(this);
+    @Override
+    public boolean showBackButton() {
+        return true;
     }
 
+    private void initSharedPf() {
+      sharedPrefHelper = SharedPrefHelper.getInstance(getBaseContext());
+    }
+
+    private void attachClickListener() {
+        binding.submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sharedPrefHelper.removeStringData(code);
+                sharedPrefHelper.removeStringData(USER_ID);
+                sharedPrefHelper.removeStringData(authenticationToken);
+                sharedPrefHelper.removeStringData(phoneNumber);
+                sharedPrefHelper.removeStringData(location);
+                sharedPrefHelper.removeStringData(name);
+                sharedPrefHelper.setBooleanData(IS_LOGGED_IN,false);
+                Intent intent=new Intent(getBaseContext(),SplashActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+    }
     private void fillUserId() {
-        userID.setText(sharedPreferences.getString(USER_ID, ""));
+        CommonFunction.setEditText(binding.userId,SharedPrefHelper.getInstance(getBaseContext()).getStringData(code));
     }
 
     @Override
     public void onClick(View view) {
-        if(isStringEmptyOrNull(userID.getText().toString())) {
-            Toast.makeText(getBaseContext(), getString(R.string.enter_user_id), Toast.LENGTH_LONG).show();
-        } else {
-            editor.putString(USER_ID, userID.getText().toString());
-            editor.commit();
             finish();
-        }
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding.unbind();
     }
 }

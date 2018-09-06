@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="my" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:datePickerDialogTheme">@color/color_orange</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/color_orange</item>
+        <item name="android:colorPrimary">#00397F</item>
+    </style>
+</resources>

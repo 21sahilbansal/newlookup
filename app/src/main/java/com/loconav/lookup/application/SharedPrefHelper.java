@@ -2,53 +2,61 @@ package com.loconav.lookup.application;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import static com.loconav.lookup.Constants.LOOK_UP_PREFERENCES;
 
 /**
- * Created by prateek on 25/06/18.
+ * Created by sejal on 25-06-2018.
  */
 
 public class SharedPrefHelper {
-
     private Context context;
 
-    public static SharedPrefHelper getNewInstance(Context context) {
+    public static SharedPrefHelper getInstance(Context context) {
         return new SharedPrefHelper(context);
     }
 
-    private SharedPrefHelper(Context context) {
-        this.context = context;
+    private SharedPrefHelper(Context context){
+     this.context=context;
     }
 
-    private SharedPreferences getSharedPf() {
+    private SharedPreferences getSharedPref(){
         return context.getSharedPreferences(LOOK_UP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
-    public void setData(String key, String value) {
-        SharedPreferences.Editor editor = getSharedPf().edit().putString(key, value);
-        editor.apply();
+
+    public void setStringData(String key, String value) {
+      SharedPreferences.Editor editor=getSharedPref().edit().putString(key,value);
+      editor.apply();
     }
 
-    public void setData(String key, int value) {
-        SharedPreferences.Editor editor = getSharedPf().edit().putInt(key, value);
+    public void setLongData(String key, Long value) {
+        SharedPreferences.Editor editor=getSharedPref().edit().putLong(key,value);
         editor.apply();
     }
-
-    public void setData(String key, boolean value){
-        SharedPreferences.Editor editor = getSharedPf().edit().putBoolean(key, value);
+    public void setIntData(String key, Integer value) {
+        SharedPreferences.Editor editor=getSharedPref().edit().putInt(key,value);
         editor.apply();
     }
-
+    public void setBooleanData(String key, Boolean value) {
+        SharedPreferences.Editor editor = getSharedPref().edit().putBoolean(key,value);
+        editor.apply();
+    }
     public String getStringData(String key) {
-        return getSharedPf().getString(key, "");
+        return getSharedPref().getString(key,"");
+    }
+    public Integer getIntData(String key) {
+        return getSharedPref().getInt(key,-1);
+    }
+    public Boolean getBooleanData(String key) {
+        return getSharedPref().getBoolean(key,false);
+    }
+    public Long getLongData(String key) {
+        return getSharedPref().getLong(key,-1);
     }
 
-    public int getIntData(String key) {
-        return getSharedPf().getInt(key, -1);
-    }
-
-    public boolean getBooleanData(String key){
-        return getSharedPf().getBoolean(key, false);
+    public void removeStringData(String key) {
+        SharedPreferences.Editor editor=getSharedPref().edit();
+        editor.remove(key);
+        editor.apply();
     }
 }

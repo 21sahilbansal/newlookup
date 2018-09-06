@@ -2,7 +2,7 @@ package com.loconav.lookup;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,54 +11,67 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import static com.loconav.lookup.Constants.DEVICE_ID;
-import static com.loconav.lookup.Constants.USER_ID;
-import static com.loconav.lookup.application.LookUpApplication.sharedPreferences;
+import com.loconav.lookup.application.SharedPrefHelper;
+import com.loconav.lookup.databinding.ActivityShareAndUploadBinding;
 
-public class ShareAndUpload extends AppCompatActivity {
+public class ShareAndUpload extends BaseTitleFragment {
 
-    public static final String MyPREFERENCES = "MyPrefs";
-    String url, message;
+    private SharedPrefHelper sharedPrefHelper ;
+    private String url, message;
+    private ActivityShareAndUploadBinding binding;
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_share_and_upload);
+    public String getTitle() {
+        return "Share Details";
+    }
 
-        url = sharedPreferences.getString("upload_url", "");
-        message = sharedPreferences.getString("message", "");
+    @Override
+    public int setViewId() {
+        return R.layout.activity_share_and_upload;
+    }
 
-        Button upload_document = (Button) findViewById(R.id.upload_document);
-        upload_document.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onFragmentCreated() {
+        initSharedPf();
+        url= sharedPrefHelper.getStringData("upload_url");
+        message= sharedPrefHelper.getStringData("message");
+        binding.uploadDocument.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 send(url);
             }
         });
-
-        Button share = (Button) findViewById(R.id.share);
-        share.setOnClickListener(new View.OnClickListener() {
+        binding.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendAppMsg(message);
+                shareOnWhatsApp(message,getContext());
             }
         });
-
     }
 
+    @Override
+    public void bindView(View view) {
+        binding= DataBindingUtil.bind(view);}
 
-    public void sendAppMsg(String message) {
-        Log.e("message ", message);
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        String text = message;
-        // change with required  application package
-        intent.setPackage("com.whatsapp");
+    @Override
+    public void getComponentFactory() {
 
-        if (intent != null) {
-            intent.putExtra(Intent.EXTRA_TEXT, text);//
-            startActivity(Intent.createChooser(intent, text));
-        } else {
-            Toast.makeText(this, "Whatapp not found", Toast.LENGTH_SHORT)
+    }
+    private void initSharedPf() {
+        sharedPrefHelper = SharedPrefHelper.getInstance(getContext());
+    }
+
+    public void shareOnWhatsApp( String text, Context context) {
+        Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+        whatsappIntent.setType("text/html");
+        whatsappIntent.setPackage("com.whatsapp");
+        whatsappIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        whatsappIntent.putExtra(Intent.EXTRA_TEXT,  text);
+        try {
+            context.startActivity(whatsappIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(getContext(), "Whatapp not found", Toast.LENGTH_SHORT)
                     .show();
         }
     }
@@ -69,5 +82,10 @@ public class ShareAndUpload extends AppCompatActivity {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(message));
             startActivity(browserIntent);
         }
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding.unbind();
     }
 }

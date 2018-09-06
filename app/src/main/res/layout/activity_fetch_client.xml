@@ -7,8 +7,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clickable="true"
         android:padding="@dimen/dimen_18sp"
-        tools:context="com.loconav.lookup.FetchClientActivity">
+        tools:context="com.loconav.lookup.FetchClientFragment">
         <android.support.design.widget.TextInputLayout
             android:layout_marginTop="10dp"
             android:id="@+id/til_client_id"

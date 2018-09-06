@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#333333</color>
+    <color name="colorPrimaryDark">#111111</color>
     <color name="colorAccent">#888888</color>
     <color name="gray">#aaaaaa</color>
     <color name="pressed">#FF4081</color>
     <color name="white">#FFFFFF</color>
-
+    <color name="listprimary_black">#dd000000</color>
+    <color name="black_38">#60000000</color>
+    <color name="smalltext_lightgrey">#89000000</color>
+    <color name="textlink_blue">#36a2eb</color>
+    <color name="black_overlay">#33000000</color>
+    <color name="divider">#dddddd</color>
+    <color name="black">#000000</color>
+    <color name="border">#DDDDDD</color>
+    <color name="red">#FF0000</color>
+    <color name="orange">#FF7F00</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="bright_pink">#FF007F</color>
+    <color name="chartreuse">#7FFF00</color>
+    <color name="green">#00FF00</color>
+    <color name="spring_green">#00FF7F</color>
+    <color name="cyan">#00FFFF</color>
+    <color name="azure">#007FFF</color>
+    <color name="blue">#0000FF</color>
+    <color name="violet">#7F00FF</color>
+    <color name="magenta">#FF00FF</color>
+    <color name="grey">#f5f5f5</color>
+    <color name="transparent">#00000000</color>
 </resources>
