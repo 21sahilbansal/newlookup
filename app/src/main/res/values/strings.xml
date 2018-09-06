@@ -11,4 +11,16 @@
     <string name="sim_change">Sim Change</string>
     <string name="enter_user_id">Please Enter User Id</string>
     <string name="auth_secret">5ed183673b9709a69e51ed86e6b53b</string>
+
+    <string name="title_activity_login1">LoginActivity1</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="repair">Repair</string>
+    <string name="permissions">Give permissions</string>
+    <string name="proceed">PROCEED</string>
+    <string name="camera">Camera</string>
+    <string name="update">UPDATE</string>
 </resources>

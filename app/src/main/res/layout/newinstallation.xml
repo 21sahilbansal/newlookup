@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <ScrollView
         android:background="@color/white"
+        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
@@ -20,16 +22,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Dealer's name*" />
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/owner_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Owner's name*" />
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -138,12 +130,36 @@
                 android:layout_height="wrap_content">
                 <EditText
                     android:layout_marginTop="10dp"
-                    android:id="@+id/client_id"
-                    android:inputType="number"
+                    android:id="@+id/owner_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Client ID*"/>
+                    android:hint="Owner Nmae"/>
             </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/client_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Client id "/>
+            </android.support.design.widget.TextInputLayout>
+            <CheckBox
+                android:id="@+id/cb_trip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trip Button"/>
+            <CheckBox
+                android:id="@+id/cb_sos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SOS"/>
+            <CheckBox
+                android:id="@+id/cb_imm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Immobilizer"/>
             <Button
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"

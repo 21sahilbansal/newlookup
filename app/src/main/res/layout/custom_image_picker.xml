@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/devText1"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/black"/>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_height="125dp"
+                android:layout_width="125dp"
+                android:gravity="center"
+                android:id="@+id/devImage1"
+                android:background="@drawable/dotted">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_plus_inline_blue" />
+            </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rvImages" >
+    </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+</LinearLayout>

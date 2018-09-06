@@ -24,9 +24,7 @@ public class LookupResponse implements Serializable {
         this.data = data;
     }
 
-    public Boolean getPassed() {
-        return passed;
-    }
+    public Boolean getPassed() { return passed; }
 
     public void setPassed(Boolean passed) {
         this.passed = passed;

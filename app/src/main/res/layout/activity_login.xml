@@ -1,0 +1,158 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="cred"
+            type="com.loconav.lookup.login.model.Creds"/>
+        <variable
+            name="presenter"
+            type="com.loconav.lookup.login.LoginPresenter"/>
+    </data>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/grey"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="20dp"
+            android:src="@drawable/ic_lookup_logo" />
+
+        <android.support.v7.widget.CardView
+            android:layout_centerVertical="true"
+            android:id="@+id/login_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_logo"
+            android:layout_marginTop="55dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="29dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="29dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColorHint="@color/smalltext_lightgrey">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/phone_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:hint="Username"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="18dp"
+                        android:singleLine="true"
+                        android:text="@={cred.phoneNumber}"
+                        android:textColor="@color/listprimary_black"
+                        android:textColorHint="@color/black_38"
+                        android:textSize="12sp" />
+                </android.support.design.widget.TextInputLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textColorHint="@color/smalltext_lightgrey"
+                        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+                        <android.support.v7.widget.AppCompatEditText
+                            android:id="@+id/password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Password"
+                            android:inputType="textPassword"
+                            android:paddingBottom="18dp"
+                            android:text="@={cred.password}"
+                            android:textColor="@color/listprimary_black"
+                            android:textColorHint="@color/black_38"
+                            android:textSize="12sp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <!--<RelativeLayout-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:id="@+id/show_password"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:gravity="end"-->
+                    <!--android:layout_gravity="end|center_vertical"-->
+                    <!--android:padding="10dp">-->
+                    <!--<ImageView-->
+                    <!--android:id="@+id/img_show_pass"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_width="14.5dp"-->
+                    <!--android:layout_height="8.5dp"-->
+                    <!--android:background="@drawable/ic_show_password_black" />-->
+                    <!--</RelativeLayout>-->
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/login"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/bg_button_background"
+                    android:includeFontPadding="false"
+                    android:onClick="@{(view) -> presenter.validateUser(cred)}"
+                    android:text="Login"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="50dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="Powered by  "
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_splash_logo" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
+</layout>

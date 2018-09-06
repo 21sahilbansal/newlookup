@@ -1,30 +1,28 @@
 package com.loconav.lookup;
 
 import android.annotation.SuppressLint;
+import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.loconav.lookup.databinding.ActivityFastTagBinding;
 
 public class FastTagActivity extends AppCompatActivity {
-    @BindView(R.id.wv_fast_tag) WebView wbFastTag;
+    private ActivityFastTagBinding binding;
     String fastTagUrl = "http://192.168.2.188:3000/installers";
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fast_tag);
-        ButterKnife.bind(this);
-        wbFastTag.setWebViewClient(new MyBrowser());
-        wbFastTag.getSettings().setLoadsImagesAutomatically(true);
-        wbFastTag.getSettings().setJavaScriptEnabled(true);
-        wbFastTag.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        wbFastTag.loadUrl(fastTagUrl);
+        binding= DataBindingUtil.setContentView(this, R.layout.look_up_entry);
+        binding.wvFastTag.setWebViewClient(new MyBrowser());
+        binding.wvFastTag.getSettings().setLoadsImagesAutomatically(true);
+        binding.wvFastTag.getSettings().setJavaScriptEnabled(true);
+        binding.wvFastTag.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        binding.wvFastTag.loadUrl(fastTagUrl);
     }
 
     private class MyBrowser extends WebViewClient {
@@ -33,5 +31,10 @@ public class FastTagActivity extends AppCompatActivity {
             view.loadUrl(url);
             return true;
         }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding.unbind();
     }
 }

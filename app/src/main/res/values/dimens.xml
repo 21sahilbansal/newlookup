@@ -3,4 +3,5 @@
     <dimen name="dimen_5sp">5sp</dimen>
     <dimen name="dimen_5dp">5dp</dimen>
     <dimen name="dimen_18sp">18sp</dimen>
+    <dimen name="border_width">0.5dp</dimen>
 </resources>

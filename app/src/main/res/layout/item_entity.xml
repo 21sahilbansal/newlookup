@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="com.loconav.lookup.R.drawable" />
+        <variable
+            name="obj"
+            type="com.loconav.lookup.model.Entity" />
+
+    </data>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
@@ -20,9 +28,9 @@
             android:id="@+id/title"
             android:layout_weight="1"
             android:fontFamily="sans-serif-medium"
-            android:text="Battery"/>
+            android:text="@{obj.title}"/>
         <TextView
-            android:text="152.4"
+            android:text='@{obj.value == null?"":obj.value}'
             android:textSize="12sp"
             android:layout_weight="1.8"
             android:layout_width="0dp"
@@ -34,7 +42,7 @@
             android:layout_width="0dp"
             android:layout_height="15dp"
             android:id="@+id/iv_status"
-            android:src="@drawable/greentick"/>
+            android:drawable="@{obj.status==null?android.R.color.transparent:(safeUnbox(obj.status)?drawable.greentick:drawable.red_tick)}"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -44,3 +52,4 @@
         android:layout_below="@id/list_item"
         android:background="#eeeeee"/>
 </RelativeLayout>
+</layout>

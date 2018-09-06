@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import static com.loconav.lookup.Constants.USER_ID;
 
@@ -32,30 +35,19 @@ public class CommonFunction {
         }
         return true;
     }
-
-    public static void sendAppMsg(Activity activity, String message) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        String text = message;
-        // change with required  application package
-        intent.setPackage("com.whatsapp");
-
-        if (intent != null) {
-            intent.putExtra(Intent.EXTRA_TEXT, text);//
-            activity.startActivity(Intent.createChooser(intent, text));
-        } else {
-            Toast.makeText(activity , "Whatapp not found", Toast.LENGTH_SHORT)
-                    .show();
-        }
+    public static boolean validateEdit(EditText fields){
+            EditText currentField = fields;
+            if(currentField.getText().toString().length() <= 0){
+                currentField.setError("Cannot Be Empty");
+                currentField.requestFocus();
+                return false;
+            }
+        return true;
     }
-
-
     private static void setData(EditText editText) {
         editText.setEnabled(false);
         editText.clearFocus();
     }
-
-
     public static void setEditText( EditText imei, String deviceId) {
         imei.setText(deviceId);
         setData(imei);

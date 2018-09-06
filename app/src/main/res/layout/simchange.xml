@@ -1,81 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:scrollbars="none">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<ScrollView
+    android:id="@+id/sv"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    android:scrollbars="none">
         <LinearLayout
+            android:id="@+id/ll"
             android:padding="15dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/owner_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Owner's name*"/>
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/vehicle_no"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Vehicle no*"/>
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/old_sim_no"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:hint="Old Sim No*"/>
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/new_sim_no"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:hint="New Sim No*"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/imei"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:hint="IMEI*" />
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/client_id"
-                    android:inputType="number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Client ID*"/>
-            </android.support.design.widget.TextInputLayout>
             <Button
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
@@ -85,7 +24,7 @@
                 android:layout_marginBottom="18dp"
                 android:gravity="center"
                 android:textSize="18sp"
-                android:text="Share"/>
+                android:text="@string/proceed"/>
         </LinearLayout>
     </ScrollView>
 </layout>
