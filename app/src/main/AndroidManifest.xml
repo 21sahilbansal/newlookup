@@ -22,7 +22,7 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <provider android:name="android.support.v4.content.FileProvider" android:grantUriPermissions="true" android:exported="false" android:authorities="com.example.android.fileprovider1">
+        <provider android:name="android.support.v4.content.FileProvider" android:grantUriPermissions="true" android:exported="false" android:authorities="com.example.android.fileproviderloconav">
 
         <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths"/>
 
