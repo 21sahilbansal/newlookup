@@ -17,6 +17,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -41,6 +42,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import id.zelory.compressor.Compressor;
+
 /**
  * Created by prateek on 09/07/18.
  */
@@ -50,7 +53,14 @@ public class ImagePickerDialog extends BaseDialogFragment {
     private int REQUEST_CAMERA = 0,SELECT_FILE = 1;
     private String stringId;
     private int limit;
-    private ArrayList<ImageUri> imagesUriArrayList=new ArrayList<>(); ;
+    String mCurrentPhotoPath,getmCurrentPhotoPath1;
+    File file;
+    File compressedfile= null;
+    Uri uri;
+    private Context context;
+    private Activity activity;
+    private ArrayList<ImageUri> imagesUriArrayList=new ArrayList<>();
+    private ArrayList<ImageUri> imagesUriArrayList1=new ArrayList<>();
     public static ImagePickerDialog newInstance(String id,int limit) {
         ImagePickerDialog imagePickerDialog = new ImagePickerDialog();
         Bundle bundle=new Bundle();
@@ -67,7 +77,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
         final View dialogView = getActivity().getLayoutInflater()
                 .inflate(R.layout.dialog_image_picker, new LinearLayout(getActivity()),
                         false);
-       binding= DataBindingUtil.bind(dialogView);
+        binding= DataBindingUtil.bind(dialogView);
 
         stringId=getArguments().getString("id");
         limit=getArguments().getInt("limitImages");
@@ -102,9 +112,40 @@ public class ImagePickerDialog extends BaseDialogFragment {
         intent.setAction(Intent.ACTION_GET_CONTENT);//
         startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
     }
-    public void cameraIntent() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_CAMERA);
+    public void cameraIntent()
+    {
+        setimage();
+    }
+    private void setimage()
+    {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File photoFile = null;
+        try {
+            photoFile = getfile();
+        } catch (Exception ex) {
+        }
+
+        if (photoFile != null) {
+            Uri photoURI = FileProvider.getUriForFile(getActivity(),
+                    "com.example.android.fileprovider1",
+                    photoFile);
+
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            startActivityForResult(takePictureIntent, REQUEST_CAMERA);
+
+        }
+
+    }
+    private File getfile() throws IOException {
+        String imageFileName = "JPEG_" + "sourav" + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,
+                ".jpg",
+                storageDir
+        );
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -117,13 +158,14 @@ public class ImagePickerDialog extends BaseDialogFragment {
             else if (requestCode == REQUEST_CAMERA) {
                 parsingCameraImage(data);
                 EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_CAMERA+""+stringId, imagesUriArrayList));
+
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
         dismiss();
     }
 
-    public void parsingGalleryImage(Intent data)  {
+    public void parsingGalleryImage(final Intent data)  {
         data.getExtras();
         if(data.getClipData()==null){
             ImageUri imageUri = new ImageUri();
@@ -136,6 +178,19 @@ public class ImagePickerDialog extends BaseDialogFragment {
 
                     ImageUri imageUri = new ImageUri();
                     imageUri.setUri(data.getClipData().getItemAt(i).getUri());
+                    final int finalI = i;
+
+                    try {
+                        compressedfile = getfile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            compressionImage(data.getClipData().getItemAt(finalI).getUri());
+                        }
+                    }).start();
                     imagesUriArrayList.add(imageUri);
                 }
             }else {
@@ -150,25 +205,36 @@ public class ImagePickerDialog extends BaseDialogFragment {
         }
         Log.e("SIZE", imagesUriArrayList.size() + ""+imagesUriArrayList);
     }
-
-    public void parsingCameraImage(Intent data){
-        Bitmap thumbnail = (Bitmap)data.getExtras().get("data");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail=Bitmap.createScaledBitmap(thumbnail,thumbnail.getWidth()*3 , thumbnail.getHeight()*3, true);
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
-        FileOutputStream fo;
+    public void compressionImage(Uri uri)
+    {
+        Bitmap bm=null;
         try {
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            bm = (MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        FileOutputStream fout = null;
+        try {
+            fout=new FileOutputStream(compressedfile);
+        } catch (FileNotFoundException e) {
+            Toast.makeText(getActivity(), "The error is "+e.toString(), Toast.LENGTH_SHORT).show();
+        }
+        bm.compress(Bitmap.CompressFormat.JPEG,100,fout);
+        try {
+            bm=new Compressor(getActivity()).compressToBitmap(compressedfile);
+            Toast.makeText(getActivity(), "compression success", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.e("sourav",e.toString());
+        }
+        bm.compress(Bitmap.CompressFormat.JPEG,100,fout);
+
+    }
+
+    public void parsingCameraImage(Intent data)
+    {
+
+        File destination = new File(mCurrentPhotoPath);
         ImageUri imageUri=new ImageUri();
         imageUri.setUri(( Uri.fromFile(destination)));
         imagesUriArrayList=new ArrayList<>();
