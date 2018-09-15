@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.loconav.lookup.BaseCameraActivity;
 import com.loconav.lookup.LookUpEntry;
 import com.loconav.lookup.R;
@@ -33,6 +34,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.fabric.sdk.android.Fabric;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,9 +53,9 @@ public class SplashActivity extends BaseCameraActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        Fabric.with(this, new Crashlytics());
         sharedPrefHelper = SharedPrefHelper.getInstance(getBaseContext());
         Log.e(TAG, "onCreate: ");
-
     }
 
 
