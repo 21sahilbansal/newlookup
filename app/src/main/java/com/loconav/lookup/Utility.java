@@ -4,10 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by prateek on 15/02/18.
@@ -38,11 +42,12 @@ public class Utility {
     }
 
     public static Boolean matchregex(String str,String str2) {
-
 //        Pattern pattern = Pattern.compile(str);
 //        Matcher matcher = pattern.matcher(str2);
 //        Boolean ab= matcher.find();
         return str.matches(str2);
     }
+
+
 
 }

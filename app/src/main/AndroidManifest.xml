@@ -5,16 +5,17 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-feature android:name="android.hardware.camera.autofocus" />
-
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".application.LookUpApplication"
+        android:name="com.loconav.lookup.application.LookUpApplication"
         android:allowBackup="true"
         android:largeHeap="true"
         android:icon="@drawable/ic_lookup_app_icon"
@@ -27,6 +28,7 @@
         <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths"/>
 
     </provider>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="c3f556f16fbe6c8fcdb26aad51c6deec9162a6fb"

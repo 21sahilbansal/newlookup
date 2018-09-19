@@ -65,11 +65,11 @@ public class LookupSubActivity extends BaseActivity {
     public void setPassingReason(PassingReason passingReason){
         this.passingReason=passingReason;
     }
-    File storageDir;
+
 
     public String reduceBititmap(Bitmap bitmap) throws Exception
     {
-        File f=getfile();
+        File f=new FileUtility().getfile(getApplicationContext());
         FileOutputStream fout=new FileOutputStream(f);
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fout);
         Bitmap compressedImageBitmap = new Compressor(this).setQuality(70).compressToBitmap(f);
@@ -81,6 +81,7 @@ public class LookupSubActivity extends BaseActivity {
         return str;
     }
     private File getfile() throws IOException {
+        File storageDir;
         String imageFileName = "JPEG_" + "sourav" + "_";
         storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
@@ -88,7 +89,6 @@ public class LookupSubActivity extends BaseActivity {
                 ".jpg",
                 storageDir
         );
-        mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
     private void addOtherFields(String userChoice) {

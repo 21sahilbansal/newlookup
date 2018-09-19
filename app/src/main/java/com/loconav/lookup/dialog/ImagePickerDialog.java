@@ -178,19 +178,6 @@ public class ImagePickerDialog extends BaseDialogFragment {
 
                     ImageUri imageUri = new ImageUri();
                     imageUri.setUri(data.getClipData().getItemAt(i).getUri());
-                    final int finalI = i;
-
-                    try {
-                        compressedfile = getfile();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            compressionImage(data.getClipData().getItemAt(finalI).getUri());
-                        }
-                    }).start();
                     imagesUriArrayList.add(imageUri);
                 }
             }else {
@@ -205,31 +192,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
         }
         Log.e("SIZE", imagesUriArrayList.size() + ""+imagesUriArrayList);
     }
-    public void compressionImage(Uri uri)
-    {
-        Bitmap bm=null;
-        try {
-            bm = (MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        FileOutputStream fout = null;
-        try {
-            fout=new FileOutputStream(compressedfile);
-        } catch (FileNotFoundException e) {
-            Toast.makeText(getActivity(), "The error is "+e.toString(), Toast.LENGTH_SHORT).show();
-        }
-        bm.compress(Bitmap.CompressFormat.JPEG,100,fout);
-        try {
-            bm=new Compressor(getActivity()).compressToBitmap(compressedfile);
-            Toast.makeText(getActivity(), "compression success", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Log.e("sourav",e.toString());
-        }
-        bm.compress(Bitmap.CompressFormat.JPEG,100,fout);
-
-    }
 
     public void parsingCameraImage(Intent data)
     {
