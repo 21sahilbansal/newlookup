@@ -141,14 +141,7 @@ public class RepairAfterForm extends BaseTitleFragment {
                             else
                             {
                                 progressDialog.setMessage("Uploading...");//we are on ui thread
-                                handlerThread = new HandlerThread("background");// we create a new thread to work on background thread
-                                handlerThread.start();
-                                new Handler(handlerThread.getLooper()).post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        hitApi(repairRequirements);
-                                    }
-                                });
+                                        hitApi(repairRequirements);// now we donot need to make changes on ui thread so we donot need to create a new thread;
                             }
                         } else if (submitted) {
                             hitApi(repairRequirements);

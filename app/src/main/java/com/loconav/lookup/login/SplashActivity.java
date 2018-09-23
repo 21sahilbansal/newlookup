@@ -53,7 +53,7 @@ public class SplashActivity extends BaseCameraActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        Fabric.with(this, new Crashlytics());
+        //Fabric.with(this, new Crashlytics());
         sharedPrefHelper = SharedPrefHelper.getInstance(getBaseContext());
         Log.e(TAG, "onCreate: ");
     }
@@ -64,6 +64,7 @@ public class SplashActivity extends BaseCameraActivity {
         Log.e(TAG, "onAllPermissionsGranted: ");
         if(SharedPrefHelper.getInstance(getBaseContext()).getBooleanData(IS_LOGGED_IN)) {
             Long currentTime=System.currentTimeMillis();
+
             Long login=SharedPrefHelper.getInstance(getBaseContext()).getLongData(LOG_IN_TIME);
             if(currentTime - login > TimeUnit.HOURS.toMillis(1)){
                 fetchData();
