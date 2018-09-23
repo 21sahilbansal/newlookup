@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class FileUtility {
-    public File getfile(Context context) throws IOException {
+    public static File getfile(Context context) throws IOException {
         File storageDir;
         String imageFileName = "JPEG_" + "sourav" + "_";
         storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);

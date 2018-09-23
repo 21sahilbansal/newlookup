@@ -80,17 +80,6 @@ public class LookupSubActivity extends BaseActivity {
         Log.e("SIZE OF",""+str.length());
         return str;
     }
-    private File getfile() throws IOException {
-        File storageDir;
-        String imageFileName = "JPEG_" + "sourav" + "_";
-        storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,
-                ".jpg",
-                storageDir
-        );
-        return image;
-    }
     private void addOtherFields(String userChoice) {
         Input i1 = new Input("deviceId", "imei", "textView", "Device Id :");
         Input i2 = new Input("remarks", "remarks", "text", "");

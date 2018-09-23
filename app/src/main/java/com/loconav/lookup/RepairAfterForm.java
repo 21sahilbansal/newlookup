@@ -57,21 +57,14 @@ public class RepairAfterForm extends BaseTitleFragment {
     }
     Date currentTime2;
     Long tsLong1,tsLong2 ;
-    HandlerThread handlerThread1,handlerThread2;
+    HandlerThread handlerThread;
     @Override
     public void onFragmentCreated() {
         repairRequirements = (RepairRequirements) getArguments().getSerializable("req");
         passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
-
-        getActivity().runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                progressDialog = new ProgressDialog(getActivity());
+                progressDialog = new ProgressDialog(getActivity());//we are on ui thread
                 progressDialog.setMessage("Image Compressing..");
                 progressDialog.setCancelable(false);
-            }
-        });
         binding.proceedRep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,10 +76,10 @@ public class RepairAfterForm extends BaseTitleFragment {
                             if(fail==false)
                             {
                                 submitted = true;
-                                handlerThread1 = new HandlerThread("background");
-                                handlerThread1.start();
+                                handlerThread = new HandlerThread("background");
+                                handlerThread.start();
                                 tsLong1 = System.currentTimeMillis() / 1000;
-                                new Handler(handlerThread1.getLooper()).post(new Runnable() {
+                                new Handler(handlerThread.getLooper()).post(new Runnable() {//we create a new thread for compression and uploading images
                                     @Override
                                     public void run() {
                                         ArrayList<String> imagesList1 = new ArrayList<>();
@@ -134,11 +127,11 @@ public class RepairAfterForm extends BaseTitleFragment {
                                         tsLong2 = System.currentTimeMillis() / 1000;
                                         Log.e("Sourav", String.valueOf((tsLong2 - tsLong1)));
                                         repairRequirements.setPost_repair_images(al1);
-                                        getActivity().runOnUiThread(new Runnable() {
+                                        getActivity().runOnUiThread(new Runnable() { // now we are not on ui thread so we have to show progress on ui thread so we call method runOnUiThread()
 
                                             @Override
                                             public void run() {
-                                                progressDialog.setMessage("Uploading..");
+                                                progressDialog.setMessage("Uploading...");
                                             }
                                         });
                                         hitApi(repairRequirements);
@@ -147,18 +140,12 @@ public class RepairAfterForm extends BaseTitleFragment {
                             }
                             else
                             {
-                                handlerThread2 = new HandlerThread("background");
-                                handlerThread2.start();
-                                new Handler(handlerThread2.getLooper()).post(new Runnable() {
+                                progressDialog.setMessage("Uploading...");//we are on ui thread
+                                handlerThread = new HandlerThread("background");// we create a new thread to work on background thread
+                                handlerThread.start();
+                                new Handler(handlerThread.getLooper()).post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        getActivity().runOnUiThread(new Runnable() {
-
-                                            @Override
-                                            public void run() {
-                                                progressDialog.setMessage("Uploading..");
-                                            }
-                                        });
                                         hitApi(repairRequirements);
                                     }
                                 });
@@ -251,8 +238,7 @@ public class RepairAfterForm extends BaseTitleFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        handlerThread1.quit();
-        handlerThread2.quit();
+        handlerThread.quit();
         binding.unbind();
     }
 

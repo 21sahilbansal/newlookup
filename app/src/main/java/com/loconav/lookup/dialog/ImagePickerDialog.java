@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.loconav.lookup.FileUtility;
 import com.loconav.lookup.GalleryEvents;
 import com.loconav.lookup.ImagePickerEvent;
 import com.loconav.lookup.R;
@@ -121,7 +122,8 @@ public class ImagePickerDialog extends BaseDialogFragment {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File photoFile = null;
         try {
-            photoFile = getfile();
+            photoFile = FileUtility.getfile(getActivity());
+            mCurrentPhotoPath = photoFile.getAbsolutePath();
         } catch (Exception ex) {
         }
 
@@ -136,17 +138,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
         }
 
     }
-    private File getfile() throws IOException {
-        String imageFileName = "JPEG_" + "sourav" + "_";
-        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,
-                ".jpg",
-                storageDir
-        );
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
@@ -182,7 +174,6 @@ public class ImagePickerDialog extends BaseDialogFragment {
                 }
             }else {
                 for (int i = 0; i <limit; i++) {
-
                     ImageUri imageUri = new ImageUri();
                     imageUri.setUri(data.getClipData().getItemAt(i).getUri());
                     imagesUriArrayList.add(imageUri);
