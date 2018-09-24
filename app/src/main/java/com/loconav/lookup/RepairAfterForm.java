@@ -45,7 +45,7 @@ import static java.lang.Thread.sleep;
 
 public class RepairAfterForm extends BaseTitleFragment {
     RepairRequirements repairRequirements;
-    private ProgressDialog progressDialog,progressDialog2;
+    private ProgressDialog progressDialog;
     PassingReason passingReason;
     Boolean submitted = false;
     private RepairAfterFormBinding binding;
