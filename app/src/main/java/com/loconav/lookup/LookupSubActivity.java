@@ -28,7 +28,6 @@ public class LookupSubActivity extends BaseActivity {
     private ArrayList<Input> addtionalFields = new ArrayList<>();
     public PassingReason passingReason;
     private ReasonResponse reasonResponse;
-    String mCurrentPhotoPath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,19 +66,7 @@ public class LookupSubActivity extends BaseActivity {
     }
 
 
-    public String reduceBititmap(Bitmap bitmap) throws Exception
-    {
-        File f=new FileUtility().getfile(getApplicationContext());
-        FileOutputStream fout=new FileOutputStream(f);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fout);
-        Bitmap compressedImageBitmap = new Compressor(this).setQuality(70).compressToBitmap(f);
-        int height=compressedImageBitmap.getHeight();
-        int width=compressedImageBitmap.getWidth();
-        compressedImageBitmap=Bitmap.createScaledBitmap(compressedImageBitmap,(width*90)/100,(height*90)/100,true);
-        String str= "data:image/png;base64,"+encodeToBase64(compressedImageBitmap, Bitmap.CompressFormat.JPEG,50);
-        Log.e("SIZE OF",""+str.length());
-        return str;
-    }
+
     private void addOtherFields(String userChoice) {
         Input i1 = new Input("deviceId", "imei", "textView", "Device Id :");
         Input i2 = new Input("remarks", "remarks", "text", "");

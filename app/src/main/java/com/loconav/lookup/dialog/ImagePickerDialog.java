@@ -54,14 +54,8 @@ public class ImagePickerDialog extends BaseDialogFragment {
     private int REQUEST_CAMERA = 0,SELECT_FILE = 1;
     private String stringId;
     private int limit;
-    String mCurrentPhotoPath,getmCurrentPhotoPath1;
-    File file;
-    File compressedfile= null;
-    Uri uri;
-    private Context context;
-    private Activity activity;
+    String mCurrentPhotoPath;
     private ArrayList<ImageUri> imagesUriArrayList=new ArrayList<>();
-    private ArrayList<ImageUri> imagesUriArrayList1=new ArrayList<>();
     public static ImagePickerDialog newInstance(String id,int limit) {
         ImagePickerDialog imagePickerDialog = new ImagePickerDialog();
         Bundle bundle=new Bundle();

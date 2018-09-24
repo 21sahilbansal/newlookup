@@ -9,7 +9,7 @@ import java.io.IOException;
 public class FileUtility {
     public static File getfile(Context context) throws IOException {
         File storageDir;
-        String imageFileName = "JPEG_" + "sourav" + "_";
+        String imageFileName = "JPEG_" + "Loconav" + "_";
         storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,

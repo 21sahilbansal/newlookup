@@ -1,11 +1,8 @@
 package com.loconav.lookup.login;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -14,24 +11,9 @@ import com.loconav.lookup.LookUpEntry;
 import com.loconav.lookup.R;
 import com.loconav.lookup.Utility;
 import com.loconav.lookup.application.SharedPrefHelper;
-import com.loconav.lookup.model.Client;
-import com.loconav.lookup.model.ReasonResponse;
-import com.loconav.lookup.model.VersionResponse;
-import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
-import com.loconav.lookup.network.rest.StagingApiClient;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.fabric.sdk.android.Fabric;
@@ -80,6 +62,7 @@ public class SplashActivity extends BaseCameraActivity {
             finish();
         }
     }
+
 
 
     @Override

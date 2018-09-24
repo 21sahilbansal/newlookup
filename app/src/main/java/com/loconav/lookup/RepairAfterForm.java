@@ -50,13 +50,12 @@ public class RepairAfterForm extends BaseTitleFragment {
     Boolean submitted = false;
     private RepairAfterFormBinding binding;
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-    boolean fail=false;
+    boolean isImageUploaded;
     @Override
     public int setViewId() {
         return R.layout.repair_after_form;
     }
     Date currentTime2;
-    Long tsLong1,tsLong2 ;
     HandlerThread handlerThread;
     @Override
     public void onFragmentCreated() {
@@ -73,12 +72,11 @@ public class RepairAfterForm extends BaseTitleFragment {
                         binding.proceedRep.setVisibility(View.GONE);
                         progressDialog.show();
                         if (!submitted) {
-                            if(fail==false)
+                            if(!isImageUploaded)
                             {
                                 submitted = true;
                                 handlerThread = new HandlerThread("background");
                                 handlerThread.start();
-                                tsLong1 = System.currentTimeMillis() / 1000;
                                 new Handler(handlerThread.getLooper()).post(new Runnable() {//we create a new thread for compression and uploading images
                                     @Override
                                     public void run() {
@@ -98,7 +96,7 @@ public class RepairAfterForm extends BaseTitleFragment {
                                         for (int i = 0; i < passingReason.getImagesPreRepair(); i++) {
                                             String str2 = null;
                                             try {
-                                                str2 = ((LookupSubActivity) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
+                                                str2 = Utility.reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))),getActivity());
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
@@ -109,7 +107,7 @@ public class RepairAfterForm extends BaseTitleFragment {
                                         for (int i = passingReason.getImagesPreRepair(); i < passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i++) {
                                             String str5 = null;
                                             try {
-                                                str5 = ((LookupSubActivity) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
+                                                str5 = Utility.reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))),getActivity());
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
@@ -118,14 +116,12 @@ public class RepairAfterForm extends BaseTitleFragment {
                                         for (int i = passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i < passingReason.getImagesList().size(); i++) {
                                             String str3 = null;
                                             try {
-                                                str3 = ((LookupSubActivity) getActivity()).reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))));
+                                                str3 = Utility.reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))),getActivity());
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
                                             al1.add(str3);
                                         }
-                                        tsLong2 = System.currentTimeMillis() / 1000;
-                                        Log.e("Sourav", String.valueOf((tsLong2 - tsLong1)));
                                         repairRequirements.setPost_repair_images(al1);
                                         getActivity().runOnUiThread(new Runnable() { // now we are not on ui thread so we have to show progress on ui thread so we call method runOnUiThread()
 
@@ -182,10 +178,9 @@ public class RepairAfterForm extends BaseTitleFragment {
                 File dir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
                 if (dir.isDirectory())
                 {
-                    String[] children = dir.list();
-                    for (int i = 0; i < children.length; i++)
+                    for (File f:dir.listFiles())
                     {
-                        new File(dir, children[i]).delete();
+                            f.delete();
                     }
                 }
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
@@ -207,7 +202,7 @@ public class RepairAfterForm extends BaseTitleFragment {
                 binding.proceedRep.setVisibility(View.VISIBLE);
                 progressDialog.dismiss();
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-                fail=true;
+                isImageUploaded=true;
                 Log.e("error ", t.getMessage());
             }
         });
