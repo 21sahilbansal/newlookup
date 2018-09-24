@@ -1,12 +1,17 @@
 package com.loconav.lookup.login;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.loconav.lookup.BaseCameraActivity;
+import com.loconav.lookup.LocationService;
 import com.loconav.lookup.LookUpEntry;
 import com.loconav.lookup.R;
 import com.loconav.lookup.Utility;
@@ -63,7 +68,28 @@ public class SplashActivity extends BaseCameraActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            ContextCompat.startForegroundService(getApplicationContext(), new Intent(getApplicationContext(), LocationService.class));
+        } else {
+            if(!isMyServiceRunning(LocationService.class)) {
+                Log.e(getClass().getSimpleName(), "onReceive: " + "service restarted");
+                startService(new Intent(getApplicationContext(), LocationService.class));
+            }
+        }
+    }
 
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     protected void onStart() {
