@@ -40,6 +40,8 @@ public abstract class BaseCameraActivity extends AppCompatActivity {
         int write_storage = ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int read_storage = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
         int camera = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA);
+        int location1=ContextCompat.checkSelfPermission(context,Manifest.permission.ACCESS_COARSE_LOCATION);
+        int location2=ContextCompat.checkSelfPermission(context,Manifest.permission.ACCESS_FINE_LOCATION);
 
         if (read_storage != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -49,6 +51,12 @@ public abstract class BaseCameraActivity extends AppCompatActivity {
         }
         if (camera != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.CAMERA);
+        }
+        if (location1 != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
+        if (location2 != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION);
         }
         if (!listPermissionsNeeded.isEmpty()) {
             ActivityCompat.requestPermissions(this ,listPermissionsNeeded.toArray

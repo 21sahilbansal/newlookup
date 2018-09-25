@@ -55,7 +55,7 @@ public class RepairAfterForm extends BaseTitleFragment {
     public int setViewId() {
         return R.layout.repair_after_form;
     }
-    Date currentTime2;
+
     HandlerThread handlerThread;
     @Override
     public void onFragmentCreated() {
@@ -91,12 +91,10 @@ public class RepairAfterForm extends BaseTitleFragment {
                                         ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
                                         Log.e("size", "run: " + passingReason.getImagesList().size());
                                         ArrayList<String> al = new ArrayList<>();
-                                        currentTime2 = Calendar.getInstance().getTime();
-
                                         for (int i = 0; i < passingReason.getImagesPreRepair(); i++) {
                                             String str2 = null;
                                             try {
-                                                str2 = Utility.reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))),getActivity());
+                                                str2 = Utility.reduceBititmap(FileUtility.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
@@ -107,7 +105,7 @@ public class RepairAfterForm extends BaseTitleFragment {
                                         for (int i = passingReason.getImagesPreRepair(); i < passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i++) {
                                             String str5 = null;
                                             try {
-                                                str5 = Utility.reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))),getActivity());
+                                                str5 = Utility.reduceBititmap(FileUtility.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
@@ -116,7 +114,7 @@ public class RepairAfterForm extends BaseTitleFragment {
                                         for (int i = passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i < passingReason.getImagesList().size(); i++) {
                                             String str3 = null;
                                             try {
-                                                str3 = Utility.reduceBititmap(bitmapTouri(Uri.parse(passingReason.getImagesList().get(i))),getActivity());
+                                                str3 = Utility.reduceBititmap(FileUtility.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
@@ -208,20 +206,7 @@ public class RepairAfterForm extends BaseTitleFragment {
         });
     }
 
-    /**
-     *
-     * @param imageUri :
-     * @return :
-     */
-    public Bitmap bitmapTouri(Uri imageUri) {
-        Bitmap bm = null;
-        try {
-            bm = (MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bm;
-    }
+
 
     @Override
     public void onDestroy() {

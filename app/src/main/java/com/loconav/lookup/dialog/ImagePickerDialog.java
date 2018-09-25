@@ -116,7 +116,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File photoFile = null;
         try {
-            photoFile = FileUtility.getfile(getActivity());
+            photoFile = FileUtility.getImagefile(getActivity());
             mCurrentPhotoPath = photoFile.getAbsolutePath();
         } catch (Exception ex) {
         }

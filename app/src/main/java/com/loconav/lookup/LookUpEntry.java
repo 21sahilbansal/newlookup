@@ -1,6 +1,7 @@
 package com.loconav.lookup;
 
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,12 +11,14 @@ import android.databinding.DataBindingUtil;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -58,6 +61,7 @@ public class LookUpEntry extends BaseActivity {
         binding.tabLayout.setupWithViewPager(binding.pager);
         checkVersion();
     }
+
 
     private void checkVersion() {
         String version = "";
@@ -166,8 +170,30 @@ public class LookUpEntry extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            ContextCompat.startForegroundService(getApplicationContext(), new Intent(getApplicationContext(), LocationService.class));
+        } else {
+            if(!isMyServiceRunning(LocationService.class)) {
+                Log.e(getClass().getSimpleName(), "onReceive: " + "service restarted");
+                startService(new Intent(getApplicationContext(), LocationService.class));
+            }
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         binding.unbind();
+    }
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

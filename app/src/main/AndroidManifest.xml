@@ -28,7 +28,6 @@
         <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths"/>
 
     </provider>
-
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="c3f556f16fbe6c8fcdb26aad51c6deec9162a6fb"
@@ -60,7 +59,8 @@
         </activity>
         <activity android:name=".LookupSubActivity">
         </activity>
-        <service android:name=".LocationService"></service>
+
+        <service android:name=".LocationService" ></service>
     </application>
 
 </manifest>

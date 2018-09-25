@@ -1,7 +1,10 @@
 package com.loconav.lookup;
 
+import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
@@ -11,12 +14,29 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.loconav.lookup.model.CoordinateRequest;
+import com.loconav.lookup.model.Coordinates;
+import com.loconav.lookup.network.RetrofitCallback;
+import com.loconav.lookup.network.rest.ApiClient;
+import com.loconav.lookup.network.rest.ApiInterface;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Response;
+
 public class LocationService extends Service {
     private static final String TAG = LocationService.class.getSimpleName();
     private LocationManager mLocationManager = null;
-    private static final int LOCATION_INTERVAL = 2000;
+    private static final int LOCATION_INTERVAL = (int) TimeUnit.MINUTES.toMillis(30);
+//private static final int LOCATION_INTERVAL = 200;
     private static final float LOCATION_DISTANCE = 0f;
-
+    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     LocationListener[] mLocationListeners = new LocationListener[] {
             new LocationListener(LocationManager.GPS_PROVIDER),
             new LocationListener(LocationManager.NETWORK_PROVIDER)
@@ -31,6 +51,15 @@ public class LocationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e(TAG, "onStartCommand");
+        try {
+            mLocationManager.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER, LOCATION_INTERVAL, LOCATION_DISTANCE,
+                    mLocationListeners[1]);
+        } catch (java.lang.SecurityException ex) {
+            Log.i(TAG, "fail to request location update, ignore", ex);
+        } catch (IllegalArgumentException ex) {
+            Log.d(TAG, "network provider does not exist, " + ex.getMessage());
+        }
         super.onStartCommand(intent, flags, startId);
         return START_STICKY;
     }
@@ -90,7 +119,7 @@ public class LocationService extends Service {
         }
     }
 
-    private class LocationListener implements android.location.LocationListener {
+    private class LocationListener implements android.location.LocationListener   {
         Location mLastLocation;
 
         public LocationListener(String provider)
@@ -102,9 +131,34 @@ public class LocationService extends Service {
         @Override
         public void onLocationChanged(Location location)
         {
-            Toast.makeText(getBaseContext(), location.getLatitude() + " " + location.getLongitude() , Toast.LENGTH_LONG).show();
+            long time=System.currentTimeMillis();
+            String latitude=String.valueOf(location.getLatitude());
+            String longitude=String.valueOf(location.getLongitude());
+            CoordinateRequest coordinateRequest = new CoordinateRequest();
+            List<Coordinates> coordinatesList = new ArrayList<>();
+            Coordinates coordinates = new Coordinates();
+            coordinates.setLatitude(latitude);
+            coordinates.setLongitude(longitude);
+            coordinates.setRecordedat(time);
+            coordinatesList.add(coordinates);
+            coordinateRequest.setCoordinates(coordinatesList);
+            sendCoordinates(coordinateRequest);
             Log.e(TAG, "onLocationChanged: " + location);
             mLastLocation.set(location);
+        }
+        public void sendCoordinates(CoordinateRequest coordinateRequest)
+        {
+            apiService.addCoordinates(coordinateRequest).enqueue(new RetrofitCallback<ResponseBody>() {
+                @Override
+                public void handleSuccess(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Log.e("coordinates","posted");
+                }
+
+                @Override
+                public void handleFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(LocationService.this, "not sent"+t.toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         @Override
@@ -124,5 +178,17 @@ public class LocationService extends Service {
         {
             Log.e(TAG, "onStatusChanged: " + provider);
         }
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        Log.e("ss","on unbind");
+        return super.onUnbind(intent);
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        super.onTaskRemoved(rootIntent);
+        Log.e("ss","sfdsfdf");
     }
 }
