@@ -74,33 +74,10 @@ public class SplashActivity extends BaseCameraActivity {
         super.onResume();
     }
 
-//    private boolean isMyServiceRunning(Class<?> serviceClass) {
-//        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-//        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-//            if (serviceClass.getName().equals(service.service.getClassName())) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 
     @Override
     protected void onStart() {
         super.onStart();
-//        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//        Intent notificationIntent = new Intent(SplashActivity.this, Reciever.class);
-//        PendingIntent broadcast = PendingIntent.getBroadcast(SplashActivity.this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+600,00, broadcast);
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            ContextCompat.startForegroundService(getApplicationContext(), new Intent(getApplicationContext(), LocationService.class));
-//        } else {
-//            if(!isMyServiceRunning(LocationService.class)) {
-//                Toast.makeText(this, "not running", Toast.LENGTH_SHORT).show();
-//                Log.e(getClass().getSimpleName(), "onReceive: " + "service restarted");
-//                startService(new Intent(getApplicationContext(), LocationService.class));
-//            }
-//        }
             if(checkAndRequestPermissions(getBaseContext())) {
                 onAllPermissionsGranted();
                 Log.e(TAG, "onStart: ");
