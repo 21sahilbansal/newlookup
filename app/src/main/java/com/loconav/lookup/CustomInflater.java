@@ -5,10 +5,14 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Layout;
 import android.util.AttributeSet;
@@ -54,8 +58,9 @@ public class CustomInflater extends LinearLayout {
 
      public TextView addtext(String str,LinearLayout linearLayout1, Input input, int index){
          TextView textView = new TextView(getContext());
-         textView.setText(str);
+         textView.setText(" "+str);
          textView.setTag(input);
+         textView.setTextColor(getResources().getColor(R.color.black));
          linearLayout1.addView(textView,index);
          return textView;
      }
@@ -119,6 +124,9 @@ public class CustomInflater extends LinearLayout {
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         editText.setLayoutParams(editTextParams);
         editText.setTextSize(16);
+        //for next line at enter button
+        editText.getImeOptions();
+        editText.setSingleLine();
         editText.setTextColor(getResources().getColor(R.color.black));
         editText.setHint(str.getName());
         editText.setHintTextColor(getResources().getColor(R.color.gray));
@@ -134,7 +142,10 @@ public class CustomInflater extends LinearLayout {
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         spinnerTextParams.setMargins(0,40,0,40);
         spinner.setLayoutParams(spinnerTextParams);
+        spinner.setPadding(23,23,23,23);
         spinner.setTag(input);
+        //Border for spinner
+        spinner.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.bg_border_rectangle) );
         linearLayout.addView(spinner,index);
         setSpinner(spinnerList,spinner);
     }

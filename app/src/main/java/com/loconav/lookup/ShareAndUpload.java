@@ -71,7 +71,7 @@ public class ShareAndUpload extends BaseTitleFragment {
         try {
             context.startActivity(whatsappIntent);
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(getContext(), "Whatapp not found", Toast.LENGTH_SHORT)
+            Toast.makeText(getContext(), "Whatsapp not found", Toast.LENGTH_SHORT)
                     .show();
         }
     }

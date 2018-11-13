@@ -60,11 +60,17 @@ public abstract class BaseActivity extends AppCompatActivity{
 
     public abstract boolean showBackButton();
 
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem menuItem) {
+//        if (menuItem.getItemId() == android.R.id.home) {
+//            onBackPressed();
+//        }
+//        return super.onOptionsItemSelected(menuItem);
+//    }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        if (menuItem.getItemId() == android.R.id.home) {
-            onBackPressed();
-        }
-        return super.onOptionsItemSelected(menuItem);
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 }

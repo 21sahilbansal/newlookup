@@ -30,4 +30,15 @@ public class FileUtility {
         }
         return bm;
     }
+    public static void deleteFiles(Context context)
+    {
+        File dir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        if (dir.isDirectory())
+        {
+            for (File f:dir.listFiles())
+            {
+                f.delete();
+            }
+        }
+    }
 }

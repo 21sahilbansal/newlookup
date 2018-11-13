@@ -2,6 +2,11 @@ package com.loconav.lookup;
 
 
 import android.app.ActivityManager;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +17,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -23,9 +29,11 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -35,32 +43,48 @@ import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseActivity;
 import com.loconav.lookup.databinding.LookUpEntryBinding;
 import com.loconav.lookup.model.ReasonResponse;
+import com.loconav.lookup.model.ReasonTypeResponse;
 import com.loconav.lookup.model.VersionResponse;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
 import com.loconav.lookup.sharedetailsfragmants.SimChangeFragment;
 
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import javax.security.auth.login.LoginException;
+
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.loconav.lookup.FragmentController.loadFragment;
 
 public class LookUpEntry extends BaseActivity {
 
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     private FragmentAdapterClass fragmentAdapter ;
     private LookUpEntryBinding binding;
-
+    private Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.look_up_entry);
 //        To remove shadow partition between tabs and title bar.
+
         getSupportActionBar().setElevation(0);
         fragmentAdapter = new FragmentAdapterClass(getSupportFragmentManager(),2);
         binding.pager.setAdapter(fragmentAdapter);
         binding.tabLayout.setupWithViewPager(binding.pager);
         checkVersion();
     }
+    public void fastag(View view)
+    {
+
+        DeviceIdFragment deviceIdFragment = new DeviceIdFragment();
+        loadFragment(deviceIdFragment,getSupportFragmentManager(),R.id.relative,true);
+    }
+
 
 
     private void checkVersion() {
@@ -68,6 +92,7 @@ public class LookUpEntry extends BaseActivity {
         try {
             PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
             version = pInfo.versionName;
+
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -77,7 +102,7 @@ public class LookUpEntry extends BaseActivity {
                 public void handleSuccess(Call<VersionResponse> call, Response<VersionResponse> response) {
                     if (response.body().getForce_update()) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(LookUpEntry.this, R.style.DialogTheme);
-                        builder.setMessage("Update App                                        ")
+                        builder.setMessage("Update App")
                                 .setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         Uri uri = Uri.parse("http://play.loconav.com");
@@ -173,14 +198,26 @@ public class LookUpEntry extends BaseActivity {
     protected void onResume() {
         super.onResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            ContextCompat.startForegroundService(getApplicationContext(), new Intent(getApplicationContext(), LocationService.class));
+
+            Intent service=new Intent(this,LocationService.class);
+            startForegroundService(service);
         } else {
             if(!isMyServiceRunning(LocationService.class)) {
                 Log.e(getClass().getSimpleName(), "onReceive: " + "service restarted");
                 startService(new Intent(getApplicationContext(), LocationService.class));
             }
         }
+//        this.context = this;
+//        Intent alarm = new Intent(this.context, Receiver.class);
+//        boolean alarmRunning = (PendingIntent.getBroadcast(this.context, 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
+//        if(alarmRunning == false) {
+//            PendingIntent pendingIntent = PendingIntent.getBroadcast(this.context, 0, alarm, 0);
+//            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), TimeUnit.MINUTES.toMillis(5), pendingIntent);
+//            Log.e("First Time","Alarm triggered first time");
+//        }
     }
+
 
     @Override
     protected void onDestroy() {

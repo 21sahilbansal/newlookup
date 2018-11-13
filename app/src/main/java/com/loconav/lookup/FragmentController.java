@@ -40,6 +40,12 @@ public class FragmentController extends AppCompatActivity {
         }
         transaction.commit();
     }
+    public static void deleteFragment(final  Fragment fragment,FragmentManager fragmentManager)
+    {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.remove(fragment);
+        transaction.commit();
+    }
 
     public static void replaceFragment(final Fragment fragment,FragmentManager fragmentManager,int resId,Boolean addToBackStack) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -58,5 +64,12 @@ public class FragmentController extends AppCompatActivity {
                 fragment = fragmentList.get(size - 1);
             }
             return fragment;
+    }
+    public static void deleteFragmentStack(FragmentManager fm)
+    {
+
+        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
     }
 }

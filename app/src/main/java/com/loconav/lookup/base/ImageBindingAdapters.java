@@ -2,7 +2,9 @@ package com.loconav.lookup.base;
 
 import android.databinding.BindingAdapter;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.loconav.lookup.R;
@@ -13,9 +15,10 @@ import com.squareup.picasso.Picasso;
  */
 public class ImageBindingAdapters {
 
-    @BindingAdapter("url")
-    public void setImageUrl(ImageView imageView, String url) {
-        Picasso.get().load(url).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).into(imageView);
+    @BindingAdapter("imagesetter:imageurl")
+    public void setImageUrl(ImageView imageView, String imageurl) {
+        Log.e("fsdfs","hey f"+imageurl);
+        Picasso.get().load(imageurl).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).into(imageView);
     }
 
     @BindingAdapter("half_url")

@@ -56,7 +56,7 @@ public class RepairAfterForm extends BaseTitleFragment {
         return R.layout.repair_after_form;
     }
 
-    HandlerThread handlerThread;
+    HandlerThread handlerThread = new HandlerThread("background");
     @Override
     public void onFragmentCreated() {
         repairRequirements = (RepairRequirements) getArguments().getSerializable("req");
@@ -75,7 +75,7 @@ public class RepairAfterForm extends BaseTitleFragment {
                             if(!isImageUploaded)
                             {
                                 submitted = true;
-                                handlerThread = new HandlerThread("background");
+
                                 handlerThread.start();
                                 new Handler(handlerThread.getLooper()).post(new Runnable() {//we create a new thread for compression and uploading images
                                     @Override
@@ -95,6 +95,7 @@ public class RepairAfterForm extends BaseTitleFragment {
                                             String str2 = null;
                                             try {
                                                 str2 = Utility.reduceBititmap(FileUtility.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
+                                                Log.e("the str2","the str2 is "+str2);
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
@@ -173,20 +174,12 @@ public class RepairAfterForm extends BaseTitleFragment {
             @Override
             public void handleSuccess(Call<RepairResponse> call, Response<RepairResponse> response) {
                 progressDialog.dismiss();
-                File dir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                if (dir.isDirectory())
-                {
-                    for (File f:dir.listFiles())
-                    {
-                            f.delete();
-                    }
-                }
+                FileUtility.deleteFiles(getActivity());
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
-                ;
                 builder.setMessage(response.body().getMessage())
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(getContext(), LookUpEntry.class);
+                                Intent intent = new Intent(getContext(), LookupEntry2.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                             }

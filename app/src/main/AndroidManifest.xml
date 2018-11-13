@@ -6,61 +6,73 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.loconav.lookup.application.LookUpApplication"
+        android:name=".application.LookUpApplication"
         android:allowBackup="true"
-        android:largeHeap="true"
         android:icon="@drawable/ic_lookup_app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/app_icon"
+        android:largeHeap="true"
+        android:roundIcon="@drawable/ic_lookup_app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <provider android:name="android.support.v4.content.FileProvider" android:grantUriPermissions="true" android:exported="false" android:authorities="com.example.android.fileproviderloconav">
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.lookuploconav.lookup"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
-        <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths"/>
-
-    </provider>
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="c3f556f16fbe6c8fcdb26aad51c6deec9162a6fb"
-            />
+            android:value="c3f556f16fbe6c8fcdb26aad51c6deec9162a6fb" />
+
         <activity
-            android:screenOrientation="portrait"
             android:name=".LookUpEntry"
-            android:windowSoftInputMode="adjustNothing">
-
-        </activity>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
-
             android:name=".UserActivity"
             android:label="User Settings"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".FastTagActivity" />
-
         <activity
             android:name=".login.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"/>
-        <activity android:name=".login.SplashActivity">
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+        <activity
+            android:name=".login.SplashActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LookupSubActivity">
-        </activity>
+        <activity android:name=".LookupSubActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait" />
 
-        <service android:name=".LocationService" ></service>
+        <service android:name=".LocationService" />
+
+        <activity
+            android:name=".LookupEntry2"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".UserActivitySubActivity"  android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

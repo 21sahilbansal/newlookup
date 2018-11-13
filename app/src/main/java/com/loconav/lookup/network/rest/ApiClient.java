@@ -4,6 +4,8 @@ package com.loconav.lookup.network.rest;
  * Created by prateek on 5/3/18.
  */
 
+import android.util.Log;
+
 import com.loconav.lookup.application.LookUpApplication;
 import com.loconav.lookup.application.SharedPrefHelper;
 
@@ -24,7 +26,8 @@ public class ApiClient {
     private static Retrofit retrofit = null;
     public static Retrofit getClient() {
         if (retrofit==null) {
-            OkHttpClient.Builder httpClient = new OkHttpClient.Builder().connectTimeout(25, TimeUnit.SECONDS);;
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder().connectTimeout(60, TimeUnit.SECONDS)
+                    .readTimeout(60,TimeUnit.SECONDS);
 
             httpClient.addInterceptor(new Interceptor() {
                 @Override

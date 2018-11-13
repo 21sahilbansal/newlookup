@@ -25,7 +25,8 @@ public class StagingApiClient {
     private static Retrofit retrofit = null;
     public static Retrofit getClient() {
         if (retrofit==null) {
-            OkHttpClient.Builder httpClient = new OkHttpClient.Builder().connectTimeout(25, TimeUnit.SECONDS);
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder().connectTimeout(100, TimeUnit.SECONDS)
+                    .readTimeout(100,TimeUnit.SECONDS);
 
             httpClient.addInterceptor(new Interceptor() {
                 @Override

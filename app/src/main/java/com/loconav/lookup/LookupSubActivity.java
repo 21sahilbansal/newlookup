@@ -28,6 +28,7 @@ public class LookupSubActivity extends BaseActivity {
     private ArrayList<Input> addtionalFields = new ArrayList<>();
     public PassingReason passingReason;
     private ReasonResponse reasonResponse;
+    String fasttag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,7 @@ public class LookupSubActivity extends BaseActivity {
         Bundle bundle=intent.getExtras();
         passingReason = (PassingReason)bundle.getSerializable("PassingReason");
         reasonResponse = (ReasonResponse)bundle.getSerializable("reasonResponse");
+        fasttag= (String) bundle.getSerializable("fastag");
         addOtherFields(passingReason.getUserChoice());
         reasonResponse.setAdditional_fields(addtionalFields);
         passingReason.setReasonResponse(reasonResponse);
@@ -52,7 +54,8 @@ public class LookupSubActivity extends BaseActivity {
         if(passingReason.getUserChoice().equals("New Install")){
             DeviceIdFragment deviceIdFragment = new DeviceIdFragment();
             loadFragment(deviceIdFragment,getSupportFragmentManager(),R.id.frameLayout,false);
-        }else {
+        }
+        else {
             loadFragment(repairFragment,getSupportFragmentManager(),R.id.frameLayout,false);
         }
     }
@@ -64,8 +67,6 @@ public class LookupSubActivity extends BaseActivity {
     public void setPassingReason(PassingReason passingReason){
         this.passingReason=passingReason;
     }
-
-
 
     private void addOtherFields(String userChoice) {
         Input i1 = new Input("deviceId", "imei", "textView", "Device Id :");

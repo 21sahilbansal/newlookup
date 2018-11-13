@@ -123,7 +123,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
 
         if (photoFile != null) {
             Uri photoURI = FileProvider.getUriForFile(getActivity(),
-                    "com.example.android.fileproviderloconav",
+                    "com.lookuploconav.lookup",
                     photoFile);
 
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);

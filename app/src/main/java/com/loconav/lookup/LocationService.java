@@ -2,6 +2,8 @@ package com.loconav.lookup;
 
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -11,9 +13,11 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.loconav.lookup.login.SplashActivity;
 import com.loconav.lookup.model.CoordinateRequest;
 import com.loconav.lookup.model.Coordinates;
 import com.loconav.lookup.network.RetrofitCallback;
@@ -33,7 +37,7 @@ import retrofit2.Response;
 public class LocationService extends Service {
     private static final String TAG = LocationService.class.getSimpleName();
     private LocationManager mLocationManager = null;
-    private static final int LOCATION_INTERVAL = (int) TimeUnit.MINUTES.toMillis(30);
+    private static final int LOCATION_INTERVAL = (int) TimeUnit.MINUTES.toMillis(28);
 //private static final int LOCATION_INTERVAL = 200;
     private static final float LOCATION_DISTANCE = 0f;
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
@@ -61,17 +65,36 @@ public class LocationService extends Service {
             Log.d(TAG, "network provider does not exist, " + ex.getMessage());
         }
         super.onStartCommand(intent, flags, startId);
-        return START_STICKY;
+        return START_REDELIVER_INTENT;
     }
 
     @Override
     public void onCreate()
     {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForeground(101, new Notification());
+        if(Build.VERSION.SDK_INT>=26)
+        {
+            Intent notificationIntent=new Intent(this,SplashActivity.class);
+            PendingIntent pendingIntent=PendingIntent.getActivity(this,0,notificationIntent,0);
+            NotificationChannel servicechannel=new NotificationChannel("locationservicechannel","Location Service",NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager=getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(servicechannel);
+            Notification notification=new NotificationCompat.Builder(this,"locationservicechannel")
+                    .setContentTitle("Lookup")
+                    .setContentText("Lookup app is getting your device location")
+                    .setSmallIcon(R.drawable.lookup_icon).setContentIntent(pendingIntent).build();
+            startForeground(1,notification);
         }
-
+        else
+        {Intent notificationIntent=new Intent(this,SplashActivity.class);
+            PendingIntent pendingIntent=PendingIntent.getActivity(this,0,notificationIntent,0);
+            Notification notification=new NotificationCompat.Builder(this,"locationservicechannel")
+                    .setContentTitle("Lookup")
+                    .setContentText("Lookup app is getting your device location")
+                    .setSmallIcon(R.drawable.lookup_icon).setContentIntent(pendingIntent).build();
+            startForeground(1,notification);
+        }
         Log.e(TAG, "onCreate");
+
         initializeLocationManager();
         try {
             mLocationManager.requestLocationUpdates(
@@ -131,7 +154,7 @@ public class LocationService extends Service {
         @Override
         public void onLocationChanged(Location location)
         {
-            long time=System.currentTimeMillis();
+            long time=System.currentTimeMillis()/1000;
             String latitude=String.valueOf(location.getLatitude());
             String longitude=String.valueOf(location.getLongitude());
             CoordinateRequest coordinateRequest = new CoordinateRequest();
@@ -156,7 +179,7 @@ public class LocationService extends Service {
 
                 @Override
                 public void handleFailure(Call<ResponseBody> call, Throwable t) {
-                    Toast.makeText(LocationService.this, "not sent"+t.toString(), Toast.LENGTH_SHORT).show();
+                    Log.e("Not posted","not sent"+t.toString());
                 }
             });
         }

@@ -13,6 +13,7 @@ import com.crashlytics.android.Crashlytics;
 import com.loconav.lookup.BaseCameraActivity;
 import com.loconav.lookup.LocationService;
 import com.loconav.lookup.LookUpEntry;
+import com.loconav.lookup.LookupEntry2;
 import com.loconav.lookup.R;
 import com.loconav.lookup.Utility;
 import com.loconav.lookup.application.SharedPrefHelper;
@@ -40,7 +41,6 @@ public class SplashActivity extends BaseCameraActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-       // startService(new Intent(getApplicationContext(), LocationService.class));
         Fabric.with(this, new Crashlytics());
         sharedPrefHelper = SharedPrefHelper.getInstance(getBaseContext());
         Log.e(TAG, "onCreate: ");
@@ -58,7 +58,7 @@ public class SplashActivity extends BaseCameraActivity {
                 fetchData();
                 //currentTime - login > TimeUnit.DAYS.toMillis(1)
             }else{
-                Intent intent = new Intent(getBaseContext(), LookUpEntry.class);
+                Intent intent = new Intent(getBaseContext(), LookupEntry2.class);
                 startActivity(intent);
                 finish();
             }
@@ -121,7 +121,7 @@ public class SplashActivity extends BaseCameraActivity {
                     }
                     sharedPrefHelper.setStringData(REASONS_RESPONSE, str);
                     sharedPrefHelper.setLongData(LOG_IN_TIME, System.currentTimeMillis());
-                    Intent intent = new Intent(getBaseContext(), LookUpEntry.class);
+                    Intent intent = new Intent(getBaseContext(), LookupEntry2.class);
                     startActivity(intent);
                     finish();
                 }

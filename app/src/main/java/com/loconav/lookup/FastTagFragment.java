@@ -13,6 +13,7 @@ import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
@@ -25,6 +26,8 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.loconav.lookup.FragmentController.deleteFragment;
 
 /**
  * Created by sejal on 28-06-2018.
@@ -48,8 +51,6 @@ public class FastTagFragment extends BaseFragment {
     public int setViewId() {
         return R.layout.fragment_fastag;
     }
-
-
     @Override
     public void onFragmentCreated() {
         searchAutoComplete = (SearchView.SearchAutoComplete)binding.searchTruck.findViewById(android.support.v7.appcompat.R.id.search_src_text);
@@ -170,5 +171,11 @@ public class FastTagFragment extends BaseFragment {
                 Log.e("error ", t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        FastTagFragment fastTagFragment=new FastTagFragment();
     }
 }

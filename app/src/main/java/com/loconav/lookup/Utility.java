@@ -19,6 +19,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import id.zelory.compressor.Compressor;
 
@@ -73,15 +74,25 @@ public class Utility {
         Log.e("SIZE OF",""+str.length());
         return str;
     }
-//    private static String formatDate(long milliseconds) /* This is your topStory.getTime()*1000 */ {
-//        DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy' 'HH:mm:ss");
-//        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTimeInMillis(milliseconds);
-//        TimeZone tz = TimeZone.getDefault();
-//        sdf.setTimeZone(tz);
-//        return sdf.format(calendar.getTime());
-//    }
+
+    public static String getDate(String timeStamp){
+        long timestamp2;
+        if(timeStamp!=null)
+        timestamp2= Long.parseLong(timeStamp);
+        else
+        return "xx";
+
+        try{
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            Date netDate = (new Date(timestamp2));
+            return sdf.format(netDate);
+        }
+        catch(Exception ex){
+            return "xx";
+        }
+    }
+
+
 
 
 

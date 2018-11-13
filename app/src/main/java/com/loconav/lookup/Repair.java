@@ -25,8 +25,6 @@ import static com.loconav.lookup.FragmentController.loadFragment;
 public class Repair extends BaseTitleFragment {
     private RepairBinding binding;
     private PassingReason passingReason;
-
-
     @Override
     public int setViewId() {
         return R.layout.repair;
