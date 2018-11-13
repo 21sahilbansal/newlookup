@@ -22,7 +22,7 @@
     android:layout_width="match_parent"
     android:elevation="9dp"
     android:shadowRadius="6"
-    android:background="#fdb369"
+    android:background="#c0dcdb"
     android:layout_height="wrap_content">
 
     <TextView

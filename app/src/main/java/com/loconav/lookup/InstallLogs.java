@@ -96,10 +96,8 @@ public class InstallLogs  extends BaseFragment {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 int items = recyclerView.getLayoutManager().getChildCount();
-                int top = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
                 int last = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition()+items-1;
                 int pos = ((LinearLayoutManager)recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
-                Log.e("the last is ","The las is "+last);
                 oppo=last;
                 switch (newState)
                 {
@@ -146,6 +144,16 @@ public class InstallLogs  extends BaseFragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                if(!recyclerView.canScrollVertically(1)&& dy>0)
+                {
+
+                    if(itemsloaded) {
+                        if (loadmore)
+                            fragmentInstallLogsBinding.progessbar.setVisibility(View.VISIBLE);
+                        onScrollStateChanged(recyclerView, RecyclerView.SCROLL_STATE_DRAGGING);
+                    }
+
+                }
             }
         };
 
@@ -192,4 +200,5 @@ public class InstallLogs  extends BaseFragment {
             }
         });
     }
+
 }
