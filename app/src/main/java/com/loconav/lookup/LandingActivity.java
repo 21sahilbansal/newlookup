@@ -1,11 +1,7 @@
 package com.loconav.lookup;
 
-
 import android.app.ActivityManager;
 import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,85 +9,77 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.SystemClock;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.Time;
+import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.loconav.lookup.adapter.WhatToDoAdapter;
 import com.loconav.lookup.application.SharedPrefHelper;
+import com.loconav.lookup.databinding.*;
+
+
 import com.loconav.lookup.base.BaseActivity;
-import com.loconav.lookup.databinding.LookUpEntryBinding;
+import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.ReasonResponse;
 import com.loconav.lookup.model.ReasonTypeResponse;
 import com.loconav.lookup.model.VersionResponse;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
-import com.loconav.lookup.sharedetailsfragmants.SimChangeFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import javax.security.auth.login.LoginException;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static com.loconav.lookup.FragmentController.loadFragment;
+import static com.loconav.lookup.Constants.REASONS_RESPONSE;
 
-public class LookUpEntry extends BaseActivity {
-
+public class LookupEntry2 extends BaseActivity {
+    ActivityLookupEntry2Binding lookupEntry2Binding;
+    private PassingReason passingReason = new PassingReason();
+    WhatToDoAdapter adapter;
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-    private FragmentAdapterClass fragmentAdapter ;
-    private LookUpEntryBinding binding;
-    private Context context;
+    ReasonResponse reasonResponse;
+    ArrayList<ReasonResponse> jsonLog = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.look_up_entry);
-//        To remove shadow partition between tabs and title bar.
-
+        lookupEntry2Binding = DataBindingUtil.setContentView(this, R.layout.activity_lookup_entry2);
         getSupportActionBar().setElevation(0);
-        fragmentAdapter = new FragmentAdapterClass(getSupportFragmentManager(),2);
-        binding.pager.setAdapter(fragmentAdapter);
-        binding.tabLayout.setupWithViewPager(binding.pager);
+        //This is to make visisble the icon
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ic_lookup_app_icon);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        String reasonsResponse = SharedPrefHelper.getInstance(this).getStringData(REASONS_RESPONSE);
+        Gson gson = new Gson();
+        jsonLog = gson.fromJson(reasonsResponse, new TypeToken<List<ReasonResponse>>() {}.getType());
+        if(jsonLog!=null) {
+            setPhotoAdapter();
+        }else{
+            Toast.makeText(this,"something went wrong",Toast.LENGTH_LONG).show();
+        }
         checkVersion();
     }
-    public void fastag(View view)
-    {
-
-        DeviceIdFragment deviceIdFragment = new DeviceIdFragment();
-        loadFragment(deviceIdFragment,getSupportFragmentManager(),R.id.relative,true);
-    }
-
-
-
     private void checkVersion() {
         String version = "";
         try {
             PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
             version = pInfo.versionName;
+            Log.e("version  ",version.toString());
 
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -100,8 +88,9 @@ public class LookUpEntry extends BaseActivity {
             apiService.getVersion((int) Float.parseFloat(version)).enqueue(new RetrofitCallback<VersionResponse>() {
                 @Override
                 public void handleSuccess(Call<VersionResponse> call, Response<VersionResponse> response) {
+                    Log.e("version 2 is ",response.toString());
                     if (response.body().getForce_update()) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(LookUpEntry.this, R.style.DialogTheme);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(LookupEntry2.this, R.style.DialogTheme);
                         builder.setMessage("Update App")
                                 .setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
@@ -123,25 +112,37 @@ public class LookUpEntry extends BaseActivity {
         } else
             Toast.makeText(getBaseContext(), "Internet not available", Toast.LENGTH_SHORT).show();
     }
-    @Override
-    public void onBackPressed() {
-        Log.e("ss", "onBackPressed: "+ Utility.isNetworkAvailable(this));
-        if (binding.pager.getCurrentItem() != 0) {
-            binding.pager.setCurrentItem(binding.pager.getCurrentItem() - 1,false);
-        }else{
-            finish();
-        }
-
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.user, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean showBackButton() {
         return false;
     }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.user, menu);
-        return super.onCreateOptionsMenu(menu);
+    private void setPhotoAdapter() {
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+        lookupEntry2Binding.rvTasks.setLayoutManager(layoutManager);
+        adapter = new WhatToDoAdapter(jsonLog, new Callback() {
+            @Override
+            public void onEventDone(Object object) {
+                reasonResponse= (ReasonResponse) object;
+                passingReason.setUserChoice(reasonResponse.getName());
+                passIntent();
+            }
+        });
+        lookupEntry2Binding.rvTasks.setAdapter(adapter);
+        lookupEntry2Binding.rvTasks.setNestedScrollingEnabled(false);
+    }
+    public void newInstall(View view)
+    {
+            List<ReasonTypeResponse> reasons = new ArrayList<>();
+            ArrayList<Input> additionalFields = new ArrayList<>();
+            ReasonResponse reasonResponse = new ReasonResponse(1, "New Install", reasons, additionalFields, "abc");
+            this.reasonResponse=reasonResponse;
+            passingReason.setUserChoice(reasonResponse.getName());
+            passIntent();
     }
 
     @Override
@@ -156,44 +157,14 @@ public class LookUpEntry extends BaseActivity {
         }
     }
 
-
-    public class FragmentAdapterClass extends FragmentStatePagerAdapter {
-        FragmentAdapterClass(FragmentManager fragmentManager, int CountTabs) {
-            super(fragmentManager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new WhatToDo();
-                case 1:
-                    return new FastTagFragment();
-                default:
-                    return null;
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return 2;
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-
-            switch (position) {
-                case 0:
-                    return "Device";
-                case 1:
-                    return "Fastag";
-                default:
-                    return super.getPageTitle(position);
-            }
-        }
+    private void passIntent() {
+        Intent intent = new Intent(this, LookupSubActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("PassingReason",passingReason);
+        bundle.putSerializable("reasonResponse",reasonResponse);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -207,22 +178,14 @@ public class LookUpEntry extends BaseActivity {
                 startService(new Intent(getApplicationContext(), LocationService.class));
             }
         }
-//        this.context = this;
-//        Intent alarm = new Intent(this.context, Receiver.class);
-//        boolean alarmRunning = (PendingIntent.getBroadcast(this.context, 0, alarm, PendingIntent.FLAG_NO_CREATE) != null);
-//        if(alarmRunning == false) {
-//            PendingIntent pendingIntent = PendingIntent.getBroadcast(this.context, 0, alarm, 0);
-//            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), TimeUnit.MINUTES.toMillis(5), pendingIntent);
-//            Log.e("First Time","Alarm triggered first time");
-//        }
+
+
     }
 
-
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
-        binding.unbind();
+        lookupEntry2Binding.unbind();
     }
     private boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
@@ -233,4 +196,6 @@ public class LookUpEntry extends BaseActivity {
         }
         return false;
     }
+
+
 }
