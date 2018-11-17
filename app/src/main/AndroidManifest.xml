@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.loconav.lookup">
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -40,10 +39,6 @@
             android:value="c3f556f16fbe6c8fcdb26aad51c6deec9162a6fb" />
 
         <activity
-            android:name=".LookUpEntry"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing" />
-        <activity
             android:name=".UserActivity"
             android:label="User Settings"
             android:windowSoftInputMode="adjustResize" />
@@ -58,21 +53,25 @@
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LookupSubActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LookupSubActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
 
         <service android:name=".LocationService" />
 
         <activity
-            android:name=".LookupEntry2"
-            android:windowSoftInputMode="adjustResize"
+            android:name=".LandingActivity"
             android:screenOrientation="portrait"
-            />
-        <activity android:name=".UserActivitySubActivity"  android:screenOrientation="portrait"/>
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UserActivitySubActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".camera_open"></activity>
     </application>
 
 </manifest>

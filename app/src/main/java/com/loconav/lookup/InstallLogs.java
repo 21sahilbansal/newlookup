@@ -12,21 +12,15 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.loconav.lookup.adapter.InstallLogAdapter;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FragmentInstallLogsBinding;
-import com.loconav.lookup.model.InstallationDetails;
 import com.loconav.lookup.model.Installs;
-import com.loconav.lookup.model.NewInstall;
-import com.loconav.lookup.model.NewInstallDataandCount;
-import com.loconav.lookup.model.Repairs;
-import com.loconav.lookup.model.Repairsdataandcount;
+import com.loconav.lookup.model.InstallDatandTotalInstallCount;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
-import com.loconav.lookup.network.rest.StagingApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +35,9 @@ public class InstallLogs  extends BaseFragment {
     List<Installs> fullInstallList=new ArrayList<>(),installList=new ArrayList<>();
     int totalitem;
     int start = 0,end=8,oppo;
-    int placeholdersToLoad=10;
-    private ProgressDialog progressDialog;
-    HandlerThread handlerThread = new HandlerThread("background");
-    Handler handler;
+    int placeholdersToLoad=20;
     boolean loadmore=true,itemsloaded=true;
+    FragmentController fragmentController=new FragmentController();
     @Override
     public int setViewId() {
         return R.layout.fragment_install_logs;
@@ -55,25 +47,18 @@ public class InstallLogs  extends BaseFragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Install Logs");
         Bundle bundle = this.getArguments();
         int layout = bundle.getInt("layout");
-        progressDialog = new ProgressDialog(getActivity());//we are on ui thread
-        progressDialog.setCancelable(false);
-        handlerThread.start();
-        handler = new Handler(handlerThread.getLooper());
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
-        apiInterface.getInstallLogs(0,8).enqueue(new RetrofitCallback<NewInstallDataandCount>() {
+
+        apiInterface.getInstallLogs(0,8).enqueue(new RetrofitCallback<InstallDatandTotalInstallCount>() {
             @Override
-            public void handleSuccess(Call<NewInstallDataandCount> call, Response<NewInstallDataandCount> response) {
+            public void handleSuccess(Call<InstallDatandTotalInstallCount> call, Response<InstallDatandTotalInstallCount> response) {
                 fullInstallList=response.body().getData();
                 totalitem=response.body().getTotalcount();
                 installLogAdapter.installsList=fullInstallList;
                 installLogAdapter.notifyDataSetChanged();
-                progressDialog.dismiss();
             }
 
             @Override
-            public void handleFailure(Call<NewInstallDataandCount> call, Throwable t) {
-                progressDialog.dismiss();
+            public void handleFailure(Call<InstallDatandTotalInstallCount> call, Throwable t) {
             }
         });
         installLogAdapter=new InstallLogAdapter(fullInstallList, new Callback() {
@@ -86,7 +71,7 @@ public class InstallLogs  extends BaseFragment {
                     bundle.putInt("id", Integer.parseInt((installs.getId())));
                     InstallDetailFragment installDetailFragment = new InstallDetailFragment();
                     installDetailFragment.setArguments(bundle);
-                    FragmentController.loadFragment(installDetailFragment, getFragmentManager(), layout, true);
+                    fragmentController.loadFragment(installDetailFragment, getFragmentManager(), layout, true);
                 }
             }
         });
@@ -95,20 +80,19 @@ public class InstallLogs  extends BaseFragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                int items = recyclerView.getLayoutManager().getChildCount();
-                int last = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition()+items-1;
-                int pos = ((LinearLayoutManager)recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
-                oppo=last;
+                int visibleItemCount = ((LinearLayoutManager)recyclerView.getLayoutManager()).getChildCount();
+                int totalItemCount = ((LinearLayoutManager)recyclerView.getLayoutManager()).getItemCount();
+                int pastVisibleItems = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
                 switch (newState)
                 {
                     case RecyclerView.SCROLL_STATE_DRAGGING:
                         if(Utility.isNetworkAvailable(getActivity())) {
                             fragmentInstallLogsBinding.retry.setVisibility(View.GONE);
                             if(loadmore) {
-                                if (pos >= last) {
+                                if (pastVisibleItems + visibleItemCount >= totalItemCount && itemsloaded) {
                                     fragmentInstallLogsBinding.progessbar.setVisibility(View.VISIBLE);
                                     itemsloaded = false;
-                                    if (last + placeholdersToLoad < totalitem && loadmore) {
+                                    if (totalItemCount+placeholdersToLoad<totalitem && loadmore) {
                                         for (int i = 0; i < placeholdersToLoad; i++) {
                                             Installs installs = new Installs();
                                             installs = null;
@@ -116,18 +100,18 @@ public class InstallLogs  extends BaseFragment {
                                         }
                                         installLogAdapter.installsList = fullInstallList;
                                         recyclerView.getAdapter().notifyDataSetChanged();
-                                        getInstallLogs(last, pos, recyclerView, placeholdersToLoad);
+                                        getInstallLogs(totalItemCount,totalItemCount+placeholdersToLoad,recyclerView);
                                     } else {
                                         Log.e("the last", "you have reached the last");
                                         loadmore = false;
-                                        for (int i = 0; i < (totalitem - (last + 1)); i++) {
+                                        for (int i = 0; i < totalitem-(totalItemCount); i++) {
                                             Installs installs = new Installs();
                                             installs = null;
                                             fullInstallList.add(installs);
                                         }
                                         installLogAdapter.installsList = fullInstallList;
                                         recyclerView.getAdapter().notifyDataSetChanged();
-                                        getInstallLogs(last, pos, recyclerView, (totalitem - (last + 1)));
+                                        getInstallLogs(totalItemCount,totalItemCount+(totalitem-(totalItemCount)),recyclerView);
                                     }
                                 }
                             }
@@ -172,33 +156,33 @@ public class InstallLogs  extends BaseFragment {
     @Override
     public void getComponentFactory() {
     }
-    public void getInstallLogs(int last,int pos,RecyclerView recyclerView,int itemsToLoad)
+    public void getInstallLogs(int first,int last,RecyclerView recyclerView)
     {
-        apiInterface.getInstallLogs(last+1, last+itemsToLoad+1).enqueue(new RetrofitCallback<NewInstallDataandCount>() {
+        apiInterface.getInstallLogs(first, last).enqueue(new RetrofitCallback<InstallDatandTotalInstallCount>() {
             @Override
-            public void handleSuccess(Call<NewInstallDataandCount> call, Response<NewInstallDataandCount> response) {
+            public void handleSuccess(Call<InstallDatandTotalInstallCount> call, Response<InstallDatandTotalInstallCount> response) {
                 installList = response.body().getData();
-                int size=last+installList.size();
-                oppo=size;
-                Log.e("the last","the first is "+last+"the last is"+last+placeholdersToLoad+"the oppo is "+oppo);
-                for (int i = last+1; i < last+itemsToLoad+1; i++) {
-                    Log.e("th", "the location" + (size - oppo));
-                    fullInstallList.set(i, installList.get(size - oppo));
+                oppo=0;
+                for (int i = first; i < last; i++) {
+                    fullInstallList.set(i, installList.get(oppo));
                     installLogAdapter.installsList = fullInstallList;
                     recyclerView.getAdapter().notifyDataSetChanged();
-                    oppo--;
-                    if (pos == last) {
-                        itemsloaded = true;
-                        fragmentInstallLogsBinding.progessbar.setVisibility(View.INVISIBLE);
-                    }
+                    oppo++;
                 }
+                itemsloaded = true;
+                fragmentInstallLogsBinding.progessbar.setVisibility(View.INVISIBLE);
             }
 
             @Override
-            public void handleFailure(Call<NewInstallDataandCount> call, Throwable t) {
+            public void handleFailure(Call<InstallDatandTotalInstallCount> call, Throwable t) {
                 Log.e("the data ", "the data not found");
             }
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        fragmentInstallLogsBinding.unbind();
+    }
 }

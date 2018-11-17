@@ -1,19 +1,12 @@
 package com.loconav.lookup.login;
 
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
 import com.loconav.lookup.BaseCameraActivity;
-import com.loconav.lookup.LocationService;
-import com.loconav.lookup.LookUpEntry;
-import com.loconav.lookup.LookupEntry2;
+import com.loconav.lookup.LandingActivity;
 import com.loconav.lookup.R;
 import com.loconav.lookup.Utility;
 import com.loconav.lookup.application.SharedPrefHelper;
@@ -22,7 +15,6 @@ import com.loconav.lookup.network.rest.ApiInterface;
 
 import java.util.concurrent.TimeUnit;
 
-import io.fabric.sdk.android.Fabric;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,7 +33,6 @@ public class SplashActivity extends BaseCameraActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        Fabric.with(this, new Crashlytics());
         sharedPrefHelper = SharedPrefHelper.getInstance(getBaseContext());
         Log.e(TAG, "onCreate: ");
     }
@@ -58,7 +49,7 @@ public class SplashActivity extends BaseCameraActivity {
                 fetchData();
                 //currentTime - login > TimeUnit.DAYS.toMillis(1)
             }else{
-                Intent intent = new Intent(getBaseContext(), LookupEntry2.class);
+                Intent intent = new Intent(getBaseContext(), LandingActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -98,7 +89,7 @@ public class SplashActivity extends BaseCameraActivity {
                     }
                     sharedPrefHelper.setStringData(REASONS_RESPONSE, str);
                     sharedPrefHelper.setLongData(LOG_IN_TIME, System.currentTimeMillis());
-                    Intent intent = new Intent(getBaseContext(), LookupEntry2.class);
+                    Intent intent = new Intent(getBaseContext(), LandingActivity.class);
                     startActivity(intent);
                     finish();
                 }

@@ -5,7 +5,7 @@
 
     <data>
         <import type="java.lang.Double" />
-        <import type="com.loconav.lookup.Utility"></import>
+        <import type="com.loconav.lookup.TimeUtils"></import>
         <variable
             name="installs"
             type="com.loconav.lookup.model.InstallationDetails"></variable>
@@ -151,7 +151,7 @@
                     android:layout_marginLeft="60dp"
                     android:layout_marginStart="60dp"
                     android:layout_marginTop="8dp"
-                    android:text="Transporter Id"
+                    android:text="Client Id"
                     android:textSize="10sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -163,7 +163,7 @@
                     android:layout_marginLeft="200dp"
                     android:layout_marginStart="200dp"
                     android:layout_marginTop="8dp"
-                    android:text="@{installs.transporter_id}"
+                    android:text="@{installs.client_id}"
                     android:textColor="#000000"
                     android:textSize="10sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -267,7 +267,7 @@
                     android:layout_marginLeft="200dp"
                     android:layout_marginStart="200dp"
                     android:layout_marginTop="8dp"
-                    android:text="@{Utility.getDate(String.valueOf(safeUnbox(installs.installation_date)))}"
+                    android:text="@{TimeUtils.getDate(String.valueOf(safeUnbox(installs.installation_date)))}"
                     android:textColor="#000000"
                     android:textSize="10sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -336,7 +336,7 @@
                     android:layout_marginLeft="200dp"
                     android:layout_marginStart="200dp"
                     android:layout_marginTop="8dp"
-                    android:text="@{Utility.getDate(String.valueOf(safeUnbox(installs.uninstalled_at)))}"
+                    android:text="@{TimeUtils.getDate(String.valueOf(safeUnbox(installs.uninstalled_at)))}"
                     android:textColor="#000000"
                     android:textSize="10sp"
                     app:layout_constraintStart_toStartOf="parent"

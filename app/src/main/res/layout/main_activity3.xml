@@ -35,6 +35,7 @@
                 <Button
                     android:id="@+id/share_details"
                     android:layout_weight="1"
+                    android:layout_marginRight="1dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/share_details"/>

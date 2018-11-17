@@ -27,10 +27,13 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.loconav.lookup.FileUtility;
+import com.loconav.lookup.FragmentController;
 import com.loconav.lookup.GalleryEvents;
 import com.loconav.lookup.ImagePickerEvent;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseDialogFragment;
+import com.loconav.lookup.camera_open;
+import com.loconav.lookup.camerapickerfragment;
 import com.loconav.lookup.databinding.DialogImagePickerBinding;
 import com.loconav.lookup.model.ImageUri;
 
@@ -109,7 +112,9 @@ public class ImagePickerDialog extends BaseDialogFragment {
     }
     public void cameraIntent()
     {
-        setimage();
+        //setimage();
+        Intent i =new Intent(getContext(),camera_open.class);
+        startActivity(i);
     }
     private void setimage()
     {
@@ -125,12 +130,9 @@ public class ImagePickerDialog extends BaseDialogFragment {
             Uri photoURI = FileProvider.getUriForFile(getActivity(),
                     "com.lookuploconav.lookup",
                     photoFile);
-
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(takePictureIntent, REQUEST_CAMERA);
-
         }
-
     }
 
     @Override

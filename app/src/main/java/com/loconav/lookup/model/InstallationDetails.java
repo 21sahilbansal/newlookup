@@ -37,8 +37,8 @@ public class InstallationDetails {
         @SerializedName("transporter_name")
         private String transporter_name;
 
-        @SerializedName("transporter_id")
-        private String transporter_id;
+        @SerializedName("client_id")
+        private String client_id;
 
         @SerializedName("uses_immobilization")
         private String uses_immobilization;
@@ -158,14 +158,14 @@ public class InstallationDetails {
             this.transporter_name = transporter_name;
         }
 
-        public String getTransporter_id ()
+        public String getClient_id ()
         {
-            return transporter_id;
+            return client_id;
         }
 
-        public void setTransporter_id (String transporter_id)
+        public void setClient_id (String client_id)
         {
-            this.transporter_id = transporter_id;
+            this.client_id = client_id;
         }
 
         public String getUses_immobilization ()

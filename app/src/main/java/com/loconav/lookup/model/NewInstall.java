@@ -21,7 +21,18 @@ public class NewInstall  {
     private String imei_number;
 
     @SerializedName("registration_number")
-    private String registration_number;
+    private String truck_number;
+
+    @SerializedName("transporter_id")
+    private long transporter_id;
+
+    public long getTransporter_id() {
+        return transporter_id;
+    }
+
+    public void setTransporter_id(long transporter_id) {
+        this.transporter_id = transporter_id;
+    }
 
     public List<Attachments> getAttachments ()
     {
@@ -63,14 +74,14 @@ public class NewInstall  {
         this.imei_number = imei_number;
     }
 
-    public String getRegistration_number ()
+    public String getTruck_number ()
     {
-        return registration_number;
+        return truck_number;
     }
 
-    public void setRegistration_number (String registration_number)
+    public void setTruck_number (String truck_number)
     {
-        this.registration_number = registration_number;
+        this.truck_number = truck_number;
     }
 
 

@@ -27,7 +27,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static com.loconav.lookup.FragmentController.deleteFragment;
 
 /**
  * Created by sejal on 28-06-2018.
@@ -176,6 +175,5 @@ public class FastTagFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        FastTagFragment fastTagFragment=new FastTagFragment();
     }
 }

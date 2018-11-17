@@ -52,49 +52,4 @@ public class Utility {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-
-    public static Boolean matchregex(String str,String str2) {
-//        Pattern pattern = Pattern.compile(str);
-//        Matcher matcher = pattern.matcher(str2);
-//        Boolean ab= matcher.find();
-        return str.matches(str2);
-    }
-
-
-    public static String reduceBititmap(Bitmap bitmap, Context context) throws Exception
-    {
-        File f=new FileUtility().getImagefile(context);
-        FileOutputStream fout=new FileOutputStream(f);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fout);
-        Bitmap compressedImageBitmap = new Compressor(context).setQuality(70).compressToBitmap(f);
-        int height=compressedImageBitmap.getHeight();
-        int width=compressedImageBitmap.getWidth();
-        compressedImageBitmap=Bitmap.createScaledBitmap(compressedImageBitmap,(width*90)/100,(height*90)/100,true);
-        String str= "data:image/png;base64,"+encodeToBase64(compressedImageBitmap, Bitmap.CompressFormat.JPEG,50);
-        Log.e("SIZE OF",""+str.length());
-        return str;
-    }
-
-    public static String getDate(String timeStamp){
-        long timestamp2;
-        if(timeStamp!=null)
-        timestamp2= Long.parseLong(timeStamp);
-        else
-        return "xx";
-
-        try{
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-            Date netDate = (new Date(timestamp2));
-            return sdf.format(netDate);
-        }
-        catch(Exception ex){
-            return "xx";
-        }
-    }
-
-
-
-
-
-
 }

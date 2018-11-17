@@ -25,7 +25,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static com.loconav.lookup.FragmentController.loadFragment;
 
 public class FetchClientFragment extends BaseTitleFragment {
     private ActivityFetchClientBinding binding;
@@ -33,7 +32,7 @@ public class FetchClientFragment extends BaseTitleFragment {
     private List<Client> clients = new ArrayList<>();
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     PassingReason passingReason;
-
+    FragmentController fragmentController=new FragmentController();
 
     @Override
     public int setViewId() {
@@ -75,6 +74,8 @@ public class FetchClientFragment extends BaseTitleFragment {
                 public void handleSuccess(Call<List<Client>> call, Response<List<Client>> response) {
                     if (response.body() != null && response.body().size() > 0) {
                         binding.layoutClient.setVisibility(View.VISIBLE);
+                        Client client=new Client();
+                        Log.e("the is","ss"+response.body().get(0).getTransporter_id());
                         clients.clear();
                         clients.addAll(response.body());
                         clientAdapter.notifyDataSetChanged();
@@ -102,7 +103,7 @@ public class FetchClientFragment extends BaseTitleFragment {
                 NewInstallation f1 = new NewInstallation();
                 passingReason.setClientId((Client)object);
                 ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
-                loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
+                fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
             }
         });
         binding.rvClients.setAdapter(clientAdapter);

@@ -94,4 +94,10 @@ public class InstallDetailFragment extends BaseFragment {
     public void getComponentFactory() {
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        installDetailsBinding.unbind();
+    }
 }

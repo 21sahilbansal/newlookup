@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImageSetterAdapter extends BaseAdapter{
-    List<String> images;
+    public List<String> images;
     Context context;
 
     public  ImageSetterAdapter(Context context, List<String> images)

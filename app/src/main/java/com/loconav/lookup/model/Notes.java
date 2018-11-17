@@ -179,9 +179,4 @@ public class Notes {
         this.sos = sos;
     }
 
-    @Override
-    public String toString()
-    {
-        return "ClassPojo [type_of_goods = "+type_of_goods+", device_model = "+device_model+", model = "+model+", immobilizer = "+immobilizer+", sim_number = "+sim_number+", owner_name = "+owner_name+", location = "+location+", manufacturer = "+manufacturer+", odometer_reading = "+odometer_reading+", chassis_number = "+chassis_number+", dealer_name = "+dealer_name+", sos = "+sos+"]";
-    }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,7 +18,7 @@ import com.loconav.lookup.adapter.RepairLogAdapter;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.model.Repairs;
 import com.loconav.lookup.databinding.FragmentRepairLogsBinding;
-import com.loconav.lookup.model.Repairsdataandcount;
+import com.loconav.lookup.model.RepairsDataandTotalRepairCount;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
@@ -35,37 +36,30 @@ public class RepairLogs extends BaseFragment  {
     List<Repairs> fullRepairsList=new ArrayList<>(),repairsList=new ArrayList<>();
     ApiInterface apiInterface=ApiClient.getClient().create(ApiInterface.class);
     int start = 0,end=8,totalitem,oppo;
-    int placeholdersToLoad=10;
-    private ProgressDialog progressDialog;
-    HandlerThread handlerThread = new HandlerThread("background");
-    Handler handler;
+    int placeholdersToLoad=20;
     boolean loadmore=true,itemsloaded=true;
+    FragmentController fragmentController=new FragmentController();
     @Override
     public int setViewId() {
         return R.layout.fragment_repair_logs;
     }
     @Override
     public void onFragmentCreated() {
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Repair Logs");
         Bundle bundle = this.getArguments();
         int layout = bundle.getInt("layout");
-        progressDialog = new ProgressDialog(getActivity());//we are on ui thread
-        progressDialog.setCancelable(false);
-        handlerThread.start();
-        handler = new Handler(handlerThread.getLooper());
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
-        apiInterface.getRepairLogs(0,8).enqueue(new RetrofitCallback<Repairsdataandcount>() {
+
+        apiInterface.getRepairLogs(0,8).enqueue(new RetrofitCallback<RepairsDataandTotalRepairCount>() {
             @Override
-            public void handleSuccess(Call<Repairsdataandcount> call, Response<Repairsdataandcount> response) {
+            public void handleSuccess(Call<RepairsDataandTotalRepairCount> call, Response<RepairsDataandTotalRepairCount> response) {
                 fullRepairsList=response.body().getData();
                 totalitem=response.body().getTotalcount();
                 repairLogAdapter.repairsdata=fullRepairsList;
                 repairLogAdapter.notifyDataSetChanged();
-                progressDialog.dismiss();
                 Log.e("the data","The data is "+fullRepairsList);
             }
             @Override
-            public void handleFailure(Call<Repairsdataandcount> call, Throwable t) {
+            public void handleFailure(Call<RepairsDataandTotalRepairCount> call, Throwable t) {
             }
         });
 
@@ -79,7 +73,7 @@ public class RepairLogs extends BaseFragment  {
                         bundle.putInt("id", (repairs.getId()));
                         RepairDetailFragment repairDetailFragment = new RepairDetailFragment();
                         repairDetailFragment.setArguments(bundle);
-                        FragmentController.loadFragment(repairDetailFragment, getFragmentManager(),layout,true);
+                        fragmentController.loadFragment(repairDetailFragment, getFragmentManager(),layout,true);
                     }
                 }
                 else
@@ -92,24 +86,17 @@ public class RepairLogs extends BaseFragment  {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                int items = recyclerView.getLayoutManager().getChildCount();
-                int last = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition()+items-1;
-                int pos = ((LinearLayoutManager)recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
-
+                int visibleItemCount = ((LinearLayoutManager)recyclerView.getLayoutManager()).getChildCount();
+                int totalItemCount = ((LinearLayoutManager)recyclerView.getLayoutManager()).getItemCount();
+                int pastVisibleItems = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
                 switch (newState)
                 {
-
                     case RecyclerView.SCROLL_STATE_IDLE:
-                        if(last>end ) {
-                        }
-
-                    case RecyclerView.SCROLL_STATE_DRAGGING:
                         if(Utility.isNetworkAvailable(getActivity())) {
                             fragmentRepairLogsBinding.retry.setVisibility(View.GONE);
-                            if (pos >= last && itemsloaded) {
+                            if (pastVisibleItems + visibleItemCount >= totalItemCount && itemsloaded) {
                                 itemsloaded=false;
-
-                                if(last+placeholdersToLoad<totalitem && loadmore)
+                                if(totalItemCount+placeholdersToLoad<totalitem && loadmore)
                                 {
                                 for (int i = 0; i <placeholdersToLoad ; i++) {
                                     Repairs repairs = new Repairs();
@@ -118,19 +105,20 @@ public class RepairLogs extends BaseFragment  {
                                 }
                                 repairLogAdapter.repairsdata=fullRepairsList;
                                 recyclerView.getAdapter().notifyDataSetChanged();
-                                getRepairLogs(last,pos,recyclerView,placeholdersToLoad);
+                                Log.e("the","the first is"+totalItemCount+"the last is"+totalItemCount+placeholdersToLoad);
+                                getRepairLogs(totalItemCount,totalItemCount+placeholdersToLoad,recyclerView);
                                 }
                                 else
                                 {
                                     loadmore=false;
-                                    for(int i=0;i<(totalitem-(last+1));i++){
+                                    for(int i=0;i<totalitem-(totalItemCount);i++){
                                             Repairs repairs = new Repairs();
                                             repairs = null;
                                             fullRepairsList.add(repairs);
                                         }
                                     repairLogAdapter.repairsdata=fullRepairsList;
                                     recyclerView.getAdapter().notifyDataSetChanged();
-                                    getRepairLogs(last,pos,recyclerView,(totalitem-(last+1)));
+                                   getRepairLogs(totalItemCount,totalItemCount+(totalitem-(totalItemCount)),recyclerView);
                                 }
                             }
                         }
@@ -150,7 +138,7 @@ public class RepairLogs extends BaseFragment  {
             {
                 if(loadmore)
                 fragmentRepairLogsBinding.progessbar.setVisibility(View.VISIBLE);
-             onScrollStateChanged(recyclerView,RecyclerView.SCROLL_STATE_DRAGGING);
+             onScrollStateChanged(recyclerView,RecyclerView.SCROLL_STATE_IDLE);
             }
             }
         };
@@ -167,35 +155,34 @@ public class RepairLogs extends BaseFragment  {
     @Override
     public void getComponentFactory() {
     }
-    public void getRepairLogs(int last,int pos,RecyclerView recyclerView,int itemsToLoad)
+    public void getRepairLogs(int first,int last,RecyclerView recyclerView)
     {
-        Log.e("the last","the pos"+pos+"the las"+last);
-        apiInterface.getRepairLogs(last+1, last+itemsToLoad+1).enqueue(new RetrofitCallback<Repairsdataandcount>() {
+        apiInterface.getRepairLogs(first, last).enqueue(new RetrofitCallback<RepairsDataandTotalRepairCount>() {
             @Override
-            public void handleSuccess(Call<Repairsdataandcount> call, Response<Repairsdataandcount> response) {
+            public void handleSuccess(Call<RepairsDataandTotalRepairCount> call, Response<RepairsDataandTotalRepairCount> response) {
                 repairsList = response.body().getData();
-                int size=last+repairsList.size();
-                oppo=size;
-                Log.e("the last","the first is "+last+"the last is"+last+placeholdersToLoad+"the oppo is "+oppo);
-                for (int i = last+1; i < last+itemsToLoad+1; i++) {
-                    Log.e("th", "the location" + (size - oppo));
-                    fullRepairsList.set(i, repairsList.get(size - oppo));
+                oppo=0;
+                for (int i = first; i < last; i++) {
+                    fullRepairsList.set(i, repairsList.get(oppo));
                     repairLogAdapter.repairsdata = fullRepairsList;
                     recyclerView.getAdapter().notifyDataSetChanged();
-                    oppo--;
-                    if (pos == last) {
-                        fragmentRepairLogsBinding.progessbar.setVisibility(View.INVISIBLE);
-                        itemsloaded = true;
-                    }
-
+                    oppo++;
                 }
+                    fragmentRepairLogsBinding.progessbar.setVisibility(View.INVISIBLE);
+                    itemsloaded = true;
+
             }
 
             @Override
-            public void handleFailure(Call<Repairsdataandcount> call, Throwable t) {
+            public void handleFailure(Call<RepairsDataandTotalRepairCount> call, Throwable t) {
                 Log.e("the data ", "the data not found");
             }
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        fragmentRepairLogsBinding.unbind();
+    }
 }

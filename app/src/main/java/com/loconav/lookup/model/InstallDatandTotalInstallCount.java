@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class NewInstallDataandCount {
+public class InstallDatandTotalInstallCount {
     @SerializedName("data")
     @Expose
     private List<Installs> data;
@@ -15,7 +15,7 @@ public class NewInstallDataandCount {
     public List<Installs> getData() {
         return data;
     }
-    public NewInstallDataandCount(List<Installs> data, int totalcount) {
+    public InstallDatandTotalInstallCount(List<Installs> data, int totalcount) {
         this.data = data;
         this.totalcount = totalcount;
     }

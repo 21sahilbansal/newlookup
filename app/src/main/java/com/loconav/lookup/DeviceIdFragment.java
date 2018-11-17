@@ -40,7 +40,6 @@ import retrofit2.Response;
 import static com.loconav.lookup.Constants.DEVICE_ID;
 import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
 import static com.loconav.lookup.Constants.USER_ID;
-import static com.loconav.lookup.FragmentController.loadFragment;
 
 /**
  * Created by sejal on 28-06-2018.
@@ -54,6 +53,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
     private ProgressDialog progressDialog;
     private SharedPrefHelper sharedPrefHelper;
     private PassingReason passingReason;
+    FragmentController fragmentController=new FragmentController();
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -116,7 +116,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("lookup_response", response.body());
                                 DeviceDetailsFragment.setArguments(bundle);
-                                loadFragment(DeviceDetailsFragment, getFragmentManager(), R.id.frameLayout, true);
+                                fragmentController.loadFragment(DeviceDetailsFragment, getFragmentManager(), R.id.frameLayout, true);
                                 progressDialog.dismiss();
                             }
 

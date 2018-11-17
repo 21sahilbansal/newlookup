@@ -36,7 +36,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static com.loconav.lookup.FragmentController.loadFragment;
 
 /**
  * Created by sejal on 11-08-2018.
@@ -51,7 +50,7 @@ public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRef
     private String deviceID;
     private PassingReason passingReason;
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-
+    FragmentController fragmentController=new FragmentController();
 
     @Override
     public int setViewId() {
@@ -83,11 +82,11 @@ public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRef
                 if (passingReason.getUserChoice().equals("New Install")) {
                     FetchClientFragment f1 = new FetchClientFragment();
                     ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
-                    loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
+                    fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
                 } else {
                     ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
                     SimChangeFragment f1 = new SimChangeFragment();
-                    loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
+                    fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
                 }
             }
         });

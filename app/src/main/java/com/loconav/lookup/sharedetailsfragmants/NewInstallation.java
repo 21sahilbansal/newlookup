@@ -2,20 +2,13 @@ package com.loconav.lookup.sharedetailsfragmants;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.os.Looper;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -25,31 +18,22 @@ import com.loconav.lookup.CommonFunction;
 import com.loconav.lookup.CustomImagePicker;
 import com.loconav.lookup.FileUtility;
 import com.loconav.lookup.FragmentController;
-import com.loconav.lookup.InstallDetailFragment;
+import com.loconav.lookup.ImageUtils;
 import com.loconav.lookup.InstallLogs;
-import com.loconav.lookup.LookupEntry2;
 import com.loconav.lookup.LookupSubActivity;
 import com.loconav.lookup.R;
-import com.loconav.lookup.ShareAndUpload;
-import com.loconav.lookup.Utility;
 import com.loconav.lookup.application.SharedPrefHelper;
-import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.NewinstallationBinding;
 import com.loconav.lookup.model.Attachments;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.ImageUri;
 import com.loconav.lookup.model.Notes;
 import com.loconav.lookup.model.PassingReason;
-import com.loconav.lookup.model.RepairResponse;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
-import com.loconav.lookup.network.rest.StagingApiClient;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static com.loconav.lookup.UserPrefs.code;
@@ -75,6 +59,7 @@ public class NewInstallation extends BaseTitleFragment {
     Handler handler;
     String compressedImage;
     Attachments attachments;
+    FragmentController fragmentController=new FragmentController();
     @Override
     public int setViewId() {
         return R.layout.newinstallation;
@@ -89,7 +74,7 @@ public class NewInstallation extends BaseTitleFragment {
         passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
         final String deviceId = passingReason.getDeviceid();
         final Client client = passingReason.getClientId();
-        binding.ownerName.setText(client.getName());
+
         binding.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,7 +105,7 @@ public class NewInstallation extends BaseTitleFragment {
                             binding.manufacture.getText().toString()+"&deviceid="+ deviceId;
                     sharedPrefHelper.setStringData("message", message);
                     sharedPrefHelper.setStringData("upload_url", url);
-                    // to check if the imagepicker has atleast one image
+                    // these are functions to check if the imagepicker has atleast one image
                     boolean isDevice= checkImages(binding.DeviceImage,"device");
                     boolean isTruck=checkImages(binding.TruckImages,"truck");
                     boolean isWiredConnection=checkImages(binding.WireConnection,"connection");
@@ -139,7 +124,7 @@ public class NewInstallation extends BaseTitleFragment {
                                     notes.setOwner_name(binding.ownerName.getText().toString());
                                     newInstall.setClient_id(binding.clientId.getText().toString());
                                     notes.setLocation(binding.location.getText().toString());
-                                    newInstall.setRegistration_number(binding.registrationNo.getText().toString());
+                                    newInstall.setTruck_number(binding.registrationNo.getText().toString());
                                     notes.setChassis_number(binding.chassisNo.getText().toString());
                                     notes.setManufacturer(binding.manufacture.getText().toString());
                                     notes.setModel(binding.model.getText().toString());
@@ -149,6 +134,7 @@ public class NewInstallation extends BaseTitleFragment {
                                     newInstall.setImei_number(binding.imei.getText().toString());
                                     notes.setDevice_model(binding.deviceModel.getText().toString());
                                     notes.setSos(getFeatures(binding.cbSos));
+                                    newInstall.setTransporter_id(Long.parseLong(binding.transporterId.getText().toString()));
                                     notes.setImmobilizer(getFeatures(binding.cbImm));
                                     notes.setTrip_button(getFeatures(binding.cbTrip));
                                     notes.setClientid(binding.clientId.getText().toString());
@@ -171,6 +157,7 @@ public class NewInstallation extends BaseTitleFragment {
         CommonFunction.setEditText(binding.imei, deviceId);
         CommonFunction.setEditText(binding.ownerName, client.getName());
         CommonFunction.setEditText(binding.clientId, client.getClientId());
+        CommonFunction.setEditText(binding.transporterId, client.getTransporter_id());
     }
     public boolean checkImages(CustomImagePicker imagePicker,String title)
     {
@@ -189,7 +176,7 @@ public class NewInstallation extends BaseTitleFragment {
         for (ImageUri imageUri : imagePicker.getimagesList()) {
             attachments=new Attachments();
             try {
-                compressedImage = Utility.reduceBititmap(FileUtility.bitmapTouri(getContext(), imageUri.getUri()), getActivity());
+                compressedImage = ImageUtils.reduceBititmap(FileUtility.bitmapTouri(getContext(), imageUri.getUri()), getActivity());
                 attachments.setTitle(title);
                 attachments.setImage(compressedImage);
                 attachmentsList.add(attachments);
@@ -212,12 +199,12 @@ public class NewInstallation extends BaseTitleFragment {
                    builder.setMessage("New Installation created successfully")
                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                public void onClick(DialogInterface dialog, int which) {
-                                   FragmentController.deleteFragmentStack(getActivity().getSupportFragmentManager());
+                                   fragmentController.deleteFragmentStack(getActivity().getSupportFragmentManager());
                                    Bundle bundle=new Bundle();
                                    bundle.putInt("layout", R.id.frameLayout);
                                    InstallLogs installDetailFragment = new InstallLogs();
                                    installDetailFragment.setArguments(bundle);
-                                   FragmentController.loadFragment(installDetailFragment, getActivity().getSupportFragmentManager(), R.id.frameLayout, false);
+                                   fragmentController.loadFragment(installDetailFragment, getActivity().getSupportFragmentManager(), R.id.frameLayout, false);
                                }
                            })
                            .setCancelable(false)

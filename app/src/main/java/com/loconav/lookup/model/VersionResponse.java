@@ -13,6 +13,16 @@ public class VersionResponse {
     private int next_version;
     @SerializedName("force_update")
     private Boolean force_update;
+    @SerializedName("app_link")
+    private String app_link;
+
+    public String getApp_link() {
+        return app_link;
+    }
+
+    public void setApp_link(String app_link) {
+        this.app_link = app_link;
+    }
 
     public Boolean getUpdate_available() {
         return update_available;

@@ -20,7 +20,6 @@ import id.zelory.compressor.Compressor;
 
 import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
 import static com.loconav.lookup.EncodingDecoding.getResizedBitmap;
-import static com.loconav.lookup.FragmentController.loadFragment;
 
 public class LookupSubActivity extends BaseActivity {
 
@@ -28,6 +27,7 @@ public class LookupSubActivity extends BaseActivity {
     private ArrayList<Input> addtionalFields = new ArrayList<>();
     public PassingReason passingReason;
     private ReasonResponse reasonResponse;
+    FragmentController fragmentController=new FragmentController();
     String fasttag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +53,10 @@ public class LookupSubActivity extends BaseActivity {
     void passIntentData(){
         if(passingReason.getUserChoice().equals("New Install")){
             DeviceIdFragment deviceIdFragment = new DeviceIdFragment();
-            loadFragment(deviceIdFragment,getSupportFragmentManager(),R.id.frameLayout,false);
+            fragmentController.loadFragment(deviceIdFragment,getSupportFragmentManager(),R.id.frameLayout,false);
         }
         else {
-            loadFragment(repairFragment,getSupportFragmentManager(),R.id.frameLayout,false);
+            fragmentController.loadFragment(repairFragment,getSupportFragmentManager(),R.id.frameLayout,false);
         }
     }
 

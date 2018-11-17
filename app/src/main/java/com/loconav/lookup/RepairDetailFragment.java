@@ -79,5 +79,11 @@ public class RepairDetailFragment extends BaseFragment {
     @Override
     public void getComponentFactory() {
     }
+    @Override
+    public void onDestroy() {
+
+        super.onDestroy();
+        repairDetailsBinding.unbind();
+    }
 
 }
