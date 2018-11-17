@@ -1,8 +1,6 @@
 package com.loconav.lookup;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
@@ -10,8 +8,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.loconav.lookup.adapter.ClientAdapter;
-import com.loconav.lookup.base.BaseActivity;
-import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.ActivityFetchClientBinding;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.PassingReason;
@@ -19,6 +15,7 @@ import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
 import com.loconav.lookup.sharedetailsfragmants.NewInstallation;
+import com.loconav.lookup.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +65,7 @@ public class FetchClientFragment extends BaseTitleFragment {
     }
 
     private void getSetData(final String clientId) {
-        if (Utility.isNetworkAvailable(getActivity())) {
+        if (AppUtils.isNetworkAvailable()) {
             apiService.getClients(clientId).enqueue(new RetrofitCallback<List<Client>>() {
                 @Override
                 public void handleSuccess(Call<List<Client>> call, Response<List<Client>> response) {

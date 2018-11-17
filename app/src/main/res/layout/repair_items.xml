@@ -6,7 +6,7 @@
     >
     <data>
         <import type="java.lang.Double" />
-        <import type="com.loconav.lookup.TimeUtils"></import>
+        <import type="com.loconav.lookup.utils.TimeUtils"></import>
         <variable
             name="obj"
             type="com.loconav.lookup.model.Repairs"></variable>

@@ -9,28 +9,29 @@ import static com.loconav.lookup.Constants.LOOK_UP_PREFERENCES;
  */
 
 public class SharedPrefHelper {
-    private Context context;
 
-    public static SharedPrefHelper getInstance(Context context) {
-        return new SharedPrefHelper(context);
+    private static SharedPrefHelper sharedPrefHelper;
+
+    public static SharedPrefHelper getInstance() {
+        if(sharedPrefHelper == null)
+            sharedPrefHelper = new SharedPrefHelper();
+        return sharedPrefHelper;
     }
 
-    private SharedPrefHelper(Context context){
-     this.context=context;
-    }
+    private SharedPrefHelper(){}
 
     private SharedPreferences getSharedPref(){
-        return context.getSharedPreferences(LOOK_UP_PREFERENCES, Context.MODE_PRIVATE);
+        return LookUpApplication.getInstance().getSharedPreferences(LOOK_UP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
 
     public void setStringData(String key, String value) {
-      SharedPreferences.Editor editor=getSharedPref().edit().putString(key,value);
+      SharedPreferences.Editor editor = getSharedPref().edit().putString(key,value);
       editor.apply();
     }
 
     public void setLongData(String key, Long value) {
-        SharedPreferences.Editor editor=getSharedPref().edit().putLong(key,value);
+        SharedPreferences.Editor editor = getSharedPref().edit().putLong(key,value);
         editor.apply();
     }
     public void setIntData(String key, Integer value) {

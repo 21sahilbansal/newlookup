@@ -30,12 +30,10 @@ import java.util.List;
 
 public abstract class BaseCameraActivity extends AppCompatActivity {
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
-    private Context contextActivity;
     List<String> listPermissionsNeeded = new ArrayList<>();
     public String TAG = getClass().getSimpleName();
 
     public  boolean checkAndRequestPermissions(Context context) {
-        contextActivity = context;
 
         int write_storage = ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int read_storage = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);

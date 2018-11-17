@@ -1,10 +1,7 @@
 package com.loconav.lookup;
 
-import android.app.ProgressDialog;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +18,7 @@ import com.loconav.lookup.model.InstallDatandTotalInstallCount;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
+import com.loconav.lookup.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +84,7 @@ public class InstallLogs  extends BaseFragment {
                 switch (newState)
                 {
                     case RecyclerView.SCROLL_STATE_DRAGGING:
-                        if(Utility.isNetworkAvailable(getActivity())) {
+                        if(AppUtils.isNetworkAvailable()) {
                             fragmentInstallLogsBinding.retry.setVisibility(View.GONE);
                             if(loadmore) {
                                 if (pastVisibleItems + visibleItemCount >= totalItemCount && itemsloaded) {

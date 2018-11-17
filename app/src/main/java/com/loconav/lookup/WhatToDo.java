@@ -39,7 +39,7 @@ public class WhatToDo extends BaseFragment {
 
     @Override
     public void onFragmentCreated() {
-        String reasonsResponse = SharedPrefHelper.getInstance(getContext()).getStringData(REASONS_RESPONSE);
+        String reasonsResponse = SharedPrefHelper.getInstance().getStringData(REASONS_RESPONSE);
         Gson gson = new Gson();
         jsonLog = gson.fromJson(reasonsResponse, new TypeToken<List<ReasonResponse>>() {}.getType());
         if(jsonLog!=null) {

@@ -6,34 +6,28 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.hardware.Camera;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.Surface;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.loconav.lookup.adapter.ImageSetterAdapter;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FragmentCamerapickerBinding;
-import com.loconav.lookup.databinding.NewinstallationBinding;
 import com.loconav.lookup.model.ImageUri;
+import com.loconav.lookup.utils.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
-import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
 
 public class camerapickerfragment extends BaseFragment{
     private Camera mCamera;
@@ -154,7 +148,7 @@ public class camerapickerfragment extends BaseFragment{
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File photoFile = null;
         try {
-            photoFile = FileUtility.getImagefile(context);
+            photoFile = FileUtils.getImagefile(context);
             mPhoto = photoFile.getAbsolutePath();
         } catch (Exception ex) {
         }

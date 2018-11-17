@@ -59,7 +59,7 @@ public class ShareAndUpload extends BaseTitleFragment {
 
     }
     private void initSharedPf() {
-        sharedPrefHelper = SharedPrefHelper.getInstance(getContext());
+        sharedPrefHelper = SharedPrefHelper.getInstance();
     }
 
     public void shareOnWhatsApp( String text, Context context) {

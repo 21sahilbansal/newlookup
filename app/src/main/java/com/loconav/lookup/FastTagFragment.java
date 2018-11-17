@@ -13,13 +13,13 @@ import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 import com.loconav.lookup.model.VehiclesList;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.StagingApiClient;
+import com.loconav.lookup.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,7 +127,7 @@ public class FastTagFragment extends BaseFragment {
         searchAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Utility.hideKeyboard(getActivity());
+                AppUtils.hideKeyboard(getActivity());
                 query= (VehiclesList) parent.getItemAtPosition(position);
                 searchAutoComplete.setText(query.getNumber());
                 searchAutoComplete.setSelection(query.getNumber().length());
@@ -147,7 +147,7 @@ public class FastTagFragment extends BaseFragment {
         searchAutoCompleteFastag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Utility.hideKeyboard(getActivity());
+                AppUtils.hideKeyboard(getActivity());
                 queryFastags= (FastagsList) parent.getItemAtPosition(position);
                 searchAutoCompleteFastag.setText(queryFastags.getSerialNumber()+" "+queryFastags.getColor());
                 searchAutoCompleteFastag.setSelection(queryFastags.getSerialNumber().length()+queryFastags.getColor().length());

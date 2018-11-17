@@ -2,51 +2,32 @@ package com.loconav.lookup.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ContentUris;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.loconav.lookup.FileUtility;
-import com.loconav.lookup.FragmentController;
-import com.loconav.lookup.GalleryEvents;
+import com.loconav.lookup.utils.FileUtils;
 import com.loconav.lookup.ImagePickerEvent;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseDialogFragment;
 import com.loconav.lookup.camera_open;
-import com.loconav.lookup.camerapickerfragment;
 import com.loconav.lookup.databinding.DialogImagePickerBinding;
 import com.loconav.lookup.model.ImageUri;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import id.zelory.compressor.Compressor;
 
 /**
  * Created by prateek on 09/07/18.
@@ -121,7 +102,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File photoFile = null;
         try {
-            photoFile = FileUtility.getImagefile(getActivity());
+            photoFile = FileUtils.getImagefile(getActivity());
             mCurrentPhotoPath = photoFile.getAbsolutePath();
         } catch (Exception ex) {
         }

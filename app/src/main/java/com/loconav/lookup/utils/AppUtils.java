@@ -1,7 +1,9 @@
-package com.loconav.lookup;
+package com.loconav.lookup.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -14,29 +16,16 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.loconav.lookup.application.LookUpApplication;
 
-import id.zelory.compressor.Compressor;
-
-import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
 
 /**
  * Created by prateek on 15/02/18.
  */
 
-public class Utility {
+public class AppUtils {
 
-    public static boolean isStringEmptyOrNull(String checkString) {
-        if(checkString == null || checkString.trim().equals("")) {
-            return true;
-        }else
-            return false;
-    }
+
 
     public static void hideKeyboard(Activity activity) {
         View view = activity.getCurrentFocus();
@@ -47,9 +36,19 @@ public class Utility {
             }
         }
     }
-    public static boolean isNetworkAvailable(Activity activity) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) LookUpApplication.getInstance().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+    public static int getVersionCode(Context context) {
+        try {
+            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            String version = pInfo.versionName;
+            return pInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

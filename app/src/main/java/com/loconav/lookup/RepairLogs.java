@@ -1,10 +1,7 @@
 package com.loconav.lookup;
 
-import android.app.ProgressDialog;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +19,7 @@ import com.loconav.lookup.model.RepairsDataandTotalRepairCount;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
+import com.loconav.lookup.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +64,7 @@ public class RepairLogs extends BaseFragment  {
         repairLogAdapter=new RepairLogAdapter(fullRepairsList, new Callback() {
             @Override
             public void onEventDone(Object object) {
-                if(Utility.isNetworkAvailable(getActivity())) {
+                if(AppUtils.isNetworkAvailable()) {
                     Bundle bundle = new Bundle();
                     Repairs repairs = (Repairs) object;
                     if(repairs!=null) {
@@ -92,7 +90,7 @@ public class RepairLogs extends BaseFragment  {
                 switch (newState)
                 {
                     case RecyclerView.SCROLL_STATE_IDLE:
-                        if(Utility.isNetworkAvailable(getActivity())) {
+                        if(AppUtils.isNetworkAvailable()) {
                             fragmentRepairLogsBinding.retry.setVisibility(View.GONE);
                             if (pastVisibleItems + visibleItemCount >= totalItemCount && itemsloaded) {
                                 itemsloaded=false;

@@ -1,4 +1,4 @@
-package com.loconav.lookup;
+package com.loconav.lookup.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,7 +14,7 @@ import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
 public class ImageUtils {
     public static String reduceBititmap(Bitmap bitmap, Context context) throws Exception
     {
-        File f=new FileUtility().getImagefile(context);
+        File f=new FileUtils().getImagefile(context);
         FileOutputStream fout=new FileOutputStream(f);
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fout);
         Bitmap compressedImageBitmap = new Compressor(context).setQuality(70).compressToBitmap(f);
