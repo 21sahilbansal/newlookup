@@ -49,7 +49,7 @@ import retrofit2.Response;
 
 import static com.loconav.lookup.Constants.REASONS_RESPONSE;
 
-public class LandingActivity extends BaseActivity {
+public class LandingActivity extends BaseActivity implements Callback {
     private static final Location TODO = null;
     ActivityLookupEntry2Binding lookupEntry2Binding;
     private PassingReason passingReason = new PassingReason();
@@ -198,9 +198,8 @@ public class LandingActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        LocationGetter locationGetter=new LocationGetter(getBaseContext());
+        LocationGetter locationGetter=new LocationGetter(this,getBaseContext());
         locationGetter.getLocation();
-
     }
 
     @Override
@@ -209,6 +208,37 @@ public class LandingActivity extends BaseActivity {
         lookupEntry2Binding.unbind();
     }
 
+    @Override
+    public void onEventDone(Object object) {
+        Location location=(Location) object;
+        long time=System.currentTimeMillis()/1000;
+        String latitude=String.valueOf(location.getLatitude());
+        String longitude=String.valueOf(location.getLongitude());
+        CoordinateRequest coordinateRequest = new CoordinateRequest();
+        List<Coordinates> coordinatesList = new ArrayList<>();
+        Coordinates coordinates = new Coordinates();
+        coordinates.setLatitude(latitude);
+        coordinates.setLongitude(longitude);
+        coordinates.setRecordedat(time);
+        coordinatesList.add(coordinates);
+        coordinateRequest.setCoordinates(coordinatesList);
+        sendCoordinates(coordinateRequest);
+        Log.e("location", "onLocationChanged: " + location);
+    }
 
+    public void sendCoordinates(CoordinateRequest coordinateRequest)
+    {
+        apiService.addCoordinates(coordinateRequest).enqueue(new RetrofitCallback<ResponseBody>() {
+            @Override
+            public void handleSuccess(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.e("coordinates","posted");
+            }
+
+            @Override
+            public void handleFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("Not posted","not sent"+t.toString());
+            }
+        });
+    }
 
 }

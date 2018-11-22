@@ -10,7 +10,11 @@ public class camera_open extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_open);
         FragmentController fragmentController=new FragmentController();
-        camerapickerfragment Camerapickerfragment=new camerapickerfragment();
-        fragmentController.loadFragment(Camerapickerfragment,getSupportFragmentManager(),R.id.camera,false);
+        Bundle bundle=new Bundle();
+        bundle.putInt("limit",getIntent().getExtras().getInt("limit"));
+        bundle.putString("Stringid",getIntent().getExtras().getString("Stringid"));
+        CameraPickerFragment cameraPickerFragment=new CameraPickerFragment();
+        cameraPickerFragment.setArguments(bundle);
+        fragmentController.loadFragment(cameraPickerFragment,getSupportFragmentManager(),R.id.camera,false);
     }
 }

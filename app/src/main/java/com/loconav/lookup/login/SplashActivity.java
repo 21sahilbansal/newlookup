@@ -40,24 +40,28 @@ public class SplashActivity extends BaseCameraActivity {
 
     @Override
     public void onAllPermissionsGranted() {
-        Log.e(TAG, "onAllPermissionsGranted: ");
-        if(SharedPrefHelper.getInstance(getBaseContext()).getBooleanData(IS_LOGGED_IN)) {
-            Long currentTime=System.currentTimeMillis();
-
-            Long login=SharedPrefHelper.getInstance(getBaseContext()).getLongData(LOG_IN_TIME);
-            if(currentTime - login > TimeUnit.HOURS.toMillis(1)){
-                fetchData();
-                //currentTime - login > TimeUnit.DAYS.toMillis(1)
-            }else{
-                Intent intent = new Intent(getBaseContext(), LandingActivity.class);
-                startActivity(intent);
-                finish();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(SharedPrefHelper.getInstance(getBaseContext()).getBooleanData(IS_LOGGED_IN)) {
+                    Long currentTime=System.currentTimeMillis();
+                    Long login=SharedPrefHelper.getInstance(getBaseContext()).getLongData(LOG_IN_TIME);
+                    if(currentTime - login > TimeUnit.HOURS.toMillis(1)){
+                        fetchData();
+                        //currentTime - login > TimeUnit.DAYS.toMillis(1)
+                    }else{
+                        Intent intent = new Intent(getBaseContext(), LandingActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                } else {
+                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
-        } else {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        }
+        }).start();
+        Log.e(TAG, "onAllPermissionsGranted: ");
     }
 
     @Override
@@ -93,7 +97,6 @@ public class SplashActivity extends BaseCameraActivity {
                     startActivity(intent);
                     finish();
                 }
-
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     Toast.makeText(getBaseContext(), t.getMessage().toString(), Toast.LENGTH_SHORT).show();

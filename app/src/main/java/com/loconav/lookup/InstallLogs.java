@@ -130,7 +130,6 @@ public class InstallLogs  extends BaseFragment {
                 super.onScrolled(recyclerView, dx, dy);
                 if(!recyclerView.canScrollVertically(1)&& dy>0)
                 {
-
                     if(itemsloaded) {
                         if (loadmore)
                             fragmentInstallLogsBinding.progessbar.setVisibility(View.VISIBLE);

@@ -27,6 +27,7 @@ import retrofit2.Response;
 import static android.content.Context.LOCATION_SERVICE;
 
 public class LocationGetter {
+    Callback callback;
     private static final String TAG = LocationService.class.getSimpleName();
     private LocationManager mLocationManager = null;
     private static final int LOCATION_INTERVAL = (int) TimeUnit.MINUTES.toMillis(30);
@@ -37,7 +38,8 @@ public class LocationGetter {
             new LocationListener(LocationManager.NETWORK_PROVIDER)
     };
     Context mContext;
-    public LocationGetter(Context context) {
+    public LocationGetter(Callback callback,Context context) {
+        this.callback=callback;
         mContext = context;
     }
 
@@ -80,34 +82,9 @@ public class LocationGetter {
         @Override
         public void onLocationChanged(Location location)
         {
-            long time=System.currentTimeMillis()/1000;
-            String latitude=String.valueOf(location.getLatitude());
-            String longitude=String.valueOf(location.getLongitude());
-            CoordinateRequest coordinateRequest = new CoordinateRequest();
-            List<Coordinates> coordinatesList = new ArrayList<>();
-            Coordinates coordinates = new Coordinates();
-            coordinates.setLatitude(latitude);
-            coordinates.setLongitude(longitude);
-            coordinates.setRecordedat(time);
-            coordinatesList.add(coordinates);
-            coordinateRequest.setCoordinates(coordinatesList);
-            sendCoordinates(coordinateRequest);
-            Log.e(TAG, "onLocationChanged: " + location);
-            mLastLocation.set(location);
-        }
-        public void sendCoordinates(CoordinateRequest coordinateRequest)
-        {
-            apiService.addCoordinates(coordinateRequest).enqueue(new RetrofitCallback<ResponseBody>() {
-                @Override
-                public void handleSuccess(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    Log.e("coordinates","posted");
-                }
+                callback.onEventDone(location);
 
-                @Override
-                public void handleFailure(Call<ResponseBody> call, Throwable t) {
-                    Log.e("Not posted","not sent"+t.toString());
-                }
-            });
+            mLastLocation.set(location);
         }
 
         @Override

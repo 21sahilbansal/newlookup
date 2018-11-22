@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.hardware.Camera;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
@@ -16,12 +17,15 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.loconav.lookup.adapter.ImageSetterAdapter;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FragmentCamerapickerBinding;
 import com.loconav.lookup.databinding.NewinstallationBinding;
 import com.loconav.lookup.model.ImageUri;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,24 +39,32 @@ import java.util.List;
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
 
-public class camerapickerfragment extends BaseFragment{
+public class CameraPickerFragment extends BaseFragment{
     private Camera mCamera;
     private CameraPreview mPreview;
     FragmentCamerapickerBinding fragmentCamerapickerBinding;
     String mPhoto;
     Context context;
     Uri photoURI;
-    List<String> uriList=new ArrayList<>();
-    List<ImageUri> imageUris=new ArrayList<>();
+    boolean isFlashOn=false;
+    int position=0;
+    /**
+     * uriList is the list of string of uris of images
+     */
+    /**
+     * imageUris is the list of ImageUris
+     */
+    ArrayList<String> uriList=new ArrayList<>();
+    ArrayList<ImageUri> imageUris=new ArrayList<>();
     ImageSetterAdapter imageSetterAdapter;
-    private boolean cameraFront = false;
     int camerId=0;
     Camera.Parameters parameters;
+    int size=0;
     private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
 
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
-            File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+            File pictureFile = getOutputMediaFile();
             if (pictureFile == null){
                 Log.d("tag", "Error creating media file, check storage permissions");
                 return;
@@ -74,46 +86,76 @@ public class camerapickerfragment extends BaseFragment{
     }
     @Override
     public void onFragmentCreated() {
+        Bundle bundle = this.getArguments();
+        int limit = bundle.getInt("limit");
+        String stringId=bundle.getString("Stringid");
         context=getContext();
         mCamera = getCameraInstance();
         setCameraDisplayOrientation(getActivity(),camerId);
-        parameters =getParameters(mCamera);
+        parameters =getParameters(mCamera,camerId);
+        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayout.HORIZONTAL);
         imageSetterAdapter = new ImageSetterAdapter(getContext(),uriList);
         fragmentCamerapickerBinding.rvImages.setLayoutManager(layoutManager);
         fragmentCamerapickerBinding.rvImages.setAdapter(imageSetterAdapter);
-
         mCamera.setParameters(parameters);
         // Create our Preview view and set it as the content of our activity.
         fragmentCamerapickerBinding.capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCamera.takePicture(null,null,mPicture);
-                fragmentCamerapickerBinding.capture.setVisibility(View.INVISIBLE);
-                fragmentCamerapickerBinding.flash.setVisibility(View.INVISIBLE);
-                fragmentCamerapickerBinding.totalcorrect.setVisibility(View.INVISIBLE);
-                fragmentCamerapickerBinding.switchcamera.setVisibility(View.INVISIBLE);
-                fragmentCamerapickerBinding.correct.setVisibility(View.VISIBLE);
-                fragmentCamerapickerBinding.cancel.setVisibility(View.VISIBLE);
+
+                if(size<limit) {
+                    mCamera.takePicture(null, null, mPicture);
+                    fragmentCamerapickerBinding.capture.setVisibility(View.INVISIBLE);
+                    fragmentCamerapickerBinding.flash.setVisibility(View.INVISIBLE);
+                    fragmentCamerapickerBinding.totalcorrect.setVisibility(View.INVISIBLE);
+                    fragmentCamerapickerBinding.switchcamera.setVisibility(View.INVISIBLE);
+                    fragmentCamerapickerBinding.correct.setVisibility(View.VISIBLE);
+                    fragmentCamerapickerBinding.cancel.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "Sorry you cannot put more than "+limit+" images", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         fragmentCamerapickerBinding.correct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                position=uriList.size();
                 ImageUri uri=new ImageUri();
                 uri.setUri(photoURI);
                 imageUris.add(uri);
                 uriList.add(photoURI.toString());
                 imageSetterAdapter.images=uriList;
-                imageSetterAdapter.notifyDataSetChanged();
+                imageSetterAdapter.notifyItemChanged(position);
                 fragmentCamerapickerBinding.capture.setVisibility(View.VISIBLE);
                 fragmentCamerapickerBinding.totalcorrect.setVisibility(View.VISIBLE);
                 fragmentCamerapickerBinding.flash.setVisibility(View.VISIBLE);
                 fragmentCamerapickerBinding.switchcamera.setVisibility(View.VISIBLE);
                 fragmentCamerapickerBinding.correct.setVisibility(View.INVISIBLE);
                 fragmentCamerapickerBinding.cancel.setVisibility(View.INVISIBLE);
+                size=uriList.size();
                 mCamera.startPreview();
+            }
+        });
+        fragmentCamerapickerBinding.flash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isFlashOn)
+                {
+                    isFlashOn=false;
+                    fragmentCamerapickerBinding.flash.setImageResource(R.drawable.noflash);
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                }
+                else
+                {
+                    isFlashOn=true;
+                    fragmentCamerapickerBinding.flash.setImageResource(R.drawable.flash);
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+                }
+                mCamera.setParameters(parameters);
             }
         });
         fragmentCamerapickerBinding.switchcamera.setOnClickListener(new View.OnClickListener() {
@@ -122,12 +164,24 @@ public class camerapickerfragment extends BaseFragment{
                 releaseCamera();
                 if(camerId==0)
                 { camerId=1;
-                    mCamera=Camera.open(camerId);
-                    Camera.Parameters parameters=getParameters(mCamera);
-                    mCamera.setParameters(parameters);
-                    mPreview = new CameraPreview(getContext(),mCamera);
-                    fragmentCamerapickerBinding.cameraPreview.addView(mPreview);
                 }
+                else
+                if(camerId==1)
+                {
+                    camerId=0;
+                }
+                mCamera = Camera.open(camerId);
+                mPreview = new CameraPreview(getContext(), mCamera);
+                setCameraDisplayOrientation(getActivity(),camerId);
+                parameters =getParameters(mCamera,camerId);
+                mCamera.setParameters(parameters);
+                fragmentCamerapickerBinding.cameraPreview.addView(mPreview);
+                try {
+                    mCamera.setPreviewDisplay(mPreview.getHolder());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mCamera.startPreview();
             }
         });
         fragmentCamerapickerBinding.cancel.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +196,14 @@ public class camerapickerfragment extends BaseFragment{
                 mCamera.startPreview();
             }
         });
+        fragmentCamerapickerBinding.totalcorrect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post( true);
+                EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_CAMERA+""+stringId, imageUris));
+                getActivity().finish();
+            }
+        });
 
         mPreview = new CameraPreview(getContext(),mCamera);
         fragmentCamerapickerBinding.cameraPreview.addView(mPreview);
@@ -150,13 +212,14 @@ public class camerapickerfragment extends BaseFragment{
     public void bindView(View view) {
         fragmentCamerapickerBinding = DataBindingUtil.bind(view);
     }
-    private  File getOutputMediaFile(int type){
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    private  File getOutputMediaFile(){
         File photoFile = null;
         try {
             photoFile = FileUtility.getImagefile(context);
             mPhoto = photoFile.getAbsolutePath();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
         }
 
         if (photoFile != null) {
@@ -203,15 +266,24 @@ public class camerapickerfragment extends BaseFragment{
     }
     private void releaseCamera(){
         if (mCamera != null){
-            mCamera.release();        // release the camera for other applications
-            mCamera = null;
+            mPreview.surfaceDestroyed(mPreview.getHolder());
+            mPreview.getHolder().removeCallback(mPreview);
+            mPreview.destroyDrawingCache();
+            fragmentCamerapickerBinding.cameraPreview.removeView(mPreview);
+            mCamera.stopPreview();
+            mCamera.stopPreview();
+            mCamera.setPreviewCallback(null);
+            mCamera.release();
         }
     }
-    public Camera.Parameters getParameters(Camera mCamera)
+    public Camera.Parameters getParameters(Camera mCamera,int camerId)
     {
         Camera.Parameters params = mCamera.getParameters();
         params.set("orientation", "portrait");
+        if(camerId==0)
         params.set("rotation",90);
+        else if(camerId==1)
+            params.set("rotation",270);
         List<Camera.Size> allSizes = params.getSupportedPictureSizes();
         Camera.Size size = allSizes.get(0); // get top size
         for (int i = 0; i < allSizes.size(); i++) {
@@ -221,6 +293,7 @@ public class camerapickerfragment extends BaseFragment{
         params.setPictureSize(size.width, size.height);
         return  params;
     }
+
 
 
 
