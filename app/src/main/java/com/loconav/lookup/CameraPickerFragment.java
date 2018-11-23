@@ -278,8 +278,8 @@ public class CameraPickerFragment extends BaseFragment{
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         mCamera.release();
         EventBus.getDefault().unregister(this);
         fragmentCamerapickerBinding.unbind();

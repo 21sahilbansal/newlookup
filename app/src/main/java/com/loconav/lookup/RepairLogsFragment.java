@@ -33,7 +33,7 @@ public class RepairLogsFragment extends BaseFragment  {
     RepairLogAdapter repairLogAdapter;
     List<Repairs> fullRepairsList=new ArrayList<>(),repairsList=new ArrayList<>();
     ApiInterface apiInterface=ApiClient.getClient().create(ApiInterface.class);
-    int start = 0,end=8,totalitem,oppo;
+    int totalitem,oppo;
     int placeholdersToLoad=20;
     boolean loadmore=true,itemsloaded=true;
     FragmentController fragmentController=new FragmentController();
@@ -46,13 +46,14 @@ public class RepairLogsFragment extends BaseFragment  {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Repair Logs");
         Bundle bundle = this.getArguments();
         int layout = bundle.getInt("layout");
-
+        int start = 0,end=8;
         apiInterface.getRepairLogs(start,end).enqueue(new RetrofitCallback<RepairsDataandTotalRepairCount>() {
             @Override
             public void handleSuccess(Call<RepairsDataandTotalRepairCount> call, Response<RepairsDataandTotalRepairCount> response) {
-                fullRepairsList=response.body().getData();
+                repairsList=response.body().getData();
                 totalitem=response.body().getTotalcount();
-                repairLogAdapter.repairsdata=fullRepairsList;
+                for(Repairs repairs:repairsList)
+                    fullRepairsList.add(repairs);
                 repairLogAdapter.notifyDataSetChanged();
                 Log.e("the data","The data is "+fullRepairsList);
             }
@@ -153,6 +154,7 @@ public class RepairLogsFragment extends BaseFragment  {
     }
     public void getRepairLogs(int first,int last,RecyclerView recyclerView)
     {
+
         apiInterface.getRepairLogs(first, last).enqueue(new RetrofitCallback<RepairsDataandTotalRepairCount>() {
             @Override
             public void handleSuccess(Call<RepairsDataandTotalRepairCount> call, Response<RepairsDataandTotalRepairCount> response) {
@@ -176,8 +178,8 @@ public class RepairLogsFragment extends BaseFragment  {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         fragmentRepairLogsBinding.unbind();
     }
 }

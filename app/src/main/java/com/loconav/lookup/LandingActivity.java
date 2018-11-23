@@ -1,13 +1,8 @@
 package com.loconav.lookup;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.location.Location;
-import android.net.Uri;
-import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
@@ -29,7 +24,6 @@ import com.loconav.lookup.model.Coordinates;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.ReasonResponse;
 import com.loconav.lookup.model.ReasonTypeResponse;
-import com.loconav.lookup.model.VersionResponse;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
@@ -159,7 +153,7 @@ public class LandingActivity extends BaseActivity implements Callback {
         Coordinates coordinates = new Coordinates();
         coordinates.setLatitude(latitude);
         coordinates.setLongitude(longitude);
-        coordinates.setRecordedat(time);
+        coordinates.setRecordedAt(time);
         coordinatesList.add(coordinates);
         coordinateRequest.setCoordinates(coordinatesList);
         sendCoordinates(coordinateRequest);

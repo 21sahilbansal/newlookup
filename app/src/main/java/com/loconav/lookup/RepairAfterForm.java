@@ -70,48 +70,47 @@ public class RepairAfterForm extends BaseTitleFragment {
                             new Handler(handlerThread.getLooper()).post(new Runnable() {//we create a new thread for compression and uploading images
                                 @Override
                                 public void run() {
-                                    ArrayList<String> imagesList1 = new ArrayList<>();
-                                    imagesList1.addAll(passingReason.getImagesList());
+                                    ArrayList<String> vechileImages = new ArrayList<>();
+                                    vechileImages.addAll(passingReason.getImagesList());
                                     for (ImageUri imageUri : (binding.Vehicleimage.getimagesList())) {
-                                        imagesList1.add(imageUri.getUri().toString());
+                                        vechileImages.add(imageUri.getUri().toString());
                                     }
                                     passingReason.setImagesPostRepair(binding.Vehicleimage.getimagesList().size());
                                     passingReason.imagesList.clear();
-                                    passingReason.setImagesList(imagesList1);
+                                    passingReason.setImagesList(vechileImages);
                                     ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
                                     Log.e("size", "run: " + passingReason.getImagesList().size());
-                                    ArrayList<String> al = new ArrayList<>();
+                                    ArrayList<String> total_images_pre_repair = new ArrayList<>();
                                     for (int i = 0; i < passingReason.getImagesPreRepair(); i++) {
-                                        String str2 = null;
+                                        String image = null;
                                         try {
-                                            str2 = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
-                                            Log.e("the str2","the str2 is "+str2);
+                                            image = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
-                                        al.add(str2);
+                                        total_images_pre_repair.add(image);
                                     }
-                                    repairRequirements.setPre_repair_images(al);
-                                    ArrayList<String> al1 = new ArrayList<>();
+                                    repairRequirements.setPre_repair_images(total_images_pre_repair);
+                                    ArrayList<String> total_images_post_repair = new ArrayList<>();
                                     for (int i = passingReason.getImagesPreRepair(); i < passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i++) {
-                                        String str5 = null;
+                                        String image = null;
                                         try {
-                                            str5 = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
+                                            image = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
-                                        al1.add(str5);
+                                        total_images_post_repair.add(image);
                                     }
                                     for (int i = passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i < passingReason.getImagesList().size(); i++) {
-                                        String str3 = null;
+                                        String image = null;
                                         try {
-                                            str3 = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
+                                            image = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
-                                        al1.add(str3);
+                                        total_images_post_repair.add(image);
                                     }
-                                    repairRequirements.setPost_repair_images(al1);
+                                    repairRequirements.setPost_repair_images(total_images_post_repair);
                                     getActivity().runOnUiThread(new Runnable() { // now we are not on ui thread so we have to show progress on ui thread so we call method runOnUiThread()
 
                                         @Override

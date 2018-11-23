@@ -101,7 +101,8 @@ public class DeviceIdFragment extends BaseTitleFragment {
                     apiService.getDeviceLookup(binding.etDeviceId.getText().toString()).enqueue(new RetrofitCallback<LookupResponse>() {
                         @Override
                         public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
-                            AppUtils.hideKeyboard(getActivity());
+                            if(getActivity()!=null)
+                                AppUtils.hideKeyboard(getActivity());
                             Log.e("handle ", response.code() + "");
                             DeviceDetailFragment deviceDetailFragment = new DeviceDetailFragment();
                             passingReason.setDeviceid(binding.etDeviceId.getText().toString());
@@ -139,7 +140,8 @@ public class DeviceIdFragment extends BaseTitleFragment {
         binding.ibQrScanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppUtils.hideKeyboard(getActivity());
+                if(getActivity()!=null)
+                    AppUtils.hideKeyboard(getActivity());
                 QRScannerFragment qrScannerFragment = new QRScannerFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.container,qrScannerFragment).addToBackStack("qr_scanner");

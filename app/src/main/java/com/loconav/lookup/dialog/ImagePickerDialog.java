@@ -5,11 +5,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -19,7 +16,7 @@ import android.widget.Toast;
 import com.loconav.lookup.ImagePickerEvent;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseDialogFragment;
-import com.loconav.lookup.camera_open;
+import com.loconav.lookup.CameraOpenActivity;
 import com.loconav.lookup.databinding.DialogImagePickerBinding;
 import com.loconav.lookup.model.ImageUri;
 
@@ -27,7 +24,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -97,7 +93,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
         Bundle bundle=new Bundle();
         bundle.putInt("limit",limit);
         bundle.putString("Stringid",stringId);
-        Intent i =new Intent(getContext(),camera_open.class);
+        Intent i =new Intent(getContext(),CameraOpenActivity.class);
         i.putExtras(bundle);
         startActivity(i);
     }

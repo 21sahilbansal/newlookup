@@ -40,22 +40,6 @@ public class SplashActivity extends BaseCameraActivity {
 
         if (SharedPrefHelper.getInstance().getBooleanData(IS_LOGGED_IN)) {
             Long currentTime = System.currentTimeMillis();
-            Long login = SharedPrefHelper.getInstance().getLongData(LOG_IN_TIME);
-            if (currentTime - login > TimeUnit.HOURS.toMillis(1)) {
-                fetchAndSetData();
-                //currentTime - login > TimeUnit.DAYS.toMillis(1)
-            } else {
-                Intent intent = new Intent(getBaseContext(), LandingActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        } else {
-            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        }
-        if (SharedPrefHelper.getInstance().getBooleanData(IS_LOGGED_IN)) {
-            Long currentTime = System.currentTimeMillis();
             Long loginTime = SharedPrefHelper.getInstance().getLongData(LOG_IN_TIME);
             if (currentTime - loginTime > TimeUnit.HOURS.toMillis(1)) {
                 fetchAndSetData();

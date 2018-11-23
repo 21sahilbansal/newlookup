@@ -38,4 +38,5 @@ public class InstallLogAdapter  extends BaseAdapter {
     public int getItemCount() {
         return installsList.size();
     }
+
 }

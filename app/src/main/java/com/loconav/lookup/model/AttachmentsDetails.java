@@ -7,7 +7,7 @@ public class AttachmentsDetails
         @SerializedName("id")
          String id;
         @SerializedName("updated_at")
-         String updated_at;
+         String updatedAt;
         @SerializedName("urls")
          Urls urls;
         @SerializedName("tag")
@@ -27,13 +27,13 @@ public class AttachmentsDetails
         {
             this.id = id;
         }
-        public String getUpdated_at ()
+        public String getUpdatedAt()
         {
-            return updated_at;
+            return updatedAt;
         }
-        public void setUpdated_at (String updated_at)
+        public void setUpdatedAt(String updatedAt)
         {
-            this.updated_at = updated_at;
+            this.updatedAt = updatedAt;
         }
         public Urls getUrls ()
         {

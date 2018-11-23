@@ -49,9 +49,10 @@ public class InstallLogsFragment extends BaseFragment {
         apiInterface.getInstallLogs(start,end).enqueue(new RetrofitCallback<InstallDatandTotalInstallCount>() {
             @Override
             public void handleSuccess(Call<InstallDatandTotalInstallCount> call, Response<InstallDatandTotalInstallCount> response) {
-                fullInstallList=response.body().getData();
+                installList=response.body().getData();
                 totalitem=response.body().getTotalcount();
-                installLogAdapter.installsList=fullInstallList;
+                for (Installs installs:installList)
+                fullInstallList.add(installs);
                 installLogAdapter.notifyDataSetChanged();
             }
 
@@ -175,8 +176,8 @@ public class InstallLogsFragment extends BaseFragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         fragmentInstallLogsBinding.unbind();
     }
 }

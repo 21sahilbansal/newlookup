@@ -77,7 +77,7 @@
         <activity
             android:name=".UserActivitySubActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".camera_open"
+        <activity android:name=".CameraOpenActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait"
             ></activity>

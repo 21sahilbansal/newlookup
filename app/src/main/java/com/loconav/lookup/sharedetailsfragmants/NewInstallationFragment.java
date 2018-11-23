@@ -128,11 +128,11 @@ public class NewInstallationFragment extends BaseTitleFragment {
                                     notes.setChassis_number(binding.chassisNo.getText().toString());
                                     notes.setManufacturer(binding.manufacture.getText().toString());
                                     notes.setModel(binding.model.getText().toString());
-                                    notes.setType_of_goods(binding.typeOfGoods.getText().toString());
+                                    notes.setTypeOfGoods(binding.typeOfGoods.getText().toString());
                                     notes.setOdometer_reading(binding.odometerReading.getText().toString());
                                     notes.setSim_number(binding.simNo.getText().toString());
                                     newInstall.setImei_number(binding.imei.getText().toString());
-                                    notes.setDevice_model(binding.deviceModel.getText().toString());
+                                    notes.setDeviceModel(binding.deviceModel.getText().toString());
                                     notes.setSos(getFeatures(binding.cbSos));
                                     newInstall.setTransporter_id(Long.parseLong(binding.transporterId.getText().toString()));
                                     notes.setImmobilizer(getFeatures(binding.cbImm));

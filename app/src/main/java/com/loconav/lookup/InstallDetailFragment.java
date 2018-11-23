@@ -38,7 +38,6 @@ public class InstallDetailFragment extends BaseFragment {
     public void onFragmentCreated() {
         Bundle bundle = this.getArguments();
         int id = bundle.getInt("id");
-        final CustomInflater customInflater=new CustomInflater(getContext());
         apiService.getInstallDetail(id).enqueue(new RetrofitCallback<InstallationDetails>() {
             @Override
             public void handleSuccess(Call<InstallationDetails> call, Response<InstallationDetails> response) {
@@ -106,8 +105,8 @@ public class InstallDetailFragment extends BaseFragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         installDetailsBinding.unbind();
     }
 }
