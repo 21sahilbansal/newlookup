@@ -6,23 +6,20 @@
     >
     <data>
         <import type="java.lang.Double" />
-        <import type="com.loconav.lookup.TimeUtils"></import>
+        <import type="com.loconav.lookup.utils.TimeUtils"></import>
         <variable
             name="obj"
             type="com.loconav.lookup.model.Repairs"></variable>
     </data>
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_margin="10dp"
         app:cardElevation="@dimen/dimen_5dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
         android:layout_height="wrap_content">
 <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:elevation="5dp"
-    android:paddingLeft="16dp"
+    android:padding="10dp"
     android:shadowRadius="6"
     android:background="@color/white"
     android:layout_height="wrap_content">
@@ -45,6 +42,7 @@
         android:layout_marginLeft="120dp"
         android:layout_marginTop="4dp"
         android:text="@{obj.serialNumber}"
+        android:textStyle="bold"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -65,13 +63,14 @@
     <TextView
         android:id="@+id/truck_number"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="17dp"
         android:layout_marginStart="120dp"
         android:layout_marginLeft="120dp"
         android:layout_marginTop="10dp"
         android:text="@{obj.truckNumber}"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
+        android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/serial_number"
         tools:text="MH16GU508" />
 
@@ -96,6 +95,7 @@
         android:layout_marginTop="10dp"
         android:text="@{obj.repairReason}"
         android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/truck_number"
         tools:text="No Device In Vehicle" />
@@ -110,8 +110,8 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7"
-        app:layout_constraintVertical_bias="0.333" />
+        app:layout_constraintTop_toBottomOf="@+id/repair_reason"
+        app:layout_constraintVertical_bias="0.368" />
 
     <TextView
         android:id="@+id/created_at"
@@ -120,12 +120,14 @@
         android:layout_marginStart="120dp"
         android:layout_marginLeft="120dp"
         android:layout_marginTop="10dp"
+        android:textStyle="bold"
         android:layout_marginBottom="10dp"
         android:text="@{TimeUtils.getDate(String.valueOf(safeUnbox(obj.createdAt)))}"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/repair_reason"
+        app:layout_constraintVertical_bias="1.0"
         tools:text="1533816507000" />
 
 </android.support.constraint.ConstraintLayout>

@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 import com.loconav.lookup.R;
-import com.loconav.lookup.Utility;
+import com.loconav.lookup.utils.AppUtils;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.databinding.ActivityLoginBinding;
 import com.loconav.lookup.login.model.Creds;
@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
-        sharedPrefHelper=SharedPrefHelper.getInstance(getBaseContext());
+        sharedPrefHelper=SharedPrefHelper.getInstance();
         initProgressDialog();
         Creds creds = new Creds();
         binding.setCred(creds);
@@ -58,8 +58,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         sharedPrefHelper.setStringData(code, loginResponse.getUser().getCode());
         sharedPrefHelper.setBooleanData(IS_LOGGED_IN,true);
         Log.e("shared",""+sharedPrefHelper.getStringData(authenticationToken));
-        Intent intent=new Intent(getBaseContext(),SplashActivity.class);
+        Intent intent = new Intent(getBaseContext(),SplashActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -83,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
 
     @Override
     public boolean isUserOnline() {
-        return Utility.isNetworkAvailable(this);
+        return AppUtils.isNetworkAvailable();
     }
 
 }

@@ -1,11 +1,8 @@
 package com.loconav.lookup.login;
 
-import com.loconav.lookup.Utility;
-import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.login.model.Creds;
 import com.loconav.lookup.login.model.LoginResponse;
 import com.loconav.lookup.network.RetrofitCallback;
-import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
 import com.loconav.lookup.network.rest.LoginApiClient;
 

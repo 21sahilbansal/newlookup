@@ -34,7 +34,7 @@ public class ApiClient {
                 public Response intercept(Chain chain) throws IOException {
                     Request request = chain.request().newBuilder()
                             .addHeader("X-Linehaul-V2-Secret", "5ed183673b9709a69e51ed86e6b53b")
-                            .addHeader("Authorization",SharedPrefHelper.getInstance(LookUpApplication.getInstance().getBaseContext()).getStringData(authenticationToken)).build();
+                            .addHeader("Authorization",SharedPrefHelper.getInstance().getStringData(authenticationToken)).build();
                     return chain.proceed(request);
 
                 }

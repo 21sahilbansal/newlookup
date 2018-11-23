@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Created by sejal on 12-07-2018.
  */
 
-public class Repair extends BaseTitleFragment {
+class Repair extends BaseTitleFragment {
     private RepairBinding binding;
     private PassingReason passingReason;
     FragmentController fragmentController=new FragmentController();

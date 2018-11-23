@@ -9,13 +9,14 @@
         ></variable>
 </data>
     <android.support.constraint.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="100dp"
+        android:padding="10dp"
+        android:layout_height="100dp">
 
         <ImageView
-
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             imagesetter:imageurl="@{obj}"
             />
     </android.support.constraint.ConstraintLayout>

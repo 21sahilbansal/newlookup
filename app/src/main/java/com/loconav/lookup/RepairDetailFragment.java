@@ -59,10 +59,20 @@ public class RepairDetailFragment extends BaseFragment {
                 layoutManager.setOrientation(LinearLayout.VERTICAL);
                 LinearLayoutManager layoutManager2 = new LinearLayoutManager(getActivity());
                 layoutManager2.setOrientation(LinearLayout.VERTICAL);
-                imageSetterAdapter = new ImageSetterAdapter(getContext(),repairs.getPreRepairImages());
+                imageSetterAdapter = new ImageSetterAdapter(repairs.getPreRepairImages(), new Callback() {
+                    @Override
+                    public void onEventDone(Object object) {
+
+                    }
+                });
                 repairDetailsBinding.prerepairimages.setLayoutManager(layoutManager);
                 repairDetailsBinding.prerepairimages.setAdapter(imageSetterAdapter);
-                imageSetterAdapter = new ImageSetterAdapter(getContext(),repairs.getPostRepairImages());
+                imageSetterAdapter = new ImageSetterAdapter(repairs.getPostRepairImages(), new Callback() {
+                    @Override
+                    public void onEventDone(Object object) {
+
+                    }
+                });
                 repairDetailsBinding.postrepairimages.setLayoutManager(layoutManager2);
                 repairDetailsBinding.postrepairimages.setAdapter(imageSetterAdapter);
             }

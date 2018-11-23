@@ -4,26 +4,16 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
-import android.support.v4.app.FragmentManager;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.login.SplashActivity;
 import com.loconav.lookup.base.BaseActivity;
 import com.loconav.lookup.databinding.ActivityUserBinding;
-import com.loconav.lookup.model.Repairs;
-import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
-import com.loconav.lookup.network.rest.LoginApiClient;
-import com.loconav.lookup.network.rest.StagingApiClient;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Response;
+import com.loconav.lookup.utils.AppUtils;
 
 import static com.loconav.lookup.Constants.IS_LOGGED_IN;
 import static com.loconav.lookup.Constants.USER_ID;
@@ -52,7 +42,7 @@ public class UserActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private void initSharedPf() {
-      sharedPrefHelper = SharedPrefHelper.getInstance(getBaseContext());
+      sharedPrefHelper = SharedPrefHelper.getInstance();
     }
 
     private void attachClickListener() {
@@ -75,14 +65,14 @@ public class UserActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private void fillUserId() {
-      binding.userId.setText(SharedPrefHelper.getInstance(getBaseContext()).getStringData(code));
-        binding.userName.setText(SharedPrefHelper.getInstance(getBaseContext()).getStringData(name));
-        binding.userPhone.setText(SharedPrefHelper.getInstance(getBaseContext()).getStringData(phoneNumber));
+      binding.userId.setText(SharedPrefHelper.getInstance().getStringData(code));
+        binding.userName.setText(SharedPrefHelper.getInstance().getStringData(name));
+        binding.userPhone.setText(SharedPrefHelper.getInstance().getStringData(phoneNumber));
     }
 
     public void RepairLogs(View view)
     {
-        if(Utility.isNetworkAvailable(this)) {
+        if(AppUtils.isNetworkAvailable()) {
             Bundle bundle = new Bundle();
             bundle.putString("task", "RepairLogs");
             Intent intent = new Intent(this, UserActivitySubActivity.class);
@@ -96,7 +86,7 @@ public class UserActivity extends BaseActivity implements View.OnClickListener{
     }
     public void NewInstall(View view)
     {
-        if(Utility.isNetworkAvailable(this)) {
+        if(AppUtils.isNetworkAvailable()) {
             Bundle bundle = new Bundle();
             bundle.putString("task", "InstallLogs");
             Intent intent = new Intent(this, UserActivitySubActivity.class);

@@ -43,8 +43,11 @@
         <activity
             android:name=".UserActivity"
             android:label="User Settings"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".FastTagActivity" />
+        <activity android:name=".FastTagActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".login.LoginActivity"
             android:screenOrientation="portrait"
@@ -52,10 +55,11 @@
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
         <activity
             android:name=".login.SplashActivity"
-            android:launchMode="singleTask">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -73,7 +77,10 @@
         <activity
             android:name=".UserActivitySubActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".camera_open"></activity>
+        <activity android:name=".camera_open"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="portrait"
+            ></activity>
     </application>
 
 </manifest>

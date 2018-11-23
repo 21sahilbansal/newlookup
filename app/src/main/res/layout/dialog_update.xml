@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+        <TextView
+            android:textColor="@color/listprimary_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="New Version of App is Available, Please Update."/>
+        <LinearLayout
+            android:gravity="end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/later_button"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/orange"
+                android:background="@android:color/transparent"
+                android:layout_height="wrap_content"
+                android:text="Later"/>
+            <Button
+                android:id="@+id/ok_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/orange"
+                android:textStyle="bold"
+                android:background="@android:color/transparent"
+                android:text="Ok"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

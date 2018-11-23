@@ -7,37 +7,33 @@ import android.databinding.DataBindingUtil;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.Surface;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.loconav.lookup.adapter.ImageSetterAdapter;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FragmentCamerapickerBinding;
-import com.loconav.lookup.databinding.NewinstallationBinding;
 import com.loconav.lookup.model.ImageUri;
+import com.loconav.lookup.utils.FileUtils;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
-import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
 
 public class CameraPickerFragment extends BaseFragment{
     private Camera mCamera;
@@ -48,6 +44,7 @@ public class CameraPickerFragment extends BaseFragment{
     Uri photoURI;
     boolean isFlashOn=false;
     int position=0;
+    String dimiss="true";
     /**
      * uriList is the list of string of uris of images
      */
@@ -60,6 +57,7 @@ public class CameraPickerFragment extends BaseFragment{
     int camerId=0;
     Camera.Parameters parameters;
     int size=0;
+    FragmentController fragmentController=new FragmentController();
     private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
 
         @Override
@@ -69,6 +67,7 @@ public class CameraPickerFragment extends BaseFragment{
                 Log.d("tag", "Error creating media file, check storage permissions");
                 return;
             }
+
             try {
                 FileOutputStream fos = new FileOutputStream(pictureFile);
                 fos.write(data);
@@ -78,6 +77,18 @@ public class CameraPickerFragment extends BaseFragment{
             } catch (IOException e) {
                 Log.d("tag", "Error accessing file: " + e.getMessage());
             }
+            position=uriList.size();
+            ImageUri uri=new ImageUri();
+            uri.setUri(photoURI);
+            imageUris.add(uri);
+            uriList.add(photoURI.toString());
+            imageSetterAdapter.notifyItemChanged(position);
+            fragmentCamerapickerBinding.capture.setVisibility(View.VISIBLE);
+            fragmentCamerapickerBinding.totalcorrect.setVisibility(View.VISIBLE);
+            fragmentCamerapickerBinding.flash.setVisibility(View.VISIBLE);
+            fragmentCamerapickerBinding.switchcamera.setVisibility(View.VISIBLE);
+            size=uriList.size();
+            mCamera.startPreview();
         }
     };
     @Override
@@ -89,6 +100,7 @@ public class CameraPickerFragment extends BaseFragment{
         Bundle bundle = this.getArguments();
         int limit = bundle.getInt("limit");
         String stringId=bundle.getString("Stringid");
+        EventBus.getDefault().register(this);
         context=getContext();
         mCamera = getCameraInstance();
         setCameraDisplayOrientation(getActivity(),camerId);
@@ -96,7 +108,16 @@ public class CameraPickerFragment extends BaseFragment{
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayout.HORIZONTAL);
-        imageSetterAdapter = new ImageSetterAdapter(getContext(),uriList);
+        imageSetterAdapter = new ImageSetterAdapter(uriList, new Callback() {
+            @Override
+            public void onEventDone(Object object) {
+                Full_image_fragment full_image_fragment =new Full_image_fragment();
+                Bundle bundle=new Bundle();
+                bundle.putString("imageurl",(String)object);
+                full_image_fragment.setArguments(bundle);
+                fragmentController.loadFragment(full_image_fragment,getFragmentManager(),R.id.camera,true);
+            }
+        });
         fragmentCamerapickerBinding.rvImages.setLayoutManager(layoutManager);
         fragmentCamerapickerBinding.rvImages.setAdapter(imageSetterAdapter);
         mCamera.setParameters(parameters);
@@ -107,12 +128,6 @@ public class CameraPickerFragment extends BaseFragment{
 
                 if(size<limit) {
                     mCamera.takePicture(null, null, mPicture);
-                    fragmentCamerapickerBinding.capture.setVisibility(View.INVISIBLE);
-                    fragmentCamerapickerBinding.flash.setVisibility(View.INVISIBLE);
-                    fragmentCamerapickerBinding.totalcorrect.setVisibility(View.INVISIBLE);
-                    fragmentCamerapickerBinding.switchcamera.setVisibility(View.INVISIBLE);
-                    fragmentCamerapickerBinding.correct.setVisibility(View.VISIBLE);
-                    fragmentCamerapickerBinding.cancel.setVisibility(View.VISIBLE);
                 }
                 else
                 {
@@ -120,26 +135,7 @@ public class CameraPickerFragment extends BaseFragment{
                 }
             }
         });
-        fragmentCamerapickerBinding.correct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                position=uriList.size();
-                ImageUri uri=new ImageUri();
-                uri.setUri(photoURI);
-                imageUris.add(uri);
-                uriList.add(photoURI.toString());
-                imageSetterAdapter.images=uriList;
-                imageSetterAdapter.notifyItemChanged(position);
-                fragmentCamerapickerBinding.capture.setVisibility(View.VISIBLE);
-                fragmentCamerapickerBinding.totalcorrect.setVisibility(View.VISIBLE);
-                fragmentCamerapickerBinding.flash.setVisibility(View.VISIBLE);
-                fragmentCamerapickerBinding.switchcamera.setVisibility(View.VISIBLE);
-                fragmentCamerapickerBinding.correct.setVisibility(View.INVISIBLE);
-                fragmentCamerapickerBinding.cancel.setVisibility(View.INVISIBLE);
-                size=uriList.size();
-                mCamera.startPreview();
-            }
-        });
+
         fragmentCamerapickerBinding.flash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,27 +180,16 @@ public class CameraPickerFragment extends BaseFragment{
                 mCamera.startPreview();
             }
         });
-        fragmentCamerapickerBinding.cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentCamerapickerBinding.capture.setVisibility(View.VISIBLE);
-                fragmentCamerapickerBinding.flash.setVisibility(View.VISIBLE);
-                fragmentCamerapickerBinding.totalcorrect.setVisibility(View.VISIBLE);
-                fragmentCamerapickerBinding.switchcamera.setVisibility(View.VISIBLE);
-                fragmentCamerapickerBinding.correct.setVisibility(View.INVISIBLE);
-                fragmentCamerapickerBinding.cancel.setVisibility(View.INVISIBLE);
-                mCamera.startPreview();
-            }
-        });
+
         fragmentCamerapickerBinding.totalcorrect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post( true);
+
+                EventBus.getDefault().post(dimiss);
                 EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_CAMERA+""+stringId, imageUris));
                 getActivity().finish();
             }
         });
-
         mPreview = new CameraPreview(getContext(),mCamera);
         fragmentCamerapickerBinding.cameraPreview.addView(mPreview);
     }
@@ -215,11 +200,12 @@ public class CameraPickerFragment extends BaseFragment{
     private  File getOutputMediaFile(){
         File photoFile = null;
         try {
-            photoFile = FileUtility.getImagefile(context);
+            photoFile = FileUtils.getImagefile(context);
             mPhoto = photoFile.getAbsolutePath();
         }
         catch (Exception ex)
         {
+
         }
 
         if (photoFile != null) {
@@ -292,9 +278,32 @@ public class CameraPickerFragment extends BaseFragment{
         }
         params.setPictureSize(size.width, size.height);
         return  params;
+
     }
 
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mCamera.release();
+        EventBus.getDefault().unregister(this);
+        fragmentCamerapickerBinding.unbind();
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getImageUrl(String imageurl) {
+        for(ImageUri imageUri:imageUris)
+        {
+            if(imageUri.getUri().toString().equals(imageurl))
+            {
+                imageUris.remove(imageUri);
+                Log.e("remove","removed true");
+                break;
+            }
+        }
+        int index=uriList.indexOf(imageurl);
+        uriList.remove(imageurl);
+        Log.e("the index is ","the index is "+uriList.indexOf(imageurl));
+        size--;
+        imageSetterAdapter.notifyItemRemoved(index);
+    }
 
 }

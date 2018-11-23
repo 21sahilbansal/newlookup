@@ -1,4 +1,4 @@
-package com.loconav.lookup;
+package com.loconav.lookup.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,7 +9,7 @@ import android.provider.MediaStore;
 import java.io.File;
 import java.io.IOException;
 
-public class FileUtility {
+public class FileUtils {
     public static File getImagefile(Context context) throws IOException {
         File storageDir;
         String imageFileName = "JPEG_" + "Loconav" + "_";

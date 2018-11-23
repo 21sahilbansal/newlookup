@@ -1,5 +1,6 @@
 package com.loconav.lookup;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import id.zelory.compressor.Compressor;
 
@@ -81,4 +83,6 @@ public class LookupSubActivity extends BaseActivity {
             addtionalFields.addAll(reasonResponse.getAdditional_fields());
         }
     }
+
+
 }

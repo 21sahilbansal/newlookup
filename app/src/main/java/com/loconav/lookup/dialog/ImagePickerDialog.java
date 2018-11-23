@@ -16,7 +16,6 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.loconav.lookup.FileUtility;
 import com.loconav.lookup.ImagePickerEvent;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseDialogFragment;
@@ -144,9 +143,10 @@ public class ImagePickerDialog extends BaseDialogFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getToDismiss(boolean list) {
-       if(list) {
-           dismiss();
+    public void getToDismiss(String dismiss) {
+       if(dismiss.equals("true")) {
+           Log.e("the dialog ","the dialog should dismiss");
+           getDialog().dismiss();
        }
     }
 

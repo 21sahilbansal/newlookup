@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     >
     <data>
-        <import type="com.loconav.lookup.TimeUtils"></import>
+        <import type="com.loconav.lookup.utils.TimeUtils"></import>
         <variable
             name="obj"
             type="com.loconav.lookup.model.Installs"></variable>
@@ -13,16 +13,13 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
+        android:layout_margin="10dp"
         app:cardElevation="@dimen/dimen_5dp"
         android:layout_height="wrap_content">
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:elevation="5dp"
-            android:paddingLeft="16dp"
+            android:padding="10dp"
             android:shadowRadius="6"
             android:background="@color/white"
             android:layout_height="wrap_content">
@@ -46,6 +43,7 @@
                 android:layout_marginTop="4dp"
                 android:text="@{obj.installable_serial_number}"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="0359857080428287" />
@@ -69,6 +67,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@{obj.truck_number}"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/serial_number"
                 tools:text="MH16GU508" />
@@ -95,6 +94,7 @@
                 android:layout_marginBottom="10dp"
                 android:text="@{TimeUtils.getDate(obj.installation_date)}"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/truck_number"

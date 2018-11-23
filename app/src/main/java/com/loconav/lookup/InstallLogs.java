@@ -1,10 +1,7 @@
 package com.loconav.lookup;
 
-import android.app.ProgressDialog;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +18,7 @@ import com.loconav.lookup.model.InstallDatandTotalInstallCount;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
+import com.loconav.lookup.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +84,7 @@ public class InstallLogs  extends BaseFragment {
                 switch (newState)
                 {
                     case RecyclerView.SCROLL_STATE_DRAGGING:
-                        if(Utility.isNetworkAvailable(getActivity())) {
+                        if(AppUtils.isNetworkAvailable()) {
                             fragmentInstallLogsBinding.retry.setVisibility(View.GONE);
                             if(loadmore) {
                                 if (pastVisibleItems + visibleItemCount >= totalItemCount && itemsloaded) {
@@ -98,7 +96,6 @@ public class InstallLogs  extends BaseFragment {
                                             installs = null;
                                             fullInstallList.add(installs);
                                         }
-                                        installLogAdapter.installsList = fullInstallList;
                                         recyclerView.getAdapter().notifyDataSetChanged();
                                         getInstallLogs(totalItemCount,totalItemCount+placeholdersToLoad,recyclerView);
                                     } else {
@@ -109,7 +106,6 @@ public class InstallLogs  extends BaseFragment {
                                             installs = null;
                                             fullInstallList.add(installs);
                                         }
-                                        installLogAdapter.installsList = fullInstallList;
                                         recyclerView.getAdapter().notifyDataSetChanged();
                                         getInstallLogs(totalItemCount,totalItemCount+(totalitem-(totalItemCount)),recyclerView);
                                     }
@@ -164,7 +160,6 @@ public class InstallLogs  extends BaseFragment {
                 oppo=0;
                 for (int i = first; i < last; i++) {
                     fullInstallList.set(i, installList.get(oppo));
-                    installLogAdapter.installsList = fullInstallList;
                     recyclerView.getAdapter().notifyDataSetChanged();
                     oppo++;
                 }

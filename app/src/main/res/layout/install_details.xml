@@ -5,7 +5,7 @@
 
     <data>
         <import type="java.lang.Double" />
-        <import type="com.loconav.lookup.TimeUtils"></import>
+        <import type="com.loconav.lookup.utils.TimeUtils"></import>
         <variable
             name="installs"
             type="com.loconav.lookup.model.InstallationDetails"></variable>

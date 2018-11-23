@@ -32,7 +32,6 @@ public class LocationGetter {
     private LocationManager mLocationManager = null;
     private static final int LOCATION_INTERVAL = (int) TimeUnit.MINUTES.toMillis(30);
     private static final float LOCATION_DISTANCE = 0f;
-    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     LocationListener[] mLocationListeners = new LocationListener[] {
             new LocationListener(LocationManager.GPS_PROVIDER),
             new LocationListener(LocationManager.NETWORK_PROVIDER)

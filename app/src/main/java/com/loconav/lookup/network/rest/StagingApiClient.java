@@ -33,7 +33,7 @@ public class StagingApiClient {
                 public Response intercept(Chain chain) throws IOException {
                     Request request = chain.request().newBuilder()
                             .addHeader("X-Linehaul-V2-Secret", "1f0ec3aafb662b71b0dcee84cef5615ea78bd")
-                            .addHeader("Authorization",SharedPrefHelper.getInstance(LookUpApplication.getInstance().getBaseContext()).getStringData(authenticationToken)).build();
+                            .addHeader("Authorization",SharedPrefHelper.getInstance().getStringData(authenticationToken)).build();
                     return chain.proceed(request);
 
                 }

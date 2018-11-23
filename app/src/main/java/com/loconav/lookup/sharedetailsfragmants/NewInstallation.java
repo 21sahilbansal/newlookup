@@ -16,9 +16,9 @@ import android.widget.Toast;
 import com.loconav.lookup.BaseTitleFragment;
 import com.loconav.lookup.CommonFunction;
 import com.loconav.lookup.CustomImagePicker;
-import com.loconav.lookup.FileUtility;
+import com.loconav.lookup.utils.FileUtils;
 import com.loconav.lookup.FragmentController;
-import com.loconav.lookup.ImageUtils;
+import com.loconav.lookup.utils.ImageUtils;
 import com.loconav.lookup.InstallLogs;
 import com.loconav.lookup.LookupSubActivity;
 import com.loconav.lookup.R;
@@ -70,7 +70,7 @@ public class NewInstallation extends BaseTitleFragment {
         progressDialog.setCancelable(false);
         handlerThread.start();
         handler = new Handler(handlerThread.getLooper());
-        sharedPrefHelper=SharedPrefHelper.getInstance(getContext());
+        sharedPrefHelper=SharedPrefHelper.getInstance();
         passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
         final String deviceId = passingReason.getDeviceid();
         final Client client = passingReason.getClientId();
@@ -98,7 +98,7 @@ public class NewInstallation extends BaseTitleFragment {
                     message += "SOS: " + getFeatures(binding.cbSos) +  "\n";
                     message += "Trip Button: " + getFeatures(binding.cbTrip) +  "\n";
                     message += "Immobilizer: " + getFeatures(binding.cbImm) +  "\n";
-                    message += "USER ID: " + SharedPrefHelper.getInstance(getContext()).getStringData(code) +  "\n";
+                    message += "USER ID: " + SharedPrefHelper.getInstance().getStringData(code) +  "\n";
                     message += "Sent By Device Checker:"+ " " + System.currentTimeMillis() ;
                     String url = "http://www.loconav.com/?type=new_vehicle&model="+
                             binding.model.getText().toString()+"&manufacturer="+
@@ -176,7 +176,7 @@ public class NewInstallation extends BaseTitleFragment {
         for (ImageUri imageUri : imagePicker.getimagesList()) {
             attachments=new Attachments();
             try {
-                compressedImage = ImageUtils.reduceBititmap(FileUtility.bitmapTouri(getContext(), imageUri.getUri()), getActivity());
+                compressedImage = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(), imageUri.getUri()), getActivity());
                 attachments.setTitle(title);
                 attachments.setImage(compressedImage);
                 attachmentsList.add(attachments);
@@ -194,7 +194,7 @@ public class NewInstallation extends BaseTitleFragment {
                @Override
                public void handleSuccess(Call<ResponseBody> call, Response<ResponseBody> response) {
                    progressDialog.dismiss();
-                   FileUtility.deleteFiles(getActivity());
+                   FileUtils.deleteFiles(getActivity());
                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
                    builder.setMessage("New Installation created successfully")
                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {

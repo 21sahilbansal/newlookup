@@ -8,7 +8,7 @@ import android.widget.Toast;
 import com.loconav.lookup.BaseCameraActivity;
 import com.loconav.lookup.LandingActivity;
 import com.loconav.lookup.R;
-import com.loconav.lookup.Utility;
+import com.loconav.lookup.utils.AppUtils;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
@@ -27,41 +27,46 @@ import static com.loconav.lookup.Constants.REASONS_RESPONSE;
 public class SplashActivity extends BaseCameraActivity {
 
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-    private SharedPrefHelper sharedPrefHelper;
+    private SharedPrefHelper sharedPrefHelper = SharedPrefHelper.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        sharedPrefHelper = SharedPrefHelper.getInstance(getBaseContext());
-        Log.e(TAG, "onCreate: ");
     }
-
 
     @Override
     public void onAllPermissionsGranted() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if(SharedPrefHelper.getInstance(getBaseContext()).getBooleanData(IS_LOGGED_IN)) {
-                    Long currentTime=System.currentTimeMillis();
-                    Long login=SharedPrefHelper.getInstance(getBaseContext()).getLongData(LOG_IN_TIME);
-                    if(currentTime - login > TimeUnit.HOURS.toMillis(1)){
-                        fetchData();
-                        //currentTime - login > TimeUnit.DAYS.toMillis(1)
-                    }else{
-                        Intent intent = new Intent(getBaseContext(), LandingActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                } else {
-                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+
+        if (SharedPrefHelper.getInstance().getBooleanData(IS_LOGGED_IN)) {
+            Long currentTime = System.currentTimeMillis();
+            Long login = SharedPrefHelper.getInstance().getLongData(LOG_IN_TIME);
+            if (currentTime - login > TimeUnit.HOURS.toMillis(1)) {
+                fetchAndSetData();
+                //currentTime - login > TimeUnit.DAYS.toMillis(1)
+            } else {
+                Intent intent = new Intent(getBaseContext(), LandingActivity.class);
+                startActivity(intent);
+                finish();
             }
-        }).start();
-        Log.e(TAG, "onAllPermissionsGranted: ");
+        } else {
+            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        if (SharedPrefHelper.getInstance().getBooleanData(IS_LOGGED_IN)) {
+            Long currentTime = System.currentTimeMillis();
+            Long loginTime = SharedPrefHelper.getInstance().getLongData(LOG_IN_TIME);
+            if (currentTime - loginTime > TimeUnit.HOURS.toMillis(1)) {
+                fetchAndSetData();
+                //currentTime - login > TimeUnit.DAYS.toMillis(1)
+            } else {
+                Intent intent = new Intent(this, LandingActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            Log.e(TAG, "onAllPermissionsGranted: ");
+        }
     }
 
     @Override
@@ -75,15 +80,16 @@ public class SplashActivity extends BaseCameraActivity {
         super.onStart();
             if(checkAndRequestPermissions(getBaseContext())) {
                 onAllPermissionsGranted();
-                Log.e(TAG, "onStart: ");
             }
     }
 
-    void fetchData() {
-        if (Utility.isNetworkAvailable(this)) {
+    /**
+     * This function fetch the reason for repars(like sim_change,device_change etc.) and save it in shared preferences.
+     */
+    void fetchAndSetData() {
+        if (AppUtils.isNetworkAvailable()) {
             apiService.getReasons().enqueue(new Callback<ResponseBody>() {
                 String str;
-
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     try {

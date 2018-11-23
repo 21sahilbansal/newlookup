@@ -67,13 +67,28 @@ public class InstallDetailFragment extends BaseFragment {
                     layoutManager2.setOrientation(LinearLayout.VERTICAL);
                     LinearLayoutManager layoutManager3 = new LinearLayoutManager(getActivity());
                     layoutManager3.setOrientation(LinearLayout.VERTICAL);
-                    imageSetterAdapter1 = new ImageSetterAdapter(getContext(), truckimages);
+                    imageSetterAdapter1 = new ImageSetterAdapter(truckimages, new Callback() {
+                        @Override
+                        public void onEventDone(Object object) {
+
+                        }
+                    });
                     installDetailsBinding.truckimages.setLayoutManager(layoutManager);
                     installDetailsBinding.truckimages.setAdapter(imageSetterAdapter1);
-                    imageSetterAdapter2 = new ImageSetterAdapter(getContext(), deviceimages);
+                    imageSetterAdapter2 = new ImageSetterAdapter(deviceimages, new Callback() {
+                        @Override
+                        public void onEventDone(Object object) {
+
+                        }
+                    });
                     installDetailsBinding.deviceimages.setLayoutManager(layoutManager2);
                     installDetailsBinding.deviceimages.setAdapter(imageSetterAdapter2);
-                    imageSetterAdapter3 = new ImageSetterAdapter(getContext(), connectionimages);
+                    imageSetterAdapter3 = new ImageSetterAdapter(connectionimages, new Callback() {
+                        @Override
+                        public void onEventDone(Object object) {
+
+                        }
+                    });
                     installDetailsBinding.wireconnection.setLayoutManager(layoutManager3);
                     installDetailsBinding.wireconnection.setAdapter(imageSetterAdapter3);
 

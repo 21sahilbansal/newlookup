@@ -20,6 +20,9 @@ import com.loconav.lookup.model.RepairResponse;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
+import com.loconav.lookup.utils.FileUtils;
+import com.loconav.lookup.utils.ImageUtils;
+import com.loconav.lookup.utils.AppUtils;
 
 import java.util.ArrayList;
 
@@ -57,7 +60,7 @@ public class RepairAfterForm extends BaseTitleFragment {
             @Override
             public void onClick(View v) {
                 if (binding.Vehicleimage.getimagesList().size() >= 1) {
-                    if (Utility.isNetworkAvailable(getActivity())) {
+                    if (AppUtils.isNetworkAvailable()) {
                         binding.proceedRep.setVisibility(View.GONE);
                         progressDialog.show();
                         if (!submitted) {
@@ -83,7 +86,7 @@ public class RepairAfterForm extends BaseTitleFragment {
                                         for (int i = 0; i < passingReason.getImagesPreRepair(); i++) {
                                             String str2 = null;
                                             try {
-                                                str2 = ImageUtils.reduceBititmap(FileUtility.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
+                                                str2 = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
                                                 Log.e("the str2","the str2 is "+str2);
                                             } catch (Exception e) {
                                                 e.printStackTrace();
@@ -95,7 +98,7 @@ public class RepairAfterForm extends BaseTitleFragment {
                                         for (int i = passingReason.getImagesPreRepair(); i < passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i++) {
                                             String str5 = null;
                                             try {
-                                                str5 = ImageUtils.reduceBititmap(FileUtility.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
+                                                str5 = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
@@ -104,7 +107,7 @@ public class RepairAfterForm extends BaseTitleFragment {
                                         for (int i = passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i < passingReason.getImagesList().size(); i++) {
                                             String str3 = null;
                                             try {
-                                                str3 = ImageUtils.reduceBititmap(FileUtility.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
+                                                str3 = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
@@ -163,7 +166,7 @@ public class RepairAfterForm extends BaseTitleFragment {
             @Override
             public void handleSuccess(Call<RepairResponse> call, Response<RepairResponse> response) {
                 progressDialog.dismiss();
-                FileUtility.deleteFiles(getActivity());
+                FileUtils.deleteFiles(getActivity());
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
                 builder.setMessage(response.body().getMessage())
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
