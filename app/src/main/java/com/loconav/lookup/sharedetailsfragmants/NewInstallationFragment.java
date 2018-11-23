@@ -109,7 +109,8 @@ public class NewInstallationFragment extends BaseTitleFragment {
                     boolean isDevice= checkImages(binding.DeviceImage,"device");
                     boolean isTruck=checkImages(binding.TruckImages,"truck");
                     boolean isWiredConnection=checkImages(binding.WireConnection,"connection");
-                    if(isDevice && isTruck && isWiredConnection) {
+                    boolean isFitted=checkImages(binding.DeviceFitting,"Fitting");
+                    if(isDevice && isTruck && isWiredConnection && isFitted) {
                         progressDialog.setMessage("Image Compressing..");
                        progressDialog.show();
                        handler.post(new Runnable() {
@@ -119,6 +120,8 @@ public class NewInstallationFragment extends BaseTitleFragment {
                                     compressImages(binding.TruckImages,"truck_image");
                                     compressImages(binding.DeviceImage,"device_image");
                                     compressImages(binding.WireConnection,"wire_connection");
+                                    compressImages(binding.DeviceFitting,"device_fitting");
+                                    compressImages(binding.Accessories,"accessories");
                                     Notes notes=new Notes();
                                     notes.setDealer_name(binding.dealerName.getText().toString());
                                     notes.setOwner_name(binding.ownerName.getText().toString());

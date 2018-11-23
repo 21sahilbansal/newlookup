@@ -182,7 +182,7 @@
                 android:layout_marginRight="8dp"
                 android:background="?android:selectableItemBackground"
                 custom:titleText="Upload Truck Image"
-                custom:limitImages="2"/>
+                custom:limitImages="1"/>
             <com.loconav.lookup.CustomImagePicker
                 android:id="@+id/DeviceImage"
                 android:layout_width="match_parent"
@@ -193,7 +193,7 @@
                 android:background="?android:selectableItemBackground"
                 custom:id="deviceimages"
                 custom:titleText="Upload Device Image"
-                custom:limitImages="3"/>
+                custom:limitImages="1"/>
             <com.loconav.lookup.CustomImagePicker
                 android:id="@+id/WireConnection"
                 android:layout_width="match_parent"
@@ -205,6 +205,28 @@
                 custom:id="wireconnection"
                 custom:titleText="Upload Wire Connection"
                 custom:limitImages="3"/>
+            <com.loconav.lookup.CustomImagePicker
+                android:id="@+id/DeviceFitting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="?android:selectableItemBackground"
+                custom:id="devicefitting"
+                custom:titleText="Upload Device Fitting"
+                custom:limitImages="3"/>
+            <com.loconav.lookup.CustomImagePicker
+                android:id="@+id/Accessories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="?android:selectableItemBackground"
+                custom:id="accessories"
+                custom:titleText="Upload Accessories"
+                custom:limitImages="2"/>
             <Button
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"

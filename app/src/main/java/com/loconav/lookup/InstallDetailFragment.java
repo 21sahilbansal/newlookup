@@ -26,9 +26,9 @@ import retrofit2.Response;
 public class InstallDetailFragment extends BaseFragment {
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     FragmentInstallDetailsBinding installDetailsBinding;
-    ImageSetterAdapter imageSetterAdapter1,imageSetterAdapter2,imageSetterAdapter3;
+    ImageSetterAdapter imageSetterAdapter1,imageSetterAdapter2,imageSetterAdapter3,imageSetterAdapter4,imageSetterAdapter5;
     List<AttachmentsDetails> attachmentsList;
-    List<String> deviceimages=new ArrayList<>(),truckimages=new ArrayList<>(),connectionimages=new ArrayList<>();
+    List<String> deviceimages=new ArrayList<>(),truckimages=new ArrayList<>(),connectionimages=new ArrayList<>(),fittingimages=new ArrayList<>(),accessories=new ArrayList<>();
     @Override
     public int setViewId() {
         return R.layout.fragment_install_details;
@@ -53,6 +53,10 @@ public class InstallDetailFragment extends BaseFragment {
                                 deviceimages.add(attachmentsDetails.getUrls().getOriginal());
                             else if (attachmentsDetails.getTag().equals("wire_connection"))
                                 connectionimages.add(attachmentsDetails.getUrls().getOriginal());
+                            else if (attachmentsDetails.getTag().equals("device_fitting"))
+                                fittingimages.add(attachmentsDetails.getUrls().getOriginal());
+                            else if (attachmentsDetails.getTag().equals("accessories"))
+                                accessories.add(attachmentsDetails.getUrls().getOriginal());
                         }
                     }
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -61,6 +65,11 @@ public class InstallDetailFragment extends BaseFragment {
                     layoutManager2.setOrientation(LinearLayout.VERTICAL);
                     LinearLayoutManager layoutManager3 = new LinearLayoutManager(getActivity());
                     layoutManager3.setOrientation(LinearLayout.VERTICAL);
+                    LinearLayoutManager layoutManager4 = new LinearLayoutManager(getActivity());
+                    layoutManager2.setOrientation(LinearLayout.VERTICAL);
+                    LinearLayoutManager layoutManager5 = new LinearLayoutManager(getActivity());
+                    layoutManager3.setOrientation(LinearLayout.VERTICAL);
+
                     imageSetterAdapter1 = new ImageSetterAdapter(truckimages, new Callback() {
                         @Override
                         public void onEventDone(Object object) {
@@ -69,6 +78,7 @@ public class InstallDetailFragment extends BaseFragment {
                     });
                     installDetailsBinding.truckimages.setLayoutManager(layoutManager);
                     installDetailsBinding.truckimages.setAdapter(imageSetterAdapter1);
+
                     imageSetterAdapter2 = new ImageSetterAdapter(deviceimages, new Callback() {
                         @Override
                         public void onEventDone(Object object) {
@@ -77,6 +87,8 @@ public class InstallDetailFragment extends BaseFragment {
                     });
                     installDetailsBinding.deviceimages.setLayoutManager(layoutManager2);
                     installDetailsBinding.deviceimages.setAdapter(imageSetterAdapter2);
+
+
                     imageSetterAdapter3 = new ImageSetterAdapter(connectionimages, new Callback() {
                         @Override
                         public void onEventDone(Object object) {
@@ -86,6 +98,25 @@ public class InstallDetailFragment extends BaseFragment {
                     installDetailsBinding.wireconnection.setLayoutManager(layoutManager3);
                     installDetailsBinding.wireconnection.setAdapter(imageSetterAdapter3);
 
+
+                    imageSetterAdapter4 = new ImageSetterAdapter(fittingimages, new Callback() {
+                    @Override
+                    public void onEventDone(Object object) {
+
+                        }
+                    });
+                    installDetailsBinding.devicefitting.setLayoutManager(layoutManager4);
+                    installDetailsBinding.devicefitting.setAdapter(imageSetterAdapter4);
+
+
+                    imageSetterAdapter5 = new ImageSetterAdapter(accessories, new Callback() {
+                        @Override
+                        public void onEventDone(Object object) {
+
+                        }
+                    });
+                    installDetailsBinding.accessories.setLayoutManager(layoutManager5);
+                    installDetailsBinding.accessories.setAdapter(imageSetterAdapter5);
             }
             @Override
             public void handleFailure(Call<InstallationDetails> call, Throwable t) {
