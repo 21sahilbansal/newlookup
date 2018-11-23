@@ -28,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 
-public class RepairLogs extends BaseFragment  {
+public class RepairLogsFragment extends BaseFragment  {
     FragmentRepairLogsBinding fragmentRepairLogsBinding;
     RepairLogAdapter repairLogAdapter;
     List<Repairs> fullRepairsList=new ArrayList<>(),repairsList=new ArrayList<>();
@@ -47,7 +47,7 @@ public class RepairLogs extends BaseFragment  {
         Bundle bundle = this.getArguments();
         int layout = bundle.getInt("layout");
 
-        apiInterface.getRepairLogs(0,8).enqueue(new RetrofitCallback<RepairsDataandTotalRepairCount>() {
+        apiInterface.getRepairLogs(start,end).enqueue(new RetrofitCallback<RepairsDataandTotalRepairCount>() {
             @Override
             public void handleSuccess(Call<RepairsDataandTotalRepairCount> call, Response<RepairsDataandTotalRepairCount> response) {
                 fullRepairsList=response.body().getData();

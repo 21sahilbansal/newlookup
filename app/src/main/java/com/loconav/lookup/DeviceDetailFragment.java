@@ -9,14 +9,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.loconav.lookup.adapter.LookupAdapter;
-import com.loconav.lookup.databinding.MainActivity3Binding;
+import com.loconav.lookup.databinding.FragmentDeviceDetailBinding;
 import com.loconav.lookup.model.Entity;
 import com.loconav.lookup.model.LookupResponse;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
-import com.loconav.lookup.sharedetailsfragmants.SimChangeFragment;
+import com.loconav.lookup.sharedetailsfragmants.CommonRepairFragment;
 import com.loconav.lookup.utils.AppUtils;
 
 import java.util.ArrayList;
@@ -29,20 +29,19 @@ import retrofit2.Response;
  * Created by sejal on 11-08-2018.
  */
 
-public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private MainActivity3Binding binding;
+    private FragmentDeviceDetailBinding binding;
     private LookupAdapter lookupAdapter;
     private List<Entity> entities = new ArrayList<>();
-    private Bundle receivedBundle;
     private String deviceID;
     private PassingReason passingReason;
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-    FragmentController fragmentController=new FragmentController();
+    FragmentController fragmentController = new FragmentController();
 
     @Override
     public int setViewId() {
-        return R.layout.main_activity3;
+        return R.layout.fragment_device_detail;
     }
 
     @Override
@@ -73,7 +72,7 @@ public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRef
                     fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
                 } else {
                     ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
-                    SimChangeFragment f1 = new SimChangeFragment();
+                    CommonRepairFragment f1 = new CommonRepairFragment();
                     fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
                 }
             }
@@ -133,6 +132,7 @@ public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRef
 
     private void getSetIntentData() {
         Log.e("save ", "getSetData: ");
+        Bundle receivedBundle;
         receivedBundle = getArguments();
         LookupResponse lookupResponse = (LookupResponse) receivedBundle.getSerializable("lookup_response");
         passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
@@ -156,9 +156,8 @@ public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRef
 
     private void setDeviceId(List<Entity> data) {
         for(Entity entity : data) {
-            if(entity.getTitle().equals("Device IMEI")) {
+            if(entity.getTitle().equals("Device IMEI"))
                 deviceID = entity.getValue();
-            }
         }
     }
 
@@ -166,9 +165,10 @@ public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRef
     public String getTitle() {
         return "Device Details";
     }
+
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         binding.unbind();
     }
 }

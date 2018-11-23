@@ -6,31 +6,27 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.loconav.lookup.adapter.ImageSetterAdapter;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.*;
+import com.loconav.lookup.databinding.FragmentRepairDetailsBinding;
 import com.loconav.lookup.model.RepairDetail;
-import com.loconav.lookup.model.Repairs;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
 public class RepairDetailFragment extends BaseFragment {
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-    RepairDetailsBinding repairDetailsBinding;
+    FragmentRepairDetailsBinding repairDetailsBinding;
     RepairDetail repairs;
     ImageSetterAdapter imageSetterAdapter;
     @Override
     public int setViewId() {
-        return R.layout.repair_details;
+        return R.layout.fragment_repair_details;
     }
 
     @Override

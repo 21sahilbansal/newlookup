@@ -2,12 +2,10 @@ package com.loconav.lookup;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -32,8 +30,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
 public class CameraPickerFragment extends BaseFragment{
     private Camera mCamera;
@@ -111,11 +107,11 @@ public class CameraPickerFragment extends BaseFragment{
         imageSetterAdapter = new ImageSetterAdapter(uriList, new Callback() {
             @Override
             public void onEventDone(Object object) {
-                Full_image_fragment full_image_fragment =new Full_image_fragment();
+                FullImageFragment full_imageFragment =new FullImageFragment();
                 Bundle bundle=new Bundle();
                 bundle.putString("imageurl",(String)object);
-                full_image_fragment.setArguments(bundle);
-                fragmentController.loadFragment(full_image_fragment,getFragmentManager(),R.id.camera,true);
+                full_imageFragment.setArguments(bundle);
+                fragmentController.loadFragment(full_imageFragment,getFragmentManager(),R.id.camera,true);
             }
         });
         fragmentCamerapickerBinding.rvImages.setLayoutManager(layoutManager);

@@ -14,7 +14,7 @@ import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
-import com.loconav.lookup.sharedetailsfragmants.NewInstallation;
+import com.loconav.lookup.sharedetailsfragmants.NewInstallationFragment;
 import com.loconav.lookup.utils.AppUtils;
 
 import java.util.ArrayList;
@@ -97,7 +97,7 @@ public class FetchClientFragment extends BaseTitleFragment {
         clientAdapter = new ClientAdapter(clients, new Callback() {
             @Override
             public void onEventDone(Object object) {
-                NewInstallation f1 = new NewInstallation();
+                NewInstallationFragment f1 = new NewInstallationFragment();
                 passingReason.setClientId((Client)object);
                 ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
                 fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);

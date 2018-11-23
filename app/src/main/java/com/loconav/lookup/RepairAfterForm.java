@@ -56,91 +56,87 @@ public class RepairAfterForm extends BaseTitleFragment {
                 progressDialog = new ProgressDialog(getActivity());//we are on ui thread
                 progressDialog.setMessage("Image Compressing..");
                 progressDialog.setCancelable(false);
-        binding.proceedRep.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (binding.Vehicleimage.getimagesList().size() >= 1) {
-                    if (AppUtils.isNetworkAvailable()) {
-                        binding.proceedRep.setVisibility(View.GONE);
-                        progressDialog.show();
-                        if (!submitted) {
-                            if(!isImageUploaded)
-                            {
-                                submitted = true;
+        binding.proceedRep.setOnClickListener(v -> {
+            if (binding.Vehicleimage.getimagesList().size() >= 1) {
+                if (AppUtils.isNetworkAvailable()) {
+                    binding.proceedRep.setVisibility(View.GONE);
+                    progressDialog.show();
+                    if (!submitted) {
+                        if(!isImageUploaded)
+                        {
+                            submitted = true;
 
-                                handlerThread.start();
-                                new Handler(handlerThread.getLooper()).post(new Runnable() {//we create a new thread for compression and uploading images
-                                    @Override
-                                    public void run() {
-                                        ArrayList<String> imagesList1 = new ArrayList<>();
-                                        imagesList1.addAll(passingReason.getImagesList());
-                                        for (ImageUri imageUri : (binding.Vehicleimage.getimagesList())) {
-                                            imagesList1.add(imageUri.getUri().toString());
-                                        }
-                                        passingReason.setImagesPostRepair(binding.Vehicleimage.getimagesList().size());
-                                        passingReason.imagesList.clear();
-                                        passingReason.setImagesList(imagesList1);
-                                        ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
-                                        Log.e("size", "run: " + passingReason.getImagesList().size());
-                                        ArrayList<String> al = new ArrayList<>();
-                                        for (int i = 0; i < passingReason.getImagesPreRepair(); i++) {
-                                            String str2 = null;
-                                            try {
-                                                str2 = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
-                                                Log.e("the str2","the str2 is "+str2);
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-                                            al.add(str2);
-                                        }
-                                        repairRequirements.setPre_repair_images(al);
-                                        ArrayList<String> al1 = new ArrayList<>();
-                                        for (int i = passingReason.getImagesPreRepair(); i < passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i++) {
-                                            String str5 = null;
-                                            try {
-                                                str5 = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-                                            al1.add(str5);
-                                        }
-                                        for (int i = passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i < passingReason.getImagesList().size(); i++) {
-                                            String str3 = null;
-                                            try {
-                                                str3 = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-                                            al1.add(str3);
-                                        }
-                                        repairRequirements.setPost_repair_images(al1);
-                                        getActivity().runOnUiThread(new Runnable() { // now we are not on ui thread so we have to show progress on ui thread so we call method runOnUiThread()
-
-                                            @Override
-                                            public void run() {
-                                                progressDialog.setMessage("Uploading...");
-                                            }
-                                        });
-                                        hitApi(repairRequirements);
+                            handlerThread.start();
+                            new Handler(handlerThread.getLooper()).post(new Runnable() {//we create a new thread for compression and uploading images
+                                @Override
+                                public void run() {
+                                    ArrayList<String> imagesList1 = new ArrayList<>();
+                                    imagesList1.addAll(passingReason.getImagesList());
+                                    for (ImageUri imageUri : (binding.Vehicleimage.getimagesList())) {
+                                        imagesList1.add(imageUri.getUri().toString());
                                     }
-                                });
-                            }
-                            else
-                            {
-                                progressDialog.setMessage("Uploading...");//we are on ui thread
-                                        hitApi(repairRequirements);// now we donot need to make changes on ui thread so we donot need to create a new thread;
-                            }
-                        } else if (submitted) {
-                            hitApi(repairRequirements);
+                                    passingReason.setImagesPostRepair(binding.Vehicleimage.getimagesList().size());
+                                    passingReason.imagesList.clear();
+                                    passingReason.setImagesList(imagesList1);
+                                    ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
+                                    Log.e("size", "run: " + passingReason.getImagesList().size());
+                                    ArrayList<String> al = new ArrayList<>();
+                                    for (int i = 0; i < passingReason.getImagesPreRepair(); i++) {
+                                        String str2 = null;
+                                        try {
+                                            str2 = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
+                                            Log.e("the str2","the str2 is "+str2);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        al.add(str2);
+                                    }
+                                    repairRequirements.setPre_repair_images(al);
+                                    ArrayList<String> al1 = new ArrayList<>();
+                                    for (int i = passingReason.getImagesPreRepair(); i < passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i++) {
+                                        String str5 = null;
+                                        try {
+                                            str5 = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        al1.add(str5);
+                                    }
+                                    for (int i = passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i < passingReason.getImagesList().size(); i++) {
+                                        String str3 = null;
+                                        try {
+                                            str3 = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        al1.add(str3);
+                                    }
+                                    repairRequirements.setPost_repair_images(al1);
+                                    getActivity().runOnUiThread(new Runnable() { // now we are not on ui thread so we have to show progress on ui thread so we call method runOnUiThread()
 
+                                        @Override
+                                        public void run() {
+                                            progressDialog.setMessage("Uploading...");
+                                        }
+                                    });
+                                    hitApi(repairRequirements);
+                                }
+                            });
                         }
-                    } else
-                        Toast.makeText(getContext(), "Internet not available", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(getContext(), "Add Vehicle Image", Toast.LENGTH_SHORT).show();
-                }
+                        else
+                        {
+                            progressDialog.setMessage("Uploading...");//we are on ui thread
+                                    hitApi(repairRequirements);// now we donot need to make changes on ui thread so we donot need to create a new thread;
+                        }
+                    } else if (submitted) {
+                        hitApi(repairRequirements);
 
+                    }
+                } else
+                    Toast.makeText(getContext(), "Internet not available", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(getContext(), "Add Vehicle Image", Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -148,17 +144,11 @@ public class RepairAfterForm extends BaseTitleFragment {
 
     @Override
     public void bindView(View view) {
-        binding= DataBindingUtil.bind(view);
+        binding = DataBindingUtil.bind(view);
     }
 
     @Override
-    public void getComponentFactory() {
-
-    }
-    private void initProgressDialog() {
-
-    }
-
+    public void getComponentFactory() {}
 
     public void hitApi(RepairRequirements repairRequirements) {
         apiService.addRepairs(repairRequirements).enqueue(new RetrofitCallback<RepairResponse>() {
@@ -166,7 +156,7 @@ public class RepairAfterForm extends BaseTitleFragment {
             @Override
             public void handleSuccess(Call<RepairResponse> call, Response<RepairResponse> response) {
                 progressDialog.dismiss();
-                FileUtils.deleteFiles(getActivity());
+                FileUtils.deleteFiles(getContext());
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
                 builder.setMessage(response.body().getMessage())
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -191,8 +181,6 @@ public class RepairAfterForm extends BaseTitleFragment {
         });
     }
 
-
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -204,5 +192,7 @@ public class RepairAfterForm extends BaseTitleFragment {
     public String getTitle() {
         return "Upload Image";
     }
+
+
 }
 

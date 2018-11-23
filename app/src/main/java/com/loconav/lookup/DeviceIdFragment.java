@@ -82,9 +82,8 @@ public class DeviceIdFragment extends BaseTitleFragment {
     }
 
     private void checkAndShowUserIdDialog() {
-        if(!isUserIdSet()) {
+        if(!isUserIdSet())
             showEnterIdDialog();
-        }
     }
 
     private void initProgressDialog() {
@@ -94,42 +93,38 @@ public class DeviceIdFragment extends BaseTitleFragment {
     }
 
     private void setInfoButton() {
-        binding.btGetInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String deviceId = binding.etDeviceId.getText().toString().trim();
-                if(!deviceId.isEmpty()) {
-                    if (AppUtils.isNetworkAvailable()) {
-                        progressDialog.show();
-                        apiService.getDeviceLookup(binding.etDeviceId.getText().toString()).enqueue(new RetrofitCallback<LookupResponse>() {
-                            @Override
-                            public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
-                                AppUtils.hideKeyboard(getActivity());
-                                Log.e("handle ", response.code() + "");
-                                DeviceDetailsFragment DeviceDetailsFragment = new DeviceDetailsFragment();
-                                passingReason.setDeviceid(binding.etDeviceId.getText().toString());
-                                ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("lookup_response", response.body());
-                                DeviceDetailsFragment.setArguments(bundle);
-                                fragmentController.loadFragment(DeviceDetailsFragment, getFragmentManager(), R.id.frameLayout, true);
-                                progressDialog.dismiss();
-                            }
+        binding.btGetInfo.setOnClickListener(view -> {
+            String deviceId = binding.etDeviceId.getText().toString().trim();
+            if(!deviceId.isEmpty()) {
+                if (AppUtils.isNetworkAvailable()) {
+                    progressDialog.show();
+                    apiService.getDeviceLookup(binding.etDeviceId.getText().toString()).enqueue(new RetrofitCallback<LookupResponse>() {
+                        @Override
+                        public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
+                            AppUtils.hideKeyboard(getActivity());
+                            Log.e("handle ", response.code() + "");
+                            DeviceDetailFragment deviceDetailFragment = new DeviceDetailFragment();
+                            passingReason.setDeviceid(binding.etDeviceId.getText().toString());
+                            ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("lookup_response", response.body());
+                            deviceDetailFragment.setArguments(bundle);
+                            fragmentController.loadFragment(deviceDetailFragment, getFragmentManager(), R.id.frameLayout, true);
+                            progressDialog.dismiss();
+                        }
 
-                            @Override
-                            public void handleFailure(Call<LookupResponse> call, Throwable t) {
-                                progressDialog.dismiss();
-                                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    } else {
-                        Toast.makeText(getContext(), "Internet not available", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                    else
+                        @Override
+                        public void handleFailure(Call<LookupResponse> call, Throwable t) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else
+                    Toast.makeText(getContext(), "Internet not available", Toast.LENGTH_SHORT).show();
+            }
+                else
                     Toast.makeText(getContext(), "Device id can't be empty", Toast.LENGTH_LONG).show();
 
-            }
         });
         binding.fastTag.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,6 +163,12 @@ public class DeviceIdFragment extends BaseTitleFragment {
     public void onDestroy() {
         super.onDestroy();
         unRegisterBroadcastReceiver();
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
         binding.unbind();
     }
 

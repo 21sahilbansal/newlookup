@@ -139,12 +139,6 @@ public class LandingActivity extends BaseActivity implements Callback {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         lookupEntryBinding.unbind();

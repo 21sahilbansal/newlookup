@@ -25,12 +25,16 @@ import static com.loconav.lookup.EncodingDecoding.getResizedBitmap;
 
 public class LookupSubActivity extends BaseActivity {
 
-    private Repair repairFragment;
     private ArrayList<Input> addtionalFields = new ArrayList<>();
+
+//    It gathers info from all fragmnets attached to  this activity to post later on to server
     public PassingReason passingReason;
+
+//    Defines the type of fragment it will be like new install or repairs.
     private ReasonResponse reasonResponse;
-    FragmentController fragmentController=new FragmentController();
-    String fasttag;
+
+    private FragmentController fragmentController = new FragmentController();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,11 +43,9 @@ public class LookupSubActivity extends BaseActivity {
         Bundle bundle=intent.getExtras();
         passingReason = (PassingReason)bundle.getSerializable("PassingReason");
         reasonResponse = (ReasonResponse)bundle.getSerializable("reasonResponse");
-        fasttag= (String) bundle.getSerializable("fastag");
         addOtherFields(passingReason.getUserChoice());
         reasonResponse.setAdditional_fields(addtionalFields);
         passingReason.setReasonResponse(reasonResponse);
-        repairFragment = new Repair();
         passIntentData();
     }
 
@@ -58,6 +60,7 @@ public class LookupSubActivity extends BaseActivity {
             fragmentController.loadFragment(deviceIdFragment,getSupportFragmentManager(),R.id.frameLayout,false);
         }
         else {
+            RepairFragment repairFragment = new RepairFragment();;
             fragmentController.loadFragment(repairFragment,getSupportFragmentManager(),R.id.frameLayout,false);
         }
     }

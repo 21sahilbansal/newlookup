@@ -16,14 +16,14 @@ import android.widget.Toast;
 import com.loconav.lookup.BaseTitleFragment;
 import com.loconav.lookup.CommonFunction;
 import com.loconav.lookup.CustomImagePicker;
+import com.loconav.lookup.InstallLogsFragment;
+import com.loconav.lookup.databinding.FragmentNewInstallationBinding;
 import com.loconav.lookup.utils.FileUtils;
 import com.loconav.lookup.FragmentController;
 import com.loconav.lookup.utils.ImageUtils;
-import com.loconav.lookup.InstallLogs;
 import com.loconav.lookup.LookupSubActivity;
 import com.loconav.lookup.R;
 import com.loconav.lookup.application.SharedPrefHelper;
-import com.loconav.lookup.databinding.NewinstallationBinding;
 import com.loconav.lookup.model.Attachments;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.ImageUri;
@@ -47,22 +47,22 @@ import retrofit2.Response;
  * Created by prateek on 13/11/17.
  */
 
-public class NewInstallation extends BaseTitleFragment {
-    private NewinstallationBinding binding;
+public class NewInstallationFragment extends BaseTitleFragment {
+    private FragmentNewInstallationBinding binding;
     private SharedPrefHelper sharedPrefHelper;
     private PassingReason passingReason;
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     private ProgressDialog progressDialog;
     HandlerThread handlerThread = new HandlerThread("background");
     List<Attachments> attachmentsList=new ArrayList<>();
-    NewInstall newInstall=new NewInstall();
+    NewInstall newInstall = new NewInstall();
     Handler handler;
     String compressedImage;
     Attachments attachments;
-    FragmentController fragmentController=new FragmentController();
+    FragmentController fragmentController = new FragmentController();
     @Override
     public int setViewId() {
-        return R.layout.newinstallation;
+        return R.layout.fragment_new_installation;
     }
     @Override
     public void onFragmentCreated() {
@@ -166,7 +166,7 @@ public class NewInstallation extends BaseTitleFragment {
         }
         else
         {
-            Toast.makeText(getActivity(), "Upload "+title+" Images", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Upload "+title+" Images", Toast.LENGTH_SHORT).show();
             return false;
         }
     }
@@ -187,22 +187,21 @@ public class NewInstallation extends BaseTitleFragment {
         }
     }
 
-    public void upload(NewInstall newInstall)
-    {
+    public void upload(NewInstall newInstall) {
         Log.e("odometerreading","theimage"+"thetitle"+newInstall.getAttachments().get(0).getImage());
            apiService.addNewInstall(newInstall).enqueue(new RetrofitCallback<ResponseBody>() {
                @Override
                public void handleSuccess(Call<ResponseBody> call, Response<ResponseBody> response) {
                    progressDialog.dismiss();
-                   FileUtils.deleteFiles(getActivity());
+                   FileUtils.deleteFiles(getContext());
                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
                    builder.setMessage("New Installation created successfully")
                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                public void onClick(DialogInterface dialog, int which) {
                                    fragmentController.deleteFragmentStack(getActivity().getSupportFragmentManager());
-                                   Bundle bundle=new Bundle();
+                                   Bundle bundle = new Bundle();
                                    bundle.putInt("layout", R.id.frameLayout);
-                                   InstallLogs installDetailFragment = new InstallLogs();
+                                   InstallLogsFragment installDetailFragment = new InstallLogsFragment();
                                    installDetailFragment.setArguments(bundle);
                                    fragmentController.loadFragment(installDetailFragment, getActivity().getSupportFragmentManager(), R.id.frameLayout, false);
                                }

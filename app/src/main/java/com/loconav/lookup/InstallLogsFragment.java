@@ -26,7 +26,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class InstallLogs  extends BaseFragment {
+public class InstallLogsFragment extends BaseFragment {
     FragmentInstallLogsBinding fragmentInstallLogsBinding;
     InstallLogAdapter installLogAdapter;
     ApiInterface apiInterface= ApiClient.getClient().create(ApiInterface.class);
@@ -46,7 +46,7 @@ public class InstallLogs  extends BaseFragment {
         Bundle bundle = this.getArguments();
         int layout = bundle.getInt("layout");
 
-        apiInterface.getInstallLogs(0,8).enqueue(new RetrofitCallback<InstallDatandTotalInstallCount>() {
+        apiInterface.getInstallLogs(start,end).enqueue(new RetrofitCallback<InstallDatandTotalInstallCount>() {
             @Override
             public void handleSuccess(Call<InstallDatandTotalInstallCount> call, Response<InstallDatandTotalInstallCount> response) {
                 fullInstallList=response.body().getData();

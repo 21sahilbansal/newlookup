@@ -26,7 +26,7 @@ public class RepairRequirements implements Serializable {
 
     @SerializedName("repair_data")
     @Expose
-    private String repair_data;
+    private String repairData;
 
     @SerializedName("pre_repair_images")
     @Expose
@@ -38,11 +38,11 @@ public class RepairRequirements implements Serializable {
 
     public RepairRequirements(){}
 
-    public RepairRequirements(String device_serial_number, int reason_id, String remarks, String repair_data, ArrayList<String> pre_repair_images, ArrayList<String> post_repair_images) {
+    public RepairRequirements(String device_serial_number, int reason_id, String remarks, String repairData, ArrayList<String> pre_repair_images, ArrayList<String> post_repair_images) {
         this.device_serial_number =device_serial_number;
         this.reason_id =reason_id;
         this.remarks =remarks;
-        this.repair_data =repair_data;
+        this.repairData = repairData;
          this.pre_repair_images=pre_repair_images;
         this.post_repair_images =post_repair_images;
     }
@@ -71,12 +71,12 @@ public class RepairRequirements implements Serializable {
         this.remarks = remarks;
     }
 
-    public String getRepair_data() {
-        return repair_data;
+    public String getRepairData() {
+        return repairData;
     }
 
-    public void setRepair_data(String repair_data) {
-        this.repair_data = repair_data;
+    public void setRepairData(String repairData) {
+        this.repairData = repairData;
     }
 
     public ArrayList<String> getPre_repair_images() {

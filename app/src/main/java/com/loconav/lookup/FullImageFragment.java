@@ -5,16 +5,17 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.loconav.lookup.base.BaseFragment;
-import com.loconav.lookup.databinding.FullImageBinding;
+import com.loconav.lookup.databinding.FragmentFullImageBinding;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 
-public class Full_image_fragment extends BaseFragment {
-    FullImageBinding fullImageBinding;
+public class FullImageFragment extends BaseFragment {
+
+    private FragmentFullImageBinding fullImageBinding;
     @Override
     public int setViewId() {
-        return R.layout.full_image;
+        return R.layout.fragment_full_image;
     }
 
     @Override
@@ -32,14 +33,20 @@ public class Full_image_fragment extends BaseFragment {
 
     }
 
+
     @Override
     public void bindView(View view) {
         fullImageBinding = DataBindingUtil.bind(view);
     }
 
 
+    @Override
+    public void getComponentFactory() {}
+
 
     @Override
-    public void getComponentFactory() {
+    public void onDestroyView() {
+        super.onDestroyView();
+        fullImageBinding.unbind();
     }
 }

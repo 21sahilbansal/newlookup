@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -19,7 +18,7 @@ import com.loconav.lookup.LookupSubActivity;
 import com.loconav.lookup.R;
 import com.loconav.lookup.CommonFunction;
 import com.loconav.lookup.RepairAfterForm;
-import com.loconav.lookup.databinding.SimchangeBinding;
+import com.loconav.lookup.databinding.FragmentCommonRepairBinding;
 import com.loconav.lookup.model.ImageUri;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.RepairRequirements;
@@ -33,8 +32,9 @@ import java.util.ArrayList;
  * Created by prateek on 13/11/17.
  */
 
-public class SimChangeFragment extends BaseTitleFragment {
-    private SimchangeBinding binding;
+public class CommonRepairFragment extends BaseTitleFragment {
+
+    private FragmentCommonRepairBinding binding;
     private RepairRequirements repairRequirements;
     private int reasonid, sizelist;
     private PassingReason passingReason;
@@ -46,7 +46,7 @@ public class SimChangeFragment extends BaseTitleFragment {
     FragmentController fragmentController=new FragmentController();
     @Override
     public int setViewId() {
-        return R.layout.simchange;
+        return R.layout.fragment_common_repair;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class SimChangeFragment extends BaseTitleFragment {
         addSpinnerData();
         CustomInflater customInflater = new CustomInflater(getContext());
         LinearLayout linearLayout = binding.ll;
-        repairRequirements=new RepairRequirements();
+        repairRequirements = new RepairRequirements();
         userChoice = passingReason.getUserChoice();
         addtional.addAll(passingReason.getReasonResponse().getAdditional_fields());
         for (int i = 0; i < addtional.size(); i++) {
@@ -71,23 +71,20 @@ public class SimChangeFragment extends BaseTitleFragment {
         }
 
 
-        binding.share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (int i = 0; i < binding.ll.getChildCount() - 1; i++) {
-                    View view = binding.ll.getChildAt(i);
-                    validate = validator(view);
-                    if(!validate){
-                        break;
-                    }
+        binding.share.setOnClickListener(v -> {
+            for (int i = 0; i < binding.ll.getChildCount() - 1; i++) {
+                View view = binding.ll.getChildAt(i);
+                validate = validator(view);
+                if(!validate){
+                    break;
                 }
-                if(validate) {
-                    RepairAfterForm fragmentRepairAfterForm = new RepairAfterForm();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("req", repairRequirements);
-                    fragmentRepairAfterForm.setArguments(bundle);
-                    fragmentController.loadFragment(fragmentRepairAfterForm, getFragmentManager(), R.id.frameLayout, true);
-                }
+            }
+            if(validate) {
+                RepairAfterForm fragmentRepairAfterForm = new RepairAfterForm();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("req", repairRequirements);
+                fragmentRepairAfterForm.setArguments(bundle);
+                fragmentController.loadFragment(fragmentRepairAfterForm, getFragmentManager(), R.id.frameLayout, true);
             }
         });
     }
@@ -102,7 +99,7 @@ public class SimChangeFragment extends BaseTitleFragment {
                 return false;
             }
         } else if (object instanceof Spinner) {
-            Spinner spinner=(Spinner)object;
+            Spinner spinner = (Spinner)object;
             if (spinner.getSelectedItem().toString().equals("Select option")) {
                 Toast.makeText(getContext(), "Select reasons", Toast.LENGTH_LONG).show();
                 return false;
@@ -139,9 +136,7 @@ public class SimChangeFragment extends BaseTitleFragment {
     }
 
     @Override
-    public void getComponentFactory() {
-
-    }
+    public void getComponentFactory() {}
 
     public void makeJson(EditText editText) {
         Input i = (Input) editText.getTag();
@@ -155,7 +150,7 @@ public class SimChangeFragment extends BaseTitleFragment {
             e.printStackTrace();
         }
         Log.e("sej6", "" + jsonObj);
-        repairRequirements.setRepair_data(jsonObj.toString());
+        repairRequirements.setRepairData(jsonObj.toString());
     }
 
     void getSpinnerData(Spinner spinner) {
@@ -184,9 +179,10 @@ public class SimChangeFragment extends BaseTitleFragment {
         }
 
     }
+
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         binding.unbind();
     }
 }
