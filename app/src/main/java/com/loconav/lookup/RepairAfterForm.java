@@ -84,7 +84,7 @@ public class RepairAfterForm extends BaseTitleFragment {
                                     for (int i = 0; i < passingReason.getImagesPreRepair(); i++) {
                                         String image = null;
                                         try {
-                                            image = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
+                                            image = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getContext());
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
@@ -95,7 +95,7 @@ public class RepairAfterForm extends BaseTitleFragment {
                                     for (int i = passingReason.getImagesPreRepair(); i < passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i++) {
                                         String image = null;
                                         try {
-                                            image = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
+                                            image = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getContext());
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
@@ -104,7 +104,7 @@ public class RepairAfterForm extends BaseTitleFragment {
                                     for (int i = passingReason.getImagesPreRepair() + passingReason.getImagesInRepair(); i < passingReason.getImagesList().size(); i++) {
                                         String image = null;
                                         try {
-                                            image = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getActivity());
+                                            image = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getContext());
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }

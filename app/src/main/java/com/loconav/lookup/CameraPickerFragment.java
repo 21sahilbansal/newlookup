@@ -3,12 +3,15 @@ package com.loconav.lookup;
 import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -40,6 +43,7 @@ public class CameraPickerFragment extends BaseFragment{
     Uri photoURI;
     boolean isFlashOn=false;
     int position=0;
+    private static  final int FOCUS_AREA_SIZE= 300;
     String dimiss="true";
     /**
      * uriList is the list of string of uris of images
@@ -53,6 +57,18 @@ public class CameraPickerFragment extends BaseFragment{
     int camerId=0;
     Camera.Parameters parameters;
     int size=0;
+    private Camera.AutoFocusCallback mAutoFocusTakePictureCallback = new Camera.AutoFocusCallback() {
+        @Override
+        public void onAutoFocus(boolean success, Camera camera) {
+            if (success) {
+                // do something...
+                Log.i("tap_to_focus","success!");
+            } else {
+                // do something...
+                Log.i("tap_to_focus","fail!");
+            }
+        }
+    };
     FragmentController fragmentController=new FragmentController();
     private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
 
@@ -101,7 +117,6 @@ public class CameraPickerFragment extends BaseFragment{
         mCamera = getCameraInstance();
         setCameraDisplayOrientation(getActivity(),camerId);
         parameters =getParameters(mCamera,camerId);
-        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayout.HORIZONTAL);
         imageSetterAdapter = new ImageSetterAdapter(uriList, new Callback() {
@@ -112,6 +127,15 @@ public class CameraPickerFragment extends BaseFragment{
                 bundle.putString("imageurl",(String)object);
                 full_imageFragment.setArguments(bundle);
                 fragmentController.loadFragment(full_imageFragment,getFragmentManager(),R.id.camera,true);
+            }
+        });
+        fragmentCamerapickerBinding.cameraPreview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    focusOnTouch(event);
+                }
+                return true;
             }
         });
         fragmentCamerapickerBinding.rvImages.setLayoutManager(layoutManager);
@@ -201,7 +225,6 @@ public class CameraPickerFragment extends BaseFragment{
         }
         catch (Exception ex)
         {
-
         }
 
         if (photoFile != null) {
@@ -276,6 +299,47 @@ public class CameraPickerFragment extends BaseFragment{
         return  params;
 
     }
+    private void focusOnTouch(MotionEvent event) {
+        if (mCamera != null ) {
+
+            Camera.Parameters parameters = mCamera.getParameters();
+            if (parameters.getMaxNumMeteringAreas() > 0){
+                Log.i("ss","fancy !");
+                Rect rect = calculateFocusArea(event.getX(), event.getY());
+
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+                List<Camera.Area> meteringAreas = new ArrayList<Camera.Area>();
+                meteringAreas.add(new Camera.Area(rect, 800));
+                parameters.setFocusAreas(meteringAreas);
+
+                    mCamera.setParameters(parameters);
+                mCamera.autoFocus(mAutoFocusTakePictureCallback);
+            }else {
+                mCamera.autoFocus(mAutoFocusTakePictureCallback);
+            }
+        }
+    }
+
+    private Rect calculateFocusArea(float x, float y) {
+        int left = clamp(Float.valueOf((x / fragmentCamerapickerBinding.cameraPreview.getWidth()) * 2000 - 1000).intValue(), FOCUS_AREA_SIZE);
+        int top = clamp(Float.valueOf((y / fragmentCamerapickerBinding.cameraPreview.getHeight()) * 2000 - 1000).intValue(), FOCUS_AREA_SIZE);
+
+        return new Rect(left, top, left + FOCUS_AREA_SIZE, top + FOCUS_AREA_SIZE);
+    }
+
+    private int clamp(int touchCoordinateInCameraReper, int focusAreaSize) {
+        int result;
+        if (Math.abs(touchCoordinateInCameraReper)+focusAreaSize/2>1000){
+            if (touchCoordinateInCameraReper>0){
+                result = 1000 - focusAreaSize/2;
+            } else {
+                result = -1000 + focusAreaSize/2;
+            }
+        } else{
+            result = touchCoordinateInCameraReper - focusAreaSize/2;
+        }
+        return result;
+    }
 
     @Override
     public void onDestroyView() {
@@ -300,6 +364,8 @@ public class CameraPickerFragment extends BaseFragment{
         Log.e("the index is ","the index is "+uriList.indexOf(imageurl));
         size--;
         imageSetterAdapter.notifyItemRemoved(index);
-    }
+        }
+
+
 
 }
