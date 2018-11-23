@@ -182,7 +182,7 @@
                 android:layout_marginRight="8dp"
                 android:background="?android:selectableItemBackground"
                 custom:titleText="Upload Truck Image"
-                custom:limitImages="1"/>
+                custom:limitImages="2"/>
             <com.loconav.lookup.CustomImagePicker
                 android:id="@+id/DeviceImage"
                 android:layout_width="match_parent"
@@ -193,7 +193,7 @@
                 android:background="?android:selectableItemBackground"
                 custom:id="deviceimages"
                 custom:titleText="Upload Device Image"
-                custom:limitImages="1"/>
+                custom:limitImages="3"/>
             <com.loconav.lookup.CustomImagePicker
                 android:id="@+id/WireConnection"
                 android:layout_width="match_parent"
@@ -204,7 +204,7 @@
                 android:background="?android:selectableItemBackground"
                 custom:id="wireconnection"
                 custom:titleText="Upload Wire Connection"
-                custom:limitImages="2"/>
+                custom:limitImages="3"/>
             <Button
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"

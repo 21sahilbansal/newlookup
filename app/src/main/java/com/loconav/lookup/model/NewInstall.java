@@ -26,6 +26,40 @@ public class NewInstall  {
     @SerializedName("transporter_id")
     private long transporter_id;
 
+    @SerializedName("immobilizer")
+    private String immobilizer;
+
+    @SerializedName("SOS")
+    private String SOS;
+
+    @SerializedName("tripbutton")
+    private String tripbutton;
+
+
+    public String getImmobilizer() {
+        return immobilizer;
+    }
+
+    public void setImmobilizer(String immobilizer) {
+        this.immobilizer = immobilizer;
+    }
+
+    public String getSOS() {
+        return SOS;
+    }
+
+    public void setSOS(String SOS) {
+        this.SOS = SOS;
+    }
+
+    public String getTripbutton() {
+        return tripbutton;
+    }
+
+    public void setTripbutton(String tripbutton) {
+        this.tripbutton = tripbutton;
+    }
+
     public long getTransporter_id() {
         return transporter_id;
     }
