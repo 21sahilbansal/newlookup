@@ -38,6 +38,7 @@ public class SplashActivity extends BaseCameraActivity {
     @Override
     public void onAllPermissionsGranted() {
 
+
         if (SharedPrefHelper.getInstance().getBooleanData(IS_LOGGED_IN)) {
             Long currentTime = System.currentTimeMillis();
             Long loginTime = SharedPrefHelper.getInstance().getLongData(LOG_IN_TIME);
@@ -50,6 +51,12 @@ public class SplashActivity extends BaseCameraActivity {
                 finish();
             }
             Log.e(TAG, "onAllPermissionsGranted: ");
+        }
+        else
+        {
+            Intent intent=new Intent(this,LoginActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 
