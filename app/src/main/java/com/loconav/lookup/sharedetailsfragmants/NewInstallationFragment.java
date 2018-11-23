@@ -144,12 +144,14 @@ public class NewInstallationFragment extends BaseTitleFragment {
                                     newInstall.setSOS(getFeatures(binding.cbSos));
                                     newInstall.setTruck_number(getFeatures(binding.cbTrip));
                                     newInstall.setAttachments(attachmentsList);
-                                    getActivity().runOnUiThread(new Runnable() { // now we are not on ui thread so we have to show progress on ui thread so we call method runOnUiThread()
-                                        @Override
-                                        public void run() {
-                                            progressDialog.setMessage("Uploading...");
-                                        }
-                                    });
+                                    if(getActivity()!=null) {
+                                        getActivity().runOnUiThread(new Runnable() { // now we are not on ui thread so we have to show progress on ui thread so we call method runOnUiThread()
+                                            @Override
+                                            public void run() {
+                                                progressDialog.setMessage("Uploading...");
+                                            }
+                                        });
+                                    }y
                                     upload(newInstall);
                             }
                         });

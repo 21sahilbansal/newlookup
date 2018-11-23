@@ -111,14 +111,16 @@ public class RepairAfterForm extends BaseTitleFragment {
                                         total_images_post_repair.add(image);
                                     }
                                     repairRequirements.setPost_repair_images(total_images_post_repair);
-                                    getActivity().runOnUiThread(new Runnable() { // now we are not on ui thread so we have to show progress on ui thread so we call method runOnUiThread()
+                                    if(getActivity()!=null) {
+                                        getActivity().runOnUiThread(new Runnable() { // now we are not on ui thread so we have to show progress on ui thread so we call method runOnUiThread()
 
-                                        @Override
-                                        public void run() {
-                                            progressDialog.setMessage("Uploading...");
-                                        }
-                                    });
-                                    hitApi(repairRequirements);
+                                            @Override
+                                            public void run() {
+                                                progressDialog.setMessage("Uploading...");
+                                            }
+                                        });
+                                        hitApi(repairRequirements);
+                                    }
                                 }
                             });
                         }
