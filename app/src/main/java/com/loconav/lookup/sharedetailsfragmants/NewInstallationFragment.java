@@ -151,7 +151,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
                                                 progressDialog.setMessage("Uploading...");
                                             }
                                         });
-                                    }y
+                                    }
                                     upload(newInstall);
                             }
                         });
