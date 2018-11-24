@@ -37,6 +37,16 @@ public class Repairs {
     @SerializedName("created_at")
     @Expose
     private long createdAt;
+    @SerializedName("audit_status")
+    private String auditStatus=null;
+
+    public String getAuditStatus() {
+        return auditStatus;
+    }
+
+    public void setAuditStatus(String auditStatus) {
+        this.auditStatus = auditStatus;
+    }
 
     public int getId() {
         return id;

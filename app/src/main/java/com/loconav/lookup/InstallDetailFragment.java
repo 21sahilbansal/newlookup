@@ -44,7 +44,8 @@ public class InstallDetailFragment extends BaseFragment {
                 installDetailsBinding.setInstalls(response.body());
                 attachmentsList=response.body().getAttachments();
                 installDetailsBinding.notesdata.setText(Html.fromHtml(response.body().getNotes()));
-
+                if(response.body().getAuditNotes()!=null)
+                installDetailsBinding.auditNotes.setText(Html.fromHtml(response.body().getAuditNotes()));
                     for (AttachmentsDetails attachmentsDetails : attachmentsList) {
                         if(attachmentsDetails.getTag()!=null) {
                             if (attachmentsDetails.getTag().equals("truck_image"))

@@ -3,6 +3,7 @@ package com.loconav.lookup;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Html;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,6 +41,8 @@ public class RepairDetailFragment extends BaseFragment {
             public void handleSuccess(Call<RepairDetail> call, Response<RepairDetail> response) {
                 repairs=response.body();
                 repairDetailsBinding.setRepairs(repairs);
+                if(response.body().getAuditNotes()!=null)
+                repairDetailsBinding.auditNotes.setText(Html.fromHtml(response.body().getAuditNotes()));
                  for (String  r : repairs.getRepairData().keySet())
                     {
                         Input input =new Input(r,r,r,r);
