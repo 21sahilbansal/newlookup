@@ -23,7 +23,7 @@ public class LookUpApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-       // Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics());
         DataBindingUtil.setDefaultComponent(new MyDataBindingComponent());
     }
 }

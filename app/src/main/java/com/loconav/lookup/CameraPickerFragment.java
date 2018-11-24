@@ -133,6 +133,7 @@ public class CameraPickerFragment extends BaseFragment{
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if(camerId==0)
                     focusOnTouch(event);
                 }
                 return true;
