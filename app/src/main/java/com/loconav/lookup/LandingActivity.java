@@ -5,10 +5,13 @@ import android.databinding.DataBindingUtil;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -39,12 +42,8 @@ import retrofit2.Response;
 import static com.loconav.lookup.Constants.REASONS_RESPONSE;
 
 public class LandingActivity extends BaseActivity implements Callback {
-    private static final Location TODO = null;
-
     private ActivityLookupEntryBinding lookupEntryBinding;
-
     private PassingReason passingReason = new PassingReason();
-
     WhatToDoAdapter adapter;
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     ReasonResponse reasonResponse;
@@ -88,7 +87,7 @@ public class LandingActivity extends BaseActivity implements Callback {
     }
 
     private void setPhotoAdapter() {
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
         lookupEntryBinding.rvTasks.setLayoutManager(layoutManager);
         adapter = new WhatToDoAdapter(jsonLog, new Callback() {
             @Override
@@ -100,6 +99,8 @@ public class LandingActivity extends BaseActivity implements Callback {
         });
         lookupEntryBinding.rvTasks.setAdapter(adapter);
         lookupEntryBinding.rvTasks.setNestedScrollingEnabled(false);
+        LayoutAnimationController layoutAnimationController=AnimationUtils.loadLayoutAnimation(lookupEntryBinding.rvTasks.getContext(),R.anim.layout_animation);
+        lookupEntryBinding.rvTasks.setLayoutAnimation(layoutAnimationController);
     }
 
     public void newInstall(View view) {
@@ -145,19 +146,21 @@ public class LandingActivity extends BaseActivity implements Callback {
     @Override
     public void onEventDone(Object object) {
         Location location=(Location) object;
-        long time=System.currentTimeMillis()/1000;
-        String latitude=String.valueOf(location.getLatitude());
-        String longitude=String.valueOf(location.getLongitude());
-        CoordinateRequest coordinateRequest = new CoordinateRequest();
-        List<Coordinates> coordinatesList = new ArrayList<>();
-        Coordinates coordinates = new Coordinates();
-        coordinates.setLatitude(latitude);
-        coordinates.setLongitude(longitude);
-        coordinates.setRecordedAt(time);
-        coordinatesList.add(coordinates);
-        coordinateRequest.setCoordinates(coordinatesList);
-        sendCoordinates(coordinateRequest);
-        Log.e("location", "onLocationChanged: " + location);
+        if(location!=null) {
+            long time = System.currentTimeMillis() / 1000;
+            String latitude = String.valueOf(location.getLatitude());
+            String longitude = String.valueOf(location.getLongitude());
+            CoordinateRequest coordinateRequest = new CoordinateRequest();
+            List<Coordinates> coordinatesList = new ArrayList<>();
+            Coordinates coordinates = new Coordinates();
+            coordinates.setLatitude(latitude);
+            coordinates.setLongitude(longitude);
+            coordinates.setRecordedAt(time);
+            coordinatesList.add(coordinates);
+            coordinateRequest.setCoordinates(coordinatesList);
+            sendCoordinates(coordinateRequest);
+            Log.e("location", "onLocationChanged: " + location);
+        }
     }
 
     public void sendCoordinates(CoordinateRequest coordinateRequest)

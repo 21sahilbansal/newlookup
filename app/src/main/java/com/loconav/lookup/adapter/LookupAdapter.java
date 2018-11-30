@@ -32,9 +32,11 @@ public class LookupAdapter extends BaseAdapter {
 
     @Override
     public Object getDataAtPosition(int position) {
-        return data.get(position);
+        if(position>=0)
+            return data.get(position);
+        else
+            return null;
     }
-
 
     @Override
     public int getLayoutIdForType(int viewType) {

@@ -1,7 +1,6 @@
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
-
     }
 
     dependencies {
@@ -26,8 +25,9 @@ android {
         applicationId "com.loconav.lookup"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 4
-        versionName "4.0"
+        buildToolsVersion "23.0.0"
+        versionCode 5
+        versionName "5.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -43,6 +43,8 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+    buildToolsVersion = '28.0.3'
+
 }
 
 dependencies {
@@ -75,5 +77,4 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
         transitive = true;
     }
-    compile 'com.github.clans:fab:1.6.4'
 }

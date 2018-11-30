@@ -140,7 +140,7 @@ public class RepairLogsFragment extends BaseFragment  {
             }
         };
         fragmentRepairLogsBinding.repairs.setOnScrollListener(scrollListener);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayout.VERTICAL);
         fragmentRepairLogsBinding.repairs.setLayoutManager(layoutManager);
         fragmentRepairLogsBinding.repairs.setAdapter(repairLogAdapter);

@@ -12,9 +12,10 @@
             type="com.loconav.lookup.model.InstallationDetails"></variable>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:background="@color/white"
+        android:id="@+id/swipe_refresh"
         android:layout_height="match_parent">
 
         <ScrollView
@@ -298,30 +299,35 @@
                     android:textSize="10sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/installed_at" />
+
                 <TextView
                     android:id="@+id/textView21"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginStart="60dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="40dp"
                     android:layout_marginTop="8dp"
                     android:text="Audit-Notes"
-                    android:textSize="10sp"
+                    android:textColor="@color/orange"
+                    android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView20" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
                 <TextView
                     android:id="@+id/audit_notes"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="200dp"
-                    android:layout_marginLeft="200dp"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginLeft="60dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="60dp"
+                    android:layout_marginRight="60dp"
                     android:text="@{installs.auditNotes}"
                     android:textColor="#000000"
                     android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/audit_status" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
                 <TextView
                     android:id="@+id/textView12"
@@ -333,20 +339,20 @@
                     android:text="Uninstall At"
                     android:textSize="10sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView21" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
                 <TextView
                     android:id="@+id/notes"
                     android:layout_width="wrap_content"
                     android:layout_height="21dp"
-                    android:layout_marginLeft="40dp"
                     android:layout_marginStart="40dp"
+                    android:layout_marginLeft="40dp"
                     android:layout_marginTop="8dp"
                     android:text="Notes"
                     android:textColor="@color/orange"
                     android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView12" />
+                    app:layout_constraintTop_toBottomOf="@+id/audit_notes" />
                 
 
                 <TextView
@@ -383,26 +389,26 @@
                     android:id="@+id/uninstalled_at"
                     android:layout_width="wrap_content"
                     android:layout_height="12dp"
-                    android:layout_marginLeft="200dp"
                     android:layout_marginStart="200dp"
+                    android:layout_marginLeft="200dp"
                     android:layout_marginTop="8dp"
                     android:text="@{TimeUtils.getDate(String.valueOf(safeUnbox(installs.uninstalled_at)))}"
                     android:textColor="#000000"
                     android:textSize="10sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/audit_notes"
+                    app:layout_constraintTop_toBottomOf="@+id/textView20"
                     tools:text="3434" />
 
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/deviceimages"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginRight="16dp"
                     android:layout_marginStart="60dp"
+                    android:layout_marginLeft="60dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView13"></android.support.v7.widget.RecyclerView>
@@ -422,13 +428,13 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/truckimages"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginRight="16dp"
                     android:layout_marginStart="60dp"
+                    android:layout_marginLeft="60dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView14"></android.support.v7.widget.RecyclerView>
@@ -448,13 +454,13 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/wireconnection"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginRight="16dp"
                     android:layout_marginStart="60dp"
+                    android:layout_marginLeft="60dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView15"></android.support.v7.widget.RecyclerView>
@@ -473,13 +479,13 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/devicefitting"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginRight="16dp"
                     android:layout_marginStart="60dp"
+                    android:layout_marginLeft="60dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView16"></android.support.v7.widget.RecyclerView>
@@ -498,17 +504,19 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/accessories"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginRight="16dp"
                     android:layout_marginStart="60dp"
+                    android:layout_marginLeft="60dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView17"></android.support.v7.widget.RecyclerView>
             </android.support.constraint.ConstraintLayout>
         </ScrollView>
-    </android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </layout>

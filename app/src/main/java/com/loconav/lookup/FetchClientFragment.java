@@ -83,6 +83,7 @@ public class FetchClientFragment extends BaseTitleFragment {
                 @Override
                 public void handleFailure(Call<List<Client>> call, Throwable t) {
                     binding.layoutClient.setVisibility(View.GONE);
+                    if(getContext()!=null)
                     Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                     Log.e("error ", t.getMessage());
                 }

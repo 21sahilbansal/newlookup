@@ -138,7 +138,7 @@ public class InstallLogsFragment extends BaseFragment {
         };
 
         fragmentInstallLogsBinding.installs.addOnScrollListener(scrollListener);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayout.VERTICAL);
         fragmentInstallLogsBinding.installs.setLayoutManager(layoutManager);
         fragmentInstallLogsBinding.installs.setAdapter(installLogAdapter);

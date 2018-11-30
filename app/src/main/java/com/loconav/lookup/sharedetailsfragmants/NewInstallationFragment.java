@@ -78,33 +78,8 @@ public class NewInstallationFragment extends BaseTitleFragment {
         binding.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if(CommonFunction.validate(new EditText[]{binding.dealerName,binding.ownerName,binding.clientId,binding.location, binding.registrationNo,binding.chassisNo, binding.manufacture,
                         binding.model, binding.typeOfGoods, binding.odometerReading, binding.simNo, binding.imei, binding.deviceModel})) {
-                    String message = "";
-                    message += "Dealer's name: "+ binding.dealerName.getText().toString() + "\n";
-                    message += "Owner Name: "+ binding.ownerName.getText().toString() + "\n";
-                    message += "Client Id: "+ binding.clientId.getText().toString() + "\n";
-                    message += "Location: "+ binding.location.getText().toString() + "\n";
-                    message += "Registration no.: "+ binding.registrationNo.getText().toString()+ "\n";
-                    message += "Chassis no: "+ binding.chassisNo.getText().toString() + "\n";
-                    message += "Manufacture: "+ binding.manufacture.getText().toString() + "\n";
-                    message += "Model: "+ binding.model.getText().toString() + "\n";
-                    message += "Type of goods: "+ binding.typeOfGoods.getText().toString() + "\n";
-                    message += "Odometer Reading: "+ binding.odometerReading.getText().toString() + "\n";
-                    message += "Sim No: "+ binding.simNo.getText().toString() + "\n";
-                    message += "IMEI: "+ binding.imei.getText().toString() + "\n";
-                    message += "Device Model: "+ binding.deviceModel.getText().toString()+"\n";
-                    message += "SOS: " + getFeatures(binding.cbSos) +  "\n";
-                    message += "Trip Button: " + getFeatures(binding.cbTrip) +  "\n";
-                    message += "Immobilizer: " + getFeatures(binding.cbImm) +  "\n";
-                    message += "USER ID: " + SharedPrefHelper.getInstance().getStringData(code) +  "\n";
-                    message += "Sent By Device Checker:"+ " " + System.currentTimeMillis() ;
-                    String url = "http://www.loconav.com/?type=new_vehicle&model="+
-                            binding.model.getText().toString()+"&manufacturer="+
-                            binding.manufacture.getText().toString()+"&deviceid="+ deviceId;
-                    sharedPrefHelper.setStringData("message", message);
-                    sharedPrefHelper.setStringData("upload_url", url);
                     // these are functions to check if the imagepicker has atleast one image
                     boolean isDevice= checkImages(binding.DeviceImage,"device");
                     boolean isTruck=checkImages(binding.TruckImages,"truck");
@@ -162,10 +137,12 @@ public class NewInstallationFragment extends BaseTitleFragment {
                 }
             }
         });
-        CommonFunction.setEditText(binding.imei, deviceId);
-        CommonFunction.setEditText(binding.ownerName, client.getName());
-        CommonFunction.setEditText(binding.clientId, client.getClientId());
-        CommonFunction.setEditText(binding.transporterId, client.getTransporter_id());
+        if(client!=null) {
+            CommonFunction.setEditText(binding.imei, deviceId);
+            CommonFunction.setEditText(binding.ownerName, client.getName());
+            CommonFunction.setEditText(binding.clientId, client.getClientId());
+            CommonFunction.setEditText(binding.transporterId, client.getTransporter_id());
+        }
     }
     public boolean checkImages(CustomImagePicker imagePicker,String title)
     {

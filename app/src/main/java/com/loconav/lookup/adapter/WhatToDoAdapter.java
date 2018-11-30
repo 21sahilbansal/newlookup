@@ -42,7 +42,6 @@ WhatToDoAdapter extends BaseAdapter {
 
     @Override
     public void editHeightWidthItem(View view,ViewGroup parent) {
-        view.getLayoutParams().height = (int) (parent.getMeasuredHeight() / 2.7);
     }
 
     @Override

@@ -22,11 +22,17 @@ public class FullImageFragment extends BaseFragment {
     public void onFragmentCreated() {
         Bundle bundle = this.getArguments();
         String imageurl = bundle.getString("imageurl");
-        Picasso.get().load(imageurl).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).into(fullImageBinding.imageView2);
-        fullImageBinding.cancel.setOnClickListener(new View.OnClickListener() {
+        Picasso.get().load(imageurl).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).into(fullImageBinding.image);
+        fullImageBinding.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EventBus.getDefault().post( imageurl);
+                getActivity().onBackPressed();
+            }
+        });
+        fullImageBinding.cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 getActivity().onBackPressed();
             }
         });

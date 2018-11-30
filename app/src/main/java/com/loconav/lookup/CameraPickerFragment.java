@@ -38,48 +38,39 @@ public class CameraPickerFragment extends BaseFragment{
     private Camera mCamera;
     private CameraPreview mPreview;
     FragmentCamerapickerBinding fragmentCamerapickerBinding;
-    String mPhoto;
     Context context;
     Uri photoURI;
     boolean isFlashOn=false;
-    int position=0;
-    private static  final int FOCUS_AREA_SIZE= 300;
     String dimiss="true";
-    /**
-     * uriList is the list of string of uris of images
-     */
-    /**
-     * imageUris is the list of ImageUris
-     */
     ArrayList<String> uriList=new ArrayList<>();
     ArrayList<ImageUri> imageUris=new ArrayList<>();
     ImageSetterAdapter imageSetterAdapter;
     int camerId=0;
     Camera.Parameters parameters;
     int size=0;
+    boolean safeToTakePhoto=false;
+
     private Camera.AutoFocusCallback mAutoFocusTakePictureCallback = new Camera.AutoFocusCallback() {
         @Override
         public void onAutoFocus(boolean success, Camera camera) {
             if (success) {
-                // do something...
                 Log.i("tap_to_focus","success!");
             } else {
-                // do something...
                 Log.i("tap_to_focus","fail!");
             }
         }
     };
+
     FragmentController fragmentController=new FragmentController();
     private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
-
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
+            int position=0;
             File pictureFile = getOutputMediaFile();
             if (pictureFile == null){
                 Log.d("tag", "Error creating media file, check storage permissions");
                 return;
             }
-
             try {
                 FileOutputStream fos = new FileOutputStream(pictureFile);
                 fos.write(data);
@@ -95,29 +86,29 @@ public class CameraPickerFragment extends BaseFragment{
             imageUris.add(uri);
             uriList.add(photoURI.toString());
             imageSetterAdapter.notifyItemChanged(position);
-            fragmentCamerapickerBinding.capture.setVisibility(View.VISIBLE);
-            fragmentCamerapickerBinding.totalcorrect.setVisibility(View.VISIBLE);
-            fragmentCamerapickerBinding.flash.setVisibility(View.VISIBLE);
-            fragmentCamerapickerBinding.switchcamera.setVisibility(View.VISIBLE);
             size=uriList.size();
             mCamera.startPreview();
+            safeToTakePhoto=true;
         }
     };
     @Override
     public int setViewId() {
         return R.layout.fragment_camerapicker;
     }
+
     @Override
     public void onFragmentCreated() {
+        EventBus.getDefault().register(this);
         Bundle bundle = this.getArguments();
         int limit = bundle.getInt("limit");
         String stringId=bundle.getString("Stringid");
-        EventBus.getDefault().register(this);
         context=getContext();
         mCamera = getCameraInstance();
         setCameraDisplayOrientation(getActivity(),camerId);
-        parameters =getParameters(mCamera,camerId);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        parameters =getPhotoParameters(mCamera,camerId);
+        mCamera.setParameters(parameters);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayout.HORIZONTAL);
         imageSetterAdapter = new ImageSetterAdapter(uriList, new Callback() {
             @Override
@@ -129,30 +120,30 @@ public class CameraPickerFragment extends BaseFragment{
                 fragmentController.loadFragment(full_imageFragment,getFragmentManager(),R.id.camera,true);
             }
         });
+        fragmentCamerapickerBinding.rvImages.setLayoutManager(layoutManager);
+        fragmentCamerapickerBinding.rvImages.setAdapter(imageSetterAdapter);
+
         fragmentCamerapickerBinding.cameraPreview.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     if(camerId==0)
-                    focusOnTouch(event);
+                        mCamera.autoFocus(mAutoFocusTakePictureCallback);
                 }
                 return true;
             }
         });
-        fragmentCamerapickerBinding.rvImages.setLayoutManager(layoutManager);
-        fragmentCamerapickerBinding.rvImages.setAdapter(imageSetterAdapter);
-        mCamera.setParameters(parameters);
-        // Create our Preview view and set it as the content of our activity.
+
         fragmentCamerapickerBinding.capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(size<limit) {
-                    mCamera.takePicture(null, null, mPicture);
-                }
-                else
-                {
-                    Toast.makeText(getContext(), "Sorry you cannot put more than "+limit+" images", Toast.LENGTH_SHORT).show();
+                if(safeToTakePhoto) {
+                    safeToTakePhoto=false;
+                    if (size < limit) {
+                        mCamera.takePicture(null, null, mPicture);
+                    } else {
+                        Toast.makeText(context, "Sorry you cannot put more than " + limit + " images", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -160,37 +151,34 @@ public class CameraPickerFragment extends BaseFragment{
         fragmentCamerapickerBinding.flash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isFlashOn)
-                {
-                    isFlashOn=false;
-                    fragmentCamerapickerBinding.flash.setImageResource(R.drawable.noflash);
-                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                if(mCamera.getParameters().getSupportedFlashModes()!=null) {
+                    if (isFlashOn) {
+                        isFlashOn = false;
+                        fragmentCamerapickerBinding.flash.setImageResource(R.drawable.noflash);
+                        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                    } else {
+                        isFlashOn = true;
+                        fragmentCamerapickerBinding.flash.setImageResource(R.drawable.flash);
+                        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+                    }
+                    mCamera.setParameters(parameters);
                 }
-                else
-                {
-                    isFlashOn=true;
-                    fragmentCamerapickerBinding.flash.setImageResource(R.drawable.flash);
-                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
-                }
-                mCamera.setParameters(parameters);
             }
         });
+
         fragmentCamerapickerBinding.switchcamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 releaseCamera();
+                safeToTakePhoto=false;
                 if(camerId==0)
-                { camerId=1;
-                }
-                else
-                if(camerId==1)
-                {
+                    camerId=1;
+                else if(camerId==1)
                     camerId=0;
-                }
                 mCamera = Camera.open(camerId);
-                mPreview = new CameraPreview(getContext(), mCamera);
+                mPreview = new CameraPreview(context, mCamera);
                 setCameraDisplayOrientation(getActivity(),camerId);
-                parameters =getParameters(mCamera,camerId);
+                parameters =getPhotoParameters(mCamera,camerId);
                 mCamera.setParameters(parameters);
                 fragmentCamerapickerBinding.cameraPreview.addView(mPreview);
                 try {
@@ -199,35 +187,38 @@ public class CameraPickerFragment extends BaseFragment{
                     e.printStackTrace();
                 }
                 mCamera.startPreview();
+                safeToTakePhoto=true;
             }
         });
 
         fragmentCamerapickerBinding.totalcorrect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 EventBus.getDefault().post(dimiss);
                 EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_CAMERA+""+stringId, imageUris));
                 getActivity().finish();
             }
         });
-        mPreview = new CameraPreview(getContext(),mCamera);
+
+        mPreview = new CameraPreview(context,mCamera);
         fragmentCamerapickerBinding.cameraPreview.addView(mPreview);
+        mCamera.startPreview();
+        safeToTakePhoto=true;
     }
+
     @Override
     public void bindView(View view) {
         fragmentCamerapickerBinding = DataBindingUtil.bind(view);
     }
+
     private  File getOutputMediaFile(){
         File photoFile = null;
         try {
             photoFile = FileUtils.getImagefile(context);
-            mPhoto = photoFile.getAbsolutePath();
         }
         catch (Exception ex)
         {
         }
-
         if (photoFile != null) {
              photoURI = FileProvider.getUriForFile(context,
                     "com.lookuploconav.lookup",
@@ -238,6 +229,7 @@ public class CameraPickerFragment extends BaseFragment{
     @Override
     public void getComponentFactory() {
     }
+
     protected Camera getCameraInstance(){
         Camera c = null;
         try {
@@ -246,8 +238,8 @@ public class CameraPickerFragment extends BaseFragment{
         }
         return c;
     }
-    public  void setCameraDisplayOrientation(Activity activity,
-                                                   int cameraId) {
+
+    public  void setCameraDisplayOrientation(Activity activity,int cameraId) {
         android.hardware.Camera.CameraInfo info =
                 new android.hardware.Camera.CameraInfo();
         android.hardware.Camera.getCameraInfo(cameraId, info);
@@ -260,30 +252,29 @@ public class CameraPickerFragment extends BaseFragment{
             case Surface.ROTATION_180: degrees = 180; break;
             case Surface.ROTATION_270: degrees = 270; break;
         }
-
         int result;
         if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
             result = (info.orientation + degrees) % 360;
-            result = (360 - result) % 360;  // compensate the mirror
-        } else {  // back-facing
+            result = (360 - result) % 360;
+        } else {
             result = (info.orientation - degrees + 360) % 360;
         }
         mCamera.setDisplayOrientation(result);
     }
+
     private void releaseCamera(){
         if (mCamera != null){
+            fragmentCamerapickerBinding.cameraPreview.removeView(mPreview);
             mPreview.surfaceDestroyed(mPreview.getHolder());
             mPreview.getHolder().removeCallback(mPreview);
             mPreview.destroyDrawingCache();
-            fragmentCamerapickerBinding.cameraPreview.removeView(mPreview);
-            mCamera.stopPreview();
             mCamera.stopPreview();
             mCamera.setPreviewCallback(null);
             mCamera.release();
         }
     }
-    public Camera.Parameters getParameters(Camera mCamera,int camerId)
-    {
+
+    public Camera.Parameters getPhotoParameters(Camera mCamera,int camerId) {
         Camera.Parameters params = mCamera.getParameters();
         params.set("orientation", "portrait");
         if(camerId==0)
@@ -298,48 +289,6 @@ public class CameraPickerFragment extends BaseFragment{
         }
         params.setPictureSize(size.width, size.height);
         return  params;
-
-    }
-    private void focusOnTouch(MotionEvent event) {
-        if (mCamera != null ) {
-
-            Camera.Parameters parameters = mCamera.getParameters();
-            if (parameters.getMaxNumMeteringAreas() > 0){
-                Log.i("ss","fancy !");
-                Rect rect = calculateFocusArea(event.getX(), event.getY());
-
-                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-                List<Camera.Area> meteringAreas = new ArrayList<Camera.Area>();
-                meteringAreas.add(new Camera.Area(rect, 800));
-                parameters.setFocusAreas(meteringAreas);
-
-                    mCamera.setParameters(parameters);
-                mCamera.autoFocus(mAutoFocusTakePictureCallback);
-            }else {
-                mCamera.autoFocus(mAutoFocusTakePictureCallback);
-            }
-        }
-    }
-
-    private Rect calculateFocusArea(float x, float y) {
-        int left = clamp(Float.valueOf((x / fragmentCamerapickerBinding.cameraPreview.getWidth()) * 2000 - 1000).intValue(), FOCUS_AREA_SIZE);
-        int top = clamp(Float.valueOf((y / fragmentCamerapickerBinding.cameraPreview.getHeight()) * 2000 - 1000).intValue(), FOCUS_AREA_SIZE);
-
-        return new Rect(left, top, left + FOCUS_AREA_SIZE, top + FOCUS_AREA_SIZE);
-    }
-
-    private int clamp(int touchCoordinateInCameraReper, int focusAreaSize) {
-        int result;
-        if (Math.abs(touchCoordinateInCameraReper)+focusAreaSize/2>1000){
-            if (touchCoordinateInCameraReper>0){
-                result = 1000 - focusAreaSize/2;
-            } else {
-                result = -1000 + focusAreaSize/2;
-            }
-        } else{
-            result = touchCoordinateInCameraReper - focusAreaSize/2;
-        }
-        return result;
     }
 
     @Override
@@ -349,8 +298,10 @@ public class CameraPickerFragment extends BaseFragment{
         EventBus.getDefault().unregister(this);
         fragmentCamerapickerBinding.unbind();
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getImageUrl(String imageurl) {
+        safeToTakePhoto=true;
         for(ImageUri imageUri:imageUris)
         {
             if(imageUri.getUri().toString().equals(imageurl))
@@ -366,7 +317,5 @@ public class CameraPickerFragment extends BaseFragment{
         size--;
         imageSetterAdapter.notifyItemRemoved(index);
         }
-
-
 
 }

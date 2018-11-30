@@ -123,6 +123,7 @@ public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefr
                 @Override
                 public void handleFailure(Call<LookupResponse> call, Throwable t) {
                     binding.swipeRefresh.setRefreshing(false);
+                    if(getContext()!=null)
                     Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });

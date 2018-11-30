@@ -32,13 +32,14 @@ public class LocationGetter {
     private LocationManager mLocationManager = null;
     private static final int LOCATION_INTERVAL = (int) TimeUnit.MINUTES.toMillis(30);
     private static final float LOCATION_DISTANCE = 0f;
-    LocationListener[] mLocationListeners = new LocationListener[] {
+    LocationListener[] mLocationListeners = new LocationListener[]{
             new LocationListener(LocationManager.GPS_PROVIDER),
             new LocationListener(LocationManager.NETWORK_PROVIDER)
     };
     Context mContext;
-    public LocationGetter(Callback callback,Context context) {
-        this.callback=callback;
+
+    public LocationGetter(Callback callback, Context context) {
+        this.callback = callback;
         mContext = context;
     }
 
@@ -63,26 +64,32 @@ public class LocationGetter {
             Log.d(TAG, "gps provider does not exist " + ex.getMessage());
         }
     }
+
     private void initializeLocationManager() {
         Log.e(TAG, "initializeLocationManager");
         if (mLocationManager == null) {
             mLocationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
         }
     }
-    private class LocationListener implements android.location.LocationListener   {
+
+    private class LocationListener implements android.location.LocationListener {
         Location mLastLocation;
 
-        public LocationListener(String provider)
-        {
+        public LocationListener(String provider) {
             Log.e(TAG, "LocationListener " + provider);
             mLastLocation = new Location(provider);
         }
 
         @Override
-        public void onLocationChanged(Location location)
-        {
+        public void onLocationChanged(Location location) {
+            if (location == null) {
                 callback.onEventDone(location);
-
+            }
+            else {
+                if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                    return;
+                callback.onEventDone(mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER));
+            }
             mLastLocation.set(location);
         }
 
