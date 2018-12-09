@@ -1,10 +1,10 @@
-package com.loconav.lookup;
+package com.loconav.lookup.customcamera;
 
-import android.database.DatabaseUtils;
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.loconav.lookup.FragmentController;
+import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseActivity;
 import com.loconav.lookup.databinding.ActivityCameraOpenBinding;
 

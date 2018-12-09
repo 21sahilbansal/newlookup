@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -49,7 +50,6 @@ import retrofit2.Response;
 
 public class NewInstallationFragment extends BaseTitleFragment {
     private FragmentNewInstallationBinding binding;
-    private SharedPrefHelper sharedPrefHelper;
     private PassingReason passingReason;
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     private ProgressDialog progressDialog;
@@ -58,8 +58,8 @@ public class NewInstallationFragment extends BaseTitleFragment {
     NewInstall newInstall = new NewInstall();
     Handler handler;
     String compressedImage;
-    Attachments attachments;
     FragmentController fragmentController = new FragmentController();
+    int accessoriesCheckCount=0;
     @Override
     public int setViewId() {
         return R.layout.fragment_new_installation;
@@ -70,10 +70,27 @@ public class NewInstallationFragment extends BaseTitleFragment {
         progressDialog.setCancelable(false);
         handlerThread.start();
         handler = new Handler(handlerThread.getLooper());
-        sharedPrefHelper=SharedPrefHelper.getInstance();
         passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
         final String deviceId = passingReason.getDeviceid();
         final Client client = passingReason.getClientId();
+        binding.cbImm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                accessoriesChecked(isChecked);
+            }
+        });
+        binding.cbSos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                accessoriesChecked(isChecked);
+            }
+        });
+        binding.cbTrip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                accessoriesChecked(isChecked);
+            }
+        });
 
         binding.share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,9 +100,14 @@ public class NewInstallationFragment extends BaseTitleFragment {
                     // these are functions to check if the imagepicker has atleast one image
                     boolean isDevice= checkImages(binding.DeviceImage,"device");
                     boolean isTruck=checkImages(binding.TruckImages,"truck");
-                    boolean isWiredConnection=checkImages(binding.WireConnection,"connection");
+                    boolean isWiredConnection=checkImages(binding.WireConnection,"wire connection");
+                    boolean isEarthWiredConnection=checkImages(binding.WireConnection,"earth wire connection");
                     boolean isFitted=checkImages(binding.DeviceFitting,"Fitting");
-                    if(isDevice && isTruck && isWiredConnection && isFitted) {
+                    boolean isAccessories=true;
+                    if(getFeatures(binding.cbSos).equals("YES") || getFeatures(binding.cbTrip).equals("YES") || getFeatures(binding.cbImm).equals("YES")){
+                        isAccessories=checkImages(binding.Accessories,"Accessories");
+                    }
+                    if(isDevice && isTruck && isWiredConnection && isFitted && isEarthWiredConnection && isAccessories) {
                         progressDialog.setMessage("Image Compressing..");
                        progressDialog.show();
                        handler.post(new Runnable() {
@@ -97,26 +119,28 @@ public class NewInstallationFragment extends BaseTitleFragment {
                                     compressImages(binding.WireConnection,"wire_connection");
                                     compressImages(binding.DeviceFitting,"device_fitting");
                                     compressImages(binding.Accessories,"accessories");
+                                    compressImages(binding.EarthwireConnection,"earth_wire_connection");
+                                    //It is a type of raw data we can send anything in it(used to keep the record that the thing we are sending in newIntsall is correct)
                                     Notes notes=new Notes();
                                     notes.setDealer_name(binding.dealerName.getText().toString());
                                     notes.setOwner_name(binding.ownerName.getText().toString());
-                                    newInstall.setClient_id(binding.clientId.getText().toString());
                                     notes.setLocation(binding.location.getText().toString());
-                                    newInstall.setTruck_number(binding.registrationNo.getText().toString());
                                     notes.setChassis_number(binding.chassisNo.getText().toString());
                                     notes.setManufacturer(binding.manufacture.getText().toString());
                                     notes.setModel(binding.model.getText().toString());
                                     notes.setTypeOfGoods(binding.typeOfGoods.getText().toString());
                                     notes.setOdometer_reading(binding.odometerReading.getText().toString());
                                     notes.setSim_number(binding.simNo.getText().toString());
-                                    newInstall.setImei_number(binding.imei.getText().toString());
                                     notes.setDeviceModel(binding.deviceModel.getText().toString());
                                     notes.setSos(getFeatures(binding.cbSos));
-                                    newInstall.setTransporter_id(Long.parseLong(binding.transporterId.getText().toString()));
                                     notes.setImmobilizer(getFeatures(binding.cbImm));
                                     notes.setTrip_button(getFeatures(binding.cbTrip));
                                     notes.setClientid(binding.clientId.getText().toString());
                                     notes.setInstalldate(String.valueOf((System.currentTimeMillis()/1000)));
+                                    newInstall.setClient_id(binding.clientId.getText().toString());
+                                    newInstall.setTruck_number(binding.registrationNo.getText().toString());
+                                    newInstall.setImei_number(binding.imei.getText().toString());
+                                    newInstall.setTransporter_id(Long.parseLong(binding.transporterId.getText().toString()));
                                     newInstall.setNotes(notes);
                                     newInstall.setImmobilizer(getFeatures(binding.cbImm));
                                     newInstall.setSOS(getFeatures(binding.cbSos));
@@ -144,6 +168,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
             CommonFunction.setEditText(binding.transporterId, client.getTransporter_id());
         }
     }
+    //check if all the custom image pickers has images
     public boolean checkImages(CustomImagePicker imagePicker,String title)
     {
         if(!imagePicker.getimagesList().isEmpty()) {
@@ -155,11 +180,15 @@ public class NewInstallationFragment extends BaseTitleFragment {
             return false;
         }
     }
+    /**
+     * This function is only used if you want to compress images and make list Attachement class type from the Custom Image Picker
+     * @param imagePicker It takes the instance of CustomImagePicker class to get the images from it
+     * @param title It is used to set the tiltle for those images
+     */
     public void compressImages(CustomImagePicker imagePicker,String title)
     {
-
         for (ImageUri imageUri : imagePicker.getimagesList()) {
-            attachments=new Attachments();
+            Attachments attachments=new Attachments();
             try {
                 compressedImage = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(), imageUri.getUri()), getActivity());
                 attachments.setTitle(title);
@@ -201,23 +230,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
                 Toast.makeText(getContext(), ""+t.getMessage(), Toast.LENGTH_SHORT).show();
                }
            });
-
     }
-    @Override
-    public void bindView(View view) {
-        binding = DataBindingUtil.bind(view);
-    }
-
-    @Override
-    public void getComponentFactory() {
-
-    }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        binding.unbind();
-    }
-
 
     private String getFeatures(CheckBox checkBox) {
         if(checkBox.isChecked())
@@ -226,8 +239,36 @@ public class NewInstallationFragment extends BaseTitleFragment {
             return "NO";
     }
 
+    public void accessoriesChecked(boolean isChecked)
+    {
+        if(isChecked) {
+            accessoriesCheckCount++;
+            binding.Accessories.setVisibility(View.VISIBLE);
+        }
+        else {
+            accessoriesCheckCount--;
+            if(accessoriesCheckCount==0)
+                binding.Accessories.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void bindView(View view) {
+        binding = DataBindingUtil.bind(view);
+    }
+
+    @Override
+    public void getComponentFactory() {
+    }
+
     @Override
     public String getTitle() {
         return "New Installations";
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding.unbind();
     }
 }

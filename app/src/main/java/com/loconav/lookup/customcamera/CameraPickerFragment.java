@@ -1,10 +1,8 @@
-package com.loconav.lookup;
+package com.loconav.lookup.customcamera;
 
 import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +15,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.loconav.lookup.Callback;
+import com.loconav.lookup.FragmentController;
+import com.loconav.lookup.FullImageFragment;
+import com.loconav.lookup.ImagePickerEvent;
+import com.loconav.lookup.R;
 import com.loconav.lookup.adapter.ImageSetterAdapter;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FragmentCamerapickerBinding;
@@ -37,19 +40,20 @@ import java.util.List;
 public class CameraPickerFragment extends BaseFragment{
     private Camera mCamera;
     private CameraPreview mPreview;
-    FragmentCamerapickerBinding fragmentCamerapickerBinding;
-    Context context;
-    Uri photoURI;
-    boolean isFlashOn=false;
-    String dimiss="true";
-    ArrayList<String> uriList=new ArrayList<>();
-    ArrayList<ImageUri> imageUris=new ArrayList<>();
-    ImageSetterAdapter imageSetterAdapter;
-    int camerId=0;
-    Camera.Parameters parameters;
-    int size=0;
-    boolean safeToTakePhoto=false;
-
+    private FragmentCamerapickerBinding fragmentCamerapickerBinding;
+    private Context context;
+    private Uri photoURI;
+    private boolean isFlashOn=false;
+    private String dimiss="true";
+    private ArrayList<String> uriList=new ArrayList<>();
+    private ArrayList<ImageUri> imageUris=new ArrayList<>();
+    private ImageSetterAdapter imageSetterAdapter;
+    private int camerId=0;
+    private Camera.Parameters parameters;
+    private int size=0;
+    private boolean safeToTakePhoto=false;
+    private FragmentController fragmentController=new FragmentController();
+    //It is callback for focus
     private Camera.AutoFocusCallback mAutoFocusTakePictureCallback = new Camera.AutoFocusCallback() {
         @Override
         public void onAutoFocus(boolean success, Camera camera) {
@@ -60,8 +64,7 @@ public class CameraPickerFragment extends BaseFragment{
             }
         }
     };
-
-    FragmentController fragmentController=new FragmentController();
+    // It is the callback which is called when the photo is clicked
     private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
@@ -91,6 +94,7 @@ public class CameraPickerFragment extends BaseFragment{
             safeToTakePhoto=true;
         }
     };
+
     @Override
     public int setViewId() {
         return R.layout.fragment_camerapicker;
@@ -123,6 +127,7 @@ public class CameraPickerFragment extends BaseFragment{
         fragmentCamerapickerBinding.rvImages.setLayoutManager(layoutManager);
         fragmentCamerapickerBinding.rvImages.setAdapter(imageSetterAdapter);
 
+        //It is for auto focus when user touches the screen and it is only enable for rear camera
         fragmentCamerapickerBinding.cameraPreview.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -134,6 +139,7 @@ public class CameraPickerFragment extends BaseFragment{
             }
         });
 
+        //It is used for capturing the images
         fragmentCamerapickerBinding.capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,6 +154,7 @@ public class CameraPickerFragment extends BaseFragment{
             }
         });
 
+        //for turn ON or OFF the Flash in camera
         fragmentCamerapickerBinding.flash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,6 +173,7 @@ public class CameraPickerFragment extends BaseFragment{
             }
         });
 
+        //for switching the camera in front and back
         fragmentCamerapickerBinding.switchcamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,6 +199,7 @@ public class CameraPickerFragment extends BaseFragment{
             }
         });
 
+        //it when the images are final and click the 'tick' button to proceed forward
         fragmentCamerapickerBinding.totalcorrect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -226,6 +235,7 @@ public class CameraPickerFragment extends BaseFragment{
         }
         return photoFile;
     }
+
     @Override
     public void getComponentFactory() {
     }
@@ -291,14 +301,6 @@ public class CameraPickerFragment extends BaseFragment{
         return  params;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mCamera.release();
-        EventBus.getDefault().unregister(this);
-        fragmentCamerapickerBinding.unbind();
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getImageUrl(String imageurl) {
         safeToTakePhoto=true;
@@ -316,6 +318,15 @@ public class CameraPickerFragment extends BaseFragment{
         Log.e("the index is ","the index is "+uriList.indexOf(imageurl));
         size--;
         imageSetterAdapter.notifyItemRemoved(index);
-        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mCamera.release();
+        EventBus.getDefault().unregister(this);
+        fragmentCamerapickerBinding.unbind();
+    }
+
 
 }

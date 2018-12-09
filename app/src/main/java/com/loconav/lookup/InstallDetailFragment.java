@@ -57,7 +57,6 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
 
     @Override
     public void getComponentFactory() {
-
     }
 
     @Override
@@ -85,7 +84,7 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
                         installDetailsBinding.auditNotes.setText(Html.fromHtml(installs.getAuditNotes()));
                     List<AttachmentsDetails> attachmentsList;
                     attachmentsList = installs.getAttachments();
-                    List<String> deviceimages = new ArrayList<>(), truckimages = new ArrayList<>(), connectionimages = new ArrayList<>(), fittingimages = new ArrayList<>(), accessories = new ArrayList<>();
+                    List<String> deviceimages = new ArrayList<>(), truckimages = new ArrayList<>(), connectionimages = new ArrayList<>(), fittingimages = new ArrayList<>(), accessories = new ArrayList<>(),earthconnectionimages=new ArrayList<>();
                     for (AttachmentsDetails attachmentsDetails : attachmentsList) {
                         if (attachmentsDetails.getTag() != null) {
                             if (attachmentsDetails.getTag().equals("truck_image"))
@@ -98,9 +97,11 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
                                 fittingimages.add(attachmentsDetails.getUrls().getOriginal());
                             else if (attachmentsDetails.getTag().equals("accessories"))
                                 accessories.add(attachmentsDetails.getUrls().getOriginal());
+                            else if (attachmentsDetails.getTag().equals("earth_wire_connection"))
+                                earthconnectionimages.add(attachmentsDetails.getUrls().getOriginal());
                         }
                     }
-                    ImageSetterAdapter deviceAdapter, truckAdapter, connectionAdapter, fittingAdapter, accessoriesAdapter;
+                    ImageSetterAdapter deviceAdapter, truckAdapter, connectionAdapter,earthConnectionAdapter, fittingAdapter, accessoriesAdapter;
                     LinearLayoutManager truckLayoutManager = new LinearLayoutManager(getContext());
                     truckLayoutManager.setOrientation(LinearLayout.HORIZONTAL);
                     LinearLayoutManager deviceLayoutManager = new LinearLayoutManager(getContext());
@@ -111,6 +112,8 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
                     fittingLayoutManger.setOrientation(LinearLayout.HORIZONTAL);
                     LinearLayoutManager accessoriesLayoutManger = new LinearLayoutManager(getContext());
                     accessoriesLayoutManger.setOrientation(LinearLayout.HORIZONTAL);
+                    LinearLayoutManager earthConnectionManager=new LinearLayoutManager(getContext());
+                    accessoriesLayoutManger.setOrientation(LinearLayoutManager.HORIZONTAL);
 
                     truckAdapter = new ImageSetterAdapter(truckimages, new Callback() {
                         @Override
@@ -123,6 +126,7 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
                     });
                     installDetailsBinding.truckimages.setLayoutManager(truckLayoutManager);
                     installDetailsBinding.truckimages.setAdapter(truckAdapter);
+
                     deviceAdapter = new ImageSetterAdapter(deviceimages, new Callback() {
                         @Override
                         public void onEventDone(Object object) {
@@ -134,6 +138,7 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
                     });
                     installDetailsBinding.deviceimages.setLayoutManager(deviceLayoutManager);
                     installDetailsBinding.deviceimages.setAdapter(deviceAdapter);
+
                     connectionAdapter = new ImageSetterAdapter(connectionimages, new Callback() {
                         @Override
                         public void onEventDone(Object object) {
@@ -145,6 +150,31 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
                     });
                     installDetailsBinding.wireconnection.setLayoutManager(connectionLayoutManger);
                     installDetailsBinding.wireconnection.setAdapter(connectionAdapter);
+
+                    truckAdapter = new ImageSetterAdapter(truckimages, new Callback() {
+                        @Override
+                        public void onEventDone(Object object) {
+                            if(getActivity()!=null) {
+                                FullImageDialog fullImageDialog = FullImageDialog.newInstance((String) object);
+                                fullImageDialog.show(getActivity().getSupportFragmentManager(),getClass().getSimpleName());
+                            }
+                        }
+                    });
+                    installDetailsBinding.truckimages.setLayoutManager(truckLayoutManager);
+                    installDetailsBinding.truckimages.setAdapter(truckAdapter);
+
+                    earthConnectionAdapter = new ImageSetterAdapter(earthconnectionimages, new Callback() {
+                        @Override
+                        public void onEventDone(Object object) {
+                            if(getActivity()!=null) {
+                                FullImageDialog fullImageDialog = FullImageDialog.newInstance((String) object);
+                                fullImageDialog.show(getActivity().getSupportFragmentManager(),getClass().getSimpleName());
+                            }
+                        }
+                    });
+                    installDetailsBinding.earthwireconnection.setLayoutManager(earthConnectionManager);
+                    installDetailsBinding.earthwireconnection.setAdapter(earthConnectionAdapter);
+
                     fittingAdapter = new ImageSetterAdapter(fittingimages, new Callback() {
                         @Override
                         public void onEventDone(Object object) {
@@ -156,6 +186,7 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
                     });
                     installDetailsBinding.devicefitting.setLayoutManager(fittingLayoutManger);
                     installDetailsBinding.devicefitting.setAdapter(fittingAdapter);
+
                     accessoriesAdapter = new ImageSetterAdapter(accessories, new Callback() {
                         @Override
                         public void onEventDone(Object object) {
@@ -181,17 +212,6 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
             }
         });
     }
-    public void fullImageDialog(Activity activity, String imageUrl)
-    {
-        final Dialog dialog = new Dialog(activity,R.style.CustomDialog);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(true);
-        dialog.setContentView(R.layout.fragment_full_image);
-        ImageView cancel=dialog.findViewById(R.id.cancel);
-        ImageView image=dialog.findViewById(R.id.image);
-        Picasso.get().load(imageUrl).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).into(image);
-        cancel.setVisibility(View.INVISIBLE);
-        dialog.show();
-    }
+
 
 }

@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.loconav.lookup.ImagePickerEvent;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseDialogFragment;
-import com.loconav.lookup.CameraOpenActivity;
+import com.loconav.lookup.customcamera.CameraOpenActivity;
 import com.loconav.lookup.databinding.DialogImagePickerBinding;
 import com.loconav.lookup.model.ImageUri;
 

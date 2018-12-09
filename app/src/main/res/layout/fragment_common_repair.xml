@@ -23,7 +23,7 @@
                 android:layout_marginBottom="18dp"
                 android:gravity="center"
                 android:textSize="18sp"
-                android:text="@string/proceed"/>
+                android:text="@string/upload"/>
         </LinearLayout>
     </ScrollView>
 </layout>

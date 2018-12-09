@@ -36,7 +36,7 @@ public class CustomImagePicker extends LinearLayout{
     private ArrayList<ImageUri> originalImageUris = new ArrayList<>();
     private ArrayList<ImageUri> thumbNailUris = new ArrayList<>();
     private LinearLayout linearLayout;
-    private String textID ,titleText;
+    public String textID ,titleText;
     public int limit;
     RecycleCustomImageAdapter recycleCustomImageAdapter;
     TypedArray typedArrayCustom;

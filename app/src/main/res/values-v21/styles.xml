@@ -17,9 +17,16 @@
         <item name="android:icon">@drawable/ic_lookup_app_icon</item>
         <item name="colorControlActivated">@color/black</item>
     </style>
+
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/color_orange</item>
         <item name="android:colorPrimary">#00397F</item>
+    </style>
+
+    <style name="FullScreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
 </resources>

@@ -14,4 +14,5 @@ public class Constants {
     public static final String IS_LOGGED_IN = "is_logged_in";
     public static final String LOG_IN_TIME = "log_in_time";
     public static final String REASONS_RESPONSE = "reasons_response";
+    public static final String TUTORIAL_KEY="tutorial_key";
 }

@@ -1,31 +1,19 @@
-package com.loconav.lookup;
+package com.loconav.lookup.dialog;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.loconav.lookup.R;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseDialogFragment;
-import com.loconav.lookup.model.VersionResponse;
-import com.loconav.lookup.network.RetrofitCallback;
-import com.loconav.lookup.network.rest.ApiClient;
-import com.loconav.lookup.network.rest.ApiInterface;
-import com.loconav.lookup.utils.AppUtils;
-
-import retrofit2.Call;
-import retrofit2.Response;
 
 import static com.loconav.lookup.AppUpdateController.LATER;
 

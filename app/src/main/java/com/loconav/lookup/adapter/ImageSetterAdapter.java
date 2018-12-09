@@ -26,7 +26,10 @@ public class ImageSetterAdapter extends BaseAdapter{
 
     @Override
     public Object getDataAtPosition(int position) {
-        return images.get(position);
+        if(position>=0)
+            return images.get(position);
+        else
+            return null;
     }
 
     @Override

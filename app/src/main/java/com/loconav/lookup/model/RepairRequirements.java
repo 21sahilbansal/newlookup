@@ -30,22 +30,14 @@ public class RepairRequirements implements Serializable {
 
     @SerializedName("pre_repair_images")
     @Expose
-    private ArrayList<String> pre_repair_images;
+    private ArrayList<Attachments> pre_repair_images;
 
     @SerializedName("post_repair_images")
     @Expose
-    private ArrayList<String> post_repair_images;
+    private ArrayList<Attachments> post_repair_images;
 
     public RepairRequirements(){}
 
-    public RepairRequirements(String device_serial_number, int reason_id, String remarks, String repairData, ArrayList<String> pre_repair_images, ArrayList<String> post_repair_images) {
-        this.device_serial_number =device_serial_number;
-        this.reason_id =reason_id;
-        this.remarks =remarks;
-        this.repairData = repairData;
-         this.pre_repair_images=pre_repair_images;
-        this.post_repair_images =post_repair_images;
-    }
 
     public String getDevice_id() {
         return device_serial_number;
@@ -79,19 +71,19 @@ public class RepairRequirements implements Serializable {
         this.repairData = repairData;
     }
 
-    public ArrayList<String> getPre_repair_images() {
+    public ArrayList<Attachments> getPre_repair_images() {
         return pre_repair_images;
     }
 
-    public void setPre_repair_images(ArrayList<String> pre_repair_images) {
+    public void setPre_repair_images(ArrayList<Attachments> pre_repair_images) {
         this.pre_repair_images = pre_repair_images;
     }
 
-    public ArrayList<String> getPost_repair_images() {
+    public ArrayList<Attachments> getPost_repair_images() {
         return post_repair_images;
     }
 
-    public void setPost_repair_images(ArrayList<String> post_repair_images) {
+    public void setPost_repair_images(ArrayList<Attachments> post_repair_images) {
         this.post_repair_images = post_repair_images;
     }
 }

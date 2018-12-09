@@ -31,8 +31,7 @@ public class InstallLogsFragment extends BaseFragment {
     InstallLogAdapter installLogAdapter;
     ApiInterface apiInterface= ApiClient.getClient().create(ApiInterface.class);
     List<Installs> fullInstallList=new ArrayList<>(),installList=new ArrayList<>();
-    int totalitem;
-    int start = 0,end=8,oppo;
+    int totalitem,oppo;
     int placeholdersToLoad=20;
     boolean loadmore=true,itemsloaded=true;
     FragmentController fragmentController=new FragmentController();
@@ -44,7 +43,10 @@ public class InstallLogsFragment extends BaseFragment {
     public void onFragmentCreated() {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Install Logs");
         Bundle bundle = this.getArguments();
+        //This layout is on which the InstallLogsFragment and InstallDetailFragment will inflate
         int layout = bundle.getInt("layout");
+        //It is to initially load the number of items
+        int start = 0,end=8;
 
         apiInterface.getInstallLogs(start,end).enqueue(new RetrofitCallback<InstallDatandTotalInstallCount>() {
             @Override
@@ -60,10 +62,10 @@ public class InstallLogsFragment extends BaseFragment {
             public void handleFailure(Call<InstallDatandTotalInstallCount> call, Throwable t) {
             }
         });
+
         installLogAdapter=new InstallLogAdapter(fullInstallList, new Callback() {
             @Override
             public void onEventDone(Object object) {
-
                 Bundle bundle = new Bundle();
                 Installs installs = (Installs) object;
                 if(installs!=null) {
@@ -136,7 +138,6 @@ public class InstallLogsFragment extends BaseFragment {
                 }
             }
         };
-
         fragmentInstallLogsBinding.installs.addOnScrollListener(scrollListener);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayout.VERTICAL);

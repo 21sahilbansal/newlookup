@@ -2,14 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.loconav.Tracking">
-
         <item
             android:id="@+id/action_user"
             android:orderInCategory="100"
             android:title="User Settings"
             android:icon="@drawable/ic_action_user"
             app:showAsAction="always" />
-
-
-
 </menu>

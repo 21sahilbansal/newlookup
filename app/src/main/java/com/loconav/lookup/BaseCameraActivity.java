@@ -14,12 +14,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 
-import com.loconav.lookup.base.BaseActivity;
-import com.loconav.lookup.base.BaseFragment;
-import com.loconav.lookup.dialog.ImagePickerDialog;
-import com.loconav.lookup.login.SplashActivity;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,15 +26,16 @@ import java.util.List;
 
 public abstract class BaseCameraActivity extends AppCompatActivity {
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
+    protected  final int REQUEST_CHECK_SETTINGS = 0x1;
     List<String> listPermissionsNeeded = new ArrayList<>();
     public String TAG = getClass().getSimpleName();
+    private static GoogleApiClient mGoogleApiClient;
+
 
     public  boolean checkAndRequestPermissions(Context context) {
-
         int write_storage = ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int read_storage = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
         int camera = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA);
-        int location1=ContextCompat.checkSelfPermission(context,Manifest.permission.ACCESS_COARSE_LOCATION);
         int location2=ContextCompat.checkSelfPermission(context,Manifest.permission.ACCESS_FINE_LOCATION);
 
         if (read_storage != PackageManager.PERMISSION_GRANTED) {
@@ -49,9 +46,6 @@ public abstract class BaseCameraActivity extends AppCompatActivity {
         }
         if (camera != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.CAMERA);
-        }
-        if (location1 != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.ACCESS_COARSE_LOCATION);
         }
         if (location2 != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -107,11 +101,11 @@ public abstract class BaseCameraActivity extends AppCompatActivity {
         }).show();
     }
 
-
     public abstract void onAllPermissionsGranted();
 
     public void onAnyPermissionDenied() {
         showGoToSettings();
     }
+
 
 }

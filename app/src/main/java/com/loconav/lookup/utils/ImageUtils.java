@@ -11,14 +11,12 @@ import android.util.Log;
 import com.loconav.lookup.model.ImageUri;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import id.zelory.compressor.Compressor;
 
 import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
-import static java.security.AccessController.getContext;
 
 public class ImageUtils {
     public static String reduceBititmap(Bitmap bitmap, Context context) throws Exception
@@ -48,6 +46,5 @@ public class ImageUtils {
                 f));
         return imageUri;
     }
-
 
 }

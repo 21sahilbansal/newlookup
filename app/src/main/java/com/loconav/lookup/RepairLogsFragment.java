@@ -29,14 +29,14 @@ import retrofit2.Response;
 
 
 public class RepairLogsFragment extends BaseFragment  {
-    FragmentRepairLogsBinding fragmentRepairLogsBinding;
-    RepairLogAdapter repairLogAdapter;
-    List<Repairs> fullRepairsList=new ArrayList<>(),repairsList=new ArrayList<>();
-    ApiInterface apiInterface=ApiClient.getClient().create(ApiInterface.class);
-    int totalitem,oppo;
-    int placeholdersToLoad=20;
-    boolean loadmore=true,itemsloaded=true;
-    FragmentController fragmentController=new FragmentController();
+    private FragmentRepairLogsBinding fragmentRepairLogsBinding;
+    private RepairLogAdapter repairLogAdapter;
+    private List<Repairs> fullRepairsList=new ArrayList<>(),repairsList=new ArrayList<>();
+    private ApiInterface apiInterface=ApiClient.getClient().create(ApiInterface.class);
+    private int totalitem,oppo;
+    private int placeholdersToLoad=20;
+    private boolean loadmore=true,itemsloaded=true;
+    private FragmentController fragmentController=new FragmentController();
     @Override
     public int setViewId() {
         return R.layout.fragment_repair_logs;
@@ -45,8 +45,11 @@ public class RepairLogsFragment extends BaseFragment  {
     public void onFragmentCreated() {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Repair Logs");
         Bundle bundle = this.getArguments();
+        //This layout is on which the RepairLogsFragment and RepairDetailFragment will inflate
         int layout = bundle.getInt("layout");
+        //It is to initially load the number of items
         int start = 0,end=8;
+
         apiInterface.getRepairLogs(start,end).enqueue(new RetrofitCallback<RepairsDataandTotalRepairCount>() {
             @Override
             public void handleSuccess(Call<RepairsDataandTotalRepairCount> call, Response<RepairsDataandTotalRepairCount> response) {
@@ -81,6 +84,7 @@ public class RepairLogsFragment extends BaseFragment  {
                 }
             }
         });
+
         RecyclerView.OnScrollListener  scrollListener=new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -139,6 +143,7 @@ public class RepairLogsFragment extends BaseFragment  {
             }
             }
         };
+
         fragmentRepairLogsBinding.repairs.setOnScrollListener(scrollListener);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayout.VERTICAL);
@@ -149,12 +154,13 @@ public class RepairLogsFragment extends BaseFragment  {
     public void bindView(View view) {
         fragmentRepairLogsBinding=DataBindingUtil.bind(view);
     }
+
     @Override
     public void getComponentFactory() {
     }
+
     public void getRepairLogs(int first,int last,RecyclerView recyclerView)
     {
-
         apiInterface.getRepairLogs(first, last).enqueue(new RetrofitCallback<RepairsDataandTotalRepairCount>() {
             @Override
             public void handleSuccess(Call<RepairsDataandTotalRepairCount> call, Response<RepairsDataandTotalRepairCount> response) {

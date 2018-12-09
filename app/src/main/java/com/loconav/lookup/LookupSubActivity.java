@@ -77,15 +77,28 @@ public class LookupSubActivity extends BaseActivity {
         Input i1 = new Input("deviceId", "imei", "textView", "Device Id :");
         Input i2 = new Input("remarks", "remarks", "text", "");
         Input i3 = new Input("reasons", "reasons", "spinner", "");
-        Input i4 = new Input("addImage", "addImage", "ImagePicker", "");
+        Input i4 = new Input("addImage", "addImage", "TruckImages", "");
+        Input i5 = new Input("addImage", "addImage", "DeviceImages", "");
+        Input i6 = new Input("addImage", "addImage", "WireConnectionImages", "");
+        Input i7 = new Input("addImage", "addImage", "Accessories", "");
+        Input i8 = new Input("addImage", "addImage", "EarthWireConnectionImages", "");
+        Input i9 = new Input("addImage", "addImage", "DeviceFitting", "");
         addtionalFields.add(i1);
         addtionalFields.add(i2);
         addtionalFields.add(i3);
         addtionalFields.add(i4);
+        addtionalFields.add(i5);
+        addtionalFields.add(i6);
+        addtionalFields.add(i7);
+        addtionalFields.add(i8);
+        addtionalFields.add(i9);
         if (passingReason.getUserChoice().equals(userChoice)) {
             addtionalFields.addAll(reasonResponse.getAdditional_fields());
         }
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

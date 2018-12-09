@@ -45,7 +45,6 @@ public class LookupAdapter extends BaseAdapter {
 
     @Override
     public void onItemClick(Object object, int position) {
-        Log.e("item ", "onItemClick: "+ ((Entity) object).getKey());
     }
 
     @Override
