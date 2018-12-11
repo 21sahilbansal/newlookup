@@ -51,6 +51,7 @@ public class InstallLogsFragment extends BaseFragment {
         apiInterface.getInstallLogs(start,end).enqueue(new RetrofitCallback<InstallDatandTotalInstallCount>() {
             @Override
             public void handleSuccess(Call<InstallDatandTotalInstallCount> call, Response<InstallDatandTotalInstallCount> response) {
+                fragmentInstallLogsBinding.startprogressbar.setVisibility(View.INVISIBLE);
                 installList=response.body().getData();
                 totalitem=response.body().getTotalcount();
                 for (Installs installs:installList)

@@ -58,6 +58,14 @@ public class LandingActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        lookupEntryBinding = DataBindingUtil.setContentView(this, R.layout.activity_lookup_entry);
+        toolbar = lookupEntryBinding.toolbar;
+        toolbar.inflateMenu(R.menu.user);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setElevation(0);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ic_lookup_app_icon);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
         //Check if the gps is ON or not and if ON then continue and start the BroadcastReceiver if not then onGpsDialog appers and ask the user to ON the GPS
         final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
         if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
@@ -68,15 +76,6 @@ public class LandingActivity extends BaseActivity {
             startBroadcstReceiver();
             firstTimeTutorial();
         }
-
-        lookupEntryBinding = DataBindingUtil.setContentView(this, R.layout.activity_lookup_entry);
-        toolbar = lookupEntryBinding.toolbar;
-        toolbar.inflateMenu(R.menu.user);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setElevation(0);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setLogo(R.drawable.ic_lookup_app_icon);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
         String reasonsResponse = SharedPrefHelper.getInstance().getStringData(REASONS_RESPONSE);
         Gson gson = new Gson();
         jsonLog = gson.fromJson(reasonsResponse, new TypeToken<List<ReasonResponse>>() {
@@ -215,7 +214,6 @@ public class LandingActivity extends BaseActivity {
                 .build()
                 .show();
     }
-
     //This is used to start the receiver in background after the app is killed
     public void startBroadcstReceiver()
     {

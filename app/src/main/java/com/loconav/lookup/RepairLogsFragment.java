@@ -53,6 +53,7 @@ public class RepairLogsFragment extends BaseFragment  {
         apiInterface.getRepairLogs(start,end).enqueue(new RetrofitCallback<RepairsDataandTotalRepairCount>() {
             @Override
             public void handleSuccess(Call<RepairsDataandTotalRepairCount> call, Response<RepairsDataandTotalRepairCount> response) {
+                fragmentRepairLogsBinding.startprogressbar.setVisibility(View.INVISIBLE);
                 repairsList=response.body().getData();
                 totalitem=response.body().getTotalcount();
                 for(Repairs repairs:repairsList)

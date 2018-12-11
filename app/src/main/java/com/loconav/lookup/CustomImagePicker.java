@@ -36,6 +36,7 @@ public class CustomImagePicker extends LinearLayout{
     private ArrayList<ImageUri> originalImageUris = new ArrayList<>();
     private ArrayList<ImageUri> thumbNailUris = new ArrayList<>();
     private LinearLayout linearLayout;
+    //needed to differentiate different imagepickers that where inflated through custominflater so did it by textID
     public String textID ,titleText;
     public int limit;
     RecycleCustomImageAdapter recycleCustomImageAdapter;
