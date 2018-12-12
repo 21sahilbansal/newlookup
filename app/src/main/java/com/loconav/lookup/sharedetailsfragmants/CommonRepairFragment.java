@@ -108,6 +108,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
 
         // performing the click on upload button
         binding.share.setOnClickListener(v -> {
+
             for (int i = 0; i < binding.ll.getChildCount() - 1; i++) {
                 View view = binding.ll.getChildAt(i);
                 validate = validator(view);
@@ -116,6 +117,8 @@ public class CommonRepairFragment extends BaseTitleFragment {
                 }
             }
             if(validate) {
+                preRepairAttachmentList.clear();
+                postRepairAttachmentsList.clear();
                 progressDialog = new ProgressDialog(getActivity());//we are on ui thread
                 progressDialog.setMessage("Image Compressing..");
                 progressDialog.setCancelable(false);

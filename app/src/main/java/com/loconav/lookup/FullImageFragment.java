@@ -36,7 +36,6 @@ public class FullImageFragment extends BaseFragment {
                 getActivity().onBackPressed();
             }
         });
-
     }
 
 
