@@ -1,17 +1,12 @@
 package com.loconav.lookup.adapter;
 
-import android.content.Context;
-import android.databinding.BindingAdapter;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.loconav.lookup.Callback;
+import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseAdapter;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ImageSetterAdapter extends BaseAdapter{

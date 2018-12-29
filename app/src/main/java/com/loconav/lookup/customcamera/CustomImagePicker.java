@@ -1,4 +1,4 @@
-package com.loconav.lookup;
+package com.loconav.lookup.customcamera;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loconav.lookup.R;
 import com.loconav.lookup.adapter.RecycleCustomImageAdapter;
-import com.loconav.lookup.dialog.ImagePickerDialog;
-import com.loconav.lookup.model.ImageUri;
-import com.loconav.lookup.utils.ImageUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -36,6 +33,7 @@ public class CustomImagePicker extends LinearLayout{
     private ArrayList<ImageUri> originalImageUris = new ArrayList<>();
     private ArrayList<ImageUri> thumbNailUris = new ArrayList<>();
     private LinearLayout linearLayout;
+    //needed to differentiate different imagepickers that where inflated through custominflater so did it by textID
     public String textID ,titleText;
     public int limit;
     RecycleCustomImageAdapter recycleCustomImageAdapter;

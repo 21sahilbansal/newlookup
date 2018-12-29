@@ -1,4 +1,4 @@
-package com.loconav.lookup.utils;
+package com.loconav.lookup.customcamera;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,8 +7,6 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
-
-import com.loconav.lookup.model.ImageUri;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -46,5 +44,4 @@ public class ImageUtils {
                 f));
         return imageUri;
     }
-
 }

@@ -5,10 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.loconav.lookup.Callback;
+import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseAdapter;
-import com.loconav.lookup.model.ImageUri;
+import com.loconav.lookup.customcamera.ImageUri;
 import java.util.List;
 
 

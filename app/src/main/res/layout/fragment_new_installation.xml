@@ -173,7 +173,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Immobilizer"/>
-            <com.loconav.lookup.CustomImagePicker
+            <com.loconav.lookup.customcamera.CustomImagePicker
                 custom:id="truckimages"
                 android:layout_width="match_parent"
                 android:id="@+id/TruckImages"
@@ -183,7 +183,7 @@
                 android:background="?android:selectableItemBackground"
                 custom:titleText="@string/upload_truck_images"
                 custom:limitImages="1"/>
-            <com.loconav.lookup.CustomImagePicker
+            <com.loconav.lookup.customcamera.CustomImagePicker
                 android:id="@+id/DeviceImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -194,7 +194,7 @@
                 custom:id="deviceimages"
                 custom:titleText="@string/upload_device_images"
                 custom:limitImages="1"/>
-            <com.loconav.lookup.CustomImagePicker
+            <com.loconav.lookup.customcamera.CustomImagePicker
                 android:id="@+id/WireConnection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -205,9 +205,9 @@
                 custom:id="wireconnection"
                 custom:titleText="@string/upload_wire_connection"
                 custom:limitImages="2">
-            </com.loconav.lookup.CustomImagePicker>
+            </com.loconav.lookup.customcamera.CustomImagePicker>
 
-            <com.loconav.lookup.CustomImagePicker
+            <com.loconav.lookup.customcamera.CustomImagePicker
                 android:id="@+id/Accessories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -219,7 +219,7 @@
                 custom:id="accessories"
                 custom:limitImages="2"
                 custom:titleText="@string/upload_accessories" />
-            <com.loconav.lookup.CustomImagePicker
+            <com.loconav.lookup.customcamera.CustomImagePicker
                 android:id="@+id/EarthwireConnection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -230,7 +230,7 @@
                 custom:id="earthwireconnection"
                 custom:titleText="@string/upload_earth_wire_connection"
                 custom:limitImages="1"/>
-            <com.loconav.lookup.CustomImagePicker
+            <com.loconav.lookup.customcamera.CustomImagePicker
                 android:id="@+id/DeviceFitting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

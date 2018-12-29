@@ -1,7 +1,10 @@
 package com.loconav.lookup.application;
 
 import android.app.Application;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import com.crashlytics.android.Crashlytics;
 import com.loconav.lookup.base.MyDataBindingComponent;
@@ -23,7 +26,7 @@ public class LookUpApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        Fabric.with(this, new Crashlytics());
+       // Fabric.with(this, new Crashlytics());
         DataBindingUtil.setDefaultComponent(new MyDataBindingComponent());
     }
 }

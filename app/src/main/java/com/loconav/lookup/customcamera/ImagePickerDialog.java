@@ -1,4 +1,4 @@
-package com.loconav.lookup.dialog;
+package com.loconav.lookup.customcamera;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -13,12 +13,9 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.loconav.lookup.ImagePickerEvent;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseDialogFragment;
-import com.loconav.lookup.customcamera.CameraOpenActivity;
 import com.loconav.lookup.databinding.DialogImagePickerBinding;
-import com.loconav.lookup.model.ImageUri;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

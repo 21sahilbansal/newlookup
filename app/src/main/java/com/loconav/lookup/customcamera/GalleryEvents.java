@@ -1,4 +1,4 @@
-package com.loconav.lookup;
+package com.loconav.lookup.customcamera;
 
 import android.content.Intent;
 

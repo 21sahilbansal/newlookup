@@ -9,10 +9,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
 
-import com.loconav.lookup.FullImageFragment;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseDialogFragment;
-import com.loconav.lookup.databinding.DialogDateTimePickerBinding;
 import com.loconav.lookup.databinding.FragmentFullImageBinding;
 import com.squareup.picasso.Picasso;
 
