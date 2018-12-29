@@ -1,4 +1,4 @@
-package com.loconav.lookup.utils;
+package com.loconav.lookup.customcamera;
 
 import android.content.Context;
 import android.graphics.Bitmap;

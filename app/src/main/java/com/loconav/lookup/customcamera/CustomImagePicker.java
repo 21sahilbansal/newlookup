@@ -1,4 +1,4 @@
-package com.loconav.lookup;
+package com.loconav.lookup.customcamera;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loconav.lookup.Callback;
+import com.loconav.lookup.R;
 import com.loconav.lookup.adapter.RecycleCustomImageAdapter;
-import com.loconav.lookup.dialog.ImagePickerDialog;
-import com.loconav.lookup.model.ImageUri;
-import com.loconav.lookup.utils.ImageUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

@@ -1,9 +1,10 @@
-package com.loconav.lookup;
+package com.loconav.lookup.customcamera;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
 
+import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FragmentFullImageBinding;
 import com.squareup.picasso.Picasso;

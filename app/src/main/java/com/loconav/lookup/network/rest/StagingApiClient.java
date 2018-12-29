@@ -1,6 +1,5 @@
 package com.loconav.lookup.network.rest;
 
-import com.loconav.lookup.application.LookUpApplication;
 import com.loconav.lookup.application.SharedPrefHelper;
 
 import java.io.IOException;

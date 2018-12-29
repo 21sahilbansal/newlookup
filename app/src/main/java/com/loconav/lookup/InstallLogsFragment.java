@@ -23,6 +23,8 @@ import com.loconav.lookup.utils.AppUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -34,7 +36,7 @@ public class InstallLogsFragment extends BaseFragment {
     int totalitem,oppo;
     int placeholdersToLoad=20;
     boolean loadmore=true,itemsloaded=true;
-    FragmentController fragmentController=new FragmentController();
+    private NavController navController;
     @Override
     public int setViewId() {
         return R.layout.fragment_install_logs;
@@ -47,7 +49,7 @@ public class InstallLogsFragment extends BaseFragment {
         int layout = bundle.getInt("layout");
         //It is to initially load the number of items
         int start = 0,end=8;
-
+        navController= Navigation.findNavController(getActivity(),R.id.user_fragment_host);
         apiInterface.getInstallLogs(start,end).enqueue(new RetrofitCallback<InstallDatandTotalInstallCount>() {
             @Override
             public void handleSuccess(Call<InstallDatandTotalInstallCount> call, Response<InstallDatandTotalInstallCount> response) {
@@ -71,9 +73,7 @@ public class InstallLogsFragment extends BaseFragment {
                 Installs installs = (Installs) object;
                 if(installs!=null) {
                     bundle.putInt("id", Integer.parseInt((installs.getId())));
-                    InstallDetailFragment installDetailFragment = new InstallDetailFragment();
-                    installDetailFragment.setArguments(bundle);
-                    fragmentController.loadFragment(installDetailFragment, getFragmentManager(), layout, true);
+                    navController.navigate(R.id.installDetailsFragment,bundle);
                 }
             }
         });

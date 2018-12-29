@@ -1,17 +1,12 @@
 package com.loconav.lookup;
 
 import android.databinding.DataBindingUtil;
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.loconav.lookup.databinding.RepairBinding;
-import com.loconav.lookup.model.ImageUri;
+import com.loconav.lookup.customcamera.ImageUri;
 import com.loconav.lookup.model.PassingReason;
 
 import java.util.ArrayList;

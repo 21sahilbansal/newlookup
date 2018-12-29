@@ -1,4 +1,4 @@
-package com.loconav.lookup.model;
+package com.loconav.lookup.customcamera;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;

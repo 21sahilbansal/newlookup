@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_landing_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.loconav.lookup.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_repairFragment"
+            app:destination="@id/repairFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_deviceIdFragment2"
+            app:destination="@id/deviceIdFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/deviceIdFragment"
+        android:name="com.loconav.lookup.DeviceIdFragment"
+        android:label="DeviceIdFragment" >
+        <action
+            android:id="@+id/action_deviceIdFragment_to_deviceDetailFragment"
+            app:destination="@id/deviceDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/deviceDetailFragment"
+        android:name="com.loconav.lookup.DeviceDetailFragment"
+        android:label="DeviceDetailFragment" >
+        <action
+            android:id="@+id/action_deviceDetailFragment_to_fetchClientFragment"
+            app:destination="@id/fetchClientFragment" />
+        <action
+            android:id="@+id/action_deviceDetailFragment_to_commonRepairFragment"
+            app:destination="@id/commonRepairFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fetchClientFragment"
+        android:name="com.loconav.lookup.FetchClientFragment"
+        android:label="FetchClientFragment" >
+        <action
+            android:id="@+id/action_fetchClientFragment_to_installLogsFragment2"
+            app:destination="@id/installLogsFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/commonRepairFragment"
+        android:name="com.loconav.lookup.sharedetailsfragmants.CommonRepairFragment"
+        android:label="CommonRepairFragment" />
+    <fragment
+        android:id="@+id/installLogsFragment2"
+        android:name="com.loconav.lookup.InstallLogsFragment"
+        android:label="fragment_install_logs"
+        tools:layout="@layout/fragment_install_logs" />
+    <fragment
+        android:id="@+id/repairFragment"
+        android:name="com.loconav.lookup.RepairFragment"
+        android:label="RepairFragment" >
+        <action
+            android:id="@+id/action_repairFragment_to_deviceIdFragment"
+            app:destination="@id/deviceIdFragment" />
+    </fragment>
+</navigation>

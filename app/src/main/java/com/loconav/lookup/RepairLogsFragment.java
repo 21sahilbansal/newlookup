@@ -24,6 +24,8 @@ import com.loconav.lookup.utils.AppUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -36,7 +38,7 @@ public class RepairLogsFragment extends BaseFragment  {
     private int totalitem,oppo;
     private int placeholdersToLoad=20;
     private boolean loadmore=true,itemsloaded=true;
-    private FragmentController fragmentController=new FragmentController();
+    NavController navController;
     @Override
     public int setViewId() {
         return R.layout.fragment_repair_logs;
@@ -49,7 +51,7 @@ public class RepairLogsFragment extends BaseFragment  {
         int layout = bundle.getInt("layout");
         //It is to initially load the number of items
         int start = 0,end=8;
-
+        navController= Navigation.findNavController(getActivity(),R.id.user_fragment_host);
         apiInterface.getRepairLogs(start,end).enqueue(new RetrofitCallback<RepairsDataandTotalRepairCount>() {
             @Override
             public void handleSuccess(Call<RepairsDataandTotalRepairCount> call, Response<RepairsDataandTotalRepairCount> response) {
@@ -74,9 +76,7 @@ public class RepairLogsFragment extends BaseFragment  {
                     Repairs repairs = (Repairs) object;
                     if(repairs!=null) {
                         bundle.putInt("id", (repairs.getId()));
-                        RepairDetailFragment repairDetailFragment = new RepairDetailFragment();
-                        repairDetailFragment.setArguments(bundle);
-                        fragmentController.loadFragment(repairDetailFragment, getFragmentManager(),layout,true);
+                        navController.navigate(R.id.repairDetailsFragment,bundle);
                     }
                 }
                 else
