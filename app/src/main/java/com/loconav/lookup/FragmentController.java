@@ -15,24 +15,13 @@ import java.util.List;
 
 public class FragmentController extends AppCompatActivity {
 
-    public final static String TAG_NAME_FRAGMENT = "ACTIVITY_FRAGMENT";
+    private String TAG_NAME_FRAGMENT = "ACTIVITY_FRAGMENT";
 
-    public FragmentController(final FragmentManager fragmentManager, final Activity activity){
-        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-                        public void onBackStackChanged() {
-                            Log.e(TAG_NAME_FRAGMENT, "onBackStackChanged: " );
-                           Fragment fragment= getFragmentsStack(fragmentManager);
-                            if(fragment!=null) {
-                                if(fragment instanceof BaseTitleFragment) {
-                                    ((AppCompatActivity)activity).getSupportActionBar().setTitle(((BaseTitleFragment) fragment).getTitle());
-                                }
-                            }
-                        }
-                    });
+    public FragmentController()
+    {}
 
-        }
 
-    public static void loadFragment(final Fragment fragment,FragmentManager fragmentManager,int resId,Boolean addToBackStack) {
+    public  void loadFragment(final Fragment fragment,FragmentManager fragmentManager,int resId,Boolean addToBackStack) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(resId, fragment,"");
         if(addToBackStack) {
@@ -40,8 +29,14 @@ public class FragmentController extends AppCompatActivity {
         }
         transaction.commit();
     }
+    public  void deleteFragment(final  Fragment fragment,FragmentManager fragmentManager)
+    {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.remove(fragment);
+        transaction.commit();
+    }
 
-    public static void replaceFragment(final Fragment fragment,FragmentManager fragmentManager,int resId,Boolean addToBackStack) {
+    public  void replaceFragment(final Fragment fragment,FragmentManager fragmentManager,int resId,Boolean addToBackStack) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(resId, fragment,"");
         if(addToBackStack) {
@@ -58,5 +53,13 @@ public class FragmentController extends AppCompatActivity {
                 fragment = fragmentList.get(size - 1);
             }
             return fragment;
+    }
+
+    public  void deleteFragmentStack(FragmentManager fm)
+    {
+
+        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
     }
 }

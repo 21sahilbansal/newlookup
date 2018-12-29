@@ -15,8 +15,8 @@ import java.util.List;
  * Created by sejal on 27-07-2018.
  */
 
-public class WhatToDoAdapter extends BaseAdapter {
-
+public class
+WhatToDoAdapter extends BaseAdapter {
     List<ReasonResponse> data;
     private Callback callback;
     // Provide repair suitable constructor (depends on the kind of dataset)
@@ -42,7 +42,6 @@ public class WhatToDoAdapter extends BaseAdapter {
 
     @Override
     public void editHeightWidthItem(View view,ViewGroup parent) {
-        view.getLayoutParams().height = (int) (parent.getMeasuredHeight() / 2.7);
     }
 
     @Override

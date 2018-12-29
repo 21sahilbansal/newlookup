@@ -96,8 +96,8 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
             }});
     }
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         binding.unbind();
     }
 }

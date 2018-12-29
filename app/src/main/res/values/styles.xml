@@ -10,7 +10,8 @@
         <item name="android:datePickerDialogTheme" tools:ignore="NewApi">@style/DialogTheme</item>
         <item name="android:alertDialogTheme">@style/DialogTheme</item>
         <item name="elevation">0dp</item>
-    </style>
+        <item name="colorControlActivated">@color/black</item>
+     </style>
 
     <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/smalltext_lightgrey</item>
@@ -22,13 +23,6 @@
             <item name="colorAccent">@color/color_orange</item>
             <item name="android:colorPrimary" tools:ignore="NewApi">#00397F</item>
         </style>
-    <style name="FullscreenTheme" parent="AppTheme">
-        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:windowBackground">@null</item>
-        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
-        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
-    </style>
 
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
@@ -37,6 +31,7 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/bg_button</item>
         <item name="android:paddingLeft">10dp</item>
+        <item name="android:colorControlHighlight">#a14040</item>
         <item name="android:paddingRight">10dp</item>
     </style>
 
@@ -58,6 +53,15 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/listprimary_black</item>
+    </style>
+    <style name="CustomDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowAnimationStyle">@anim/dialog_enter</item>
+    </style>
+
+    <style name="FullScreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
 

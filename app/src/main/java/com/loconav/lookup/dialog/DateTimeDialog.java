@@ -118,8 +118,8 @@ public class DateTimeDialog extends BaseDialogFragment {
         return str2;
     }
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         binding.unbind();
     }
 }

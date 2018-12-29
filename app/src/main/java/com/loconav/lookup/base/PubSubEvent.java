@@ -26,6 +26,4 @@ public class PubSubEvent {
     public Object getObject(){
         return this.object;
     }
-
-
 }

@@ -19,12 +19,14 @@ import android.widget.Toast;
 import com.loconav.lookup.model.VehiclesList;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.StagingApiClient;
+import com.loconav.lookup.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
+
 
 /**
  * Created by sejal on 28-06-2018.
@@ -48,8 +50,6 @@ public class FastTagFragment extends BaseFragment {
     public int setViewId() {
         return R.layout.fragment_fastag;
     }
-
-
     @Override
     public void onFragmentCreated() {
         searchAutoComplete = (SearchView.SearchAutoComplete)binding.searchTruck.findViewById(android.support.v7.appcompat.R.id.search_src_text);
@@ -127,7 +127,8 @@ public class FastTagFragment extends BaseFragment {
         searchAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Utility.hideKeyboard(getActivity());
+                if(getActivity()!=null)
+                    AppUtils.hideKeyboard(getActivity());
                 query= (VehiclesList) parent.getItemAtPosition(position);
                 searchAutoComplete.setText(query.getNumber());
                 searchAutoComplete.setSelection(query.getNumber().length());
@@ -147,7 +148,8 @@ public class FastTagFragment extends BaseFragment {
         searchAutoCompleteFastag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Utility.hideKeyboard(getActivity());
+                if(getActivity()!=null)
+                    AppUtils.hideKeyboard(getActivity());
                 queryFastags= (FastagsList) parent.getItemAtPosition(position);
                 searchAutoCompleteFastag.setText(queryFastags.getSerialNumber()+" "+queryFastags.getColor());
                 searchAutoCompleteFastag.setSelection(queryFastags.getSerialNumber().length()+queryFastags.getColor().length());
@@ -170,5 +172,10 @@ public class FastTagFragment extends BaseFragment {
                 Log.e("error ", t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

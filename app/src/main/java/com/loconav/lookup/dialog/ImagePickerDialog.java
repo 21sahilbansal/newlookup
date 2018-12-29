@@ -2,43 +2,28 @@ package com.loconav.lookup.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ContentUris;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.loconav.lookup.GalleryEvents;
 import com.loconav.lookup.ImagePickerEvent;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseDialogFragment;
+import com.loconav.lookup.customcamera.CameraOpenActivity;
 import com.loconav.lookup.databinding.DialogImagePickerBinding;
 import com.loconav.lookup.model.ImageUri;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -47,10 +32,10 @@ import java.util.ArrayList;
 
 public class ImagePickerDialog extends BaseDialogFragment {
     private DialogImagePickerBinding binding;
-    private int REQUEST_CAMERA = 0,SELECT_FILE = 1;
+    private int SELECT_FILE = 1;
     private String stringId;
     private int limit;
-    private ArrayList<ImageUri> imagesUriArrayList=new ArrayList<>(); ;
+    private ArrayList<ImageUri> imagesUriArrayList=new ArrayList<>();
     public static ImagePickerDialog newInstance(String id,int limit) {
         ImagePickerDialog imagePickerDialog = new ImagePickerDialog();
         Bundle bundle=new Bundle();
@@ -67,7 +52,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
         final View dialogView = getActivity().getLayoutInflater()
                 .inflate(R.layout.dialog_image_picker, new LinearLayout(getActivity()),
                         false);
-       binding= DataBindingUtil.bind(dialogView);
+        binding= DataBindingUtil.bind(dialogView);
 
         stringId=getArguments().getString("id");
         limit=getArguments().getInt("limitImages");
@@ -92,6 +77,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
                     .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         }
         builder.setContentView(dialogView);
+        EventBus.getDefault().register(this);
         return builder;
     }
 
@@ -102,10 +88,16 @@ public class ImagePickerDialog extends BaseDialogFragment {
         intent.setAction(Intent.ACTION_GET_CONTENT);//
         startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
     }
-    public void cameraIntent() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_CAMERA);
+    public void cameraIntent()
+    {
+        Bundle bundle=new Bundle();
+        bundle.putInt("limit",limit);
+        bundle.putString("Stringid",stringId);
+        Intent i =new Intent(getContext(),CameraOpenActivity.class);
+        i.putExtras(bundle);
+        startActivity(i);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
@@ -114,16 +106,12 @@ public class ImagePickerDialog extends BaseDialogFragment {
                 Log.e("list size",""+imagesUriArrayList.size());
                 EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_GALLERY+""+stringId, imagesUriArrayList));
             }
-            else if (requestCode == REQUEST_CAMERA) {
-                parsingCameraImage(data);
-                EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_CAMERA+""+stringId, imagesUriArrayList));
-            }
         }
         super.onActivityResult(requestCode, resultCode, data);
         dismiss();
     }
 
-    public void parsingGalleryImage(Intent data)  {
+    public void parsingGalleryImage(final Intent data)  {
         data.getExtras();
         if(data.getClipData()==null){
             ImageUri imageUri = new ImageUri();
@@ -140,7 +128,6 @@ public class ImagePickerDialog extends BaseDialogFragment {
                 }
             }else {
                 for (int i = 0; i <limit; i++) {
-
                     ImageUri imageUri = new ImageUri();
                     imageUri.setUri(data.getClipData().getItemAt(i).getUri());
                     imagesUriArrayList.add(imageUri);
@@ -151,32 +138,18 @@ public class ImagePickerDialog extends BaseDialogFragment {
         Log.e("SIZE", imagesUriArrayList.size() + ""+imagesUriArrayList);
     }
 
-    public void parsingCameraImage(Intent data){
-        Bitmap thumbnail = (Bitmap)data.getExtras().get("data");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail=Bitmap.createScaledBitmap(thumbnail,thumbnail.getWidth()*3 , thumbnail.getHeight()*3, true);
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
-        FileOutputStream fo;
-        try {
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ImageUri imageUri=new ImageUri();
-        imageUri.setUri(( Uri.fromFile(destination)));
-        imagesUriArrayList=new ArrayList<>();
-        imagesUriArrayList.add(imageUri);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getToDismiss(String dismiss) {
+       if(dismiss.equals("true")) {
+           Log.e("the dialog ","the dialog should dismiss");
+           getDialog().dismiss();
+       }
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         binding.unbind();
     }
 }
