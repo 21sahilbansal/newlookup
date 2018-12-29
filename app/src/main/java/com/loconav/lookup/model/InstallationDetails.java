@@ -57,6 +57,25 @@ public class InstallationDetails {
 
         @SerializedName("device_phone_number")
         private String device_phone_number;
+        @SerializedName("audit_status")
+        private String auditStatus;
+        @SerializedName("audit_notes")
+        private String auditNotes;
+
+        public String getAuditStatus() {
+            return auditStatus; }
+
+        public void setAuditStatus(String auditStatus) {
+            this.auditStatus = auditStatus;
+        }
+
+        public String getAuditNotes() {
+            return auditNotes;
+        }
+
+        public void setAuditNotes(String auditNotes) {
+            this.auditNotes = auditNotes;
+        }
 
         public String getInstallable_id ()
         {

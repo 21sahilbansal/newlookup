@@ -8,7 +8,7 @@ public class Coordinates {
     @SerializedName("long")
     private String  longitude;
     @SerializedName("recorded_at")
-    private long recordedat;
+    private long recordedAt;
 
     public void setLatitude(String latitude) {
         this.latitude = latitude;
@@ -18,8 +18,8 @@ public class Coordinates {
         this.longitude = longitude;
     }
 
-    public void setRecordedat(long recordedat) {
-        this.recordedat = recordedat;
+    public void setRecordedAt(long recordedAt) {
+        this.recordedAt = recordedAt;
     }
 
     public String getLatitude() {
@@ -31,7 +31,7 @@ public class Coordinates {
         return longitude;
     }
 
-    public long getRecordedat() {
-        return recordedat;
+    public long getRecordedAt() {
+        return recordedAt;
     }
 }

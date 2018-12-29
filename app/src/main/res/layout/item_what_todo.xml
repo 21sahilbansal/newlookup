@@ -9,47 +9,46 @@
             name="obj"
             type="com.loconav.lookup.model.ReasonResponse"/>
     </data>
-    <LinearLayout
-        android:gravity="center"
-        android:background="@android:color/transparent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
         <android.support.v7.widget.CardView
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             app:cardElevation="3dp"
             app:cardCornerRadius="@dimen/dimen_5dp"
-            android:layout_gravity="center"
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <LinearLayout
+            <android.support.constraint.ConstraintLayout
                 android:background="@color/white"
                 android:gravity="center"
-                android:paddingTop="30dp"
-                android:paddingBottom="30dp"
+                android:padding="10dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <ImageView
-                    android:backgroundTint="@color/orange"
-                    android:scaleType="centerCrop"
-                    imagesetter:imageurl="@{obj.iconUrl}"
+                    android:id="@+id/imageView5"
                     android:layout_width="70dp"
-                    android:layout_height="70dp"/>
+                    android:layout_height="70dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    imagesetter:imageurl="@{obj.iconUrl}" />
+
                 <TextView
-                    android:layout_margin="5dp"
                     android:id="@+id/devChange"
-                    android:layout_width="wrap_content"
+                    android:layout_width="160dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginLeft="32dp"
+                    android:text="@{obj.name}"
+                    android:textAllCaps="false"
+                    android:textColor="#444444"
+                    android:textSize="20sp"
                     android:textStyle="bold"
-                    android:textSize="17sp"
-                    tools:text = "Sim change"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/black"
-                    android:text="@{obj.name}"/>
-            </LinearLayout>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView5"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Sim change" />
+            </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
-    </LinearLayout>
 </layout>

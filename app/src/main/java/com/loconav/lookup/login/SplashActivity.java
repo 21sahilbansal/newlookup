@@ -37,19 +37,24 @@ public class SplashActivity extends BaseCameraActivity {
 
     @Override
     public void onAllPermissionsGranted() {
-        if(SharedPrefHelper.getInstance().getBooleanData(IS_LOGGED_IN)) {
+
+
+        if (SharedPrefHelper.getInstance().getBooleanData(IS_LOGGED_IN)) {
             Long currentTime = System.currentTimeMillis();
             Long loginTime = SharedPrefHelper.getInstance().getLongData(LOG_IN_TIME);
-            if(currentTime - loginTime > TimeUnit.HOURS.toMillis(1)){
+            if (currentTime - loginTime > TimeUnit.HOURS.toMillis(1)) {
                 fetchAndSetData();
                 //currentTime - login > TimeUnit.DAYS.toMillis(1)
-            }else{
+            } else {
                 Intent intent = new Intent(this, LandingActivity.class);
                 startActivity(intent);
                 finish();
             }
-        } else {
-            Intent intent = new Intent(this, LoginActivity.class);
+            Log.e(TAG, "onAllPermissionsGranted: ");
+        }
+        else
+        {
+            Intent intent=new Intent(this,LoginActivity.class);
             startActivity(intent);
             finish();
         }
@@ -89,7 +94,6 @@ public class SplashActivity extends BaseCameraActivity {
                     startActivity(intent);
                     finish();
                 }
-
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     Toast.makeText(getBaseContext(), t.getMessage().toString(), Toast.LENGTH_SHORT).show();

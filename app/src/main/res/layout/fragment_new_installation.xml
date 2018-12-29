@@ -10,6 +10,7 @@
         android:scrollbars="none">
         <LinearLayout
             android:padding="15dp"
+            android:animateLayoutChanges="true"
             android:id="@+id/linear"
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -172,7 +173,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Immobilizer"/>
-
             <com.loconav.lookup.CustomImagePicker
                 custom:id="truckimages"
                 android:layout_width="match_parent"
@@ -181,7 +181,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:background="?android:selectableItemBackground"
-                custom:titleText="Upload Truck Image"
+                custom:titleText="@string/upload_truck_images"
                 custom:limitImages="1"/>
             <com.loconav.lookup.CustomImagePicker
                 android:id="@+id/DeviceImage"
@@ -192,7 +192,7 @@
                 android:layout_marginRight="8dp"
                 android:background="?android:selectableItemBackground"
                 custom:id="deviceimages"
-                custom:titleText="Upload Device Image"
+                custom:titleText="@string/upload_device_images"
                 custom:limitImages="1"/>
             <com.loconav.lookup.CustomImagePicker
                 android:id="@+id/WireConnection"
@@ -203,8 +203,45 @@
                 android:layout_marginRight="8dp"
                 android:background="?android:selectableItemBackground"
                 custom:id="wireconnection"
-                custom:titleText="Upload Wire Connection"
-                custom:limitImages="2"/>
+                custom:titleText="@string/upload_wire_connection"
+                custom:limitImages="2">
+            </com.loconav.lookup.CustomImagePicker>
+
+            <com.loconav.lookup.CustomImagePicker
+                android:id="@+id/Accessories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="0"
+                android:background="?android:selectableItemBackground"
+                android:visibility="gone"
+                custom:id="accessories"
+                custom:limitImages="2"
+                custom:titleText="@string/upload_accessories" />
+            <com.loconav.lookup.CustomImagePicker
+                android:id="@+id/EarthwireConnection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="?android:selectableItemBackground"
+                custom:id="earthwireconnection"
+                custom:titleText="@string/upload_earth_wire_connection"
+                custom:limitImages="1"/>
+            <com.loconav.lookup.CustomImagePicker
+                android:id="@+id/DeviceFitting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="?android:selectableItemBackground"
+                custom:id="devicefitting"
+                custom:titleText="@string/upload_device_fitting"
+                custom:limitImages="3"/>
+
             <Button
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"

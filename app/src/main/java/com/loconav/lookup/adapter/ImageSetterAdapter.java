@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.loconav.lookup.Callback;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseAdapter;
 import com.squareup.picasso.Picasso;
@@ -15,17 +16,20 @@ import java.util.List;
 
 public class ImageSetterAdapter extends BaseAdapter{
     public List<String> images;
-    Context context;
+    private Callback callback;
 
-    public  ImageSetterAdapter(Context context, List<String> images)
+    public  ImageSetterAdapter(List<String> images,Callback callback)
     {
         this.images=images;
-        this.context=context;
+        this.callback=callback;
     }
 
     @Override
     public Object getDataAtPosition(int position) {
-        return images.get(position);
+        if(position>=0)
+            return images.get(position);
+        else
+            return null;
     }
 
     @Override
@@ -35,6 +39,7 @@ public class ImageSetterAdapter extends BaseAdapter{
 
     @Override
     public void onItemClick(Object object, int position) {
+        callback.onEventDone(object);
     }
 
     @Override

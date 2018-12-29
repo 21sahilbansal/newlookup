@@ -1,6 +1,5 @@
 package com.loconav.lookup;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -17,16 +16,16 @@ public class UserActivitySubActivity extends BaseActivity {
         if( task.equals("RepairLogs")) {
             Bundle bundle = new Bundle();
             bundle.putInt("layout", R.id.task);
-            RepairLogs repairLogs = new RepairLogs();
-            repairLogs.setArguments(bundle);
-            fragmentController.loadFragment(repairLogs, getSupportFragmentManager(), R.id.task, false);
+            RepairLogsFragment repairLogsFragment = new RepairLogsFragment();
+            repairLogsFragment.setArguments(bundle);
+            fragmentController.loadFragment(repairLogsFragment, getSupportFragmentManager(), R.id.task, false);
         }
         else if(task.equals("InstallLogs")) {
             Bundle bundle = new Bundle();
             bundle.putInt("layout", R.id.task);
-            InstallLogs installLogs = new InstallLogs();
-            installLogs.setArguments(bundle);
-            fragmentController.loadFragment(installLogs, getSupportFragmentManager(), R.id.task, false);
+            InstallLogsFragment installLogsFragment = new InstallLogsFragment();
+            installLogsFragment.setArguments(bundle);
+            fragmentController.loadFragment(installLogsFragment, getSupportFragmentManager(), R.id.task, false);
         }
     }
 

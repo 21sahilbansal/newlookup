@@ -21,6 +21,25 @@
     <string name="repair">Repair</string>
     <string name="permissions">Give permissions</string>
     <string name="proceed">PROCEED</string>
+    <string name="upload">UPLOAD</string>
     <string name="camera">Camera</string>
     <string name="update">UPDATE</string>
+    <string name="upload_device_images">Upload Device Image (डिवाइस ईमेज अपलोड करें) (1 image)</string>
+    <string name="upload_truck_images">Upload Truck Image (ट्रक ईमेज अपलोड करें) (1 image)</string>
+    <string name="upload_wire_connection">Upload Wire Connection (वायर कनेक्शन अपलोड करें) (2 images)</string>
+    <string name="upload_device_fitting">Upload Device Fitting (डिवाइस फिटिंग अपलोड करें) (3 images)</string>
+    <string name="upload_accessories">Upload SOS, trip, relay Images (एसओएस, यात्रा, रिले ईमेज अपलोड करें)(2 images)</string>
+    <string name="upload_earth_wire_connection">Upload Earth Wire Connection (अर्थ वायर कनेक्शन अपलोड करें) (1 image)</string>
+    <string name="device_images">Device Images</string>
+    <string name="truck_images">Truck Images</string>
+    <string name="wire_connection_images">Wire Connection Images</string>
+    <string name="earthwire_connection_images">Earth-Wire Connection Images</string>
+    <string name="device_fitting_images">Device Fitting Images</string>
+    <string name="accessories_images">Accessories Images</string>
+    <string name="user_profile">User Profile \nउपयोगकर्ता प्रोफ़ाइल</string>
+    <string name="check_repairs_logs">Check Repair Logs \n(मरम्मत लॉग की जांच करें)</string>
+    <string name="check_install_logs">Check Install Logs \n(स्थापना लॉग की जांच करें)</string>
+    <string name="check_profile">Check Profile \n(प्रोफाइल जांचें)</string>
+    <string name="create_new_install">Create new installation \n(नई स्थापना बनाएँ)</string>
+    <string name="creation_installation">create new trucks and attach tracking device \n(नए ट्रक बनाएं और ट्रैकिंग डिवाइस संलग्न करें)</string>
 </resources>

@@ -18,11 +18,13 @@ import android.widget.Toast;
 import com.loconav.lookup.adapter.RecycleCustomImageAdapter;
 import com.loconav.lookup.dialog.ImagePickerDialog;
 import com.loconav.lookup.model.ImageUri;
+import com.loconav.lookup.utils.ImageUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +33,10 @@ import java.util.List;
  */
 
 public class CustomImagePicker extends LinearLayout{
-    private ArrayList<ImageUri> imageUris = new ArrayList<>();
+    private ArrayList<ImageUri> originalImageUris = new ArrayList<>();
+    private ArrayList<ImageUri> thumbNailUris = new ArrayList<>();
     private LinearLayout linearLayout;
-    private String textID ,titleText;
+    public String textID ,titleText;
     public int limit;
     RecycleCustomImageAdapter recycleCustomImageAdapter;
     TypedArray typedArrayCustom;
@@ -44,7 +47,6 @@ public class CustomImagePicker extends LinearLayout{
 
     public CustomImagePicker(final Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-
          typedArrayCustom = context.obtainStyledAttributes(attrs,
                 R.styleable.Options, 0, 0);
         titleText= typedArrayCustom.getString(R.styleable.Options_titleText);
@@ -73,7 +75,7 @@ public class CustomImagePicker extends LinearLayout{
         linearLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (imageUris.size()==limit) {
+                if (thumbNailUris.size()==limit) {
                     Toast.makeText(getContext(),"Not more than "+limit+" images",Toast.LENGTH_SHORT).show();
                 }else{
                     ImagePickerDialog imagePickerDialog = ImagePickerDialog.newInstance(textID, limit);
@@ -102,7 +104,7 @@ public class CustomImagePicker extends LinearLayout{
         linearLayoutManager.setInitialPrefetchItemCount(4);
         RecyclerView recyclerImages=findViewById(R.id.rvImages);
         recyclerImages.setLayoutManager(linearLayoutManager);
-        recycleCustomImageAdapter = new RecycleCustomImageAdapter(imageUris, new Callback() {
+        recycleCustomImageAdapter = new RecycleCustomImageAdapter(thumbNailUris, new Callback() {
             @Override
             public void onEventDone(Object object) {
             }
@@ -120,26 +122,36 @@ public class CustomImagePicker extends LinearLayout{
         if (message.equals(imageEventCamera)) {
             resultLinkedList.clear();
             resultLinkedList.addAll((List<ImageUri>) event.getObject());
-            if (imageUris.size() + resultLinkedList.size() > limit)
+            if (thumbNailUris.size() + resultLinkedList.size() > limit)
                 Toast.makeText(getContext(), "Not more than " + limit + " images", Toast.LENGTH_SHORT).show();
             for (int i = 0; i < resultLinkedList.size(); i++) {
-                if (imageUris.size() < limit) {
-                    this.imageUris.add(i, resultLinkedList.get(i));
+
+                if (thumbNailUris.size() < limit) {
+                    try {
+                        this.thumbNailUris.add(i, ImageUtils.getBitmapFile(resultLinkedList.get(i).getUri(),getContext()));
+                        this.originalImageUris.add(i,resultLinkedList.get(i));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             recycleCustomImageAdapter.notifyDataSetChanged();
         } else if (message.equals(imageEventGallery)) {
             resultLinkedList.clear();
             resultLinkedList.addAll((List<ImageUri>) event.getObject());
-            if (imageUris.size() + resultLinkedList.size() > limit)
+            if (thumbNailUris.size() + resultLinkedList.size() > limit)
                 Toast.makeText(getContext(), "Not more than " + limit + " images", Toast.LENGTH_SHORT).show();
             for (int i = 0; i < resultLinkedList.size(); i++) {
-                if (imageUris.size() < limit) {
-                    this.imageUris.add(i, resultLinkedList.get(i));
+                if (thumbNailUris.size() < limit) {
+                    try {
+                        this.thumbNailUris.add(i, ImageUtils.getBitmapFile(resultLinkedList.get(i).getUri(),getContext()));
+                        this.originalImageUris.add(i,resultLinkedList.get(i));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             recycleCustomImageAdapter.notifyDataSetChanged();
-            Log.e("size", "" + imageUris);
         }
     }
     @Override
@@ -148,7 +160,7 @@ public class CustomImagePicker extends LinearLayout{
         EventBus.getDefault().unregister(this);
     }
     public  ArrayList<ImageUri> getimagesList(){
-        return imageUris;
+        return originalImageUris;
     }
 
 

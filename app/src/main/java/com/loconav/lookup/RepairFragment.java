@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Created by sejal on 12-07-2018.
  */
 
-public class Repair extends BaseTitleFragment {
+public class RepairFragment extends BaseTitleFragment {
     private RepairBinding binding;
     private PassingReason passingReason;
     FragmentController fragmentController=new FragmentController();
@@ -44,7 +44,7 @@ public class Repair extends BaseTitleFragment {
 
     @Override
     public void bindView(View view) {
-        binding= DataBindingUtil.bind(view);
+        binding = DataBindingUtil.bind(view);
     }
 
     @Override
@@ -66,21 +66,16 @@ public class Repair extends BaseTitleFragment {
         }else
             Toast.makeText(getContext(),"Add Device Image",Toast.LENGTH_SHORT).show();
     }
-    public static Repair newInstance(PassingReason passingReason1) {
-        Repair fragment = new Repair();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("str",passingReason1);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
+
 
     @Override
     public String getTitle() {
         return "Upload repair image";
     }
+
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         binding.unbind();
     }
 }

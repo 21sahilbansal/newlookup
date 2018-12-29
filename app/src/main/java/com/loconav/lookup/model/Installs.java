@@ -19,6 +19,16 @@ public class Installs {
     @SerializedName("truck_number")
     @Expose
     private String truck_number;
+    @SerializedName("audit_status")
+    private String auditStatus;
+
+    public String getAuditStatus() {
+        return auditStatus;
+    }
+
+    public void setAuditStatus(String auditStatus) {
+        this.auditStatus = auditStatus;
+    }
 
     public String getId ()
     {

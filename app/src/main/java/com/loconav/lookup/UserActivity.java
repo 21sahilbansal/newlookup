@@ -26,7 +26,6 @@ import static com.loconav.lookup.UserPrefs.phoneNumber;
 public class UserActivity extends BaseActivity implements View.OnClickListener{
     private SharedPrefHelper sharedPrefHelper ;
     private ActivityUserBinding binding;
-    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +45,7 @@ public class UserActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private void attachClickListener() {
-        binding.submit.setOnClickListener(new View.OnClickListener() {
+        binding.logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sharedPrefHelper.removeStringData(code);

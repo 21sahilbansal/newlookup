@@ -5,28 +5,25 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.loconav.lookup.utils.FileUtils;
 import com.loconav.lookup.ImagePickerEvent;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseDialogFragment;
-import com.loconav.lookup.camera_open;
+import com.loconav.lookup.customcamera.CameraOpenActivity;
 import com.loconav.lookup.databinding.DialogImagePickerBinding;
 import com.loconav.lookup.model.ImageUri;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -35,10 +32,9 @@ import java.util.ArrayList;
 
 public class ImagePickerDialog extends BaseDialogFragment {
     private DialogImagePickerBinding binding;
-    private int REQUEST_CAMERA = 0,SELECT_FILE = 1;
+    private int SELECT_FILE = 1;
     private String stringId;
     private int limit;
-    String mCurrentPhotoPath;
     private ArrayList<ImageUri> imagesUriArrayList=new ArrayList<>();
     public static ImagePickerDialog newInstance(String id,int limit) {
         ImagePickerDialog imagePickerDialog = new ImagePickerDialog();
@@ -81,6 +77,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
                     .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         }
         builder.setContentView(dialogView);
+        EventBus.getDefault().register(this);
         return builder;
     }
 
@@ -93,27 +90,12 @@ public class ImagePickerDialog extends BaseDialogFragment {
     }
     public void cameraIntent()
     {
-        //setimage();
-        Intent i =new Intent(getContext(),camera_open.class);
+        Bundle bundle=new Bundle();
+        bundle.putInt("limit",limit);
+        bundle.putString("Stringid",stringId);
+        Intent i =new Intent(getContext(),CameraOpenActivity.class);
+        i.putExtras(bundle);
         startActivity(i);
-    }
-    private void setimage()
-    {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File photoFile = null;
-        try {
-            photoFile = FileUtils.getImagefile(getActivity());
-            mCurrentPhotoPath = photoFile.getAbsolutePath();
-        } catch (Exception ex) {
-        }
-
-        if (photoFile != null) {
-            Uri photoURI = FileProvider.getUriForFile(getActivity(),
-                    "com.lookuploconav.lookup",
-                    photoFile);
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-            startActivityForResult(takePictureIntent, REQUEST_CAMERA);
-        }
     }
 
     @Override
@@ -123,11 +105,6 @@ public class ImagePickerDialog extends BaseDialogFragment {
                 parsingGalleryImage(data);
                 Log.e("list size",""+imagesUriArrayList.size());
                 EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_GALLERY+""+stringId, imagesUriArrayList));
-            }
-            else if (requestCode == REQUEST_CAMERA) {
-                parsingCameraImage(data);
-                EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_CAMERA+""+stringId, imagesUriArrayList));
-
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -161,19 +138,18 @@ public class ImagePickerDialog extends BaseDialogFragment {
         Log.e("SIZE", imagesUriArrayList.size() + ""+imagesUriArrayList);
     }
 
-
-    public void parsingCameraImage(Intent data)
-    {
-
-        File destination = new File(mCurrentPhotoPath);
-        ImageUri imageUri=new ImageUri();
-        imageUri.setUri(( Uri.fromFile(destination)));
-        imagesUriArrayList=new ArrayList<>();
-        imagesUriArrayList.add(imageUri);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getToDismiss(String dismiss) {
+       if(dismiss.equals("true")) {
+           Log.e("the dialog ","the dialog should dismiss");
+           getDialog().dismiss();
+       }
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         binding.unbind();
     }
 }

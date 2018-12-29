@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".RepairLogs">
+    tools:context=".RepairLogsFragment">
 
 
 
@@ -15,7 +15,7 @@
                 android:id="@+id/repairs"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:paddingBottom="50dp"
+                android:padding="10dp"
                 android:clipToPadding="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

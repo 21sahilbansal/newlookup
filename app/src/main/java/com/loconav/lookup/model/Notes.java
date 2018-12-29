@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Notes {
     @SerializedName("type_of_goods")
-    private String type_of_goods;
+    private String typeOfGoods;
     @SerializedName("device_model")
-    private String device_model;
+    private String deviceModel;
     @SerializedName("model")
     private String model;
     @SerializedName("trip_button")
@@ -59,24 +59,24 @@ public class Notes {
         this.installdate = installdate;
     }
 
-    public String getType_of_goods ()
+    public String getTypeOfGoods()
     {
-        return type_of_goods;
+        return typeOfGoods;
     }
 
-    public void setType_of_goods (String type_of_goods)
+    public void setTypeOfGoods(String typeOfGoods)
     {
-        this.type_of_goods = type_of_goods;
+        this.typeOfGoods = typeOfGoods;
     }
 
-    public String getDevice_model ()
+    public String getDeviceModel()
     {
-        return device_model;
+        return deviceModel;
     }
 
-    public void setDevice_model (String device_model)
+    public void setDeviceModel(String deviceModel)
     {
-        this.device_model = device_model;
+        this.deviceModel = deviceModel;
     }
 
     public String getModel ()

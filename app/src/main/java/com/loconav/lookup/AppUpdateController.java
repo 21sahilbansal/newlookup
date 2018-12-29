@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 import com.loconav.lookup.application.SharedPrefHelper;
+import com.loconav.lookup.dialog.AppUpdateDialog;
 import com.loconav.lookup.model.VersionResponse;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;

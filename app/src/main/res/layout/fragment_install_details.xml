@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".InstallDetailFragment"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -11,9 +12,10 @@
             type="com.loconav.lookup.model.InstallationDetails"></variable>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:background="@color/white"
+        android:id="@+id/swipe_refresh"
         android:layout_height="match_parent">
 
         <ScrollView
@@ -134,8 +136,8 @@
                     android:id="@+id/transporter_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="200dp"
                     android:layout_marginStart="200dp"
+                    android:layout_marginLeft="200dp"
                     android:layout_marginTop="8dp"
                     android:text="@{installs.transporter_name}"
                     android:textColor="#000000"
@@ -157,7 +159,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
                 <TextView
-                    android:id="@+id/tranpsorter_id"
+                    android:id="@+id/client_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="200dp"
@@ -183,17 +185,17 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
                 <TextView
-                    android:id="@+id/chasisno"
+                    android:id="@+id/phone_no"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="200dp"
                     android:layout_marginStart="200dp"
+                    android:layout_marginLeft="200dp"
                     android:layout_marginTop="8dp"
                     android:text="@{installs.device_phone_number}"
                     android:textColor="#000000"
                     android:textSize="10sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tranpsorter_id"
+                    app:layout_constraintTop_toBottomOf="@+id/client_id"
                     tools:text="3434" />
 
                 <TextView
@@ -209,17 +211,17 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
                 <TextView
-                    android:id="@+id/dealer_name"
+                    android:id="@+id/is_active"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="200dp"
                     android:layout_marginStart="200dp"
+                    android:layout_marginLeft="200dp"
                     android:layout_marginTop="8dp"
                     android:text="@{installs.active}"
                     android:textColor="#000000"
                     android:textSize="10sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/chasisno"
+                    app:layout_constraintTop_toBottomOf="@+id/phone_no"
                     tools:text="3434" />
 
                 <TextView
@@ -235,17 +237,17 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
                 <TextView
-                    android:id="@+id/device_model"
+                    android:id="@+id/uses_immobilization"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="200dp"
                     android:layout_marginStart="200dp"
+                    android:layout_marginLeft="200dp"
                     android:layout_marginTop="8dp"
                     android:text="@{installs.uses_immobilization}"
                     android:textColor="#000000"
                     android:textSize="10sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/dealer_name"
+                    app:layout_constraintTop_toBottomOf="@+id/is_active"
                     tools:text="3434" />
 
                 <TextView
@@ -261,7 +263,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
                 <TextView
-                    android:id="@+id/location"
+                    android:id="@+id/installed_at"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="200dp"
@@ -271,33 +273,87 @@
                     android:textColor="#000000"
                     android:textSize="10sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/device_model"
+                    app:layout_constraintTop_toBottomOf="@+id/uses_immobilization"
                     tools:text="3434" />
-
                 <TextView
-                    android:id="@+id/textView12"
+                    android:id="@+id/textView20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"
                     android:layout_marginStart="60dp"
                     android:layout_marginTop="8dp"
-                    android:text="Uninstall At"
+                    android:text="Audit-Status"
                     android:textSize="10sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
                 <TextView
+                    android:id="@+id/audit_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="200dp"
+                    android:layout_marginLeft="200dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@{installs.auditStatus}"
+                    android:textColor="#000000"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/installed_at" />
+
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Audit-Notes"
+                    android:textColor="@color/orange"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+                <TextView
+                    android:id="@+id/audit_notes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="60dp"
+                    android:layout_marginRight="60dp"
+                    android:text="@{installs.auditNotes}"
+                    android:textColor="#000000"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="11dp"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Uninstall At"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+                <TextView
                     android:id="@+id/notes"
                     android:layout_width="wrap_content"
                     android:layout_height="21dp"
-                    android:layout_marginLeft="40dp"
                     android:layout_marginStart="40dp"
+                    android:layout_marginLeft="40dp"
                     android:layout_marginTop="8dp"
                     android:text="Notes"
                     android:textColor="@color/orange"
                     android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView12" />
+                    app:layout_constraintTop_toBottomOf="@+id/audit_notes" />
+                
 
                 <TextView
                     android:id="@+id/notesdata"
@@ -330,29 +386,29 @@
                     app:layout_constraintTop_toBottomOf="@+id/notesdata" />
 
                 <TextView
-                    android:id="@+id/manufacturer"
+                    android:id="@+id/uninstalled_at"
                     android:layout_width="wrap_content"
                     android:layout_height="12dp"
-                    android:layout_marginLeft="200dp"
                     android:layout_marginStart="200dp"
+                    android:layout_marginLeft="200dp"
                     android:layout_marginTop="8dp"
                     android:text="@{TimeUtils.getDate(String.valueOf(safeUnbox(installs.uninstalled_at)))}"
                     android:textColor="#000000"
                     android:textSize="10sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/location"
+                    app:layout_constraintTop_toBottomOf="@+id/textView20"
                     tools:text="3434" />
 
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/deviceimages"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginRight="16dp"
                     android:layout_marginStart="60dp"
+                    android:layout_marginLeft="60dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView13"></android.support.v7.widget.RecyclerView>
@@ -372,13 +428,13 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/truckimages"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginRight="16dp"
                     android:layout_marginStart="60dp"
+                    android:layout_marginLeft="60dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView14"></android.support.v7.widget.RecyclerView>
@@ -398,17 +454,94 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/wireconnection"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginRight="16dp"
                     android:layout_marginStart="60dp"
+                    android:layout_marginLeft="60dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView15"></android.support.v7.widget.RecyclerView>
+
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="21dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Earth Wire Connection"
+                    android:textColor="@color/orange"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/wireconnection" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/earthwireconnection"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView22"></android.support.v7.widget.RecyclerView>
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="21dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Fitting Images"
+                    android:textColor="@color/orange"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/earthwireconnection" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/devicefitting"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView16"></android.support.v7.widget.RecyclerView>
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="wrap_content"
+                    android:layout_height="21dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Accessories"
+                    android:textColor="@color/orange"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/devicefitting" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/accessories"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView17"></android.support.v7.widget.RecyclerView>
             </android.support.constraint.ConstraintLayout>
         </ScrollView>
-    </android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </layout>

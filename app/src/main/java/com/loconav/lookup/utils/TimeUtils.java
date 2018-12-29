@@ -8,7 +8,7 @@ public class TimeUtils {
         long timestamp2;
         try{
             timestamp2 = Long.parseLong(timeStamp);
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             Date netDate = (new Date(timestamp2));
             return sdf.format(netDate);
         }

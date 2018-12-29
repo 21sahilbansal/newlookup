@@ -15,25 +15,11 @@ import java.util.List;
 
 public class FragmentController extends AppCompatActivity {
 
-    public final static String TAG_NAME_FRAGMENT = "ACTIVITY_FRAGMENT";
+    private String TAG_NAME_FRAGMENT = "ACTIVITY_FRAGMENT";
 
     public FragmentController()
     {}
 
-    public FragmentController(final FragmentManager fragmentManager, final Activity activity){
-        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-                        public void onBackStackChanged() {
-                            Log.e(TAG_NAME_FRAGMENT, "onBackStackChanged: " );
-                           Fragment fragment= getFragmentsStack(fragmentManager);
-                            if(fragment!=null) {
-                                if(fragment instanceof BaseTitleFragment) {
-                                    ((AppCompatActivity)activity).getSupportActionBar().setTitle(((BaseTitleFragment) fragment).getTitle());
-                                }
-                            }
-                        }
-                    });
-
-        }
 
     public  void loadFragment(final Fragment fragment,FragmentManager fragmentManager,int resId,Boolean addToBackStack) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -68,6 +54,7 @@ public class FragmentController extends AppCompatActivity {
             }
             return fragment;
     }
+
     public  void deleteFragmentStack(FragmentManager fm)
     {
 

@@ -28,15 +28,15 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 
-public class RepairLogs extends BaseFragment  {
-    FragmentRepairLogsBinding fragmentRepairLogsBinding;
-    RepairLogAdapter repairLogAdapter;
-    List<Repairs> fullRepairsList=new ArrayList<>(),repairsList=new ArrayList<>();
-    ApiInterface apiInterface=ApiClient.getClient().create(ApiInterface.class);
-    int start = 0,end=8,totalitem,oppo;
-    int placeholdersToLoad=20;
-    boolean loadmore=true,itemsloaded=true;
-    FragmentController fragmentController=new FragmentController();
+public class RepairLogsFragment extends BaseFragment  {
+    private FragmentRepairLogsBinding fragmentRepairLogsBinding;
+    private RepairLogAdapter repairLogAdapter;
+    private List<Repairs> fullRepairsList=new ArrayList<>(),repairsList=new ArrayList<>();
+    private ApiInterface apiInterface=ApiClient.getClient().create(ApiInterface.class);
+    private int totalitem,oppo;
+    private int placeholdersToLoad=20;
+    private boolean loadmore=true,itemsloaded=true;
+    private FragmentController fragmentController=new FragmentController();
     @Override
     public int setViewId() {
         return R.layout.fragment_repair_logs;
@@ -45,14 +45,18 @@ public class RepairLogs extends BaseFragment  {
     public void onFragmentCreated() {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Repair Logs");
         Bundle bundle = this.getArguments();
+        //This layout is on which the RepairLogsFragment and RepairDetailFragment will inflate
         int layout = bundle.getInt("layout");
+        //It is to initially load the number of items
+        int start = 0,end=8;
 
-        apiInterface.getRepairLogs(0,8).enqueue(new RetrofitCallback<RepairsDataandTotalRepairCount>() {
+        apiInterface.getRepairLogs(start,end).enqueue(new RetrofitCallback<RepairsDataandTotalRepairCount>() {
             @Override
             public void handleSuccess(Call<RepairsDataandTotalRepairCount> call, Response<RepairsDataandTotalRepairCount> response) {
-                fullRepairsList=response.body().getData();
+                repairsList=response.body().getData();
                 totalitem=response.body().getTotalcount();
-                repairLogAdapter.repairsdata=fullRepairsList;
+                for(Repairs repairs:repairsList)
+                    fullRepairsList.add(repairs);
                 repairLogAdapter.notifyDataSetChanged();
                 Log.e("the data","The data is "+fullRepairsList);
             }
@@ -80,6 +84,7 @@ public class RepairLogs extends BaseFragment  {
                 }
             }
         });
+
         RecyclerView.OnScrollListener  scrollListener=new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -101,7 +106,6 @@ public class RepairLogs extends BaseFragment  {
                                     repairs = null;
                                     fullRepairsList.add(repairs);
                                 }
-                                repairLogAdapter.repairsdata=fullRepairsList;
                                 recyclerView.getAdapter().notifyDataSetChanged();
                                 Log.e("the","the first is"+totalItemCount+"the last is"+totalItemCount+placeholdersToLoad);
                                 getRepairLogs(totalItemCount,totalItemCount+placeholdersToLoad,recyclerView);
@@ -114,7 +118,6 @@ public class RepairLogs extends BaseFragment  {
                                             repairs = null;
                                             fullRepairsList.add(repairs);
                                         }
-                                    repairLogAdapter.repairsdata=fullRepairsList;
                                     recyclerView.getAdapter().notifyDataSetChanged();
                                    getRepairLogs(totalItemCount,totalItemCount+(totalitem-(totalItemCount)),recyclerView);
                                 }
@@ -140,8 +143,9 @@ public class RepairLogs extends BaseFragment  {
             }
             }
         };
+
         fragmentRepairLogsBinding.repairs.setOnScrollListener(scrollListener);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayout.VERTICAL);
         fragmentRepairLogsBinding.repairs.setLayoutManager(layoutManager);
         fragmentRepairLogsBinding.repairs.setAdapter(repairLogAdapter);
@@ -150,9 +154,11 @@ public class RepairLogs extends BaseFragment  {
     public void bindView(View view) {
         fragmentRepairLogsBinding=DataBindingUtil.bind(view);
     }
+
     @Override
     public void getComponentFactory() {
     }
+
     public void getRepairLogs(int first,int last,RecyclerView recyclerView)
     {
         apiInterface.getRepairLogs(first, last).enqueue(new RetrofitCallback<RepairsDataandTotalRepairCount>() {
@@ -162,7 +168,6 @@ public class RepairLogs extends BaseFragment  {
                 oppo=0;
                 for (int i = first; i < last; i++) {
                     fullRepairsList.set(i, repairsList.get(oppo));
-                    repairLogAdapter.repairsdata = fullRepairsList;
                     recyclerView.getAdapter().notifyDataSetChanged();
                     oppo++;
                 }
@@ -179,8 +184,8 @@ public class RepairLogs extends BaseFragment  {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         fragmentRepairLogsBinding.unbind();
     }
 }
