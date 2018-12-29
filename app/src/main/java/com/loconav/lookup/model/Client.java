@@ -16,6 +16,18 @@ public class Client implements Serializable{
     private String name;
     @SerializedName("contact_email")
     private String contactEmail;
+    @SerializedName("transporter_id")
+    private String transporter_id;
+
+    public String getTransporter_id() {
+        return transporter_id;
+    }
+
+    public void setTransporter_id(String transporter_id) {
+        this.transporter_id = transporter_id;
+    }
+
+
 
     public String getClientId() {
         return clientId;

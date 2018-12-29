@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="my" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:datePickerDialogTheme">@color/color_orange</item>
     </style>
-
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="buttonStyle">@style/Button_Style</item>
+        <item name="android:timePickerDialogTheme" tools:ignore="NewApi">@style/DialogTheme</item>
+        <item name="android:datePickerDialogTheme" tools:ignore="NewApi">@style/DialogTheme</item>
+        <item name="android:alertDialogTheme">@style/DialogTheme</item>
+        <item name="elevation">0dp</item>
+        <item name="android:icon">@drawable/ic_lookup_app_icon</item>
+        <item name="colorControlActivated">@color/black</item>
+    </style>
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/color_orange</item>
         <item name="android:colorPrimary">#00397F</item>
     </style>
+
 </resources>

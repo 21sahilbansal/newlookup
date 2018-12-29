@@ -4,17 +4,22 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 
 import com.loconav.lookup.base.BaseActivity;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.ReasonResponse;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import id.zelory.compressor.Compressor;
 
 import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
 import static com.loconav.lookup.EncodingDecoding.getResizedBitmap;
-import static com.loconav.lookup.FragmentController.loadFragment;
 
 public class LookupSubActivity extends BaseActivity {
 
@@ -22,7 +27,8 @@ public class LookupSubActivity extends BaseActivity {
     private ArrayList<Input> addtionalFields = new ArrayList<>();
     public PassingReason passingReason;
     private ReasonResponse reasonResponse;
-
+    FragmentController fragmentController=new FragmentController();
+    String fasttag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +37,7 @@ public class LookupSubActivity extends BaseActivity {
         Bundle bundle=intent.getExtras();
         passingReason = (PassingReason)bundle.getSerializable("PassingReason");
         reasonResponse = (ReasonResponse)bundle.getSerializable("reasonResponse");
+        fasttag= (String) bundle.getSerializable("fastag");
         addOtherFields(passingReason.getUserChoice());
         reasonResponse.setAdditional_fields(addtionalFields);
         passingReason.setReasonResponse(reasonResponse);
@@ -46,9 +53,10 @@ public class LookupSubActivity extends BaseActivity {
     void passIntentData(){
         if(passingReason.getUserChoice().equals("New Install")){
             DeviceIdFragment deviceIdFragment = new DeviceIdFragment();
-            loadFragment(deviceIdFragment,getSupportFragmentManager(),R.id.frameLayout,false);
-        }else {
-            loadFragment(repairFragment,getSupportFragmentManager(),R.id.frameLayout,false);
+            fragmentController.loadFragment(deviceIdFragment,getSupportFragmentManager(),R.id.frameLayout,false);
+        }
+        else {
+            fragmentController.loadFragment(repairFragment,getSupportFragmentManager(),R.id.frameLayout,false);
         }
     }
 
@@ -60,14 +68,6 @@ public class LookupSubActivity extends BaseActivity {
         this.passingReason=passingReason;
     }
 
-    public String reduceBititmap(Bitmap bitmap){
-        Log.e("sizeof",""+encodeToBase64(bitmap, Bitmap.CompressFormat.PNG,0).length());
-        Bitmap bm1 = getResizedBitmap(bitmap,500);
-        String str= "data:image/png;base64,"+encodeToBase64(bm1, Bitmap.CompressFormat.PNG,0);
-        Log.e("SIZE OF",""+str.length());
-        return str;
-
-    }
     private void addOtherFields(String userChoice) {
         Input i1 = new Input("deviceId", "imei", "textView", "Device Id :");
         Input i2 = new Input("remarks", "remarks", "text", "");
@@ -77,8 +77,8 @@ public class LookupSubActivity extends BaseActivity {
         addtionalFields.add(i2);
         addtionalFields.add(i3);
         addtionalFields.add(i4);
-            if (passingReason.getUserChoice().equals(userChoice)) {
-                addtionalFields.addAll(reasonResponse.getAdditional_fields());
+        if (passingReason.getUserChoice().equals(userChoice)) {
+            addtionalFields.addAll(reasonResponse.getAdditional_fields());
         }
     }
 }

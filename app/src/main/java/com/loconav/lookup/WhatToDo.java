@@ -26,7 +26,6 @@ import static com.loconav.lookup.Constants.REASONS_RESPONSE;
  */
 
 public class WhatToDo extends BaseFragment {
-
     private WhatToDoFragmentBinding binding;
     private PassingReason passingReason = new PassingReason();
     WhatToDoAdapter adapter;
@@ -40,14 +39,14 @@ public class WhatToDo extends BaseFragment {
 
     @Override
     public void onFragmentCreated() {
-        String reasonsResponse = SharedPrefHelper.getInstance(getContext()).getStringData(REASONS_RESPONSE);
+        String reasonsResponse = SharedPrefHelper.getInstance().getStringData(REASONS_RESPONSE);
         Gson gson = new Gson();
         jsonLog = gson.fromJson(reasonsResponse, new TypeToken<List<ReasonResponse>>() {}.getType());
         if(jsonLog!=null) {
-            List<ReasonTypeResponse> reasons = new ArrayList<>();
-            ArrayList<Input> additionalFields = new ArrayList<>();
-            ReasonResponse reasonResponse = new ReasonResponse(1, "New Install", reasons, additionalFields, "abc");
-            jsonLog.add(reasonResponse);
+//            List<ReasonTypeResponse> reasons = new ArrayList<>();
+//            ArrayList<Input> additionalFields = new ArrayList<>();
+//            ReasonResponse reasonResponse = new ReasonResponse(1, "New Install", reasons, additionalFields, "abc");
+//            jsonLog.add(reasonResponse);
             setPhotoAdapter();
         }else{
             Toast.makeText(getContext(),"something went wrong",Toast.LENGTH_LONG).show();

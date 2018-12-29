@@ -16,7 +16,6 @@ import com.loconav.lookup.model.PassingReason;
 
 import java.util.ArrayList;
 
-import static com.loconav.lookup.FragmentController.loadFragment;
 
 /**
  * Created by sejal on 12-07-2018.
@@ -25,8 +24,7 @@ import static com.loconav.lookup.FragmentController.loadFragment;
 public class Repair extends BaseTitleFragment {
     private RepairBinding binding;
     private PassingReason passingReason;
-
-
+    FragmentController fragmentController=new FragmentController();
     @Override
     public int setViewId() {
         return R.layout.repair;
@@ -64,7 +62,7 @@ public class Repair extends BaseTitleFragment {
             passingReason.setImagesPreRepair(binding.DeviceImage.getimagesList().size());
             ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
             DeviceIdFragment f1 =new DeviceIdFragment();
-            loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
+            fragmentController.loadFragment(f1,getActivity().getSupportFragmentManager(),R.id.frameLayout,true);
         }else
             Toast.makeText(getContext(),"Add Device Image",Toast.LENGTH_SHORT).show();
     }

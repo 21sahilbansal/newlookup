@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.loconav.lookup.BaseTitleFragment;
 import com.loconav.lookup.CustomImagePicker;
 import com.loconav.lookup.CustomInflater;
+import com.loconav.lookup.FragmentController;
 import com.loconav.lookup.Input;
 import com.loconav.lookup.LookupSubActivity;
 import com.loconav.lookup.R;
@@ -26,7 +28,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.loconav.lookup.FragmentController.loadFragment;
 
 /**
  * Created by prateek on 13/11/17.
@@ -42,7 +43,7 @@ public class SimChangeFragment extends BaseTitleFragment {
     private ArrayList<Input> addtional = new ArrayList<>();
     private ArrayList<String> spinnerList = new ArrayList<>();
     private JSONObject jsonObj = new JSONObject();
-
+    FragmentController fragmentController=new FragmentController();
     @Override
     public int setViewId() {
         return R.layout.simchange;
@@ -85,7 +86,7 @@ public class SimChangeFragment extends BaseTitleFragment {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("req", repairRequirements);
                     fragmentRepairAfterForm.setArguments(bundle);
-                    loadFragment(fragmentRepairAfterForm, getFragmentManager(), R.id.frameLayout, true);
+                    fragmentController.loadFragment(fragmentRepairAfterForm, getFragmentManager(), R.id.frameLayout, true);
                 }
             }
         });

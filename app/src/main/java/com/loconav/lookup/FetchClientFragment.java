@@ -1,8 +1,6 @@
 package com.loconav.lookup;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
@@ -10,8 +8,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.loconav.lookup.adapter.ClientAdapter;
-import com.loconav.lookup.base.BaseActivity;
-import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.ActivityFetchClientBinding;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.PassingReason;
@@ -19,13 +15,13 @@ import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
 import com.loconav.lookup.sharedetailsfragmants.NewInstallation;
+import com.loconav.lookup.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static com.loconav.lookup.FragmentController.loadFragment;
 
 public class FetchClientFragment extends BaseTitleFragment {
     private ActivityFetchClientBinding binding;
@@ -33,7 +29,7 @@ public class FetchClientFragment extends BaseTitleFragment {
     private List<Client> clients = new ArrayList<>();
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     PassingReason passingReason;
-
+    FragmentController fragmentController=new FragmentController();
 
     @Override
     public int setViewId() {
@@ -69,12 +65,14 @@ public class FetchClientFragment extends BaseTitleFragment {
     }
 
     private void getSetData(final String clientId) {
-        if (Utility.isNetworkAvailable(getActivity())) {
+        if (AppUtils.isNetworkAvailable()) {
             apiService.getClients(clientId).enqueue(new RetrofitCallback<List<Client>>() {
                 @Override
                 public void handleSuccess(Call<List<Client>> call, Response<List<Client>> response) {
                     if (response.body() != null && response.body().size() > 0) {
                         binding.layoutClient.setVisibility(View.VISIBLE);
+                        Client client=new Client();
+                        Log.e("the is","ss"+response.body().get(0).getTransporter_id());
                         clients.clear();
                         clients.addAll(response.body());
                         clientAdapter.notifyDataSetChanged();
@@ -102,7 +100,7 @@ public class FetchClientFragment extends BaseTitleFragment {
                 NewInstallation f1 = new NewInstallation();
                 passingReason.setClientId((Client)object);
                 ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
-                loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
+                fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
             }
         });
         binding.rvClients.setAdapter(clientAdapter);

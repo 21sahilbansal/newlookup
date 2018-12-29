@@ -1,42 +1,29 @@
 package com.loconav.lookup;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.loconav.lookup.adapter.ClientAdapter;
 import com.loconav.lookup.adapter.LookupAdapter;
-import com.loconav.lookup.base.BaseFragment;
-import com.loconav.lookup.databinding.FragmentDeviceIdBinding;
 import com.loconav.lookup.databinding.MainActivity3Binding;
-import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.Entity;
 import com.loconav.lookup.model.LookupResponse;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
-import com.loconav.lookup.sharedetailsfragmants.NewInstallation;
 import com.loconav.lookup.sharedetailsfragmants.SimChangeFragment;
+import com.loconav.lookup.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static com.loconav.lookup.FragmentController.loadFragment;
 
 /**
  * Created by sejal on 11-08-2018.
@@ -51,7 +38,7 @@ public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRef
     private String deviceID;
     private PassingReason passingReason;
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-
+    FragmentController fragmentController=new FragmentController();
 
     @Override
     public int setViewId() {
@@ -83,11 +70,11 @@ public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRef
                 if (passingReason.getUserChoice().equals("New Install")) {
                     FetchClientFragment f1 = new FetchClientFragment();
                     ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
-                    loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
+                    fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
                 } else {
                     ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
                     SimChangeFragment f1 = new SimChangeFragment();
-                    loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
+                    fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
                 }
             }
         });
@@ -125,7 +112,7 @@ public class DeviceDetailsFragment extends BaseTitleFragment implements SwipeRef
     }
 
     private void getSetFreshData(String deviceID) {
-        if(Utility.isNetworkAvailable(getActivity())) {
+        if(AppUtils.isNetworkAvailable()) {
             apiService.getDeviceLookup(deviceID).enqueue(new RetrofitCallback<LookupResponse>() {
                 @Override
                 public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {

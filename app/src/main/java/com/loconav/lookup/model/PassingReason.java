@@ -10,15 +10,15 @@ import java.util.ArrayList;
 
 public class PassingReason implements Serializable {
 
-    private String Deviceid;
+    private String deviceId;
 
-    private String UserChoice;
+    private String userChoice;
 
-    private Client ClientId;
+    private Client clientId;
 
     public ArrayList<String> imagesList;
 
-    private ReasonResponse ReasonResponse;
+    private ReasonResponse reasonResponse;
 
     private int imagesPreRepair;
 
@@ -28,17 +28,17 @@ public class PassingReason implements Serializable {
 
 
     public PassingReason(String deviceid, Client clientId,  ReasonResponse ReasonResponse) {
-        Deviceid = deviceid;
-        ClientId = clientId;
-        this.ReasonResponse = ReasonResponse;
+        deviceId = deviceid;
+        this.clientId = clientId;
+        this.reasonResponse = ReasonResponse;
     }
 
     public PassingReason(){
 
     }
     public PassingReason(ReasonResponse reasons,String UserChoice) {
-        this.ReasonResponse = reasons;
-        this.UserChoice = UserChoice;
+        this.reasonResponse = reasons;
+        this.userChoice = UserChoice;
     }
 
     public int getImagesPreRepair() {
@@ -74,35 +74,35 @@ public class PassingReason implements Serializable {
     }
 
     public String getUserChoice() {
-        return UserChoice;
+        return userChoice;
     }
 
     public void setUserChoice(String userChoice) {
-        UserChoice = userChoice;
+        this.userChoice = userChoice;
     }
 
     public String getDeviceid() {
-        return Deviceid;
+        return deviceId;
     }
 
     public void setDeviceid(String deviceid) {
-        Deviceid = deviceid;
+        deviceId = deviceid;
     }
 
     public Client getClientId() {
-        return ClientId;
+        return clientId;
     }
 
     public void setClientId(Client clientId) {
-        ClientId = clientId;
+        this.clientId = clientId;
     }
 
     public  ReasonResponse getReasonResponse() {
-        return ReasonResponse;
+        return reasonResponse;
     }
 
 
     public void setReasonResponse( ReasonResponse reasons) {
-        this.ReasonResponse = reasons;
+        this.reasonResponse = reasons;
     }
 }

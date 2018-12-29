@@ -10,7 +10,6 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
@@ -20,26 +19,23 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.databinding.FragmentDeviceIdBinding;
-import com.loconav.lookup.model.ImageUri;
 import com.loconav.lookup.model.LookupResponse;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
+import com.loconav.lookup.utils.AppUtils;
 
-import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Response;
 
 import static com.loconav.lookup.Constants.DEVICE_ID;
 import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
 import static com.loconav.lookup.Constants.USER_ID;
-import static com.loconav.lookup.FragmentController.loadFragment;
 
 /**
  * Created by sejal on 28-06-2018.
@@ -53,6 +49,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
     private ProgressDialog progressDialog;
     private SharedPrefHelper sharedPrefHelper;
     private PassingReason passingReason;
+    FragmentController fragmentController = new FragmentController();
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -81,7 +78,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
     }
 
     private void initSharedPf() {
-        sharedPrefHelper = SharedPrefHelper.getInstance(getContext());
+        sharedPrefHelper = SharedPrefHelper.getInstance();
     }
 
     private void checkAndShowUserIdDialog() {
@@ -102,12 +99,12 @@ public class DeviceIdFragment extends BaseTitleFragment {
             public void onClick(View view) {
                 String deviceId = binding.etDeviceId.getText().toString().trim();
                 if(!deviceId.isEmpty()) {
-                    if (Utility.isNetworkAvailable(getActivity())) {
+                    if (AppUtils.isNetworkAvailable()) {
                         progressDialog.show();
                         apiService.getDeviceLookup(binding.etDeviceId.getText().toString()).enqueue(new RetrofitCallback<LookupResponse>() {
                             @Override
                             public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
-                                Utility.hideKeyboard(getActivity());
+                                AppUtils.hideKeyboard(getActivity());
                                 Log.e("handle ", response.code() + "");
                                 DeviceDetailsFragment DeviceDetailsFragment = new DeviceDetailsFragment();
                                 passingReason.setDeviceid(binding.etDeviceId.getText().toString());
@@ -115,7 +112,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("lookup_response", response.body());
                                 DeviceDetailsFragment.setArguments(bundle);
-                                loadFragment(DeviceDetailsFragment, getFragmentManager(), R.id.frameLayout, true);
+                                fragmentController.loadFragment(DeviceDetailsFragment, getFragmentManager(), R.id.frameLayout, true);
                                 progressDialog.dismiss();
                             }
 
@@ -147,7 +144,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
         binding.ibQrScanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Utility.hideKeyboard(getActivity());
+                AppUtils.hideKeyboard(getActivity());
                 QRScannerFragment qrScannerFragment = new QRScannerFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.container,qrScannerFragment).addToBackStack("qr_scanner");

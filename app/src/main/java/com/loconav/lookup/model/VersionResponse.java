@@ -8,33 +8,43 @@ import com.google.gson.annotations.SerializedName;
 
 public class VersionResponse {
     @SerializedName("update_available")
-    private Boolean update_available;
+    private Boolean updateAvailable;
     @SerializedName("next_version")
-    private int next_version;
+    private int nextVersion;
     @SerializedName("force_update")
-    private Boolean force_update;
+    private Boolean forceUpdate;
+    @SerializedName("app_link")
+    private String appLink;
 
-    public Boolean getUpdate_available() {
-        return update_available;
+    public String getAppLink() {
+        return appLink;
     }
 
-    public void setUpdate_available(Boolean update_available) {
-        this.update_available = update_available;
+    public void setAppLink(String appLink) {
+        this.appLink = appLink;
     }
 
-    public int getNext_version() {
-        return next_version;
+    public Boolean getUpdateAvailable() {
+        return updateAvailable;
     }
 
-    public void setNext_version(int next_version) {
-        this.next_version = next_version;
+    public void setUpdateAvailable(Boolean updateAvailable) {
+        this.updateAvailable = updateAvailable;
     }
 
-    public Boolean getForce_update() {
-        return force_update;
+    public int getNextVersion() {
+        return nextVersion;
     }
 
-    public void setForce_update(Boolean force_update) {
-        this.force_update = force_update;
+    public void setNextVersion(int nextVersion) {
+        this.nextVersion = nextVersion;
+    }
+
+    public Boolean getForceUpdate() {
+        return forceUpdate;
+    }
+
+    public void setForceUpdate(Boolean forceUpdate) {
+        this.forceUpdate = forceUpdate;
     }
 }

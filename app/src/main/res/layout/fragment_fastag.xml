@@ -6,28 +6,29 @@
     <data>
 
     </data>
-<LinearLayout
+<android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context="com.loconav.lookup.FastTagFragment">
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingEnd="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:orientation="vertical">
             <android.support.v7.widget.SearchView
                 android:id="@+id/searchTruck"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:gravity="end" />
 
             <android.support.v7.widget.SearchView
@@ -35,6 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+
                 android:gravity="end" />
 
             <com.loconav.lookup.CustomImagePicker
@@ -44,16 +46,19 @@
                 android:background="?android:selectableItemBackground"
                 custom:limitImages="4"
                 custom:titleText="Truck Photos" />
+            </LinearLayout>
 
-            <Button
-                android:id="@+id/truck_submit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="30dp"
-                android:text="SUBMIT" />
-        </LinearLayout>
+
+
     </android.support.v4.widget.NestedScrollView>
-</LinearLayout>
+    <Button
+        android:id="@+id/truck_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="SUBMIT"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</android.support.constraint.ConstraintLayout>
 </layout>

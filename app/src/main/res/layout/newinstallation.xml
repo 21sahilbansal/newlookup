@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto">
     <ScrollView
         android:background="@color/white"
         android:clickable="true"
         android:layout_width="match_parent"
+        android:divider="?android:attr/listDivider"
         android:layout_height="match_parent"
         android:scrollbars="none">
         <LinearLayout
             android:padding="15dp"
+            android:id="@+id/linear"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -145,6 +147,16 @@
                     android:layout_height="wrap_content"
                     android:hint="Client id "/>
             </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/transporter_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Transporter id "/>
+            </android.support.design.widget.TextInputLayout>
             <CheckBox
                 android:id="@+id/cb_trip"
                 android:layout_width="wrap_content"
@@ -160,6 +172,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Immobilizer"/>
+
+            <com.loconav.lookup.CustomImagePicker
+                custom:id="truckimages"
+                android:layout_width="match_parent"
+                android:id="@+id/TruckImages"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="?android:selectableItemBackground"
+                custom:titleText="Upload Truck Image"
+                custom:limitImages="1"/>
+            <com.loconav.lookup.CustomImagePicker
+                android:id="@+id/DeviceImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="?android:selectableItemBackground"
+                custom:id="deviceimages"
+                custom:titleText="Upload Device Image"
+                custom:limitImages="1"/>
+            <com.loconav.lookup.CustomImagePicker
+                android:id="@+id/WireConnection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="?android:selectableItemBackground"
+                custom:id="wireconnection"
+                custom:titleText="Upload Wire Connection"
+                custom:limitImages="2"/>
             <Button
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
@@ -171,6 +216,7 @@
                 android:textSize="18sp"
                 android:text="Next"
                 android:textColor="#ffffff" />
+
         </LinearLayout>
 
     </ScrollView >
