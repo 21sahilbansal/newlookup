@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.loconav.lookup.Callback;
 import com.loconav.lookup.FragmentController;
 import com.loconav.lookup.R;
 import com.loconav.lookup.adapter.ImageSetterAdapter;

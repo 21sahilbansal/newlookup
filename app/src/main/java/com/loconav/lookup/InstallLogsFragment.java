@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.loconav.lookup.adapter.InstallLogAdapter;
 import com.loconav.lookup.base.BaseFragment;
+import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.databinding.FragmentInstallLogsBinding;
 import com.loconav.lookup.model.Installs;
 import com.loconav.lookup.model.InstallDatandTotalInstallCount;

@@ -19,6 +19,7 @@ import com.google.gson.reflect.TypeToken;
 import com.loconav.lookup.adapter.WhatToDoAdapter;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseFragment;
+import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.databinding.FragmentHomeBinding;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.ReasonResponse;

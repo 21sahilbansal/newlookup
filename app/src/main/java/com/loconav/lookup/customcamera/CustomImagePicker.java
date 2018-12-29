@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loconav.lookup.Callback;
 import com.loconav.lookup.R;
 import com.loconav.lookup.adapter.RecycleCustomImageAdapter;
 
