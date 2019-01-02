@@ -58,7 +58,7 @@ public class InstallLogsFragment extends BaseFragment {
                 installList=response.body().getData();
                 totalitem=response.body().getTotalcount();
                 for (Installs installs:installList)
-                fullInstallList.add(installs);
+                    fullInstallList.add(installs);
                 installLogAdapter.notifyDataSetChanged();
             }
 
