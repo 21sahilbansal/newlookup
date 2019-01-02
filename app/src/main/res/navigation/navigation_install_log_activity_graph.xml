@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_install_log_activity_graph"
+    app:startDestination="@id/installLogsFragment2">
+
+    <fragment
+        android:id="@+id/installLogsFragment2"
+        android:name="com.loconav.lookup.InstallLogsFragment"
+        android:label="fragment_install_logs"
+        tools:layout="@layout/fragment_install_logs" >
+        <action
+            android:id="@+id/action_installLogsFragment2_to_installDetailFragment"
+            app:destination="@id/installDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/installDetailFragment"
+        android:name="com.loconav.lookup.InstallDetailFragment"
+        android:label="fragment_install_details"
+        tools:layout="@layout/fragment_install_details" />
+</navigation>

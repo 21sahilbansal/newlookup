@@ -2,6 +2,7 @@ package com.loconav.lookup.sharedetailsfragmants;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 
 import com.loconav.lookup.BaseTitleFragment;
 import com.loconav.lookup.CommonFunction;
+import com.loconav.lookup.InstallLogsActivity;
+import com.loconav.lookup.LandingActivity;
 import com.loconav.lookup.customcamera.CustomImagePicker;
 import com.loconav.lookup.InstallLogsFragment;
 import com.loconav.lookup.databinding.FragmentNewInstallationBinding;
@@ -211,12 +214,9 @@ public class NewInstallationFragment extends BaseTitleFragment {
                    builder.setMessage("New Installation created successfully")
                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                public void onClick(DialogInterface dialog, int which) {
-                                   fragmentController.deleteFragmentStack(getActivity().getSupportFragmentManager());
-                                   Bundle bundle = new Bundle();
-                                   bundle.putInt("layout", R.id.frameLayout);
-                                   InstallLogsFragment installDetailFragment = new InstallLogsFragment();
-                                   installDetailFragment.setArguments(bundle);
-                                   fragmentController.loadFragment(installDetailFragment, getActivity().getSupportFragmentManager(), R.id.frameLayout, false);
+                                   Intent i =new Intent(getContext(), InstallLogsActivity.class);
+                                   startActivity(i);
+                                   getActivity().finish();
                                }
                            })
                            .setCancelable(false)

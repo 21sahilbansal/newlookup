@@ -14,6 +14,8 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_margin="10dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
         app:cardElevation="@dimen/dimen_5dp"
         android:layout_height="wrap_content">
         <android.support.constraint.ConstraintLayout
