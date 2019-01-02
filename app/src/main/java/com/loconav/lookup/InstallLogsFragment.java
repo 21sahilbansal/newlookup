@@ -50,7 +50,7 @@ public class InstallLogsFragment extends BaseFragment {
         int layout = bundle.getInt("layout");
         //It is to initially load the number of items
         int start = 0,end=8;
-        navController= Navigation.findNavController(getActivity(),R.id.user_fragment_host);
+        navController= Navigation.findNavController(getActivity(),R.id.install_fragment_host);
         apiInterface.getInstallLogs(start,end).enqueue(new RetrofitCallback<InstallDatandTotalInstallCount>() {
             @Override
             public void handleSuccess(Call<InstallDatandTotalInstallCount> call, Response<InstallDatandTotalInstallCount> response) {
@@ -58,7 +58,7 @@ public class InstallLogsFragment extends BaseFragment {
                 installList=response.body().getData();
                 totalitem=response.body().getTotalcount();
                 for (Installs installs:installList)
-                fullInstallList.add(installs);
+                    fullInstallList.add(installs);
                 installLogAdapter.notifyDataSetChanged();
             }
 
@@ -74,7 +74,7 @@ public class InstallLogsFragment extends BaseFragment {
                 Installs installs = (Installs) object;
                 if(installs!=null) {
                     bundle.putInt("id", Integer.parseInt((installs.getId())));
-                    navController.navigate(R.id.installDetailsFragment,bundle);
+                    navController.navigate(R.id.action_installLogsFragment2_to_installDetailFragment,bundle);
                 }
             }
         });

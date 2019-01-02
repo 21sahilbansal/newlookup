@@ -29,13 +29,15 @@ public class LocationGetter implements GoogleApiClient.ConnectionCallbacks, Goog
     GoogleApiClient googleApiClient;
     Callback callback;
     Location mLocation;
+    long FASTEST_INTERVAL =  TimeUnit.MINUTES.toMillis(30);
+    private Location currentLocation = null;
+    private long locationUpdatedAt = Long.MIN_VALUE;
 
     public LocationGetter(Callback callback,Context context) {
         this.context = context;
         this.callback = callback;
         googleApiClient = getInstance();
         if (googleApiClient != null) {
-            //googleApiClient.connect();
             googleApiClient.connect();
         }
     }
@@ -85,7 +87,25 @@ public class LocationGetter implements GoogleApiClient.ConnectionCallbacks, Goog
     @Override
     public void onLocationChanged(Location location) {
         mLocation=location;
-        callback.onEventDone(mLocation);
+        boolean updateLocationandReport = false;
+        if(currentLocation == null){
+            currentLocation = location;
+            locationUpdatedAt = System.currentTimeMillis();
+            updateLocationandReport = true;
+        } else {
+            long secondsElapsed = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - locationUpdatedAt);
+            if (secondsElapsed >= TimeUnit.MILLISECONDS.toSeconds(FASTEST_INTERVAL)){
+                // check location accuracy here
+                currentLocation = location;
+                locationUpdatedAt = System.currentTimeMillis();
+                updateLocationandReport = true;
+            }
+        }
+        if(updateLocationandReport){
+            //  send your location to server
+            callback.onEventDone(mLocation);
+        }
+
     }
 
 

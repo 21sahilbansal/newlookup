@@ -10,54 +10,20 @@
         android:name="com.loconav.lookup.HomeFragment"
         android:label="HomeFragment" >
         <action
-            android:id="@+id/action_homeFragment_to_repairFragment"
-            app:destination="@id/repairFragment" />
+            android:id="@+id/action_homeFragment_to_userActivity"
+            app:destination="@id/userActivity" />
         <action
-            android:id="@+id/action_homeFragment_to_deviceIdFragment2"
-            app:destination="@id/deviceIdFragment" />
+            android:id="@+id/action_homeFragment_to_lookupSubActivity"
+            app:destination="@id/lookupSubActivity" />
     </fragment>
-    <fragment
-        android:id="@+id/deviceIdFragment"
-        android:name="com.loconav.lookup.DeviceIdFragment"
-        android:label="DeviceIdFragment" >
-        <action
-            android:id="@+id/action_deviceIdFragment_to_deviceDetailFragment"
-            app:destination="@id/deviceDetailFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/deviceDetailFragment"
-        android:name="com.loconav.lookup.DeviceDetailFragment"
-        android:label="DeviceDetailFragment" >
-        <action
-            android:id="@+id/action_deviceDetailFragment_to_fetchClientFragment"
-            app:destination="@id/fetchClientFragment" />
-        <action
-            android:id="@+id/action_deviceDetailFragment_to_commonRepairFragment"
-            app:destination="@id/commonRepairFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/fetchClientFragment"
-        android:name="com.loconav.lookup.FetchClientFragment"
-        android:label="FetchClientFragment" >
-        <action
-            android:id="@+id/action_fetchClientFragment_to_installLogsFragment2"
-            app:destination="@id/installLogsFragment2" />
-    </fragment>
-    <fragment
-        android:id="@+id/commonRepairFragment"
-        android:name="com.loconav.lookup.sharedetailsfragmants.CommonRepairFragment"
-        android:label="CommonRepairFragment" />
-    <fragment
-        android:id="@+id/installLogsFragment2"
-        android:name="com.loconav.lookup.InstallLogsFragment"
-        android:label="fragment_install_logs"
-        tools:layout="@layout/fragment_install_logs" />
-    <fragment
-        android:id="@+id/repairFragment"
-        android:name="com.loconav.lookup.RepairFragment"
-        android:label="RepairFragment" >
-        <action
-            android:id="@+id/action_repairFragment_to_deviceIdFragment"
-            app:destination="@id/deviceIdFragment" />
-    </fragment>
+    <activity
+        android:id="@+id/userActivity"
+        android:name="com.loconav.lookup.UserActivity"
+        android:label="activity_user"
+        tools:layout="@layout/activity_user" />
+    <activity
+        android:id="@+id/lookupSubActivity"
+        android:name="com.loconav.lookup.LookupSubActivity"
+        android:label="activity_lookup_sub_activity"
+        tools:layout="@layout/activity_lookup_sub_activity" />
 </navigation>

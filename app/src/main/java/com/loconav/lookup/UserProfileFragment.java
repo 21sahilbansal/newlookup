@@ -87,7 +87,7 @@ public class UserProfileFragment extends BaseFragment {
     public void checkRepairLogs()
     {
         if(AppUtils.isNetworkAvailable()) {
-            navController.navigate(R.id.action_userProfileFragment_to_repairLogsFragment);
+            navController.navigate(R.id.action_userProfileFragment_to_repairLogActivity);
         }
         else
         {
@@ -98,7 +98,7 @@ public class UserProfileFragment extends BaseFragment {
     public void checkInstallLogs()
     {
         if(AppUtils.isNetworkAvailable()) {
-            navController.navigate(R.id.action_userProfileFragment_to_installLogsFragment);
+            navController.navigate(R.id.action_userProfileFragment_to_installLogsActivity);
         }
         else
         {

@@ -52,7 +52,7 @@ public class RepairLogsFragment extends BaseFragment  {
         int layout = bundle.getInt("layout");
         //It is to initially load the number of items
         int start = 0,end=8;
-        navController= Navigation.findNavController(getActivity(),R.id.user_fragment_host);
+        navController= Navigation.findNavController(getActivity(),R.id.log_fragment_host);
         apiInterface.getRepairLogs(start,end).enqueue(new RetrofitCallback<RepairsDataandTotalRepairCount>() {
             @Override
             public void handleSuccess(Call<RepairsDataandTotalRepairCount> call, Response<RepairsDataandTotalRepairCount> response) {
@@ -77,7 +77,7 @@ public class RepairLogsFragment extends BaseFragment  {
                     Repairs repairs = (Repairs) object;
                     if(repairs!=null) {
                         bundle.putInt("id", (repairs.getId()));
-                        navController.navigate(R.id.repairDetailsFragment,bundle);
+                        navController.navigate(R.id.action_repairLogsFragment_to_repairDetailFragment,bundle);
                     }
                 }
                 else

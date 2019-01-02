@@ -12,49 +12,19 @@
         tools:layout="@layout/fragment_user_profile"
         >
         <action
-            android:id="@+id/action_userProfileFragment_to_repairLogsFragment"
-            app:destination="@id/repairLogsFragment" />
+            android:id="@+id/action_userProfileFragment_to_repairLogActivity"
+            app:destination="@id/repairLogActivity" />
         <action
-            android:id="@+id/action_userProfileFragment_to_installLogsFragment"
-            app:destination="@id/installLogsFragment" />
+            android:id="@+id/action_userProfileFragment_to_installLogsActivity"
+            app:destination="@id/installLogsActivity" />
     </fragment>
-    <fragment
-        android:id="@+id/repairLogsFragment"
-        android:name="com.loconav.lookup.RepairLogsFragment"
-        android:label="fragment_repair_logs"
-        tools:layout="@layout/fragment_repair_logs" >
-        <action
-            android:id="@+id/action_repairLogsFragment_to_repairDetailsFragment"
-            app:destination="@id/repairDetailsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/installLogsFragment"
-        android:name="com.loconav.lookup.InstallLogsFragment"
-        android:label="fragment_install_logs"
-        tools:layout="@layout/fragment_install_logs" >
-        <action
-            android:id="@+id/action_installLogsFragment_to_installDetailsFragment"
-            app:destination="@id/installDetailsFragment" />
-
-    </fragment>
-    <fragment
-        android:id="@+id/installDetailsFragment"
-        android:name="com.loconav.lookup.InstallDetailFragment"
-        android:label="fragment_install_detials"
-        tools:layout="@layout/fragment_install_details"
-        >
-        <argument
-            android:name="id"
-            ></argument>
-    </fragment>
-    <fragment
-        android:id="@+id/repairDetailsFragment"
-        android:name="com.loconav.lookup.RepairDetailFragment"
-        android:label="fragment_repair_detials"
-        tools:layout="@layout/fragment_repair_details"
-        >
-        <argument
-            android:name="id"
-            ></argument>
-    </fragment>
+    <activity
+        android:id="@+id/repairLogActivity"
+        android:name="com.loconav.lookup.RepairLogActivity"
+        android:label="RepairLogActivity" />
+    <activity
+        android:id="@+id/installLogsActivity"
+        android:name="com.loconav.lookup.InstallLogsActivity"
+        android:label="activity_install_logs"
+        tools:layout="@layout/activity_install_logs" />
 </navigation>

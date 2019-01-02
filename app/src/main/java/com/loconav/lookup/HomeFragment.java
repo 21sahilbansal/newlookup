@@ -28,6 +28,8 @@ import com.loconav.lookup.model.ReasonTypeResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.config.Gravity;
@@ -44,6 +46,7 @@ public class HomeFragment extends BaseFragment {
     Toolbar toolbar;
     ArrayList<ReasonResponse> jsonLog = new ArrayList<>();
     View view;
+    NavController navController;
     @Override
     public int setViewId() {
         return R.layout.fragment_home;
@@ -51,6 +54,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void onFragmentCreated() {
+        navController= Navigation.findNavController(getActivity(),R.id.landing_fragment_host);
         toolbar = binding.toolbar;
         toolbar.inflateMenu(R.menu.user);
         setHasOptionsMenu(true);
@@ -174,8 +178,7 @@ public class HomeFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_user:
-                Intent intent = new Intent(getContext(), UserActivity.class);
-                startActivity(intent);
+                navController.navigate(R.id.action_homeFragment_to_userActivity);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

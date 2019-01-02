@@ -20,7 +20,7 @@ public abstract class RetrofitCallback<T> implements Callback<T> {
     private final String TAG = getClass().getSimpleName();
     private final String DEFAULT_ERROR_MESSAGE = "Something Went Wrong!!";
 
-    @Override public void onFailure(Call<T> call, Throwable t) {
+    @Override public void onFailure(Call<T> call,Throwable t) {
         Log.e(TAG, "onFailure: " + t.getMessage() );
         handleFailure(call, new Throwable(DEFAULT_ERROR_MESSAGE));
     }
