@@ -2,6 +2,7 @@ package com.loconav.lookup.sharedetailsfragmants;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,18 +17,19 @@ import android.widget.Toast;
 
 import com.loconav.lookup.BaseTitleFragment;
 import com.loconav.lookup.CommonFunction;
-import com.loconav.lookup.CustomImagePicker;
+import com.loconav.lookup.InstallLogsActivity;
+import com.loconav.lookup.LandingActivity;
+import com.loconav.lookup.customcamera.CustomImagePicker;
 import com.loconav.lookup.InstallLogsFragment;
 import com.loconav.lookup.databinding.FragmentNewInstallationBinding;
-import com.loconav.lookup.utils.FileUtils;
+import com.loconav.lookup.customcamera.FileUtils;
 import com.loconav.lookup.FragmentController;
-import com.loconav.lookup.utils.ImageUtils;
+import com.loconav.lookup.customcamera.ImageUtils;
 import com.loconav.lookup.LookupSubActivity;
 import com.loconav.lookup.R;
-import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.model.Attachments;
 import com.loconav.lookup.model.Client;
-import com.loconav.lookup.model.ImageUri;
+import com.loconav.lookup.customcamera.ImageUri;
 import com.loconav.lookup.model.Notes;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.network.RetrofitCallback;
@@ -37,7 +39,6 @@ import com.loconav.lookup.network.rest.ApiInterface;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.loconav.lookup.UserPrefs.code;
 import com.loconav.lookup.model.NewInstall;
 
 import okhttp3.ResponseBody;
@@ -171,7 +172,8 @@ public class NewInstallationFragment extends BaseTitleFragment {
     //check if all the custom image pickers has images
     public boolean checkImages(CustomImagePicker imagePicker,String title)
     {
-        if(!imagePicker.getimagesList().isEmpty()) {
+        if(!imagePicker.getimagesList().isEmpty())
+        {
             return true;
         }
         else
@@ -212,12 +214,9 @@ public class NewInstallationFragment extends BaseTitleFragment {
                    builder.setMessage("New Installation created successfully")
                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                public void onClick(DialogInterface dialog, int which) {
-                                   fragmentController.deleteFragmentStack(getActivity().getSupportFragmentManager());
-                                   Bundle bundle = new Bundle();
-                                   bundle.putInt("layout", R.id.frameLayout);
-                                   InstallLogsFragment installDetailFragment = new InstallLogsFragment();
-                                   installDetailFragment.setArguments(bundle);
-                                   fragmentController.loadFragment(installDetailFragment, getActivity().getSupportFragmentManager(), R.id.frameLayout, false);
+                                   Intent i =new Intent(getContext(), InstallLogsActivity.class);
+                                   startActivity(i);
+                                   getActivity().finish();
                                }
                            })
                            .setCancelable(false)
@@ -227,6 +226,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
                @Override
                public void handleFailure(Call<ResponseBody> call, Throwable t) {
                    progressDialog.dismiss();
+                   if(getContext()!=null)
                 Toast.makeText(getContext(), ""+t.getMessage(), Toast.LENGTH_SHORT).show();
                }
            });

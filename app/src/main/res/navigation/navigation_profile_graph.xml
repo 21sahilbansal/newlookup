@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_profile_graph"
+    app:startDestination="@id/userProfileFragment"
+   >
+    <fragment
+        android:name="com.loconav.lookup.UserProfileFragment"
+        android:id="@+id/userProfileFragment"
+        android:label="fragment_user_profile"
+        tools:layout="@layout/fragment_user_profile"
+        >
+        <action
+            android:id="@+id/action_userProfileFragment_to_repairLogActivity"
+            app:destination="@id/repairLogActivity" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_installLogsActivity"
+            app:destination="@id/installLogsActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/repairLogActivity"
+        android:name="com.loconav.lookup.RepairLogActivity"
+        android:label="RepairLogActivity" />
+    <activity
+        android:id="@+id/installLogsActivity"
+        android:name="com.loconav.lookup.InstallLogsActivity"
+        android:label="activity_install_logs"
+        tools:layout="@layout/activity_install_logs" />
+</navigation>

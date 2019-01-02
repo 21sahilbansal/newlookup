@@ -39,7 +39,7 @@
 
                 android:gravity="end" />
 
-            <com.loconav.lookup.CustomImagePicker
+            <com.loconav.lookup.customcamera.CustomImagePicker
                 android:id="@+id/view2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

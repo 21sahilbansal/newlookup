@@ -1,11 +1,7 @@
 package com.loconav.lookup.location;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -13,22 +9,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStates;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.loconav.lookup.Callback;
+import com.loconav.lookup.customcamera.Callback;
 
 import java.util.concurrent.TimeUnit;
 
@@ -38,13 +29,15 @@ public class LocationGetter implements GoogleApiClient.ConnectionCallbacks, Goog
     GoogleApiClient googleApiClient;
     Callback callback;
     Location mLocation;
+    long FASTEST_INTERVAL =  TimeUnit.MINUTES.toMillis(30);
+    private Location currentLocation = null;
+    private long locationUpdatedAt = Long.MIN_VALUE;
 
     public LocationGetter(Callback callback,Context context) {
         this.context = context;
         this.callback = callback;
         googleApiClient = getInstance();
         if (googleApiClient != null) {
-            //googleApiClient.connect();
             googleApiClient.connect();
         }
     }
@@ -94,7 +87,25 @@ public class LocationGetter implements GoogleApiClient.ConnectionCallbacks, Goog
     @Override
     public void onLocationChanged(Location location) {
         mLocation=location;
-        callback.onEventDone(mLocation);
+        boolean updateLocationandReport = false;
+        if(currentLocation == null){
+            currentLocation = location;
+            locationUpdatedAt = System.currentTimeMillis();
+            updateLocationandReport = true;
+        } else {
+            long secondsElapsed = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - locationUpdatedAt);
+            if (secondsElapsed >= TimeUnit.MILLISECONDS.toSeconds(FASTEST_INTERVAL)){
+                // check location accuracy here
+                currentLocation = location;
+                locationUpdatedAt = System.currentTimeMillis();
+                updateLocationandReport = true;
+            }
+        }
+        if(updateLocationandReport){
+            //  send your location to server
+            callback.onEventDone(mLocation);
+        }
+
     }
 
 

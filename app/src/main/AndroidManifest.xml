@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.loconav.lookup">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.VIBRATE" />
+
     <uses-feature android:name="android.hardware.camera.flash" />
+
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-feature android:name="android.hardware.location.gps" />
 
     <application
@@ -24,6 +30,8 @@
         android:roundIcon="@drawable/ic_lookup_app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".InstallLogsActivity"></activity>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.lookuploconav.lookup"
@@ -43,9 +51,9 @@
             android:label="User Settings"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".FastTagActivity"
-            android:screenOrientation="portrait"
-            />
+        <activity
+            android:name=".FastTagActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".login.LoginActivity"
             android:screenOrientation="portrait"
@@ -53,11 +61,12 @@
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
         <activity
             android:name=".login.SplashActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:launchMode="singleTop">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -74,13 +83,12 @@
             android:theme="@style/FullScreen"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".UserActivitySubActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".customcamera.CameraOpenActivity"
-            android:theme="@style/FullScreen"
+            android:name=".customcamera.CameraOpenActivity"
             android:screenOrientation="portrait"
-            ></activity>
-        <receiver android:name=".location.LocationBroadcastReciever"></receiver>
+            android:theme="@style/FullScreen" />
+        <activity android:name=".RepairLogActivity" />
+
+        <receiver android:name=".location.LocationBroadcastReciever" />
     </application>
 
 </manifest>

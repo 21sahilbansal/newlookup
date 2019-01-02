@@ -1,6 +1,5 @@
 package com.loconav.lookup;
 
-import android.app.ProgressDialog;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,13 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.Html;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loconav.lookup.adapter.ImageSetterAdapter;
 import com.loconav.lookup.base.BaseFragment;
-import com.loconav.lookup.databinding.*;
+import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.databinding.FragmentRepairDetailsBinding;
 import com.loconav.lookup.dialog.FullImageDialog;
 import com.loconav.lookup.model.RepairDetail;

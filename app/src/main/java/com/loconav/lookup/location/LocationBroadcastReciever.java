@@ -1,14 +1,12 @@
 package com.loconav.lookup.location;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.loconav.lookup.Callback;
+import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.model.CoordinateRequest;
 import com.loconav.lookup.model.Coordinates;
 import com.loconav.lookup.network.RetrofitCallback;

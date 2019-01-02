@@ -2,11 +2,9 @@ buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
     }
-
     dependencies {
         // These docs use an open ended version so that our plugin
         // can be updated quickly in response to Android tooling updates
-
         // We recommend changing it to the latest version from our changelog:
         // https://docs.fabric.io/android/changelog.html#fabric-gradle-plugin
         classpath 'io.fabric.tools:gradle:1.+'
@@ -14,7 +12,7 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
-
+apply plugin: 'androidx.navigation.safeargs'
 repositories {
     maven { url 'https://maven.fabric.io/public' }
 //    maven { url 'http://hypertrack-core-android.s3-website-us-east-1.amazonaws.com/' }
@@ -26,9 +24,10 @@ android {
         minSdkVersion 16
         targetSdkVersion 27
         buildToolsVersion "23.0.0"
-        versionCode 7
-        versionName "7.0"
+        versionCode 8
+        versionName "8.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
     }
     buildTypes {
         release {
@@ -44,7 +43,6 @@ android {
         sourceCompatibility 1.8
     }
     buildToolsVersion = '28.0.3'
-
 }
 
 dependencies {
@@ -57,11 +55,11 @@ dependencies {
     implementation 'com.android.support:support-v13:27.1.1'
     // annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.1'
     testImplementation 'junit:junit:4.12'
     implementation 'id.zelory:compressor:2.1.0'
-    implementation 'me.dm7.barcodescanner:zxing:1.9.8'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.google.code.gson:gson:2.8.4'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
@@ -77,5 +75,7 @@ dependencies {
         transitive = true;
     }
     implementation 'com.github.mreram:showcaseview:1.1'
-    implementation 'com.google.android.gms:play-services-location:15.0.1'
+    implementation 'com.google.android.gms:play-services-location:11.0.4'
+    implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha01'
+    implementation 'android.arch.navigation:navigation-ui:1.0.0-alpha01'
 }

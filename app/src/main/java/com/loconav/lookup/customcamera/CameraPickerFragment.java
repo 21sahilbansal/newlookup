@@ -15,16 +15,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.loconav.lookup.Callback;
 import com.loconav.lookup.FragmentController;
-import com.loconav.lookup.FullImageFragment;
-import com.loconav.lookup.ImagePickerEvent;
 import com.loconav.lookup.R;
 import com.loconav.lookup.adapter.ImageSetterAdapter;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FragmentCamerapickerBinding;
-import com.loconav.lookup.model.ImageUri;
-import com.loconav.lookup.utils.FileUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

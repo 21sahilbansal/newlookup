@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_landing_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.loconav.lookup.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_userActivity"
+            app:destination="@id/userActivity" />
+        <action
+            android:id="@+id/action_homeFragment_to_lookupSubActivity"
+            app:destination="@id/lookupSubActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/userActivity"
+        android:name="com.loconav.lookup.UserActivity"
+        android:label="activity_user"
+        tools:layout="@layout/activity_user" />
+    <activity
+        android:id="@+id/lookupSubActivity"
+        android:name="com.loconav.lookup.LookupSubActivity"
+        android:label="activity_lookup_sub_activity"
+        tools:layout="@layout/activity_lookup_sub_activity" />
+</navigation>

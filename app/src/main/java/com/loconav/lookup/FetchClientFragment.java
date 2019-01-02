@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.loconav.lookup.adapter.ClientAdapter;
+import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.databinding.ActivityFetchClientBinding;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.PassingReason;

@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.design.widget.TextInputLayout;
@@ -17,9 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.loconav.lookup.BaseTitleFragment;
-import com.loconav.lookup.CustomImagePicker;
+import com.loconav.lookup.customcamera.CustomImagePicker;
 import com.loconav.lookup.CustomInflater;
-import com.loconav.lookup.FragmentController;
 import com.loconav.lookup.Input;
 import com.loconav.lookup.LandingActivity;
 import com.loconav.lookup.LookupSubActivity;
@@ -27,15 +25,15 @@ import com.loconav.lookup.R;
 import com.loconav.lookup.CommonFunction;
 import com.loconav.lookup.databinding.FragmentCommonRepairBinding;
 import com.loconav.lookup.model.Attachments;
-import com.loconav.lookup.model.ImageUri;
+import com.loconav.lookup.customcamera.ImageUri;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.RepairRequirements;
 import com.loconav.lookup.model.RepairResponse;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
-import com.loconav.lookup.utils.FileUtils;
-import com.loconav.lookup.utils.ImageUtils;
+import com.loconav.lookup.customcamera.FileUtils;
+import com.loconav.lookup.customcamera.ImageUtils;
 
 import org.json.JSONObject;
 
@@ -108,14 +106,18 @@ public class CommonRepairFragment extends BaseTitleFragment {
 
         // performing the click on upload button
         binding.share.setOnClickListener(v -> {
+            binding.share.setEnabled(false);
             for (int i = 0; i < binding.ll.getChildCount() - 1; i++) {
                 View view = binding.ll.getChildAt(i);
                 validate = validator(view);
                 if(!validate){
+                    binding.share.setEnabled(true);
                     break;
                 }
             }
             if(validate) {
+                preRepairAttachmentList.clear();
+                postRepairAttachmentsList.clear();
                 progressDialog = new ProgressDialog(getActivity());//we are on ui thread
                 progressDialog.setMessage("Image Compressing..");
                 progressDialog.setCancelable(false);
@@ -295,6 +297,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
             @Override
             public void handleFailure(Call<RepairResponse> call, Throwable t) {
                 progressDialog.dismiss();
+                binding.share.setEnabled(true);
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
                 Log.e("error ", t.getMessage());
             }

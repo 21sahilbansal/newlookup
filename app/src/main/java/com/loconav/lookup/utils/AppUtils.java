@@ -24,9 +24,6 @@ import com.loconav.lookup.application.LookUpApplication;
  */
 
 public class AppUtils {
-
-
-
     public static void hideKeyboard(Activity activity) {
         View view = activity.getCurrentFocus();
         if (view != null) {

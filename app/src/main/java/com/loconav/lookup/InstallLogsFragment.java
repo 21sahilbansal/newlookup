@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.loconav.lookup.adapter.InstallLogAdapter;
 import com.loconav.lookup.base.BaseFragment;
+import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.databinding.FragmentInstallLogsBinding;
 import com.loconav.lookup.model.Installs;
 import com.loconav.lookup.model.InstallDatandTotalInstallCount;
@@ -23,6 +24,8 @@ import com.loconav.lookup.utils.AppUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -34,7 +37,7 @@ public class InstallLogsFragment extends BaseFragment {
     int totalitem,oppo;
     int placeholdersToLoad=20;
     boolean loadmore=true,itemsloaded=true;
-    FragmentController fragmentController=new FragmentController();
+    private NavController navController;
     @Override
     public int setViewId() {
         return R.layout.fragment_install_logs;
@@ -47,14 +50,15 @@ public class InstallLogsFragment extends BaseFragment {
         int layout = bundle.getInt("layout");
         //It is to initially load the number of items
         int start = 0,end=8;
-
+        navController= Navigation.findNavController(getActivity(),R.id.install_fragment_host);
         apiInterface.getInstallLogs(start,end).enqueue(new RetrofitCallback<InstallDatandTotalInstallCount>() {
             @Override
             public void handleSuccess(Call<InstallDatandTotalInstallCount> call, Response<InstallDatandTotalInstallCount> response) {
+                fragmentInstallLogsBinding.startprogressbar.setVisibility(View.INVISIBLE);
                 installList=response.body().getData();
                 totalitem=response.body().getTotalcount();
                 for (Installs installs:installList)
-                fullInstallList.add(installs);
+                    fullInstallList.add(installs);
                 installLogAdapter.notifyDataSetChanged();
             }
 
@@ -70,9 +74,7 @@ public class InstallLogsFragment extends BaseFragment {
                 Installs installs = (Installs) object;
                 if(installs!=null) {
                     bundle.putInt("id", Integer.parseInt((installs.getId())));
-                    InstallDetailFragment installDetailFragment = new InstallDetailFragment();
-                    installDetailFragment.setArguments(bundle);
-                    fragmentController.loadFragment(installDetailFragment, getFragmentManager(), layout, true);
+                    navController.navigate(R.id.action_installLogsFragment2_to_installDetailFragment,bundle);
                 }
             }
         });

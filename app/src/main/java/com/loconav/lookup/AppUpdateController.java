@@ -16,7 +16,6 @@ import retrofit2.Response;
 public class AppUpdateController {
     public static final String LATER = "later";
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-
     public AppUpdateController(FragmentManager fragmentManager, int versionCode) {
         apiService.getVersion(versionCode).enqueue(new RetrofitCallback<VersionResponse>() {
             @Override

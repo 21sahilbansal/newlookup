@@ -1,48 +1,23 @@
 package com.loconav.lookup;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RectShape;
-import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.text.Layout;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
-import com.loconav.lookup.base.BaseFragment;
+import com.loconav.lookup.customcamera.CustomImagePicker;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-
-import static android.content.DialogInterface.BUTTON_POSITIVE;
 
 /**
  * Created by sejal on 17-07-2018.
@@ -58,7 +33,7 @@ public class CustomInflater extends LinearLayout {
 
      public TextView addtext(String str,LinearLayout linearLayout1, Input input, int index){
          TextView textView = new TextView(getContext());
-         textView.setText(" "+str);
+         textView.setText(String.format(str));
          textView.setTag(input);
          textView.setTextColor(getResources().getColor(R.color.black));
          linearLayout1.addView(textView,index);
@@ -113,12 +88,12 @@ public class CustomInflater extends LinearLayout {
         });
     }
 
-   public EditText addEditText(LinearLayout linearLayout1, Input str,int index){
+   public EditText addEditText(LinearLayout linearLayout, Input str,int index){
         TextInputLayout textInputLayout=new TextInputLayout(getContext());
         textInputLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        linearLayout1.addView(textInputLayout,index);
+        linearLayout.addView(textInputLayout,index);
         EditText editText = new EditText(getContext());
         LinearLayout.LayoutParams editTextParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
