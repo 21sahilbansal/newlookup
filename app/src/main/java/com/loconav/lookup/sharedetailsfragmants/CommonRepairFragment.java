@@ -71,15 +71,20 @@ public class CommonRepairFragment extends BaseTitleFragment {
 
     @Override
     public void onFragmentCreated() {
+        //progress dialog features
+        progressDialog = new ProgressDialog(getActivity());//we are on ui thread
+        progressDialog.setMessage("Image Compressing..");
+        progressDialog.setCancelable(false);
+        //start the handler thread to get looper
         handlerThread.start();
         handler = new Handler(handlerThread.getLooper());
         passingReason = ((LookupSubActivity) getActivity()).getPassingReason();
-        addSpinnerData();
         customInflater = new CustomInflater(getContext());
-        LinearLayout linearLayout = binding.ll;
+        addSpinnerData();
         repairRequirements = new RepairRequirements();
         userChoice = passingReason.getUserChoice();
         addtional.addAll(passingReason.getReasonResponse().getAdditional_fields());
+        LinearLayout linearLayout = binding.ll;
 
         //making the custom view
         for (int i = 0; i < addtional.size(); i++) {
@@ -116,11 +121,10 @@ public class CommonRepairFragment extends BaseTitleFragment {
                 }
             }
             if(validate) {
+                //Both the attachements are cleared because if one time the request to server fails then there should not be redundant
+                //images next time so we have to clear the images list every time.
                 preRepairAttachmentList.clear();
                 postRepairAttachmentsList.clear();
-                progressDialog = new ProgressDialog(getActivity());//we are on ui thread
-                progressDialog.setMessage("Image Compressing..");
-                progressDialog.setCancelable(false);
                 progressDialog.show();
                 handler.post(new Runnable() {
                     @Override
@@ -145,6 +149,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
                             }
                         }
                         repairRequirements.setPost_repair_images(postRepairAttachmentsList);
+
                         //Compression Pre Repair Images and making list of Attachement type to send to server
                         for (int i = 0; i < passingReason.getImagesPreRepair(); i++) {
                             String image = null;
@@ -239,8 +244,8 @@ public class CommonRepairFragment extends BaseTitleFragment {
         repairRequirements.setReason_id(reasonid);
     }
 
-        @Override
-        public String getTitle () {
+    @Override
+    public String getTitle () {
             return "" + userChoice;
         }
 
@@ -257,8 +262,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
      * @param imagePicker It takes the instance of CustomImagePicker class to get the images from it
      * @param title It is used to set the tiltle for those images
      */
-    public void compressImages(CustomImagePicker imagePicker,String title)
-    {
+    public void compressImages(CustomImagePicker imagePicker,String title) {
         String compressedImage;
         for (ImageUri imageUri : imagePicker.getimagesList()) {
             attachments=new Attachments();

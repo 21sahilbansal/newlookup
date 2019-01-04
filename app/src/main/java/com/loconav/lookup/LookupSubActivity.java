@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import id.zelory.compressor.Compressor;
 
 import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
@@ -26,7 +28,7 @@ import static com.loconav.lookup.EncodingDecoding.getResizedBitmap;
 public class LookupSubActivity extends BaseActivity {
 
     private ArrayList<Input> addtionalFields = new ArrayList<>();
-
+    NavController navController;
 //    It gathers info from all fragmnets attached to  this activity to post later on to server
     public PassingReason passingReason;
 
@@ -56,10 +58,12 @@ public class LookupSubActivity extends BaseActivity {
 
     void passIntentData(){
         if(passingReason.getUserChoice().equals("New Install")){
+//            navController.navigate(R.id.action_blankFragment2_to_deviceIdFragment);
             DeviceIdFragment deviceIdFragment = new DeviceIdFragment();
             fragmentController.loadFragment(deviceIdFragment,getSupportFragmentManager(),R.id.frameLayout,false);
         }
         else {
+//            navController.navigate(R.id.action_blankFragment2_to_repairFragment);
             RepairFragment repairFragment = new RepairFragment();;
             fragmentController.loadFragment(repairFragment,getSupportFragmentManager(),R.id.frameLayout,false);
         }

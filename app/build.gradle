@@ -10,6 +10,7 @@ buildscript {
         classpath 'io.fabric.tools:gradle:1.+'
     }
 }
+
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'androidx.navigation.safeargs'
@@ -78,4 +79,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:11.0.4'
     implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha01'
     implementation 'android.arch.navigation:navigation-ui:1.0.0-alpha01'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+    // Optional, if you use support library fragments:
+    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
 }

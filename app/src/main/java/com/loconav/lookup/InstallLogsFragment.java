@@ -44,7 +44,6 @@ public class InstallLogsFragment extends BaseFragment {
     }
     @Override
     public void onFragmentCreated() {
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Install Logs");
         Bundle bundle = this.getArguments();
         //This layout is on which the InstallLogsFragment and InstallDetailFragment will inflate
         int layout = bundle.getInt("layout");

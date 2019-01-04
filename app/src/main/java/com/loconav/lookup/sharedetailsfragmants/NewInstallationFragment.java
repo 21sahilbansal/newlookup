@@ -59,7 +59,6 @@ public class NewInstallationFragment extends BaseTitleFragment {
     NewInstall newInstall = new NewInstall();
     Handler handler;
     String compressedImage;
-    FragmentController fragmentController = new FragmentController();
     int accessoriesCheckCount=0;
     @Override
     public int setViewId() {
@@ -69,23 +68,29 @@ public class NewInstallationFragment extends BaseTitleFragment {
     public void onFragmentCreated() {
         progressDialog = new ProgressDialog(getActivity());//we are on ui thread
         progressDialog.setCancelable(false);
+
         handlerThread.start();
         handler = new Handler(handlerThread.getLooper());
+
         passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
         final String deviceId = passingReason.getDeviceid();
         final Client client = passingReason.getClientId();
+
+        //These are 3 checkboxes of feature (Immobilizer,SOS,and TripButton) and what to do if they are checked or unchecked
         binding.cbImm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 accessoriesChecked(isChecked);
             }
         });
+
         binding.cbSos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 accessoriesChecked(isChecked);
             }
         });
+
         binding.cbTrip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -96,69 +101,71 @@ public class NewInstallationFragment extends BaseTitleFragment {
         binding.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // these are functions to check if the imagepicker has atleast one image
+                boolean isDeviceImages= checkImages(binding.DeviceImage,"device");
+                boolean isTruckImages=checkImages(binding.TruckImages,"truck");
+                boolean isWiredConnectionImages=checkImages(binding.WireConnection,"wire connection");
+                boolean isEarthWiredConnectionImages=checkImages(binding.WireConnection,"earth wire connection");
+                boolean isFittedImages=checkImages(binding.DeviceFitting,"Fitting");
+                boolean isAccessoriesImages=true;
+                if(getFeatures(binding.cbSos).equals("YES") || getFeatures(binding.cbTrip).equals("YES") || getFeatures(binding.cbImm).equals("YES")){
+                    isAccessoriesImages=checkImages(binding.Accessories,"Accessories");
+                }
+
                 if(CommonFunction.validate(new EditText[]{binding.dealerName,binding.ownerName,binding.clientId,binding.location, binding.registrationNo,binding.chassisNo, binding.manufacture,
-                        binding.model, binding.typeOfGoods, binding.odometerReading, binding.simNo, binding.imei, binding.deviceModel})) {
-                    // these are functions to check if the imagepicker has atleast one image
-                    boolean isDevice= checkImages(binding.DeviceImage,"device");
-                    boolean isTruck=checkImages(binding.TruckImages,"truck");
-                    boolean isWiredConnection=checkImages(binding.WireConnection,"wire connection");
-                    boolean isEarthWiredConnection=checkImages(binding.WireConnection,"earth wire connection");
-                    boolean isFitted=checkImages(binding.DeviceFitting,"Fitting");
-                    boolean isAccessories=true;
-                    if(getFeatures(binding.cbSos).equals("YES") || getFeatures(binding.cbTrip).equals("YES") || getFeatures(binding.cbImm).equals("YES")){
-                        isAccessories=checkImages(binding.Accessories,"Accessories");
-                    }
-                    if(isDevice && isTruck && isWiredConnection && isFitted && isEarthWiredConnection && isAccessories) {
-                        progressDialog.setMessage("Image Compressing..");
-                       progressDialog.show();
-                       handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                    attachmentsList.clear();
-                                    compressImages(binding.TruckImages,"truck_image");
-                                    compressImages(binding.DeviceImage,"device_image");
-                                    compressImages(binding.WireConnection,"wire_connection");
-                                    compressImages(binding.DeviceFitting,"device_fitting");
-                                    compressImages(binding.Accessories,"accessories");
-                                    compressImages(binding.EarthwireConnection,"earth_wire_connection");
-                                    //It is a type of raw data we can send anything in it(used to keep the record that the thing we are sending in newIntsall is correct)
-                                    Notes notes=new Notes();
-                                    notes.setDealer_name(binding.dealerName.getText().toString());
-                                    notes.setOwner_name(binding.ownerName.getText().toString());
-                                    notes.setLocation(binding.location.getText().toString());
-                                    notes.setChassis_number(binding.chassisNo.getText().toString());
-                                    notes.setManufacturer(binding.manufacture.getText().toString());
-                                    notes.setModel(binding.model.getText().toString());
-                                    notes.setTypeOfGoods(binding.typeOfGoods.getText().toString());
-                                    notes.setOdometer_reading(binding.odometerReading.getText().toString());
-                                    notes.setSim_number(binding.simNo.getText().toString());
-                                    notes.setDeviceModel(binding.deviceModel.getText().toString());
-                                    notes.setSos(getFeatures(binding.cbSos));
-                                    notes.setImmobilizer(getFeatures(binding.cbImm));
-                                    notes.setTrip_button(getFeatures(binding.cbTrip));
-                                    notes.setClientid(binding.clientId.getText().toString());
-                                    notes.setInstalldate(String.valueOf((System.currentTimeMillis()/1000)));
-                                    newInstall.setClient_id(binding.clientId.getText().toString());
-                                    newInstall.setTruck_number(binding.registrationNo.getText().toString());
-                                    newInstall.setImei_number(binding.imei.getText().toString());
-                                    newInstall.setTransporter_id(Long.parseLong(binding.transporterId.getText().toString()));
-                                    newInstall.setNotes(notes);
-                                    newInstall.setImmobilizer(getFeatures(binding.cbImm));
-                                    newInstall.setSOS(getFeatures(binding.cbSos));
-                                    newInstall.setTripbutton(getFeatures(binding.cbSos));
-                                    newInstall.setAttachments(attachmentsList);
-                                    if(getActivity()!=null) {
-                                        getActivity().runOnUiThread(new Runnable() { // now we are not on ui thread so we have to show progress on ui thread so we call method runOnUiThread()
-                                            @Override
-                                            public void run() {
-                                                progressDialog.setMessage("Uploading...");
-                                            }
-                                        });
+                        binding.model, binding.typeOfGoods, binding.odometerReading, binding.simNo, binding.imei, binding.deviceModel})
+                        && isDeviceImages && isTruckImages && isWiredConnectionImages && isFittedImages && isEarthWiredConnectionImages && isAccessoriesImages)
+                {
+                    progressDialog.setMessage("Image Compressing..");
+                    progressDialog.show();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            attachmentsList.clear();
+                            compressImages(binding.TruckImages,"truck_image");
+                            compressImages(binding.DeviceImage,"device_image");
+                            compressImages(binding.WireConnection,"wire_connection");
+                            compressImages(binding.DeviceFitting,"device_fitting");
+                            compressImages(binding.Accessories,"accessories");
+                            compressImages(binding.EarthwireConnection,"earth_wire_connection");
+                            //It is a type of raw data we can send anything in it(used to keep the record that the thing we are sending in newIntsall is correct)
+                            Notes notes=new Notes();
+                            notes.setDealer_name(binding.dealerName.getText().toString());
+                            notes.setOwner_name(binding.ownerName.getText().toString());
+                            notes.setLocation(binding.location.getText().toString());
+                            notes.setChassis_number(binding.chassisNo.getText().toString());
+                            notes.setManufacturer(binding.manufacture.getText().toString());
+                            notes.setModel(binding.model.getText().toString());
+                            notes.setTypeOfGoods(binding.typeOfGoods.getText().toString());
+                            notes.setOdometer_reading(binding.odometerReading.getText().toString());
+                            notes.setSim_number(binding.simNo.getText().toString());
+                            notes.setDeviceModel(binding.deviceModel.getText().toString());
+                            notes.setSos(getFeatures(binding.cbSos));
+                            notes.setImmobilizer(getFeatures(binding.cbImm));
+                            notes.setTrip_button(getFeatures(binding.cbTrip));
+                            notes.setClientid(binding.clientId.getText().toString());
+                            notes.setInstalldate(String.valueOf((System.currentTimeMillis()/1000)));
+                            newInstall.setClient_id(binding.clientId.getText().toString());
+                            newInstall.setTruck_number(binding.registrationNo.getText().toString());
+                            newInstall.setImei_number(binding.imei.getText().toString());
+                            newInstall.setTransporter_id(Long.parseLong(binding.transporterId.getText().toString()));
+                            newInstall.setNotes(notes);
+                            newInstall.setImmobilizer(getFeatures(binding.cbImm));
+                            newInstall.setSOS(getFeatures(binding.cbSos));
+                            newInstall.setTripbutton(getFeatures(binding.cbSos));
+                            newInstall.setAttachments(attachmentsList);
+                            //Null check on activity that if activity is null or not
+                            if(getActivity()!=null) {
+                                getActivity().runOnUiThread(new Runnable() { // now we are not on ui thread so we have to show progress on ui thread so we call method runOnUiThread()
+                                    @Override
+                                    public void run() {
+                                        progressDialog.setMessage("Uploading...");
                                     }
-                                    upload(newInstall);
+                                });
                             }
-                        });
-                    }
+                            upload(newInstall);
+                        }
+                    });
                 }
             }
         });
@@ -169,6 +176,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
             CommonFunction.setEditText(binding.transporterId, client.getTransporter_id());
         }
     }
+
     //check if all the custom image pickers has images
     public boolean checkImages(CustomImagePicker imagePicker,String title)
     {
@@ -182,6 +190,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
             return false;
         }
     }
+
     /**
      * This function is only used if you want to compress images and make list Attachement class type from the Custom Image Picker
      * @param imagePicker It takes the instance of CustomImagePicker class to get the images from it
@@ -205,31 +214,30 @@ public class NewInstallationFragment extends BaseTitleFragment {
 
     public void upload(NewInstall newInstall) {
         Log.e("odometerreading","theimage"+"thetitle"+newInstall.getAttachments().get(0).getImage());
-           apiService.addNewInstall(newInstall).enqueue(new RetrofitCallback<ResponseBody>() {
-               @Override
-               public void handleSuccess(Call<ResponseBody> call, Response<ResponseBody> response) {
-                   progressDialog.dismiss();
-                   FileUtils.deleteFiles(getContext());
-                   final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
-                   builder.setMessage("New Installation created successfully")
-                           .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                               public void onClick(DialogInterface dialog, int which) {
-                                   Intent i =new Intent(getContext(), InstallLogsActivity.class);
-                                   startActivity(i);
-                                   getActivity().finish();
-                               }
-                           })
-                           .setCancelable(false)
-                           .show();
-
-               }
-               @Override
-               public void handleFailure(Call<ResponseBody> call, Throwable t) {
-                   progressDialog.dismiss();
-                   if(getContext()!=null)
-                Toast.makeText(getContext(), ""+t.getMessage(), Toast.LENGTH_SHORT).show();
-               }
-           });
+        apiService.addNewInstall(newInstall).enqueue(new RetrofitCallback<ResponseBody>() {
+            @Override
+            public void handleSuccess(Call<ResponseBody> call, Response<ResponseBody> response) {
+                progressDialog.dismiss();
+                FileUtils.deleteFiles(getContext());
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
+                builder.setMessage("New Installation created successfully")
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent i =new Intent(getContext(), InstallLogsActivity.class);
+                                startActivity(i);
+                                getActivity().finish();
+                            }
+                        })
+                        .setCancelable(false)
+                        .show();
+            }
+            @Override
+            public void handleFailure(Call<ResponseBody> call, Throwable t) {
+                progressDialog.dismiss();
+                if(getContext()!=null)
+                    Toast.makeText(getContext(), ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private String getFeatures(CheckBox checkBox) {

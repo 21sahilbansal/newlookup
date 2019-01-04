@@ -13,7 +13,7 @@ import java.util.List;
  * Created by sejal on 12-07-2018.
  */
 
-public class FragmentController extends AppCompatActivity {
+public class FragmentController {
 
     private String TAG_NAME_FRAGMENT = "ACTIVITY_FRAGMENT";
 

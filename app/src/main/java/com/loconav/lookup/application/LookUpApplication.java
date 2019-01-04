@@ -8,6 +8,7 @@ import android.support.multidex.MultiDexApplication;
 
 import com.crashlytics.android.Crashlytics;
 import com.loconav.lookup.base.MyDataBindingComponent;
+import com.squareup.leakcanary.LeakCanary;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -25,8 +26,14 @@ public class LookUpApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
         instance = this;
-        Fabric.with(this, new Crashlytics());
+        //Fabric.with(this, new Crashlytics());
         DataBindingUtil.setDefaultComponent(new MyDataBindingComponent());
     }
 }

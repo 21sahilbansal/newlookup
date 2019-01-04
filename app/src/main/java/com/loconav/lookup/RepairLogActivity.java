@@ -9,6 +9,7 @@ public class RepairLogActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logs_repair);
+        setTitle("Repair Logs");
     }
 
     @Override

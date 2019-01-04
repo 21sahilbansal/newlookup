@@ -33,7 +33,6 @@ import retrofit2.Response;
  */
 
 public class FastTagFragment extends BaseFragment {
-
     private FragmentFastagBinding binding;
     private ApiInterface apiService = StagingApiClient.getClient().create(ApiInterface.class);
     private SearchView.SearchAutoComplete searchAutoComplete;
@@ -45,7 +44,6 @@ public class FastTagFragment extends BaseFragment {
     ArrayList<FastagsList> fastagsLists=new ArrayList<>();
     VehiclesAdapter vehiclesAdapter;
     FastagAdapter fastagAdapter;
-
     @Override
     public int setViewId() {
         return R.layout.fragment_fastag;

@@ -46,10 +46,6 @@ public class RepairLogsFragment extends BaseFragment  {
     }
     @Override
     public void onFragmentCreated() {
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Repair Logs");
-        Bundle bundle = this.getArguments();
-        //This layout is on which the RepairLogsFragment and RepairDetailFragment will inflate
-        int layout = bundle.getInt("layout");
         //It is to initially load the number of items
         int start = 0,end=8;
         navController= Navigation.findNavController(getActivity(),R.id.log_fragment_host);
@@ -105,7 +101,6 @@ public class RepairLogsFragment extends BaseFragment  {
                                 {
                                 for (int i = 0; i <placeholdersToLoad ; i++) {
                                     Repairs repairs = new Repairs();
-                                    repairs = null;
                                     fullRepairsList.add(repairs);
                                 }
                                 recyclerView.getAdapter().notifyDataSetChanged();
@@ -117,7 +112,6 @@ public class RepairLogsFragment extends BaseFragment  {
                                     loadmore=false;
                                     for(int i=0;i<totalitem-(totalItemCount);i++){
                                             Repairs repairs = new Repairs();
-                                            repairs = null;
                                             fullRepairsList.add(repairs);
                                         }
                                     recyclerView.getAdapter().notifyDataSetChanged();
@@ -175,7 +169,6 @@ public class RepairLogsFragment extends BaseFragment  {
                 }
                     fragmentRepairLogsBinding.progessbar.setVisibility(View.INVISIBLE);
                     itemsloaded = true;
-
             }
 
             @Override

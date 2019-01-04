@@ -17,5 +17,7 @@
     <fragment
         android:id="@+id/repairDetailFragment"
         android:name="com.loconav.lookup.RepairDetailFragment"
-        android:label="RepairDetailFragment" />
+        android:label="RepairDetailFragment" >
+
+    </fragment>
 </navigation>

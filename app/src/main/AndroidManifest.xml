@@ -30,7 +30,7 @@
         android:roundIcon="@drawable/ic_lookup_app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".InstallLogsActivity"></activity>
+        <activity android:name=".InstallLogsActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -75,7 +75,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
-        <service android:name=".LocationService" />
 
         <activity
             android:name=".LandingActivity"
