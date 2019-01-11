@@ -15,6 +15,7 @@ import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.databinding.FragmentRepairDetailsBinding;
 import com.loconav.lookup.dialog.FullImageDialog;
+import com.loconav.lookup.model.Input;
 import com.loconav.lookup.model.RepairDetail;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;

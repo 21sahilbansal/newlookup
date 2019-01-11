@@ -1,29 +1,16 @@
 package com.loconav.lookup;
 
-import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 
 import com.loconav.lookup.base.BaseActivity;
+import com.loconav.lookup.model.Input;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.ReasonResponse;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import id.zelory.compressor.Compressor;
-
-import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
-import static com.loconav.lookup.EncodingDecoding.getResizedBitmap;
 
 public class LookupSubActivity extends BaseActivity {
 

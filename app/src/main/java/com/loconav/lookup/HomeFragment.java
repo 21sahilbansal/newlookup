@@ -21,6 +21,7 @@ import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.databinding.FragmentHomeBinding;
+import com.loconav.lookup.model.Input;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.ReasonResponse;
 import com.loconav.lookup.model.ReasonTypeResponse;
@@ -81,6 +82,13 @@ public class HomeFragment extends BaseFragment {
                 reasonResponse = newreasonResponse;
                 passingReason.setUserChoice(reasonResponse.getName());
                 passIntent();
+            }
+        });
+        binding.uploadDocs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(),UploadDocumentsActivity.class);
+                startActivity(i);
             }
         });
         firstTimeTutorial();

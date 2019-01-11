@@ -7,18 +7,22 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.loconav.lookup.BaseTitleFragment;
 import com.loconav.lookup.CommonFunction;
 import com.loconav.lookup.InstallLogsActivity;
 import com.loconav.lookup.LandingActivity;
+import com.loconav.lookup.ScreenshotActivity;
 import com.loconav.lookup.customcamera.CustomImagePicker;
 import com.loconav.lookup.InstallLogsFragment;
 import com.loconav.lookup.databinding.FragmentNewInstallationBinding;
@@ -30,6 +34,8 @@ import com.loconav.lookup.R;
 import com.loconav.lookup.model.Attachments;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.customcamera.ImageUri;
+import com.loconav.lookup.model.ExceptionThrow;
+import com.loconav.lookup.model.InstallationDetails;
 import com.loconav.lookup.model.Notes;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.network.RetrofitCallback;
@@ -60,6 +66,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
     Handler handler;
     String compressedImage;
     int accessoriesCheckCount=0;
+    boolean validate;
     @Override
     public int setViewId() {
         return R.layout.fragment_new_installation;
@@ -101,20 +108,17 @@ public class NewInstallationFragment extends BaseTitleFragment {
         binding.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // these are functions to check if the imagepicker has atleast one image
-                boolean isDeviceImages= checkImages(binding.DeviceImage,"device");
-                boolean isTruckImages=checkImages(binding.TruckImages,"truck");
-                boolean isWiredConnectionImages=checkImages(binding.WireConnection,"wire connection");
-                boolean isEarthWiredConnectionImages=checkImages(binding.WireConnection,"earth wire connection");
-                boolean isFittedImages=checkImages(binding.DeviceFitting,"Fitting");
-                boolean isAccessoriesImages=true;
-                if(getFeatures(binding.cbSos).equals("YES") || getFeatures(binding.cbTrip).equals("YES") || getFeatures(binding.cbImm).equals("YES")){
-                    isAccessoriesImages=checkImages(binding.Accessories,"Accessories");
+
+                for (int i = 0; i < binding.linear.getChildCount() - 1; i++) {
+                    View view = binding.linear.getChildAt(i);
+                    validate = validator(view);
+                    if(!validate){
+                        binding.share.setEnabled(true);
+                        break;
+                    }
                 }
 
-                if(CommonFunction.validate(new EditText[]{binding.dealerName,binding.ownerName,binding.clientId,binding.location, binding.registrationNo,binding.chassisNo, binding.manufacture,
-                        binding.model, binding.typeOfGoods, binding.odometerReading, binding.simNo, binding.imei, binding.deviceModel})
-                        && isDeviceImages && isTruckImages && isWiredConnectionImages && isFittedImages && isEarthWiredConnectionImages && isAccessoriesImages)
+                if(validate)
                 {
                     progressDialog.setMessage("Image Compressing..");
                     progressDialog.show();
@@ -144,7 +148,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
                             notes.setImmobilizer(getFeatures(binding.cbImm));
                             notes.setTrip_button(getFeatures(binding.cbTrip));
                             notes.setClientid(binding.clientId.getText().toString());
-                            notes.setInstalldate(String.valueOf((System.currentTimeMillis()/1000)));
+                            notes.setInstalldate(String.valueOf((System.currentTimeMillis())));
                             newInstall.setClient_id(binding.clientId.getText().toString());
                             newInstall.setTruck_number(binding.registrationNo.getText().toString());
                             newInstall.setImei_number(binding.imei.getText().toString());
@@ -177,19 +181,33 @@ public class NewInstallationFragment extends BaseTitleFragment {
         }
     }
 
-    //check if all the custom image pickers has images
-    public boolean checkImages(CustomImagePicker imagePicker,String title)
+    public boolean validator(View object)
     {
-        if(!imagePicker.getimagesList().isEmpty())
-        {
-            return true;
+        if (object instanceof TextInputLayout) {
+            TextInputLayout textInputLayout = (TextInputLayout) object;
+            EditText editText = textInputLayout.getEditText();
+            if(CommonFunction.validateEdit(editText)){
+            }else{
+                return false;
+            }
+        }else if (object instanceof CustomImagePicker) {
+            CustomImagePicker customImagePicker = (CustomImagePicker) object;
+            //This is to check if custom image picker is accessories and any of the features is checked then we have to check for the images and not if nothing is checked
+            if(customImagePicker.textID.equals("accessories") && (getFeatures(binding.cbSos).equals("YES") || getFeatures(binding.cbTrip).equals("YES") || getFeatures(binding.cbImm).equals("YES")))
+            {
+                if (customImagePicker.getimagesList().size() < 1 ) {
+                    Toast.makeText(getContext(), "Add "+customImagePicker.textID, Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+            else if (customImagePicker.getimagesList().size() < 1 && !customImagePicker.textID.equals("accessories") ) {
+                Toast.makeText(getContext(), "Add "+customImagePicker.textID, Toast.LENGTH_SHORT).show();
+                return false;
+            }
         }
-        else
-        {
-            Toast.makeText(getContext(), "Upload "+title+" Images", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+        return true;
     }
+
 
     /**
      * This function is only used if you want to compress images and make list Attachement class type from the Custom Image Picker
@@ -223,8 +241,19 @@ public class NewInstallationFragment extends BaseTitleFragment {
                 builder.setMessage("New Installation created successfully")
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent i =new Intent(getContext(), InstallLogsActivity.class);
-                                startActivity(i);
+                                progressDialog.dismiss();
+                                //These are the details we have to pass to share the to share details fragment we cannot pass the whole newInstall object as it contains photos
+                                InstallationDetails details=new InstallationDetails();
+                                details.setTruck_number(newInstall.getTruck_number());
+                                details.setInstallable_serial_number(newInstall.getImei_number());
+                                details.setChassis(newInstall.getNotes().getChassis_number());
+                                details.setInstallation_date(System.currentTimeMillis());
+                                details.setDevice_phone_number(newInstall.getNotes().getSim_number());
+                                Intent intent =new Intent(getActivity(), ScreenshotActivity.class);
+                                Bundle bundle=new Bundle();
+                                bundle.putSerializable("installationdetails",details);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
                                 getActivity().finish();
                             }
                         })
@@ -239,6 +268,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
             }
         });
     }
+
 
     private String getFeatures(CheckBox checkBox) {
         if(checkBox.isChecked())

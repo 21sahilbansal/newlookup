@@ -2,7 +2,9 @@ package com.loconav.lookup.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Status_message {
+import java.io.Serializable;
+
+public class Status_message implements Serializable {
     @SerializedName("received_at")
     private String received_at;
 

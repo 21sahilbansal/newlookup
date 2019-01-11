@@ -1,10 +1,15 @@
 package com.loconav.lookup;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Html;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -19,6 +24,7 @@ import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.databinding.*;
 import com.loconav.lookup.network.rest.ApiInterface;
+import com.loconav.lookup.utils.ScreenShotUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +35,7 @@ import retrofit2.Response;
 public class InstallDetailFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     FragmentInstallDetailsBinding installDetailsBinding;
+    InstallationDetails installs=new InstallationDetails();
     int installId;
     @Override
     public int setViewId() {
@@ -41,6 +48,29 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
         installId = bundle.getInt("id");
         installDetailsBinding.swipeRefresh.setOnRefreshListener(this);
         loadInstallDetail();
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
+        inflater.inflate(R.menu.share, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_share:
+                Intent intent =new Intent(getActivity(), ScreenshotActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("installationdetails",installs);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     @Override
@@ -69,7 +99,7 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
             @Override
             public void handleSuccess(Call<InstallationDetails> call, Response<InstallationDetails> response) {
                 installDetailsBinding.swipeRefresh.setRefreshing(false);
-                InstallationDetails installs=response.body();
+                 installs=response.body();
                 if(installs!=null) {
                     installDetailsBinding.setInstalls(installs);
                     installDetailsBinding.notesdata.setText(Html.fromHtml(installs.getNotes()));

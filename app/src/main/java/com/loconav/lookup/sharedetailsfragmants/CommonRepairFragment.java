@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.loconav.lookup.BaseTitleFragment;
 import com.loconav.lookup.customcamera.CustomImagePicker;
 import com.loconav.lookup.CustomInflater;
-import com.loconav.lookup.Input;
+import com.loconav.lookup.model.Input;
 import com.loconav.lookup.LandingActivity;
 import com.loconav.lookup.LookupSubActivity;
 import com.loconav.lookup.R;
@@ -111,7 +111,11 @@ public class CommonRepairFragment extends BaseTitleFragment {
 
         // performing the click on upload button
         binding.share.setOnClickListener(v -> {
+
+            //So that button is not clicked twice
             binding.share.setEnabled(false);
+
+            //so validate that all feilds are filled correctly
             for (int i = 0; i < binding.ll.getChildCount() - 1; i++) {
                 View view = binding.ll.getChildAt(i);
                 validate = validator(view);
@@ -120,6 +124,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
                     break;
                 }
             }
+            
             if(validate) {
                 //Both the attachements are cleared because if one time the request to server fails then there should not be redundant
                 //images next time so we have to clear the images list every time.

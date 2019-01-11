@@ -1,9 +1,7 @@
 package com.loconav.lookup.model;
 
-import com.google.gson.JsonArray;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.loconav.lookup.Input;
 
 import java.io.Serializable;
 import java.util.ArrayList;

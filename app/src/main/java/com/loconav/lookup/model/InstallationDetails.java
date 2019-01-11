@@ -3,10 +3,11 @@ package com.loconav.lookup.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class InstallationDetails {
+public class InstallationDetails implements Serializable {
         @SerializedName("installable_id")
         private String installable_id;
 
@@ -62,7 +63,17 @@ public class InstallationDetails {
         @SerializedName("audit_notes")
         private String auditNotes;
 
-        public String getAuditStatus() {
+        private String chassis;
+
+    public String getChassis() {
+        return chassis;
+    }
+
+    public void setChassis(String chassis) {
+        this.chassis = chassis;
+    }
+
+    public String getAuditStatus() {
             return auditStatus; }
 
         public void setAuditStatus(String auditStatus) {

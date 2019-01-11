@@ -2,7 +2,9 @@ package com.loconav.lookup.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Notes {
+import java.io.Serializable;
+
+public class Notes implements Serializable {
     @SerializedName("type_of_goods")
     private String typeOfGoods;
     @SerializedName("device_model")

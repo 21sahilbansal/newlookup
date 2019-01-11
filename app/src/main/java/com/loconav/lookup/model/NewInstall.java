@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewInstall  {
+public class NewInstall  implements Serializable{
     @SerializedName("attachments")
     private List<Attachments> attachments=new ArrayList<>();
 

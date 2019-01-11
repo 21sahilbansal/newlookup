@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Attachments {
+public class Attachments implements Serializable{
     @SerializedName("title")
     @Expose
     private String title;

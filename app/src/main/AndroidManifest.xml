@@ -30,6 +30,13 @@
         android:roundIcon="@drawable/ic_lookup_app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ScreenshotActivity"></activity>
+
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="ocr" />
+
+        <activity android:name=".UploadDocumentsActivity" />
         <activity android:name=".InstallLogsActivity" />
 
         <provider
@@ -74,8 +81,6 @@
             android:name=".LookupSubActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-
-
         <activity
             android:name=".LandingActivity"
             android:screenOrientation="portrait"

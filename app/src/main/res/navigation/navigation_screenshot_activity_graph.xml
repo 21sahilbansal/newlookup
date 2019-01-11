@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/screenshotFragment"
+    android:id="@+id/navigation_screenshot_activity_graph">
+    <fragment
+        android:id="@+id/screenshotFragment"
+        android:name="com.loconav.lookup.ScreenshotFragment"
+        android:label="ScreenshotFragment" />
+</navigation>

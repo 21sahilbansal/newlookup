@@ -2,7 +2,9 @@ package com.loconav.lookup.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AttachmentsDetails
+import java.io.Serializable;
+
+public class AttachmentsDetails implements Serializable
     {
         @SerializedName("id")
          String id;

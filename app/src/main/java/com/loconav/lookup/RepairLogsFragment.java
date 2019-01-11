@@ -46,9 +46,9 @@ public class RepairLogsFragment extends BaseFragment  {
     }
     @Override
     public void onFragmentCreated() {
+        navController= Navigation.findNavController(getActivity(),R.id.log_fragment_host);
         //It is to initially load the number of items
         int start = 0,end=8;
-        navController= Navigation.findNavController(getActivity(),R.id.log_fragment_host);
         apiInterface.getRepairLogs(start,end).enqueue(new RetrofitCallback<RepairsDataandTotalRepairCount>() {
             @Override
             public void handleSuccess(Call<RepairsDataandTotalRepairCount> call, Response<RepairsDataandTotalRepairCount> response) {
@@ -135,7 +135,7 @@ public class RepairLogsFragment extends BaseFragment  {
             {
                 if(loadmore)
                 fragmentRepairLogsBinding.progessbar.setVisibility(View.VISIBLE);
-             onScrollStateChanged(recyclerView,RecyclerView.SCROLL_STATE_IDLE);
+                onScrollStateChanged(recyclerView,RecyclerView.SCROLL_STATE_IDLE);
             }
             }
         };
@@ -154,6 +154,8 @@ public class RepairLogsFragment extends BaseFragment  {
     @Override
     public void getComponentFactory() {
     }
+
+
 
     public void getRepairLogs(int first,int last,RecyclerView recyclerView)
     {

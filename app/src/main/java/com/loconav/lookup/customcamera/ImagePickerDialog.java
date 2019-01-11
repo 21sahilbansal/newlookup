@@ -118,7 +118,6 @@ public class ImagePickerDialog extends BaseDialogFragment {
             if(data.getClipData().getItemCount()<=limit) {
                 Log.e("clip3",""+data.getClipData().getItemCount());
                 for (int i = 0; i < data.getClipData().getItemCount(); i++) {
-
                     ImageUri imageUri = new ImageUri();
                     imageUri.setUri(data.getClipData().getItemAt(i).getUri());
                     imagesUriArrayList.add(imageUri);

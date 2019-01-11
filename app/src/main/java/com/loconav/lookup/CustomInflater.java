@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.loconav.lookup.customcamera.CustomImagePicker;
+import com.loconav.lookup.model.Input;
 
 import java.util.ArrayList;
 
@@ -31,7 +32,7 @@ public class CustomInflater extends LinearLayout {
         super(context);
     }
 
-     public TextView addtext(String str,LinearLayout linearLayout1, Input input, int index){
+     public TextView addtext(String str, LinearLayout linearLayout1, Input input, int index){
          TextView textView = new TextView(getContext());
          textView.setText(String.format(str));
          textView.setTag(input);
