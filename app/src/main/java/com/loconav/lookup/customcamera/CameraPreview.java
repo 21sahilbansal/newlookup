@@ -2,6 +2,7 @@ package com.loconav.lookup.customcamera;
 
 import android.content.Context;
 import android.hardware.Camera;
+import android.telecom.Call;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -11,11 +12,12 @@ import java.io.IOException;
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     private SurfaceHolder mHolder;
     private Camera mCamera;
+    private Callback callback;
 
-    public CameraPreview(Context context, Camera camera) {
+    public CameraPreview(Context context, Camera camera,Callback callback) {
         super(context);
+        this.callback=callback;
         mCamera = camera;
-
         // Install a SurfaceHolder.Callback so we get notified when the
         // underlying surface is created and destroyed.
         mHolder = getHolder();
@@ -29,7 +31,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         try {
             mCamera.setPreviewDisplay(holder);
             mCamera.startPreview();
+            callback.onEventDone(true);
         } catch (IOException e) {
+            callback.onEventDone(false);
             Log.d("fs", "Error setting camera preview: " + e.getMessage());
         }
     }

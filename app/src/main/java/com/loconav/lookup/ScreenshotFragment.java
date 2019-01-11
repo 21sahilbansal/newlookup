@@ -4,6 +4,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -74,7 +79,6 @@ public class ScreenshotFragment extends BaseFragment {
     @Override
     public void bindView(View view) {
         binding= DataBindingUtil.bind(view);
-
     }
 
     @Override

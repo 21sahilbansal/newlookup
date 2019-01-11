@@ -231,6 +231,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
     }
 
     public void upload(NewInstall newInstall) {
+
         Log.e("odometerreading","theimage"+"thetitle"+newInstall.getAttachments().get(0).getImage());
         apiService.addNewInstall(newInstall).enqueue(new RetrofitCallback<ResponseBody>() {
             @Override
@@ -252,6 +253,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
                                 Intent intent =new Intent(getActivity(), ScreenshotActivity.class);
                                 Bundle bundle=new Bundle();
                                 bundle.putSerializable("installationdetails",details);
+                                bundle.putString("bywhom","NewInstallationFragment");
                                 intent.putExtras(bundle);
                                 startActivity(intent);
                                 getActivity().finish();

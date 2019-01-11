@@ -36,8 +36,11 @@
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
             android:value="ocr" />
 
-        <activity android:name=".UploadDocumentsActivity" />
-        <activity android:name=".InstallLogsActivity" />
+        <activity android:name=".UploadDocumentsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".InstallLogsActivity"
+            android:screenOrientation="portrait"
+            />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -90,7 +93,9 @@
             android:name=".customcamera.CameraOpenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/FullScreen" />
-        <activity android:name=".RepairLogActivity" />
+        <activity android:name=".RepairLogActivity"
+            android:screenOrientation="portrait"
+            />
 
         <receiver android:name=".location.LocationBroadcastReciever" />
     </application>

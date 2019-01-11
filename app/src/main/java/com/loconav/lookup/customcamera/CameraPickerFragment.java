@@ -48,6 +48,7 @@ public class CameraPickerFragment extends BaseFragment{
     private int size=0;
     private boolean safeToTakePhoto=false;
     private FragmentController fragmentController=new FragmentController();
+    private boolean firstTime=true;
     //It is callback for focus
     private Camera.AutoFocusCallback mAutoFocusTakePictureCallback = new Camera.AutoFocusCallback() {
         @Override
@@ -179,7 +180,15 @@ public class CameraPickerFragment extends BaseFragment{
                 else if(camerId==1)
                     camerId=0;
                 mCamera = Camera.open(camerId);
-                mPreview = new CameraPreview(context, mCamera);
+                mPreview = new CameraPreview(context, mCamera, new Callback() {
+                    @Override
+                    public void onEventDone(Object object) {
+                        if((Boolean) object)
+                            safeToTakePhoto=true;
+                        else
+                            safeToTakePhoto=false;
+                    }
+                });
                 setCameraDisplayOrientation(getActivity(),camerId);
                 parameters =getPhotoParameters(mCamera,camerId);
                 mCamera.setParameters(parameters);
@@ -189,8 +198,7 @@ public class CameraPickerFragment extends BaseFragment{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                mCamera.startPreview();
-                safeToTakePhoto=true;
+
             }
         });
 
@@ -203,11 +211,39 @@ public class CameraPickerFragment extends BaseFragment{
                 getActivity().finish();
             }
         });
-
-        mPreview = new CameraPreview(context,mCamera);
+        mPreview = new CameraPreview(context, mCamera, new Callback() {
+            @Override
+            public void onEventDone(Object object) {
+                if((Boolean) object)
+                    safeToTakePhoto=true;
+                else
+                    safeToTakePhoto=false;
+            }
+        });
         fragmentCamerapickerBinding.cameraPreview.addView(mPreview);
-        mCamera.startPreview();
-        safeToTakePhoto=true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(!firstTime) {
+            mCamera = getCameraInstance();
+            setCameraDisplayOrientation(getActivity(),camerId);
+            parameters = getPhotoParameters(mCamera, camerId);
+            mCamera.setParameters(parameters);
+            mPreview = new CameraPreview(context, mCamera, new Callback() {
+                @Override
+                public void onEventDone(Object object) {
+                    if((Boolean) object)
+                        safeToTakePhoto=true;
+                    else
+                        safeToTakePhoto=false;
+                }
+            });
+            fragmentCamerapickerBinding.cameraPreview.addView(mPreview);
+        }
+        else
+            firstTime=false;
     }
 
     @Override

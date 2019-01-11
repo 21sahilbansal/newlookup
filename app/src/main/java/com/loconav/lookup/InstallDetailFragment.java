@@ -64,6 +64,7 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
                 Intent intent =new Intent(getActivity(), ScreenshotActivity.class);
                 Bundle bundle=new Bundle();
                 bundle.putSerializable("installationdetails",installs);
+                bundle.putString("bywhom","InstallDetailFragment");
                 intent.putExtras(bundle);
                 startActivity(intent);
                 return true;
