@@ -2,7 +2,9 @@ package com.loconav.lookup.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Urls {
+import java.io.Serializable;
+
+public class Urls implements Serializable {
     @SerializedName("original")
     private String original;
 
