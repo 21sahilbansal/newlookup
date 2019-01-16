@@ -21,15 +21,6 @@ public class FileUtils {
         );
         return image;
     }
-    public static Bitmap bitmapTouri(Context context, Uri imageUri) {
-        Bitmap bm = null;
-        try {
-            bm = (MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bm;
-    }
     public static void deleteFiles(Context context)
     {
         File dir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);

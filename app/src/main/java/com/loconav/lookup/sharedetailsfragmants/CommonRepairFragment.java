@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -160,7 +161,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
                             String image = null;
                             attachments=new Attachments();
                             try {
-                                image = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getContext());
+                                image=ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), Uri.parse(passingReason.getImagesList().get(i))));
                                 attachments.setTitle("pre_repair");
                                 attachments.setImage(image);
                             } catch (Exception e) {
@@ -272,7 +273,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
         for (ImageUri imageUri : imagePicker.getimagesList()) {
             attachments=new Attachments();
             try {
-                compressedImage = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(), imageUri.getUri()), getContext());
+                compressedImage = ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri.getUri()));
                 attachments.setTitle(title);
                 attachments.setImage(compressedImage);
                 postRepairAttachmentsList.add(attachments);

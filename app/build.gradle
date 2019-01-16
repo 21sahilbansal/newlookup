@@ -25,8 +25,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 27
         buildToolsVersion "23.0.0"
-        versionCode 9
-        versionName "9.0"
+        versionCode 8
+        versionName "8.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
     }
@@ -83,9 +83,7 @@ dependencies {
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
     // Optional, if you use support library fragments:
     debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
-    //implementation project(':scanlibrary')
     implementation 'com.google.firebase:firebase-ml-vision:17.0.1'
-    //implementation 'com.github.jinatonic.confetti:confetti:1.1.1'
-
 }
 apply plugin: 'com.google.gms.google-services'
+

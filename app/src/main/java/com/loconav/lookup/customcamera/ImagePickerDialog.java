@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -18,22 +19,20 @@ import com.loconav.lookup.base.BaseDialogFragment;
 import com.loconav.lookup.databinding.DialogImagePickerBinding;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by prateek on 09/07/18.
- */
 
 public class ImagePickerDialog extends BaseDialogFragment {
     private DialogImagePickerBinding binding;
     private int SELECT_FILE = 1;
-    private String stringId;
+    private int CAMERA_FILE=2;
+    private String stringId; //it is the name of custom image picker
     private int limit;
+    String startCompression="started_compression";
     private ArrayList<ImageUri> imagesUriArrayList=new ArrayList<>();
-    public static ImagePickerDialog newInstance(String id,int limit) {
+    public static ImagePickerDialog newInstance(String id, int limit) {
         ImagePickerDialog imagePickerDialog = new ImagePickerDialog();
         Bundle bundle=new Bundle();
         bundle.putString("id",id);
@@ -74,7 +73,6 @@ public class ImagePickerDialog extends BaseDialogFragment {
                     .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         }
         builder.setContentView(dialogView);
-        EventBus.getDefault().register(this);
         return builder;
     }
 
@@ -85,23 +83,56 @@ public class ImagePickerDialog extends BaseDialogFragment {
         intent.setAction(Intent.ACTION_GET_CONTENT);//
         startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
     }
-    public void cameraIntent()
-    {
+
+    public void cameraIntent() {
         Bundle bundle=new Bundle();
         bundle.putInt("limit",limit);
-        bundle.putString("Stringid",stringId);
         Intent i =new Intent(getContext(),CameraOpenActivity.class);
         i.putExtras(bundle);
-        startActivity(i);
+        startActivityForResult(i,CAMERA_FILE);
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         if (resultCode == Activity.RESULT_OK) {
+            EventBus.getDefault().post(startCompression+stringId);
             if (requestCode == SELECT_FILE){
                 parsingGalleryImage(data);
                 Log.e("list size",""+imagesUriArrayList.size());
-                EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_GALLERY+""+stringId, imagesUriArrayList));
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            imagesUriArrayList=ImageUtils.compressImageList(imagesUriArrayList,getContext());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Log.e("sd",""+stringId);
+                        EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_GALLERY+""+stringId, imagesUriArrayList));
+                    }
+                }).start();
+            }
+            if (requestCode == CAMERA_FILE){
+                Log.e("list size",""+imagesUriArrayList.size());
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //We get the list of string as uri is non seriazable object so then we again convert it into list of uri
+                        ArrayList<ImageUri> imageUris=new ArrayList<>();
+                        for(String s: (ArrayList<String>)data.getExtras().get("imageList"))
+                        {
+                            ImageUri imageUri=new ImageUri();
+                            imageUri.setUri(Uri.parse(s));
+                            imageUris.add(imageUri);}
+                        try {
+                            imagesUriArrayList=ImageUtils.compressImageList(imageUris,getContext());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Log.e("sd",""+stringId);
+                        EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_CAMERA+""+stringId, imagesUriArrayList));
+                    }
+                }).start();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -134,18 +165,10 @@ public class ImagePickerDialog extends BaseDialogFragment {
         Log.e("SIZE", imagesUriArrayList.size() + ""+imagesUriArrayList);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getToDismiss(String dismiss) {
-       if(dismiss.equals("true")) {
-           Log.e("the dialog ","the dialog should dismiss");
-           getDialog().dismiss();
-       }
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
         binding.unbind();
     }
+
 }

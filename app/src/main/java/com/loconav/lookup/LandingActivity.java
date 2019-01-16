@@ -63,7 +63,6 @@ public class LandingActivity extends BaseActivity {
         {
             startBroadcstReceiver();
         }
-
         showAppUpdateDialog();
     }
 

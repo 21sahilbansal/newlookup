@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -14,27 +15,20 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.loconav.lookup.BaseTitleFragment;
 import com.loconav.lookup.CommonFunction;
-import com.loconav.lookup.InstallLogsActivity;
-import com.loconav.lookup.LandingActivity;
 import com.loconav.lookup.ScreenshotActivity;
 import com.loconav.lookup.customcamera.CustomImagePicker;
-import com.loconav.lookup.InstallLogsFragment;
 import com.loconav.lookup.databinding.FragmentNewInstallationBinding;
 import com.loconav.lookup.customcamera.FileUtils;
-import com.loconav.lookup.FragmentController;
 import com.loconav.lookup.customcamera.ImageUtils;
 import com.loconav.lookup.LookupSubActivity;
 import com.loconav.lookup.R;
 import com.loconav.lookup.model.Attachments;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.customcamera.ImageUri;
-import com.loconav.lookup.model.ExceptionThrow;
 import com.loconav.lookup.model.InstallationDetails;
 import com.loconav.lookup.model.Notes;
 import com.loconav.lookup.model.PassingReason;
@@ -219,7 +213,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
         for (ImageUri imageUri : imagePicker.getimagesList()) {
             Attachments attachments=new Attachments();
             try {
-                compressedImage = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(), imageUri.getUri()), getActivity());
+                compressedImage = ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri.getUri()));
                 attachments.setTitle(title);
                 attachments.setImage(compressedImage);
                 attachmentsList.add(attachments);
@@ -253,7 +247,6 @@ public class NewInstallationFragment extends BaseTitleFragment {
                                 Intent intent =new Intent(getActivity(), ScreenshotActivity.class);
                                 Bundle bundle=new Bundle();
                                 bundle.putSerializable("installationdetails",details);
-                                bundle.putString("bywhom","NewInstallationFragment");
                                 intent.putExtras(bundle);
                                 startActivity(intent);
                                 getActivity().finish();

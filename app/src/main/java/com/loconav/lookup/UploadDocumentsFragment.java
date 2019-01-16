@@ -44,7 +44,7 @@ public class UploadDocumentsFragment extends BaseFragment {
         binding.attachDocs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                documentPickerDialog=DocumentPickerDialog.newInstance("ss",1);
+                documentPickerDialog=DocumentPickerDialog.newInstance();
                 documentPickerDialog.show(getFragmentManager(), getClass().getSimpleName());
             }
         });

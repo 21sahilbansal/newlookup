@@ -23,9 +23,6 @@ allprojects {
         maven {
             url "https://jitpack.io"
         }
-        jcenter{
-            url "http://jcenter.bintray.com/"
-        }
     }
 
 

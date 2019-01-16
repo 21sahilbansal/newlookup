@@ -73,8 +73,6 @@ public class RepairDetailFragment extends BaseFragment implements SwipeRefreshLa
                         CustomInflater customInflater = new CustomInflater(getContext());
                         int index = 0;
                         repairDetailsBinding.setRepairs(repairs);
-                        if (repairs.getAuditNotes() != null)
-                            repairDetailsBinding.auditNotes.setText(Html.fromHtml(repairs.getAuditNotes()));
                         for (String r : repairs.getRepairData().keySet()) {
                             Input input = new Input(r, r, r, r);
                             TextView labels = customInflater.addtext(r, repairDetailsBinding.repairdata, input, index);

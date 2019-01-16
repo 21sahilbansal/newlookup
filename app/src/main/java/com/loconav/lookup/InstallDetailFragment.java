@@ -103,9 +103,6 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
                  installs=response.body();
                 if(installs!=null) {
                     installDetailsBinding.setInstalls(installs);
-                    installDetailsBinding.notesdata.setText(Html.fromHtml(installs.getNotes()));
-                    if (installs.getAuditNotes() != null)
-                        installDetailsBinding.auditNotes.setText(Html.fromHtml(installs.getAuditNotes()));
                     List<AttachmentsDetails> attachmentsList;
                     attachmentsList = installs.getAttachments();
                     List<String> deviceimages = new ArrayList<>(), truckimages = new ArrayList<>(), connectionimages = new ArrayList<>(), fittingimages = new ArrayList<>(), accessories = new ArrayList<>(),earthconnectionimages=new ArrayList<>();

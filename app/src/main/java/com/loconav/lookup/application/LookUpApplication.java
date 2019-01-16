@@ -31,6 +31,7 @@ public class LookUpApplication extends Application {
 //        }
 //        LeakCanary.install(this);
         instance = this;
+
         Fabric.with(this, new Crashlytics());
         DataBindingUtil.setDefaultComponent(new MyDataBindingComponent());
     }

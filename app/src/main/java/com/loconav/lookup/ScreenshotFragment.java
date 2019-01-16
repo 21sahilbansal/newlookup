@@ -46,6 +46,13 @@ public class ScreenshotFragment extends BaseFragment {
                 sendWhatsapp(textToWhatsapp);
             }
         });
+        binding.checkInstallLogs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(),InstallLogsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void setData(InstallationDetails details)

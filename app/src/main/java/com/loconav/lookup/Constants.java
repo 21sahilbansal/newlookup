@@ -15,5 +15,5 @@ public class Constants {
     public static final String LOG_IN_TIME = "log_in_time";
     public static final String REASONS_RESPONSE = "reasons_response";
     public static final String TUTORIAL_KEY="tutorial_key";
-    public static final int REQUEST_CODE= 99;
+    public static final int REQUEST_CODE_FOR_DOCUMENT = 99;
 }

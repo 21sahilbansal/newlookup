@@ -1,9 +1,8 @@
 package com.loconav.lookup.network;
 
 import android.util.Log;
-import android.widget.Toast;
 
-import com.loconav.lookup.model.ExceptionThrow;
+import com.loconav.lookup.model.ApiException;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
 
@@ -28,7 +27,7 @@ public abstract class RetrofitCallback<T> implements Callback<T> {
 
     @Override public void onFailure(Call<T> call,Throwable t) {
         Log.e(TAG, "onFailure: " + t.getMessage());
-        throwException("This is app side exception "+t.getMessage(),call.request().url().toString());
+        throwExceptionToServer("This is app side exception "+t.getMessage(),call.request().url().toString());
         handleFailure(call, new Throwable(DEFAULT_ERROR_MESSAGE));
     }
 
@@ -49,7 +48,7 @@ public abstract class RetrofitCallback<T> implements Callback<T> {
                 exception=e.getMessage();
                 e.printStackTrace();
             }
-            throwException("This is api(server) exception "+exception,call.request().url().toString());
+            throwExceptionToServer("This is api(server) exception "+exception,call.request().url().toString());
             handleFailure(call, new Throwable(error));
         }
     }
@@ -57,10 +56,10 @@ public abstract class RetrofitCallback<T> implements Callback<T> {
     public abstract void handleSuccess(Call<T> call, Response<T> response);
     public abstract void handleFailure(Call<T> call, Throwable t);
 
-    public void throwException(String exception,String api)
+    public void throwExceptionToServer(String exception,String api)
     {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        ExceptionThrow exceptionThrow=new ExceptionThrow();
+        ApiException exceptionThrow=new ApiException();
         exceptionThrow.setCrash_log(exception);
         exceptionThrow.setNote(api);
 

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class ExceptionThrow implements Serializable {
+public class ApiException implements Serializable {
     @SerializedName("crash_log")
     String crash_log;
 

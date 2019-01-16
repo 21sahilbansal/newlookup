@@ -4,7 +4,7 @@ import com.loconav.lookup.login.model.Creds;
 import com.loconav.lookup.login.model.LoginResponse;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.CoordinateRequest;
-import com.loconav.lookup.model.ExceptionThrow;
+import com.loconav.lookup.model.ApiException;
 import com.loconav.lookup.model.FastagsList;
 import com.loconav.lookup.model.InstallationDetails;
 import com.loconav.lookup.model.InstallationRequirements;
@@ -155,5 +155,5 @@ public interface ApiInterface {
     Call<InstallationDetails> getInstallDetail(@Path(value = "install_id", encoded = true) int installId);
 
     @POST("api/v1/android/app_crash_logs")
-    Call<ResponseBody> throwException(@Body ExceptionThrow exceptionThrow);
+    Call<ResponseBody> throwException(@Body ApiException exceptionThrow);
 }
