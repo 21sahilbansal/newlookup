@@ -272,7 +272,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
         for (ImageUri imageUri : imagePicker.getimagesList()) {
             attachments=new Attachments();
             try {
-                compressedImage = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(), imageUri.getUri()), getActivity());
+                compressedImage = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(), imageUri.getUri()), getContext());
                 attachments.setTitle(title);
                 attachments.setImage(compressedImage);
                 postRepairAttachmentsList.add(attachments);
@@ -316,6 +316,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        handlerThread.quit();
         binding.unbind();
     }
 }
