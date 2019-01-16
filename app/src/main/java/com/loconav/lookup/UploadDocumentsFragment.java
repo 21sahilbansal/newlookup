@@ -61,6 +61,7 @@ public class UploadDocumentsFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void uri(String uri) throws IOException {
+        //Still to work on not complete
         if(!uri.isEmpty()) {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), Uri.parse(uri));
             image = FirebaseVisionImage.fromBitmap(bitmap);

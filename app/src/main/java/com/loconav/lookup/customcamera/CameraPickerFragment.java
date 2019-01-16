@@ -16,6 +16,7 @@ import com.loconav.lookup.R;
 import com.loconav.lookup.adapter.RecycleCustomImageAdapter;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FragmentCamerapickerBinding;
+import com.loconav.lookup.dialog.FullImageDialog;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -152,7 +153,9 @@ public class CameraPickerFragment extends BaseFragment {
         recycleCustomImageAdapter=new RecycleCustomImageAdapter(imageList, new Callback() {
             @Override
             public void onEventDone(Object object) {
-
+                ImageUri uri=(ImageUri) object;
+                FullImageDialog fullImageDialog = FullImageDialog.newInstance(uri.getUri().toString());
+                fullImageDialog.show(getActivity().getSupportFragmentManager(),getClass().getSimpleName());
             }
         },getContext());
         binding.rvImages.setLayoutManager(linearLayoutManager);
