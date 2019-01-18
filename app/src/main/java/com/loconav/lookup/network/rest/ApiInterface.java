@@ -143,7 +143,7 @@ public interface ApiInterface {
      * @param end - The end index of the repairs
      * @return
      */
-    @GET("api/installers/installations/get_installations")
+    @GET("api/installers/installations/get_device_installations")
     Call<InstallDatandTotalInstallCount> getInstallLogs(@Query("start_index") int start, @Query("end_index") int end);
 
     /**

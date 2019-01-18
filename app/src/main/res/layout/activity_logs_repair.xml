@@ -4,13 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <fragment
-        android:id="@+id/log_fragment_host"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+    <FrameLayout
+        android:id="@+id/fragment_host"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/navigation_repair_log_activity_graph"
-        ></fragment>
+        ></FrameLayout>
 </android.support.constraint.ConstraintLayout>
 </layout>

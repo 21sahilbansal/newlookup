@@ -28,6 +28,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UploadDocumentsFragment extends BaseFragment {
     FragmentUploadDocumentsBinding binding;
@@ -60,7 +62,14 @@ public class UploadDocumentsFragment extends BaseFragment {
                                     @Override
                                     public void onSuccess(FirebaseVisionText firebaseVisionText) {
                                         Toast.makeText(getContext(), ""+firebaseVisionText.getText(), Toast.LENGTH_SHORT).show();
-                                        Log.e("fsjf",firebaseVisionText.getText());
+                                        Log.e("sourav",firebaseVisionText.getText());
+                                        String string=firebaseVisionText.getText();
+                                        String regex = "^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[1,3-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$";
+                                        Pattern p = Pattern.compile(regex);
+                                        Matcher m1 = p.matcher(string);
+                                        while (m1.find()) {
+                                            Toast.makeText(getContext(), "ss"+(m1.group()), Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 })
                                 .addOnFailureListener(

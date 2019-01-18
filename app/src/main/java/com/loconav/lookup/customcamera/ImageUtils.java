@@ -20,13 +20,13 @@ import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
 public class ImageUtils {
 
     public static ImageUri compressImageFile(ImageUri imageUri, Context context) throws IOException {
-        File f=getImagefile(context);
-        FileOutputStream fout=new FileOutputStream(f);
+        File imagefile=getImagefile(context);
+        FileOutputStream fout=new FileOutputStream(imagefile);
         Bitmap bitmap= MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri.getUri());
         bitmap= Bitmap.createScaledBitmap(bitmap,(bitmap.getWidth()*30)/100,(bitmap.getHeight()*30)/100,true);
         bitmap.compress(Bitmap.CompressFormat.JPEG, 30, fout);
         ImageUri compressedImageUri=new ImageUri();
-        compressedImageUri.setUri(FileProvider.getUriForFile(context, "com.lookuploconav.lookup", f));
+        compressedImageUri.setUri(FileProvider.getUriForFile(context, "com.lookuploconav.lookup", imagefile));
         return compressedImageUri;
     }
 

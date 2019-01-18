@@ -77,7 +77,7 @@ public class CameraPickerFragment extends BaseFragment {
                                 fos.close();
                                 mCamera.startPreview();
                             } catch (Exception e) {
-                                Log.d("ss", "File not found: " + e.getMessage());
+                                e.printStackTrace();
                             }
 
                             //Settting ImageView List for original images list
@@ -164,13 +164,13 @@ public class CameraPickerFragment extends BaseFragment {
 
 
     public static Camera getCameraInstance(int camera_code){
-        Camera c = null;
+        Camera camera = null;
         try {
-            c = Camera.open(camera_code);
+            camera = Camera.open(camera_code);
         }
         catch (Exception e){
         }
-        return c;
+        return camera;
     }
 
     @Override

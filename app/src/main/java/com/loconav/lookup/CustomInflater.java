@@ -32,12 +32,12 @@ public class CustomInflater extends LinearLayout {
         super(context);
     }
 
-     public TextView addtext(String str, LinearLayout linearLayout1, Input input, int index){
+     public TextView addtext(String str, LinearLayout parentLayout, Input input, int index){
          TextView textView = new TextView(getContext());
          textView.setText(String.format(str));
          textView.setTag(input);
          textView.setTextColor(getResources().getColor(R.color.black));
-         linearLayout1.addView(textView,index);
+         parentLayout.addView(textView,index);
          return textView;
      }
 

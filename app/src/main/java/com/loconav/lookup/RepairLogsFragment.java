@@ -3,7 +3,6 @@ package com.loconav.lookup;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,8 +24,6 @@ import com.loconav.lookup.utils.AppUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -39,14 +36,13 @@ public class RepairLogsFragment extends BaseFragment  {
     private int totalitem,oppo;
     private int placeholdersToLoad=20;
     private boolean loadmore=true,itemsloaded=true;
-    NavController navController;
+    FragmentController fragmentController=new FragmentController();
     @Override
     public int setViewId() {
         return R.layout.fragment_repair_logs;
     }
     @Override
     public void onFragmentCreated() {
-        navController= Navigation.findNavController(getActivity(),R.id.log_fragment_host);
         //It is to initially load the number of items
         int start = 0,end=8;
         apiInterface.getRepairLogs(start,end).enqueue(new RetrofitCallback<RepairsDataandTotalRepairCount>() {
@@ -72,8 +68,10 @@ public class RepairLogsFragment extends BaseFragment  {
                     Bundle bundle = new Bundle();
                     Repairs repairs = (Repairs) object;
                     if(repairs!=null) {
+                        RepairDetailFragment repairDetailFragment=new RepairDetailFragment();
                         bundle.putInt("id", (repairs.getId()));
-                        navController.navigate(R.id.action_repairLogsFragment_to_repairDetailFragment,bundle);
+                        repairDetailFragment.setArguments(bundle);
+                        fragmentController.loadFragment(repairDetailFragment,getFragmentManager(),R.id.fragment_host,true);
                     }
                 }
                 else
@@ -134,7 +132,7 @@ public class RepairLogsFragment extends BaseFragment  {
             if(!recyclerView.canScrollVertically(1)&& dy>0)
             {
                 if(loadmore)
-                fragmentRepairLogsBinding.progessbar.setVisibility(View.VISIBLE);
+                    fragmentRepairLogsBinding.progessbar.setVisibility(View.VISIBLE);
                 onScrollStateChanged(recyclerView,RecyclerView.SCROLL_STATE_IDLE);
             }
             }

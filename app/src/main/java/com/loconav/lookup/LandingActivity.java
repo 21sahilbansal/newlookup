@@ -50,10 +50,13 @@ import static com.loconav.lookup.Constants.TUTORIAL_KEY;
 
 public class LandingActivity extends BaseActivity {
     private ActivityLookupEntryBinding lookupEntryBinding;
+    private FragmentController fragmentController=new FragmentController();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lookupEntryBinding = DataBindingUtil.setContentView(this, R.layout.activity_lookup_entry);
+        HomeFragment homeFragment=new HomeFragment();
+        fragmentController.loadFragment(homeFragment,getSupportFragmentManager(),R.id.landing_fragment_host,false);
         //Check if the gps is ON or not and if ON then continue and start the BroadcastReceiver if not then onGpsDialog appers and ask the user to ON the GPS
         final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
         if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {

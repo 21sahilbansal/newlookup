@@ -9,13 +9,9 @@ import android.widget.Toast;
 
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseFragment;
-import com.loconav.lookup.databinding.ActivityUserBinding;
 import com.loconav.lookup.databinding.FragmentUserProfileBinding;
 import com.loconav.lookup.login.SplashActivity;
 import com.loconav.lookup.utils.AppUtils;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import static com.loconav.lookup.Constants.IS_LOGGED_IN;
 import static com.loconav.lookup.Constants.USER_ID;
@@ -28,7 +24,6 @@ import static com.loconav.lookup.UserPrefs.phoneNumber;
 public class UserProfileFragment extends BaseFragment {
     private SharedPrefHelper sharedPrefHelper ;
     private FragmentUserProfileBinding binding;
-    private NavController navController;
     @Override
     public int setViewId() {
         return R.layout.fragment_user_profile;
@@ -40,7 +35,6 @@ public class UserProfileFragment extends BaseFragment {
         initSharedPf();
         attachClickListener();
         fillUserId();
-        navController= Navigation.findNavController(getActivity(),R.id.user_fragment_host);
         binding.checkInstallLogs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,7 +81,11 @@ public class UserProfileFragment extends BaseFragment {
     public void checkRepairLogs()
     {
         if(AppUtils.isNetworkAvailable()) {
-            navController.navigate(R.id.action_userProfileFragment_to_repairLogActivity);
+            Intent i=new Intent(getContext(), BaseNavigationActivity.class);
+            Bundle bundle=new Bundle();
+            bundle.putString(getString(R.string.fragment_name),getString(R.string.repair_log_fragment));
+            i.putExtras(bundle);
+            startActivity(i);
         }
         else
         {
@@ -98,7 +96,11 @@ public class UserProfileFragment extends BaseFragment {
     public void checkInstallLogs()
     {
         if(AppUtils.isNetworkAvailable()) {
-            navController.navigate(R.id.action_userProfileFragment_to_installLogsActivity);
+            Intent i=new Intent(getContext(), BaseNavigationActivity.class);
+            Bundle bundle=new Bundle();
+            bundle.putString(getString(R.string.fragment_name),getString(R.string.install_log_fragment));
+            i.putExtras(bundle);
+            startActivity(i);
         }
         else
         {

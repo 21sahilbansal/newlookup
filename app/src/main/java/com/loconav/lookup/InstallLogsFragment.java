@@ -3,7 +3,6 @@ package com.loconav.lookup;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,8 +23,6 @@ import com.loconav.lookup.utils.AppUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -37,19 +34,15 @@ public class InstallLogsFragment extends BaseFragment {
     int totalitem,oppo;
     int placeholdersToLoad=20;
     boolean loadmore=true,itemsloaded=true;
-    private NavController navController;
+    FragmentController fragmentController=new FragmentController();
     @Override
     public int setViewId() {
         return R.layout.fragment_install_logs;
     }
     @Override
     public void onFragmentCreated() {
-        Bundle bundle = this.getArguments();
-        //This layout is on which the InstallLogsFragment and InstallDetailFragment will inflate
-        int layout = bundle.getInt("layout");
         //It is to initially load the number of items
         int start = 0,end=8;
-        navController= Navigation.findNavController(getActivity(),R.id.install_fragment_host);
         apiInterface.getInstallLogs(start,end).enqueue(new RetrofitCallback<InstallDatandTotalInstallCount>() {
             @Override
             public void handleSuccess(Call<InstallDatandTotalInstallCount> call, Response<InstallDatandTotalInstallCount> response) {
@@ -72,8 +65,10 @@ public class InstallLogsFragment extends BaseFragment {
                 Bundle bundle = new Bundle();
                 Installs installs = (Installs) object;
                 if(installs!=null) {
+                    InstallDetailFragment installDetailFragment=new InstallDetailFragment();
                     bundle.putInt("id", Integer.parseInt((installs.getId())));
-                    navController.navigate(R.id.action_installLogsFragment2_to_installDetailFragment,bundle);
+                    installDetailFragment.setArguments(bundle);
+                    fragmentController.loadFragment(installDetailFragment,getFragmentManager(),R.id.fragment_host,true);
                 }
             }
         });

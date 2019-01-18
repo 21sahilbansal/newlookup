@@ -17,9 +17,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.loconav.lookup.BaseNavigationActivity;
 import com.loconav.lookup.BaseTitleFragment;
 import com.loconav.lookup.CommonFunction;
-import com.loconav.lookup.ScreenshotActivity;
 import com.loconav.lookup.customcamera.CustomImagePicker;
 import com.loconav.lookup.databinding.FragmentNewInstallationBinding;
 import com.loconav.lookup.customcamera.FileUtils;
@@ -120,12 +120,12 @@ public class NewInstallationFragment extends BaseTitleFragment {
                         @Override
                         public void run() {
                             attachmentsList.clear();
-                            compressImages(binding.TruckImages,"truck_image");
-                            compressImages(binding.DeviceImage,"device_image");
-                            compressImages(binding.WireConnection,"wire_connection");
-                            compressImages(binding.DeviceFitting,"device_fitting");
-                            compressImages(binding.Accessories,"accessories");
-                            compressImages(binding.EarthwireConnection,"earth_wire_connection");
+                            compressImages(binding.TruckImages,getString(R.string.truck_image_tag));
+                            compressImages(binding.DeviceImage,getString(R.string.device_image_tag));
+                            compressImages(binding.WireConnection,getString(R.string.wire_connection_tag));
+                            compressImages(binding.DeviceFitting,getString(R.string.device_fitting_tag));
+                            compressImages(binding.Accessories,getString(R.string.accessories_tag));
+                            compressImages(binding.EarthwireConnection,getString(R.string.earth_wire_connection_tag));
                             //It is a type of raw data we can send anything in it(used to keep the record that the thing we are sending in newIntsall is correct)
                             Notes notes=new Notes();
                             notes.setDealer_name(binding.dealerName.getText().toString());
@@ -180,10 +180,8 @@ public class NewInstallationFragment extends BaseTitleFragment {
         if (object instanceof TextInputLayout) {
             TextInputLayout textInputLayout = (TextInputLayout) object;
             EditText editText = textInputLayout.getEditText();
-            if(CommonFunction.validateEdit(editText)){
-            }else{
+            if(!CommonFunction.validateEdit(editText))
                 return false;
-            }
         }else if (object instanceof CustomImagePicker) {
             CustomImagePicker customImagePicker = (CustomImagePicker) object;
             //This is to check if custom image picker is accessories and any of the features is checked then we have to check for the images and not if nothing is checked
@@ -244,9 +242,10 @@ public class NewInstallationFragment extends BaseTitleFragment {
                                 details.setChassis(newInstall.getNotes().getChassis_number());
                                 details.setInstallation_date(System.currentTimeMillis());
                                 details.setDevice_phone_number(newInstall.getNotes().getSim_number());
-                                Intent intent =new Intent(getActivity(), ScreenshotActivity.class);
+                                Intent intent =new Intent(getActivity(), BaseNavigationActivity.class);
                                 Bundle bundle=new Bundle();
-                                bundle.putSerializable("installationdetails",details);
+                                bundle.putSerializable(getString(R.string.installation_details),details);
+                                bundle.putString(getString(R.string.fragment_name),getString(R.string.screenshot_fragment));
                                 intent.putExtras(bundle);
                                 startActivity(intent);
                                 getActivity().finish();

@@ -2,11 +2,9 @@ package com.loconav.lookup;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,7 +22,6 @@ import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.databinding.*;
 import com.loconav.lookup.network.rest.ApiInterface;
-import com.loconav.lookup.utils.ScreenShotUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,10 +58,10 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
-                Intent intent =new Intent(getActivity(), ScreenshotActivity.class);
+                Intent intent =new Intent(getActivity(), BaseNavigationActivity.class);
                 Bundle bundle=new Bundle();
-                bundle.putSerializable("installationdetails",installs);
-                bundle.putString("bywhom","InstallDetailFragment");
+                bundle.putString(getString(R.string.fragment_name),getString(R.string.screenshot_fragment));
+                bundle.putSerializable(getString(R.string.installation_details),installs);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 return true;
@@ -107,19 +104,21 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
                     attachmentsList = installs.getAttachments();
                     List<String> deviceimages = new ArrayList<>(), truckimages = new ArrayList<>(), connectionimages = new ArrayList<>(), fittingimages = new ArrayList<>(), accessories = new ArrayList<>(),earthconnectionimages=new ArrayList<>();
                     for (AttachmentsDetails attachmentsDetails : attachmentsList) {
-                        if (attachmentsDetails.getTag() != null) {
-                            if (attachmentsDetails.getTag().equals("truck_image"))
-                                truckimages.add(attachmentsDetails.getUrls().getOriginal());
-                            else if (attachmentsDetails.getTag().equals("device_image"))
-                                deviceimages.add(attachmentsDetails.getUrls().getOriginal());
-                            else if (attachmentsDetails.getTag().equals("wire_connection"))
-                                connectionimages.add(attachmentsDetails.getUrls().getOriginal());
-                            else if (attachmentsDetails.getTag().equals("device_fitting"))
-                                fittingimages.add(attachmentsDetails.getUrls().getOriginal());
-                            else if (attachmentsDetails.getTag().equals("accessories"))
-                                accessories.add(attachmentsDetails.getUrls().getOriginal());
-                            else if (attachmentsDetails.getTag().equals("earth_wire_connection"))
-                                earthconnectionimages.add(attachmentsDetails.getUrls().getOriginal());
+                        if(getActivity()!=null) {
+                            if (attachmentsDetails.getTag() != null) {
+                                if (attachmentsDetails.getTag().equals(getResources().getString(R.string.truck_image_tag)))
+                                    truckimages.add(attachmentsDetails.getUrls().getOriginal());
+                                else if (attachmentsDetails.getTag().equals(getResources().getString(R.string.device_image_tag)))
+                                    deviceimages.add(attachmentsDetails.getUrls().getOriginal());
+                                else if (attachmentsDetails.getTag().equals(getResources().getString(R.string.wire_connection_tag)))
+                                    connectionimages.add(attachmentsDetails.getUrls().getOriginal());
+                                else if (attachmentsDetails.getTag().equals(getResources().getString(R.string.device_fitting_tag)))
+                                    fittingimages.add(attachmentsDetails.getUrls().getOriginal());
+                                else if (attachmentsDetails.getTag().equals(getResources().getString(R.string.accessories_tag)))
+                                    accessories.add(attachmentsDetails.getUrls().getOriginal());
+                                else if (attachmentsDetails.getTag().equals(getResources().getString(R.string.earth_wire_connection_tag)))
+                                    earthconnectionimages.add(attachmentsDetails.getUrls().getOriginal());
+                            }
                         }
                     }
                     ImageSetterAdapter deviceAdapter, truckAdapter, connectionAdapter,earthConnectionAdapter, fittingAdapter, accessoriesAdapter;

@@ -49,9 +49,9 @@ public class ImageBindingAdapters {
     }
 
     @BindingAdapter({"imagesetter:load_thumbnail"})
-    public void loadThumbNail(ImageView view,Uri imageurl) {
+    public void loadThumbNail(ImageView view,Uri uri) {
         try {
-            Bitmap thumbnail= ImageUtils.getThumbnailImage(imageurl, LookUpApplication.getInstance());
+            Bitmap thumbnail= ImageUtils.getThumbnailImage(uri, LookUpApplication.getInstance());
             view.setImageBitmap(thumbnail);
         } catch (IOException e) {
             e.printStackTrace();
@@ -61,7 +61,7 @@ public class ImageBindingAdapters {
     @BindingAdapter({"imagesetter:html_beautify"})
     public void beautifyHtmlText(TextView textView,String text) {
         if(text!=null)
-        textView.setText(""+Html.fromHtml(text));
+            textView.setText(""+Html.fromHtml(text));
     }
 
 }

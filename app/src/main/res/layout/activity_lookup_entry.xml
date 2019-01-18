@@ -6,14 +6,11 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <fragment
+        <FrameLayout
             android:id="@+id/landing_fragment_host"
-            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/navigation_landing_graph"
-            ></fragment>
+            ></FrameLayout>
 
     </android.support.constraint.ConstraintLayout>
 </layout>
