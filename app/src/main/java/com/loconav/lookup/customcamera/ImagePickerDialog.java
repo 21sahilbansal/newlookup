@@ -30,7 +30,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
     private int CAMERA_FILE=2;
     private String stringId; //it is the name of custom image picker
     private int limit;
-    String startCompression="started_compression";
+    String startCompression="started_compression";//for the progress bar to start in the custom image picker
     private ArrayList<ImageUri> imagesUriArrayList=new ArrayList<>();
     public static ImagePickerDialog newInstance(String id, int limit) {
         ImagePickerDialog imagePickerDialog = new ImagePickerDialog();
