@@ -27,6 +27,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.loconav.lookup.Constants.ID;
+
 
 public class RepairLogsFragment extends BaseFragment  {
     private FragmentRepairLogsBinding fragmentRepairLogsBinding;
@@ -69,7 +71,7 @@ public class RepairLogsFragment extends BaseFragment  {
                     Repairs repairs = (Repairs) object;
                     if(repairs!=null) {
                         RepairDetailFragment repairDetailFragment=new RepairDetailFragment();
-                        bundle.putInt("id", (repairs.getId()));
+                        bundle.putInt(ID, (repairs.getId()));
                         repairDetailFragment.setArguments(bundle);
                         fragmentController.loadFragment(repairDetailFragment,getFragmentManager(),R.id.fragment_host,true);
                     }

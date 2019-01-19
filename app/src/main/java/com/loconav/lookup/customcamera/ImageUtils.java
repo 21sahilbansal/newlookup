@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.loconav.lookup.Constants.FILE_PROVIDER_AUTHORITY;
 import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
 
 public class ImageUtils {
@@ -26,7 +27,7 @@ public class ImageUtils {
         bitmap= Bitmap.createScaledBitmap(bitmap,(bitmap.getWidth()*30)/100,(bitmap.getHeight()*30)/100,true);
         bitmap.compress(Bitmap.CompressFormat.JPEG, 30, fout);
         ImageUri compressedImageUri=new ImageUri();
-        compressedImageUri.setUri(FileProvider.getUriForFile(context, "com.lookuploconav.lookup", imagefile));
+        compressedImageUri.setUri(FileProvider.getUriForFile(context, FILE_PROVIDER_AUTHORITY, imagefile));
         return compressedImageUri;
     }
 

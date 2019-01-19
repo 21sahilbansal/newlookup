@@ -12,6 +12,16 @@ import java.util.ArrayList;
 
 import androidx.navigation.NavController;
 
+import static com.loconav.lookup.Constants.ACCESSORIES;
+import static com.loconav.lookup.Constants.ADD_IMAGE;
+import static com.loconav.lookup.Constants.DEVICE_FITTING_IMAGES;
+import static com.loconav.lookup.Constants.DEVICE_IMAGE;
+import static com.loconav.lookup.Constants.EARTH_WIRE_CONNECTION_IMAGES;
+import static com.loconav.lookup.Constants.PASSING_REASON;
+import static com.loconav.lookup.Constants.REASON_RESPONSE;
+import static com.loconav.lookup.Constants.TRUCK_IMAGE;
+import static com.loconav.lookup.Constants.WIRE_CONNECTION_IMAGES;
+
 public class LookupSubActivity extends BaseActivity {
 
     private ArrayList<Input> addtionalFields = new ArrayList<>();
@@ -30,8 +40,8 @@ public class LookupSubActivity extends BaseActivity {
         setContentView(R.layout.activity_lookup_sub_activity);
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
-        passingReason = (PassingReason)bundle.getParcelable("PassingReason");
-        reasonResponse = (ReasonResponse)bundle.getParcelable("reasonResponse");
+        passingReason = (PassingReason)bundle.getParcelable(PASSING_REASON);
+        reasonResponse = (ReasonResponse)bundle.getParcelable(REASON_RESPONSE);
         addOtherFields(passingReason.getUserChoice());
         reasonResponse.setAdditional_fields(addtionalFields);
         passingReason.setReasonResponse(reasonResponse);
@@ -68,12 +78,12 @@ public class LookupSubActivity extends BaseActivity {
         Input i1 = new Input("deviceId", "imei", "textView", "Device Id :");
         Input i2 = new Input("remarks", "remarks", "text", "");
         Input i3 = new Input("reasons", "reasons", "spinner", "");
-        Input i4 = new Input("addImage", "addImage", "TruckImages", "");
-        Input i5 = new Input("addImage", "addImage", "DeviceImages", "");
-        Input i6 = new Input("addImage", "addImage", "WireConnectionImages", "");
-        Input i7 = new Input("addImage", "addImage", "Accessories", "");
-        Input i8 = new Input("addImage", "addImage", "EarthWireConnectionImages", "");
-        Input i9 = new Input("addImage", "addImage", "DeviceFitting", "");
+        Input i4 = new Input(ADD_IMAGE, ADD_IMAGE, TRUCK_IMAGE, "");
+        Input i5 = new Input(ADD_IMAGE, ADD_IMAGE, DEVICE_IMAGE, "");
+        Input i6 = new Input(ADD_IMAGE, ADD_IMAGE, WIRE_CONNECTION_IMAGES, "");
+        Input i7 = new Input(ADD_IMAGE, ADD_IMAGE, ACCESSORIES, "");
+        Input i8 = new Input(ADD_IMAGE, ADD_IMAGE, EARTH_WIRE_CONNECTION_IMAGES, "");
+        Input i9 = new Input(ADD_IMAGE, ADD_IMAGE, DEVICE_FITTING_IMAGES, "");
         addtionalFields.add(i1);
         addtionalFields.add(i2);
         addtionalFields.add(i3);

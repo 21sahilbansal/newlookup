@@ -83,13 +83,13 @@ public abstract class BaseCameraActivity extends AppCompatActivity {
         new AlertDialog.Builder(BaseCameraActivity.this)
                 .setTitle(getString(R.string.closing_application))
                 .setMessage(getString(R.string.want_to_exit))
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Activity a=BaseCameraActivity.this;
                         a.finish();
                     }
-                }).setNegativeButton("No",  new DialogInterface.OnClickListener() {
+                }).setNegativeButton(getString(R.string.no),  new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent();

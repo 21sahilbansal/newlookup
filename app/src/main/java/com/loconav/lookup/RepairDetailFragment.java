@@ -21,8 +21,12 @@ import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
 
+import java.net.IDN;
+
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.loconav.lookup.Constants.ID;
 
 public class RepairDetailFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
@@ -36,7 +40,7 @@ public class RepairDetailFragment extends BaseFragment implements SwipeRefreshLa
     @Override
     public void onFragmentCreated() {
         Bundle bundle = this.getArguments();
-        repairId = bundle.getInt("id");
+        repairId = bundle.getInt(ID);
         repairDetailsBinding.swipeRefresh.setOnRefreshListener(this);
         loadRepairDetail();
     }
@@ -115,15 +119,13 @@ public class RepairDetailFragment extends BaseFragment implements SwipeRefreshLa
                 }
                 else
                 {
-                    if(getContext()!=null)
-                        Toaster.makeToast(getString(R.string.swipe_to_refresh));
+                    Toaster.makeToast(getString(R.string.swipe_to_refresh));
                 }
             }
             @Override
             public void handleFailure(Call<RepairDetail> call, Throwable t) {
                 repairDetailsBinding.swipeRefresh.setRefreshing(false);
-                if(getContext()!=null)
-                    Toaster.makeToast(t.getMessage());
+                Toaster.makeToast(t.getMessage());
             }
         });
     }

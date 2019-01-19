@@ -35,7 +35,10 @@ import smartdevelop.ir.eram.showcaseviewlib.config.Gravity;
 import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
 
 import static com.loconav.lookup.Constants.FRAGMENT_NAME;
+import static com.loconav.lookup.Constants.NEW_INSTALL;
+import static com.loconav.lookup.Constants.PASSING_REASON;
 import static com.loconav.lookup.Constants.REASONS_RESPONSE;
+import static com.loconav.lookup.Constants.REASON_RESPONSE;
 import static com.loconav.lookup.Constants.TUTORIAL_KEY;
 
 public class HomeFragment extends BaseFragment {
@@ -75,7 +78,7 @@ public class HomeFragment extends BaseFragment {
             public void onClick(View v) {
                 List<ReasonTypeResponse> reasons = new ArrayList<>();
                 ArrayList<Input> additionalFields = new ArrayList<>();
-                ReasonResponse newreasonResponse = new ReasonResponse(1, "New Install", reasons, additionalFields, "abc");
+                ReasonResponse newreasonResponse = new ReasonResponse(1, NEW_INSTALL, reasons, additionalFields, "abc");
                 reasonResponse = newreasonResponse;
                 passingReason.setUserChoice(reasonResponse.getName());
                 passIntent();
@@ -123,8 +126,8 @@ public class HomeFragment extends BaseFragment {
     private void passIntent() {
         Intent intent = new Intent(getActivity(), LookupSubActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelable("PassingReason", passingReason);
-        bundle.putParcelable("reasonResponse", reasonResponse);
+        bundle.putParcelable(PASSING_REASON, passingReason);
+        bundle.putParcelable(REASON_RESPONSE, reasonResponse);
         intent.putExtras(bundle);
         startActivity(intent);
     }

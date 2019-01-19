@@ -81,4 +81,6 @@
     <string name="image_compressing">Image Compressing..</string>
     <string name="uploading">Uploading...</string>
     <string name="installation_creation_successfull">New Installation created successfully</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

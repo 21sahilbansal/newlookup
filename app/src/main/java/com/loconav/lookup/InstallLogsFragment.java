@@ -26,6 +26,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.loconav.lookup.Constants.ID;
+
 public class InstallLogsFragment extends BaseFragment {
     FragmentInstallLogsBinding fragmentInstallLogsBinding;
     InstallLogAdapter installLogAdapter;
@@ -66,7 +68,7 @@ public class InstallLogsFragment extends BaseFragment {
                 Installs installs = (Installs) object;
                 if(installs!=null) {
                     InstallDetailFragment installDetailFragment=new InstallDetailFragment();
-                    bundle.putInt("id", Integer.parseInt((installs.getId())));
+                    bundle.putInt(ID, Integer.parseInt((installs.getId())));
                     installDetailFragment.setArguments(bundle);
                     fragmentController.loadFragment(installDetailFragment,getFragmentManager(),R.id.fragment_host,true);
                 }

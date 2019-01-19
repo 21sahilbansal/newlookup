@@ -26,6 +26,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.loconav.lookup.Constants.STARTED_COMPRESSION;
+
 /**
  * Created by sejal on 12-07-2018.
  */
@@ -76,7 +78,7 @@ public class CustomImagePicker extends LinearLayout {
             @Override
             public void onClick(View view) {
                 if (originalImageUris.size()==limit) {
-                    Toaster.makeToast(getResources().getString(R.string.size_limit)+limit);
+                    Toaster.makeToast(getResources().getString(R.string.size_limit)+limit+getResources().getString(R.string.images));
                 }else{
                     ImagePickerDialog imagePickerDialog = ImagePickerDialog.newInstance(textID, limit);
                     imagePickerDialog.show(fm, getClass().getSimpleName());
@@ -148,7 +150,7 @@ public class CustomImagePicker extends LinearLayout {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void isCompressionStarted(String startCompression) {
-        if(startCompression.equals("started_compression"+textID)) {
+        if(startCompression.equals(STARTED_COMPRESSION+textID)) {
             progressBar.setVisibility(VISIBLE);
         }
     }

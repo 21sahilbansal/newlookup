@@ -24,7 +24,10 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.loconav.lookup.Constants.ID;
 import static com.loconav.lookup.Constants.IMAGE_LIST;
+import static com.loconav.lookup.Constants.LIMIT_IMAGES;
+import static com.loconav.lookup.Constants.STARTED_COMPRESSION;
 
 
 public class ImagePickerDialog extends BaseDialogFragment {
@@ -33,13 +36,13 @@ public class ImagePickerDialog extends BaseDialogFragment {
     private int CAMERA_FILE=2;
     private String stringId; //it is the name of custom image picker
     private int limit;
-    String startCompression="started_compression";//for the progress bar to start in the custom image picker
+    String startCompression=STARTED_COMPRESSION;//for the progress bar to start in the custom image picker
     private ArrayList<ImageUri> imagesUriArrayList=new ArrayList<>();
     public static ImagePickerDialog newInstance(String id, int limit) {
         ImagePickerDialog imagePickerDialog = new ImagePickerDialog();
         Bundle bundle=new Bundle();
-        bundle.putString("id",id);
-        bundle.putInt("limitImages",limit);
+        bundle.putString(ID,id);
+        bundle.putInt(LIMIT_IMAGES,limit);
         imagePickerDialog.setArguments(bundle);
         return imagePickerDialog;
     }
@@ -53,8 +56,8 @@ public class ImagePickerDialog extends BaseDialogFragment {
                         false);
         binding= DataBindingUtil.bind(dialogView);
 
-        stringId=getArguments().getString("id");
-        limit=getArguments().getInt("limitImages");
+        stringId=getArguments().getString(ID);
+        limit=getArguments().getInt(LIMIT_IMAGES);
         binding.camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

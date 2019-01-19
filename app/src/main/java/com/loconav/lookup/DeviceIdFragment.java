@@ -34,6 +34,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import static com.loconav.lookup.Constants.DEVICE_ID;
+import static com.loconav.lookup.Constants.LOOKUP_RESPONSE;
 import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
 import static com.loconav.lookup.Constants.USER_ID;
 
@@ -108,7 +109,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
                             passingReason.setDeviceid(binding.etDeviceId.getText().toString());
                             ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
                             Bundle bundle = new Bundle();
-                            bundle.putParcelable("lookup_response", response.body());
+                            bundle.putParcelable(LOOKUP_RESPONSE, response.body());
                             deviceDetailFragment.setArguments(bundle);
                             fragmentController.loadFragment(deviceDetailFragment, getFragmentManager(), R.id.frameLayout, true);
                             progressDialog.dismiss();

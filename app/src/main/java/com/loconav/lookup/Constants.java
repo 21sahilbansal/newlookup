@@ -19,5 +19,21 @@ public class Constants {
     public static final String FRAGMENT_NAME="Fragment Name";
     public static final String IMAGE_LIST="imageList";
     public static final String ORIENTATION="orientation";
+    public static final String LOOKUP_RESPONSE="lookup_response";
+    public static final String PASSING_REASON="PassingReason";
+    public static final String REASON_RESPONSE="reasonResponse";
+    public static final String NEW_INSTALL="New Install";
+    public static final String FILE_PROVIDER_AUTHORITY="com.lookuploconav.lookup";
+    public static final String WHATSAPP_PACKAGE="com.whatsapp";
+    public static final String STARTED_COMPRESSION="started_compression";
+    public static final String LIMIT_IMAGES="limitImages";
+    public static final String ADD_IMAGE="addImage";
+    public static final String TRUCK_IMAGE="TruckImages";
+    public static final String DEVICE_IMAGE="DeviceImages";
+    public static final String WIRE_CONNECTION_IMAGES="WireConnectionImages";
+    public static final String ACCESSORIES="Accessories";
+    public static final String DEVICE_FITTING_IMAGES="DeviceFitting";
+    public static final String EARTH_WIRE_CONNECTION_IMAGES="EarthWireConnectionImages";
+
 
 }

@@ -15,6 +15,7 @@ import com.loconav.lookup.utils.AppUtils;
 import com.loconav.lookup.utils.TimeUtils;
 
 import static com.loconav.lookup.Constants.FRAGMENT_NAME;
+import static com.loconav.lookup.Constants.WHATSAPP_PACKAGE;
 import static com.loconav.lookup.UserPrefs.code;
 import static com.loconav.lookup.UserPrefs.name;
 
@@ -73,7 +74,7 @@ public class ScreenshotFragment extends BaseFragment {
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, message);
         sendIntent.setType("text/plain");
-        sendIntent.setPackage("com.whatsapp");
+        sendIntent.setPackage(WHATSAPP_PACKAGE);
         if (sendIntent.resolveActivity(getContext().getPackageManager()) != null) {
             startActivity(sendIntent);
         }

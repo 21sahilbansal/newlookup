@@ -58,7 +58,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     private ProgressDialog progressDialog;
     HandlerThread handlerThread = new HandlerThread("background");
-    List<Attachments> attachmentsList=new ArrayList<>();
+    private List<Attachments> attachmentsList=new ArrayList<>();
     NewInstall newInstall = new NewInstall();
     Handler handler;
     String compressedImage;

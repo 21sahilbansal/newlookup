@@ -24,6 +24,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.loconav.lookup.Constants.LOOKUP_RESPONSE;
+import static com.loconav.lookup.Constants.NEW_INSTALL;
+
 
 /**
  * Created by sejal on 11-08-2018.
@@ -66,7 +69,7 @@ public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefr
         binding.shareDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (passingReason.getUserChoice().equals("New Install")) {
+                if (passingReason.getUserChoice().equals(NEW_INSTALL)) {
                     FetchClientFragment f1 = new FetchClientFragment();
                     ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
                     fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
@@ -135,7 +138,7 @@ public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefr
         Log.e("save ", "getSetData: ");
         Bundle receivedBundle;
         receivedBundle = getArguments();
-        LookupResponse lookupResponse = (LookupResponse) receivedBundle.getParcelable("lookup_response");
+        LookupResponse lookupResponse = (LookupResponse) receivedBundle.getParcelable(LOOKUP_RESPONSE);
         passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
         setData(lookupResponse);
     }

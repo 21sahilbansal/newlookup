@@ -24,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.loconav.lookup.Constants.FILE_PROVIDER_AUTHORITY;
 import static com.loconav.lookup.Constants.IMAGE_LIST;
 
 
@@ -59,6 +60,7 @@ public class CameraPickerFragment extends BaseFragment {
         binding.capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                binding.capture.setClickable(false);
                 if(imageList.size()<limit) {
                     mCamera.takePicture(null, null, new Camera.PictureCallback() {
                         @Override
@@ -85,9 +87,10 @@ public class CameraPickerFragment extends BaseFragment {
 
                             //Settting ImageView List for original images list
                             ImageUri imageUri = new ImageUri();
-                            imageUri.setUri(FileProvider.getUriForFile(getContext(), "com.lookuploconav.lookup", pictureFile));
+                            imageUri.setUri(FileProvider.getUriForFile(getContext(), FILE_PROVIDER_AUTHORITY, pictureFile));
                             imageList.add(imageUri);
                             recycleCustomImageAdapter.notifyDataSetChanged();
+                            binding.capture.setClickable(true);
                         }
                     });
                 }

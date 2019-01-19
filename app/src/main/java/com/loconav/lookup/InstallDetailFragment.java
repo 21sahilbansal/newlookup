@@ -30,6 +30,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import static com.loconav.lookup.Constants.FRAGMENT_NAME;
+import static com.loconav.lookup.Constants.ID;
 
 public class InstallDetailFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
@@ -44,7 +45,7 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
     @Override
     public void onFragmentCreated() {
         Bundle bundle = this.getArguments();
-        installId = bundle.getInt("id");
+        installId = bundle.getInt(ID);
         installDetailsBinding.swipeRefresh.setOnRefreshListener(this);
         loadInstallDetail();
         setHasOptionsMenu(true);
@@ -222,15 +223,13 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
                     installDetailsBinding.accessories.setAdapter(accessoriesAdapter);
                 }
                 else{
-                    if(getContext()!=null)
-                        Toaster.makeToast(getString(R.string.swipe_to_refresh));
+                    Toaster.makeToast(getString(R.string.swipe_to_refresh));
                 }
             }
             @Override
             public void handleFailure(Call<InstallationDetails> call, Throwable t) {
                 installDetailsBinding.swipeRefresh.setRefreshing(false);
-                if(getContext()!=null)
-                    Toaster.makeToast(t.getMessage());
+                Toaster.makeToast(t.getMessage());
             }
         });
     }
