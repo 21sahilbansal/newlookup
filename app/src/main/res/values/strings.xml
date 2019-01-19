@@ -75,7 +75,7 @@
     <string name="add_device_image">Add Device Image</string>
     <string name="something_went_wrong">something went wrong</string>
     <string name="select_reasons">Select reasons</string>
-    <string name="size_limit">size limit upto</string>
+    <string name="size_limit">size limit upto </string>
     <string name="want_to_exit">Are you sure you want to exit?</string>
     <string name="closing_application">Closing application</string>
     <string name="image_compressing">Image Compressing..</string>
