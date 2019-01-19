@@ -17,7 +17,7 @@
         android:layout_marginRight="8dp"
         android:background="?android:selectableItemBackground"
         custom:id="view2"
-        custom:titleText="Upload Device Image Before Repair"
+        custom:titleText="Upload Repair Issue Image"
         custom:limitImages="3"/>
 
 
