@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.loconav.lookup.BaseNavigationActivity;
 import com.loconav.lookup.BaseTitleFragment;
@@ -54,16 +53,15 @@ import static com.loconav.lookup.Constants.FRAGMENT_NAME;
 
 public class NewInstallationFragment extends BaseTitleFragment {
     private FragmentNewInstallationBinding binding;
-    private PassingReason passingReason;
-    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+    private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     private ProgressDialog progressDialog;
-    HandlerThread handlerThread = new HandlerThread("background");
-    private List<Attachments> attachmentsList=new ArrayList<>();
-    NewInstall newInstall = new NewInstall();
-    Handler handler;
-    String compressedImage;
-    int accessoriesCheckCount=0;
-    boolean validate;
+    private final HandlerThread handlerThread = new HandlerThread("background");
+    private final List<Attachments> attachmentsList=new ArrayList<>();
+    private final NewInstall newInstall = new NewInstall();
+    private Handler handler;
+    private String compressedImage;
+    private int accessoriesCheckCount=0;
+    private boolean validate;
     @Override
     public int setViewId() {
         return R.layout.fragment_new_installation;
@@ -76,98 +74,73 @@ public class NewInstallationFragment extends BaseTitleFragment {
         handlerThread.start();
         handler = new Handler(handlerThread.getLooper());
 
-        passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
+        PassingReason passingReason = ((LookupSubActivity) getActivity()).getPassingReason();
         final String deviceId = passingReason.getDeviceid();
         final Client client = passingReason.getClientId();
 
         //These are 3 checkboxes of feature (Immobilizer,SOS,and TripButton) and what to do if they are checked or unchecked
-        binding.cbImm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                accessoriesChecked(isChecked);
+        binding.cbImm.setOnCheckedChangeListener((buttonView, isChecked) -> accessoriesChecked(isChecked));
+
+        binding.cbSos.setOnCheckedChangeListener((buttonView, isChecked) -> accessoriesChecked(isChecked));
+
+        binding.cbTrip.setOnCheckedChangeListener((buttonView, isChecked) -> accessoriesChecked(isChecked));
+
+        binding.share.setOnClickListener(v -> {
+
+            for (int i = 0; i < binding.linear.getChildCount() - 1; i++) {
+                View view = binding.linear.getChildAt(i);
+                validate = validator(view);
+                if(!validate){
+                    binding.share.setEnabled(true);
+                    break;
+                }
             }
-        });
 
-        binding.cbSos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                accessoriesChecked(isChecked);
-            }
-        });
-
-        binding.cbTrip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                accessoriesChecked(isChecked);
-            }
-        });
-
-        binding.share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                for (int i = 0; i < binding.linear.getChildCount() - 1; i++) {
-                    View view = binding.linear.getChildAt(i);
-                    validate = validator(view);
-                    if(!validate){
-                        binding.share.setEnabled(true);
-                        break;
+            if(validate)
+            {
+                progressDialog.setMessage(getString(R.string.image_compressing));
+                progressDialog.show();
+                handler.post(() -> {
+                    attachmentsList.clear();
+                    compressImages(binding.TruckImages, getString(R.string.truck_image_tag));
+                    compressImages(binding.DeviceImage, getString(R.string.device_image_tag));
+                    compressImages(binding.WireConnection, getString(R.string.wire_connection_tag));
+                    compressImages(binding.DeviceFitting, getString(R.string.device_fitting_tag));
+                    compressImages(binding.Accessories, getString(R.string.accessories_tag));
+                    compressImages(binding.EarthwireConnection, getString(R.string.earth_wire_connection_tag));
+                    //It is a type of raw data we can send anything in it(used to keep the record that the thing we are sending in newIntsall is correct)
+                    Notes notes = new Notes();
+                    notes.setDealer_name(binding.dealerName.getText().toString());
+                    notes.setOwner_name(binding.ownerName.getText().toString());
+                    notes.setLocation(binding.location.getText().toString());
+                    notes.setChassis_number(binding.chassisNo.getText().toString());
+                    notes.setManufacturer(binding.manufacture.getText().toString());
+                    notes.setModel(binding.model.getText().toString());
+                    notes.setTypeOfGoods(binding.typeOfGoods.getText().toString());
+                    notes.setOdometer_reading(binding.odometerReading.getText().toString());
+                    notes.setSim_number(binding.simNo.getText().toString());
+                    notes.setDeviceModel(binding.deviceModel.getText().toString());
+                    notes.setSos(getFeatures(binding.cbSos));
+                    notes.setImmobilizer(getFeatures(binding.cbImm));
+                    notes.setTrip_button(getFeatures(binding.cbTrip));
+                    notes.setClientid(binding.clientId.getText().toString());
+                    notes.setInstalldate(String.valueOf((System.currentTimeMillis())));
+                    newInstall.setClient_id(binding.clientId.getText().toString());
+                    newInstall.setTruck_number(binding.registrationNo.getText().toString());
+                    newInstall.setImei_number(binding.imei.getText().toString());
+                    newInstall.setTransporter_id(Long.parseLong(binding.transporterId.getText().toString()));
+                    newInstall.setNotes(notes);
+                    newInstall.setImmobilizer(getFeatures(binding.cbImm));
+                    newInstall.setSOS(getFeatures(binding.cbSos));
+                    newInstall.setTripbutton(getFeatures(binding.cbSos));
+                    newInstall.setAttachments(attachmentsList);
+                    //Null check on activity that if activity is null or not
+                    if (getActivity() != null) {
+                        // now we are not on ui thread so we have to show progress on ui thread so we call method runOnUiThread()
+                        getActivity().runOnUiThread(() -> progressDialog.setMessage(getString(R.string.uploading)));
                     }
-                }
-
-                if(validate)
-                {
-                    progressDialog.setMessage(getString(R.string.image_compressing));
-                    progressDialog.show();
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            attachmentsList.clear();
-                            compressImages(binding.TruckImages,getString(R.string.truck_image_tag));
-                            compressImages(binding.DeviceImage,getString(R.string.device_image_tag));
-                            compressImages(binding.WireConnection,getString(R.string.wire_connection_tag));
-                            compressImages(binding.DeviceFitting,getString(R.string.device_fitting_tag));
-                            compressImages(binding.Accessories,getString(R.string.accessories_tag));
-                            compressImages(binding.EarthwireConnection,getString(R.string.earth_wire_connection_tag));
-                            //It is a type of raw data we can send anything in it(used to keep the record that the thing we are sending in newIntsall is correct)
-                            Notes notes=new Notes();
-                            notes.setDealer_name(binding.dealerName.getText().toString());
-                            notes.setOwner_name(binding.ownerName.getText().toString());
-                            notes.setLocation(binding.location.getText().toString());
-                            notes.setChassis_number(binding.chassisNo.getText().toString());
-                            notes.setManufacturer(binding.manufacture.getText().toString());
-                            notes.setModel(binding.model.getText().toString());
-                            notes.setTypeOfGoods(binding.typeOfGoods.getText().toString());
-                            notes.setOdometer_reading(binding.odometerReading.getText().toString());
-                            notes.setSim_number(binding.simNo.getText().toString());
-                            notes.setDeviceModel(binding.deviceModel.getText().toString());
-                            notes.setSos(getFeatures(binding.cbSos));
-                            notes.setImmobilizer(getFeatures(binding.cbImm));
-                            notes.setTrip_button(getFeatures(binding.cbTrip));
-                            notes.setClientid(binding.clientId.getText().toString());
-                            notes.setInstalldate(String.valueOf((System.currentTimeMillis())));
-                            newInstall.setClient_id(binding.clientId.getText().toString());
-                            newInstall.setTruck_number(binding.registrationNo.getText().toString());
-                            newInstall.setImei_number(binding.imei.getText().toString());
-                            newInstall.setTransporter_id(Long.parseLong(binding.transporterId.getText().toString()));
-                            newInstall.setNotes(notes);
-                            newInstall.setImmobilizer(getFeatures(binding.cbImm));
-                            newInstall.setSOS(getFeatures(binding.cbSos));
-                            newInstall.setTripbutton(getFeatures(binding.cbSos));
-                            newInstall.setAttachments(attachmentsList);
-                            //Null check on activity that if activity is null or not
-                            if(getActivity()!=null) {
-                                getActivity().runOnUiThread(new Runnable() { // now we are not on ui thread so we have to show progress on ui thread so we call method runOnUiThread()
-                                    @Override
-                                    public void run() {
-                                        progressDialog.setMessage(getString(R.string.uploading));
-                                    }
-                                });
-                            }
-                            upload(newInstall);
-                        }
-                    });
-                }
+                    upload(newInstall);
+                });
             }
         });
         if(client!=null) {
@@ -178,13 +151,12 @@ public class NewInstallationFragment extends BaseTitleFragment {
         }
     }
 
-    public boolean validator(View object)
+    private boolean validator(View object)
     {
         if (object instanceof TextInputLayout) {
             TextInputLayout textInputLayout = (TextInputLayout) object;
             EditText editText = textInputLayout.getEditText();
-            if(!CommonFunction.validateEdit(editText))
-                return false;
+            return CommonFunction.validateEdit(editText);
         }else if (object instanceof CustomImagePicker) {
             CustomImagePicker customImagePicker = (CustomImagePicker) object;
             //This is to check if custom image picker is accessories and any of the features is checked then we have to check for the images and not if nothing is checked
@@ -209,7 +181,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
      * @param imagePicker It takes the instance of CustomImagePicker class to get the images from it
      * @param title It is used to set the tiltle for those images
      */
-    public void compressImages(CustomImagePicker imagePicker,String title)
+    private void compressImages(CustomImagePicker imagePicker, String title)
     {
         for (ImageUri imageUri : imagePicker.getimagesList()) {
             Attachments attachments=new Attachments();
@@ -225,7 +197,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
         }
     }
 
-    public void upload(NewInstall newInstall) {
+    private void upload(NewInstall newInstall) {
 
         Log.e("odometerreading","theimage"+"thetitle"+newInstall.getAttachments().get(0).getImage());
         apiService.addNewInstall(newInstall).enqueue(new RetrofitCallback<ResponseBody>() {
@@ -235,24 +207,22 @@ public class NewInstallationFragment extends BaseTitleFragment {
                 FileUtils.deleteFiles(getContext());
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
                 builder.setMessage(R.string.installation_creation_successfull)
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                progressDialog.dismiss();
-                                //These are the details we have to pass to share the to share details fragment we cannot pass the whole newInstall object as it contains photos
-                                InstallationDetails details=new InstallationDetails();
-                                details.setTruck_number(newInstall.getTruck_number());
-                                details.setInstallable_serial_number(newInstall.getImei_number());
-                                details.setChassis(newInstall.getNotes().getChassis_number());
-                                details.setInstallation_date(System.currentTimeMillis());
-                                details.setDevice_phone_number(newInstall.getNotes().getSim_number());
-                                Intent intent =new Intent(getActivity(), BaseNavigationActivity.class);
-                                Bundle bundle=new Bundle();
-                                bundle.putParcelable(getString(R.string.installation_details),details);
-                                bundle.putString(FRAGMENT_NAME,getString(R.string.screenshot_fragment));
-                                intent.putExtras(bundle);
-                                startActivity(intent);
-                                getActivity().finish();
-                            }
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                            progressDialog.dismiss();
+                            //These are the details we have to pass to share the to share details fragment we cannot pass the whole newInstall object as it contains photos
+                            InstallationDetails details=new InstallationDetails();
+                            details.setTruck_number(newInstall.getTruck_number());
+                            details.setInstallable_serial_number(newInstall.getImei_number());
+                            details.setChassis(newInstall.getNotes().getChassis_number());
+                            details.setInstallation_date(System.currentTimeMillis());
+                            details.setDevice_phone_number(newInstall.getNotes().getSim_number());
+                            Intent intent =new Intent(getActivity(), BaseNavigationActivity.class);
+                            Bundle bundle=new Bundle();
+                            bundle.putParcelable(getString(R.string.installation_details),details);
+                            bundle.putString(FRAGMENT_NAME,getString(R.string.screenshot_fragment));
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                            getActivity().finish();
                         })
                         .setCancelable(false)
                         .show();
@@ -274,7 +244,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
             return "NO";
     }
 
-    public void accessoriesChecked(boolean isChecked)
+    private void accessoriesChecked(boolean isChecked)
     {
         if(isChecked) {
             accessoriesCheckCount++;

@@ -21,18 +21,13 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyVie
     public  class MyViewHolder extends RecyclerView.ViewHolder {
         private final ViewDataBinding binding;
 
-        public MyViewHolder(final ViewDataBinding binding) {
+        MyViewHolder(final ViewDataBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onItemClick(getDataAtPosition(getAdapterPosition()),getAdapterPosition());
-                }
-            });
+            binding.getRoot().setOnClickListener(view -> onItemClick(getDataAtPosition(getAdapterPosition()),getAdapterPosition()));
         }
 
-        public void bind(Object obj) {
+        void bind(Object obj) {
             binding.setVariable(BR.obj, obj);
             binding.executePendingBindings();
         }
@@ -53,12 +48,12 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyVie
         holder.bind(getDataAtPosition(position));
     }
 
-    public abstract Object getDataAtPosition(int position);
+    protected abstract Object getDataAtPosition(int position);
 
-    public abstract int getLayoutIdForType(int viewType);
+    protected abstract int getLayoutIdForType(int viewType);
 
-    public abstract void onItemClick(Object object, int position);
+    protected abstract void onItemClick(Object object, int position);
 
-    public abstract void editHeightWidthItem(View view,ViewGroup parent);
+    protected abstract void editHeightWidthItem(View view, ViewGroup parent);
 
 }

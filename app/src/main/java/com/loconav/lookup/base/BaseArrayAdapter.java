@@ -15,9 +15,9 @@ import java.util.List;
  */
 
 public abstract class BaseArrayAdapter<T> extends ArrayAdapter {
-    public List<T> list;
+    protected final List<T> list;
 
-    public BaseArrayAdapter(@NonNull Context context, int viewId , ArrayList<T> list) {
+    protected BaseArrayAdapter(@NonNull Context context, int viewId, ArrayList<T> list) {
         super(context,0, list);
         this.list = list;
     }
@@ -55,9 +55,9 @@ public abstract class BaseArrayAdapter<T> extends ArrayAdapter {
         return convertView;
     }
 
-    public abstract void setData(View view, int position);
+    protected abstract void setData(View view, int position);
 
-    public abstract int getItemViewId();
+    protected abstract int getItemViewId();
 
  //   public abstract void onItemClick(T t, View v);
 }

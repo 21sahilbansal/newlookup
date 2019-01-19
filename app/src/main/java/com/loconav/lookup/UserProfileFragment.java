@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
 
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseFragment;
@@ -36,18 +35,8 @@ public class UserProfileFragment extends BaseFragment {
         initSharedPf();
         attachClickListener();
         fillUserId();
-        binding.checkInstallLogs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkInstallLogs();
-            }
-        });
-        binding.checkRepairLogs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkRepairLogs();
-            }
-        });
+        binding.checkInstallLogs.setOnClickListener(v -> checkInstallLogs());
+        binding.checkRepairLogs.setOnClickListener(v -> checkRepairLogs());
 
     }
     private void initSharedPf() {
@@ -55,20 +44,17 @@ public class UserProfileFragment extends BaseFragment {
     }
 
     private void attachClickListener() {
-        binding.logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sharedPrefHelper.removeStringData(code);
-                sharedPrefHelper.removeStringData(USER_ID);
-                sharedPrefHelper.removeStringData(authenticationToken);
-                sharedPrefHelper.removeStringData(phoneNumber);
-                sharedPrefHelper.removeStringData(location);
-                sharedPrefHelper.removeStringData(name);
-                sharedPrefHelper.setBooleanData(IS_LOGGED_IN,false);
-                Intent intent=new Intent(getContext(), SplashActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
+        binding.logout.setOnClickListener(view -> {
+            sharedPrefHelper.removeStringData(code);
+            sharedPrefHelper.removeStringData(USER_ID);
+            sharedPrefHelper.removeStringData(authenticationToken);
+            sharedPrefHelper.removeStringData(phoneNumber);
+            sharedPrefHelper.removeStringData(location);
+            sharedPrefHelper.removeStringData(name);
+            sharedPrefHelper.setBooleanData(IS_LOGGED_IN,false);
+            Intent intent=new Intent(getContext(), SplashActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         });
 
     }
@@ -79,7 +65,7 @@ public class UserProfileFragment extends BaseFragment {
         binding.userPhone.setText(SharedPrefHelper.getInstance().getStringData(phoneNumber));
     }
 
-    public void checkRepairLogs()
+    private void checkRepairLogs()
     {
         if(AppUtils.isNetworkAvailable()) {
             Intent i=new Intent(getContext(), BaseNavigationActivity.class);
@@ -94,7 +80,7 @@ public class UserProfileFragment extends BaseFragment {
         }
     }
 
-    public void checkInstallLogs()
+    private void checkInstallLogs()
     {
         if(AppUtils.isNetworkAvailable()) {
             Intent i=new Intent(getContext(), BaseNavigationActivity.class);

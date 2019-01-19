@@ -12,8 +12,8 @@ import com.loconav.lookup.model.Installs;
 import java.util.List;
 
 public class InstallLogAdapter  extends BaseAdapter {
-    public List<Installs> installsList;
-    private Callback callback;
+    private final List<Installs> installsList;
+    private final Callback callback;
     public InstallLogAdapter(List<Installs> installsList,Callback callback)
     {
         this.installsList=installsList;

@@ -7,10 +7,12 @@
 
     <data>
         <import type="java.lang.Double" />
-        <import type="com.loconav.lookup.utils.TimeUtils"></import>
+
+        <import type="com.loconav.lookup.utils.TimeUtils" />
+
         <variable
             name="installs"
-            type="com.loconav.lookup.model.InstallationDetails"></variable>
+            type="com.loconav.lookup.model.InstallationDetails" />
     </data>
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -413,7 +415,7 @@
                     android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView13"></android.support.v7.widget.RecyclerView>
+                    app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
                 <TextView
                     android:id="@+id/textView14"
@@ -439,7 +441,7 @@
                     android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView14"></android.support.v7.widget.RecyclerView>
+                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
                 <TextView
                     android:id="@+id/textView15"
@@ -465,7 +467,7 @@
                     android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView15"></android.support.v7.widget.RecyclerView>
+                    app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
                 <TextView
                     android:id="@+id/textView22"
@@ -479,6 +481,7 @@
                     android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/wireconnection" />
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/earthwireconnection"
                     android:layout_width="0dp"
@@ -490,7 +493,7 @@
                     android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView22"></android.support.v7.widget.RecyclerView>
+                    app:layout_constraintTop_toBottomOf="@+id/textView22" />
                 <TextView
                     android:id="@+id/textView16"
                     android:layout_width="wrap_content"
@@ -515,7 +518,7 @@
                     android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView16"></android.support.v7.widget.RecyclerView>
+                    app:layout_constraintTop_toBottomOf="@+id/textView16" />
                 <TextView
                     android:id="@+id/textView17"
                     android:layout_width="wrap_content"
@@ -542,7 +545,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView17"></android.support.v7.widget.RecyclerView>
+                    app:layout_constraintTop_toBottomOf="@+id/textView17" />
             </android.support.constraint.ConstraintLayout>
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>

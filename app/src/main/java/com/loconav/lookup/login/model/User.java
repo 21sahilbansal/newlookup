@@ -36,7 +36,7 @@ public class User implements Parcelable {
 
     }
 
-    protected User(Parcel in) {
+    User(Parcel in) {
         if (in.readByte() == 0) {
             id = null;
         } else {

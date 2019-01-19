@@ -5,8 +5,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 /**
  * Created by prateek on 28/05/18.
  */
@@ -26,7 +24,7 @@ public class Client implements Parcelable {
     {
 
     }
-    protected Client(Parcel in) {
+    Client(Parcel in) {
         clientId = in.readString();
         contactNumber = in.readString();
         name = in.readString();

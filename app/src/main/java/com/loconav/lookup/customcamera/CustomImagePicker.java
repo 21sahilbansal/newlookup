@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.loconav.lookup.R;
 import com.loconav.lookup.Toaster;
@@ -25,6 +24,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.loconav.lookup.Constants.STARTED_COMPRESSION;
 
@@ -33,14 +33,14 @@ import static com.loconav.lookup.Constants.STARTED_COMPRESSION;
  */
 
 public class CustomImagePicker extends LinearLayout {
-    private ArrayList<ImageUri> originalImageUris = new ArrayList<>();
-    ProgressBar progressBar;
-    private LinearLayout linearLayout;
+    private final ArrayList<ImageUri> originalImageUris = new ArrayList<>();
+    private ProgressBar progressBar;
     //needed to differentiate different imagepickers that where inflated through custominflater so did it by textID
-    public String textID ,titleText;
-    public int limit;
-    RecycleCustomImageAdapter recycleCustomImageAdapter;
-    TypedArray typedArrayCustom;
+    public String textID;
+    private String titleText;
+    private int limit;
+    private RecycleCustomImageAdapter recycleCustomImageAdapter;
+    private TypedArray typedArrayCustom;
 
     public CustomImagePicker(Context context) {
         super(context, null);
@@ -66,12 +66,12 @@ public class CustomImagePicker extends LinearLayout {
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.custom_image_picker, this, true);
+        Objects.requireNonNull(inflater).inflate(R.layout.custom_image_picker, this, true);
 
         progressBar=findViewById(R.id.progress_circular);
         TextView title=findViewById(R.id.devText1);
         title.setText(titleText);
-        linearLayout =findViewById(R.id.devImage1);
+        LinearLayout linearLayout = findViewById(R.id.devImage1);
         android.support.v4.app.FragmentActivity fragmentActivity = (android.support.v4.app.FragmentActivity) getContext();
         final FragmentManager fm = fragmentActivity.getSupportFragmentManager();
         linearLayout.setOnClickListener(new OnClickListener() {
@@ -106,10 +106,7 @@ public class CustomImagePicker extends LinearLayout {
         linearLayoutManager.setInitialPrefetchItemCount(4);
         RecyclerView recyclerImages=findViewById(R.id.rvImages);
         recyclerImages.setLayoutManager(linearLayoutManager);
-        recycleCustomImageAdapter = new RecycleCustomImageAdapter(originalImageUris, new Callback() {
-            @Override
-            public void onEventDone(Object object) {
-            }
+        recycleCustomImageAdapter = new RecycleCustomImageAdapter(originalImageUris, object -> {
         },getContext());
         recyclerImages.setAdapter(recycleCustomImageAdapter);
         recyclerImages.setNestedScrollingEnabled(false);

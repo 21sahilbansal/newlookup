@@ -3,11 +3,8 @@ package com.loconav.lookup.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class InstallationDetails implements Parcelable {
@@ -73,7 +70,7 @@ public class InstallationDetails implements Parcelable {
 
         }
 
-    protected InstallationDetails(Parcel in) {
+    private InstallationDetails(Parcel in) {
         installable_id = in.readString();
         uninstalled_at = in.readLong();
         status_message = in.readParcelable(Status_message.class.getClassLoader());

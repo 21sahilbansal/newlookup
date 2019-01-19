@@ -4,7 +4,6 @@ package com.loconav.lookup.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -19,7 +18,7 @@ public class PassingReason implements Parcelable {
 
     private Client clientId;
 
-    public ArrayList<String> imagesList;
+    private ArrayList<String> imagesList;
 
     private ReasonResponse reasonResponse;
 
@@ -44,7 +43,7 @@ public class PassingReason implements Parcelable {
         this.userChoice = UserChoice;
     }
 
-    protected PassingReason(Parcel in) {
+    private PassingReason(Parcel in) {
         deviceId = in.readString();
         userChoice = in.readString();
         clientId = in.readParcelable(Client.class.getClassLoader());

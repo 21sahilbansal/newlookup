@@ -1,14 +1,10 @@
 package com.loconav.lookup.application;
 
 import android.app.Application;
-import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.support.multidex.MultiDex;
-import android.support.multidex.MultiDexApplication;
 
 import com.crashlytics.android.Crashlytics;
 import com.loconav.lookup.base.MyDataBindingComponent;
-import com.squareup.leakcanary.LeakCanary;
 
 import io.fabric.sdk.android.Fabric;
 

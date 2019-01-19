@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -24,7 +23,7 @@ public class LookupResponse implements Parcelable {
 
     }
 
-    protected LookupResponse(Parcel in) {
+    private LookupResponse(Parcel in) {
         data = in.createTypedArrayList(Entity.CREATOR);
         byte tmpPassed = in.readByte();
         passed = tmpPassed == 0 ? null : tmpPassed == 1;

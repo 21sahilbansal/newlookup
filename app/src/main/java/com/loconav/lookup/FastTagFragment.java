@@ -15,7 +15,7 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
+
 import com.loconav.lookup.model.VehiclesList;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.StagingApiClient;
@@ -34,33 +34,28 @@ import retrofit2.Response;
 
 public class FastTagFragment extends BaseFragment {
     private FragmentFastagBinding binding;
-    private ApiInterface apiService = StagingApiClient.getClient().create(ApiInterface.class);
+    private final ApiInterface apiService = StagingApiClient.getClient().create(ApiInterface.class);
     private SearchView.SearchAutoComplete searchAutoComplete;
-    SearchView.SearchAutoComplete searchAutoCompleteFastag;
-    VehiclesList query;
-    FastagsList queryFastags;
-    InstallationRequirements installerCreds = new InstallationRequirements();
-    ArrayList<VehiclesList> vehiclesLists=new ArrayList<>();
-    ArrayList<FastagsList> fastagsLists=new ArrayList<>();
-    VehiclesAdapter vehiclesAdapter;
-    FastagAdapter fastagAdapter;
+    private SearchView.SearchAutoComplete searchAutoCompleteFastag;
+    private VehiclesList query;
+    private FastagsList queryFastags;
+    private final InstallationRequirements installerCreds = new InstallationRequirements();
+    private ArrayList<VehiclesList> vehiclesLists=new ArrayList<>();
+    private ArrayList<FastagsList> fastagsLists=new ArrayList<>();
+    private VehiclesAdapter vehiclesAdapter;
+    private FastagAdapter fastagAdapter;
     @Override
     public int setViewId() {
         return R.layout.fragment_fastag;
     }
     @Override
     public void onFragmentCreated() {
-        searchAutoComplete = (SearchView.SearchAutoComplete)binding.searchTruck.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchAutoComplete = binding.searchTruck.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         binding.searchTruck.setQueryHint("Select Vehicle");
-        searchAutoCompleteFastag = (SearchView.SearchAutoComplete)binding.searchFastId.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchAutoCompleteFastag = binding.searchFastId.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         binding.searchFastId.setQueryHint("Select Fastag");
                 vehiclesLists=getSetData(vehiclesLists);
-        binding.truckSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onSubmitClicked();
-        }
-    });
+        binding.truckSubmit.setOnClickListener(view -> onSubmitClicked());
     }
 
 
@@ -117,22 +112,19 @@ public class FastTagFragment extends BaseFragment {
     }
 
     @SuppressLint("RestrictedApi")
-    public void setSearchView(){
+    private void setSearchView(){
         vehiclesAdapter= new VehiclesAdapter(getContext(),vehiclesLists,searchAutoComplete);
         searchAutoComplete.setThreshold(1);
         searchAutoComplete.setAdapter(vehiclesAdapter);
         binding.searchTruck.setActivated(true);
-        searchAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(getActivity()!=null)
-                    AppUtils.hideKeyboard(getActivity());
-                query= (VehiclesList) parent.getItemAtPosition(position);
-                searchAutoComplete.setText(query.getNumber());
-                searchAutoComplete.setSelection(query.getNumber().length());
-                installerCreds.setTruck_id(query.getId());
-                fastagsLists=getFastags(fastagsLists);
-            }
+        searchAutoComplete.setOnItemClickListener((parent, view, position, id) -> {
+            if(getActivity()!=null)
+                AppUtils.hideKeyboard(getActivity());
+            query= (VehiclesList) parent.getItemAtPosition(position);
+            searchAutoComplete.setText(query.getNumber());
+            searchAutoComplete.setSelection(query.getNumber().length());
+            installerCreds.setTruck_id(query.getId());
+            fastagsLists=getFastags(fastagsLists);
         });
     }
 
@@ -143,16 +135,13 @@ public class FastTagFragment extends BaseFragment {
         searchAutoCompleteFastag.setThreshold(1);
         searchAutoCompleteFastag.setAdapter(fastagAdapter);
         binding.searchFastId.setActivated(true);
-        searchAutoCompleteFastag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(getActivity()!=null)
-                    AppUtils.hideKeyboard(getActivity());
-                queryFastags= (FastagsList) parent.getItemAtPosition(position);
-                searchAutoCompleteFastag.setText(queryFastags.getSerialNumber()+" "+queryFastags.getColor());
-                searchAutoCompleteFastag.setSelection(queryFastags.getSerialNumber().length()+queryFastags.getColor().length());
-                installerCreds.setFastag_id(queryFastags.getId());
-            }
+        searchAutoCompleteFastag.setOnItemClickListener((parent, view, position, id) -> {
+            if(getActivity()!=null)
+                AppUtils.hideKeyboard(getActivity());
+            queryFastags= (FastagsList) parent.getItemAtPosition(position);
+            searchAutoCompleteFastag.setText(queryFastags.getSerialNumber()+" "+queryFastags.getColor());
+            searchAutoCompleteFastag.setSelection(queryFastags.getSerialNumber().length()+queryFastags.getColor().length());
+            installerCreds.setFastag_id(queryFastags.getId());
         });
     }
 

@@ -5,20 +5,22 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 public class AttachmentsDetails implements Parcelable
     {
         @SerializedName("id")
-         String id;
+        private
+        String id;
         @SerializedName("updated_at")
-         String updatedAt;
+        private
+        String updatedAt;
         @SerializedName("urls")
-         Urls urls;
+        private
+        Urls urls;
         @SerializedName("tag")
+        private
         String tag;
 
-        protected AttachmentsDetails(Parcel in) {
+        private AttachmentsDetails(Parcel in) {
             id = in.readString();
             updatedAt = in.readString();
             urls = in.readParcelable(Urls.class.getClassLoader());

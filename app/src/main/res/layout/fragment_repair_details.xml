@@ -4,9 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:imagesetter="http://schemas.android.com/tools">
     <data>
+
         <variable
             name="repairs"
-            type="com.loconav.lookup.model.RepairDetail"></variable>
+            type="com.loconav.lookup.model.RepairDetail" />
 
     </data>
 
@@ -198,7 +199,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView8"></LinearLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
 
                 <TextView
@@ -225,7 +226,7 @@
                     android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView27"></android.support.v7.widget.RecyclerView>
+                    app:layout_constraintTop_toBottomOf="@+id/textView27" />
 
                 <TextView
                     android:id="@+id/textView22"

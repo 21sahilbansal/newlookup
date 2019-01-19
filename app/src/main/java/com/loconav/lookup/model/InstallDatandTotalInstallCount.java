@@ -21,7 +21,7 @@ public class InstallDatandTotalInstallCount implements Parcelable {
 
     }
 
-    protected InstallDatandTotalInstallCount(Parcel in) {
+    private InstallDatandTotalInstallCount(Parcel in) {
         data = in.createTypedArrayList(Installs.CREATOR);
         totalcount = in.readInt();
     }

@@ -20,8 +20,8 @@ import static com.loconav.lookup.UserPrefs.code;
 import static com.loconav.lookup.UserPrefs.name;
 
 public class ScreenshotFragment extends BaseFragment {
-    FragmentScreenshotBinding binding;
-    String textToWhatsapp;
+    private FragmentScreenshotBinding binding;
+    private String textToWhatsapp;
     @Override
     public int setViewId() {
         return R.layout.fragment_screenshot;
@@ -29,30 +29,22 @@ public class ScreenshotFragment extends BaseFragment {
 
     @Override
     public void onFragmentCreated() {
-        InstallationDetails installationDetails=(InstallationDetails) getActivity().getIntent().getExtras().getParcelable(getString(R.string.installation_details));
+        InstallationDetails installationDetails= getActivity().getIntent().getExtras().getParcelable(getString(R.string.installation_details));
         Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.stamp_animation);
         binding.done.setAnimation(animation);
         binding.done.setVisibility(View.VISIBLE);
         setData(installationDetails);
-        binding.shareOnWhatsapp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendWhatsapp(textToWhatsapp);
-            }
-        });
-        binding.checkInstallLogs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i=new Intent(getContext(), BaseNavigationActivity.class);
-                Bundle bundle=new Bundle();
-                bundle.putString(FRAGMENT_NAME,getString(R.string.install_log_fragment));
-                i.putExtras(bundle);
-                startActivity(i);
-            }
+        binding.shareOnWhatsapp.setOnClickListener(v -> sendWhatsapp(textToWhatsapp));
+        binding.checkInstallLogs.setOnClickListener(v -> {
+            Intent i=new Intent(getContext(), BaseNavigationActivity.class);
+            Bundle bundle=new Bundle();
+            bundle.putString(FRAGMENT_NAME,getString(R.string.install_log_fragment));
+            i.putExtras(bundle);
+            startActivity(i);
         });
     }
 
-    public void setData(InstallationDetails details)
+    private void setData(InstallationDetails details)
     {
         binding.installerName.setText(SharedPrefHelper.getInstance().getStringData(name));
         binding.installerId.setText(SharedPrefHelper.getInstance().getStringData(code));

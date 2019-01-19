@@ -20,7 +20,7 @@ import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
 
 public class ImageUtils {
 
-    public static ImageUri compressImageFile(ImageUri imageUri, Context context) throws IOException {
+    private static ImageUri compressImageFile(ImageUri imageUri, Context context) throws IOException {
         File imagefile=getImagefile(context);
         FileOutputStream fout=new FileOutputStream(imagefile);
         Bitmap bitmap= MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri.getUri());
@@ -44,12 +44,11 @@ public class ImageUtils {
         File storageDir;
         String imageFileName = "JPEG_" + "Loconav" + "_";
         storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
+        return File.createTempFile(
                 imageFileName,
                 ".jpg",
                 storageDir
         );
-        return image;
     }
 
     public static Bitmap getThumbnailImage(Uri image, Context context) throws IOException

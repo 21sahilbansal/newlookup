@@ -24,7 +24,7 @@ public class LoginResponse implements Parcelable {
 
     }
 
-    protected LoginResponse(Parcel in) {
+    private LoginResponse(Parcel in) {
         byte tmpSuccess = in.readByte();
         success = tmpSuccess == 0 ? null : tmpSuccess == 1;
         user = in.readParcelable(User.class.getClassLoader());

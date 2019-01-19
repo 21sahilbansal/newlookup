@@ -12,11 +12,12 @@ import java.util.List;
 
 import static com.loconav.lookup.Constants.ORIENTATION;
 
+@SuppressWarnings("deprecation")
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
-    public static final String PORTRAIT = "portrait";
-    public static final String LANDSCAPE = "landscape";
-    private SurfaceHolder mHolder;
-    private Camera mCamera;
+    private static final String PORTRAIT = "portrait";
+    private static final String LANDSCAPE = "landscape";
+    private final SurfaceHolder mHolder;
+    private final Camera mCamera;
 
     public CameraPreview(Context context, Camera camera) {
         super(context);

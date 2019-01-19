@@ -34,6 +34,11 @@ public class Constants {
     public static final String ACCESSORIES="Accessories";
     public static final String DEVICE_FITTING_IMAGES="DeviceFitting";
     public static final String EARTH_WIRE_CONNECTION_IMAGES="EarthWireConnectionImages";
-
-
+    public static final String REASONS="reasons";
+    public static final String SPINNER="spinner";
+    public static final String REMARKS="remarks";
+    public static final String DEVICEID="deviceId";
+    public static final String IMEI="imei";
+    public static final String TEXT_VIEW="textView";
+    public static final String TEXT="text";
 }

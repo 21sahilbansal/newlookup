@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class LookupAdapter extends BaseAdapter {
 
-    private List<Entity> data;
+    private final List<Entity> data;
 
     public LookupAdapter(List<Entity> myDataset) {
         data = myDataset;

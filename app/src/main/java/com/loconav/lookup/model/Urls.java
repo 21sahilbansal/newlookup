@@ -5,8 +5,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 public class Urls implements Parcelable {
     @SerializedName("original")
     private String original;
@@ -28,7 +26,7 @@ public class Urls implements Parcelable {
 
     }
 
-    protected Urls(Parcel in) {
+    Urls(Parcel in) {
         original = in.readString();
         small = in.readString();
         thumb = in.readString();

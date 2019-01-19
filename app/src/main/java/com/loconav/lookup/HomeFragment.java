@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -42,13 +41,13 @@ import static com.loconav.lookup.Constants.REASON_RESPONSE;
 import static com.loconav.lookup.Constants.TUTORIAL_KEY;
 
 public class HomeFragment extends BaseFragment {
-    FragmentHomeBinding binding;
-    private PassingReason passingReason = new PassingReason();
-    WhatToDoAdapter adapter;
-    ReasonResponse reasonResponse;
-    Toolbar toolbar;
-    ArrayList<ReasonResponse> jsonLog = new ArrayList<>();
-    View view;
+    private FragmentHomeBinding binding;
+    private final PassingReason passingReason = new PassingReason();
+    private WhatToDoAdapter adapter;
+    private ReasonResponse reasonResponse;
+    private Toolbar toolbar;
+    private ArrayList<ReasonResponse> jsonLog = new ArrayList<>();
+    private View view;
     @Override
     public int setViewId() {
         return R.layout.fragment_home;
@@ -73,26 +72,19 @@ public class HomeFragment extends BaseFragment {
         } else {
             Toaster.makeToast(getString(R.string.something_went_wrong));
         }
-        binding.newInstall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<ReasonTypeResponse> reasons = new ArrayList<>();
-                ArrayList<Input> additionalFields = new ArrayList<>();
-                ReasonResponse newreasonResponse = new ReasonResponse(1, NEW_INSTALL, reasons, additionalFields, "abc");
-                reasonResponse = newreasonResponse;
-                passingReason.setUserChoice(reasonResponse.getName());
-                passIntent();
-            }
+        binding.newInstall.setOnClickListener(v -> {
+            List<ReasonTypeResponse> reasons = new ArrayList<>();
+            ArrayList<Input> additionalFields = new ArrayList<>();
+            reasonResponse = new ReasonResponse(1, NEW_INSTALL, reasons, additionalFields, "abc");
+            passingReason.setUserChoice(reasonResponse.getName());
+            passIntent();
         });
-        binding.uploadDocs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getContext(), BaseNavigationActivity.class);
-                Bundle bundle=new Bundle();
-                bundle.putString(FRAGMENT_NAME,getString(R.string.upload_documents_fragment));
-                i.putExtras(bundle);
-                startActivity(i);
-            }
+        binding.uploadDocs.setOnClickListener(v -> {
+            Intent i = new Intent(getContext(), BaseNavigationActivity.class);
+            Bundle bundle=new Bundle();
+            bundle.putString(FRAGMENT_NAME,getString(R.string.upload_documents_fragment));
+            i.putExtras(bundle);
+            startActivity(i);
         });
         firstTimeTutorial();
     }
@@ -100,14 +92,11 @@ public class HomeFragment extends BaseFragment {
     private void setPhotoAdapter() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.rvTasks.setLayoutManager(layoutManager);
-        adapter = new WhatToDoAdapter(jsonLog, new Callback() {
-            @Override
-            public void onEventDone(Object object) {
-                reasonResponse = (ReasonResponse) object;
-                reasonResponse.setName("Repairs");
-                passingReason.setUserChoice(reasonResponse.getName());
-                passIntent();
-            }
+        adapter = new WhatToDoAdapter(jsonLog, object -> {
+            reasonResponse = (ReasonResponse) object;
+            reasonResponse.setName("Repairs");
+            passingReason.setUserChoice(reasonResponse.getName());
+            passIntent();
         });
         binding.rvTasks.setAdapter(adapter);
         binding.rvTasks.setNestedScrollingEnabled(false);
@@ -133,7 +122,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     //These 3 function(firTimeTutorial,showTutorial1,showTutorial2) these are used to show the tutorial and they no much use
-    public void firstTimeTutorial() {
+    private void firstTimeTutorial() {
         Boolean firstTime = SharedPrefHelper.getInstance().getBooleanData(TUTORIAL_KEY);//first time it will be false
         if(!firstTime)
         {
@@ -141,7 +130,7 @@ public class HomeFragment extends BaseFragment {
             SharedPrefHelper.getInstance().setBooleanData(TUTORIAL_KEY,true); // next time it will always be true
         }
     }
-    public void showTutorial1() {
+    private void showTutorial1() {
         view =toolbar.findViewById(R.id.action_user);
         new GuideView.Builder(getContext())
                 .setTitle(getString(R.string.user_profile))
@@ -151,18 +140,13 @@ public class HomeFragment extends BaseFragment {
                 .setGravity(Gravity.auto) //optional
                 .setDismissType(DismissType.anywhere) //optional - default DismissType.targetView
                 .setTargetView(view)
-                .setGuideListener(new GuideListener() {
-                    @Override
-                    public void onDismiss(View view) {
-                        showTutorial2();
-                    }
-                })
+                .setGuideListener(view -> showTutorial2())
                 .setContentTextSize(12)//optional
                 .setTitleTextSize(14)//optional
                 .build()
                 .show();
     }
-    public void showTutorial2() {
+    private void showTutorial2() {
         view =getActivity().findViewById(R.id.newInstall);
         new GuideView.Builder(getContext())
                 .setTitle(getString(R.string.create_new_install))

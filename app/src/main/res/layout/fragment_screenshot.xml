@@ -23,7 +23,7 @@
                 android:text="Yay !!\nNew Truck Created"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="24sp"></TextView>
+                android:textSize="24sp" />
         </LinearLayout>
 
         <ImageView

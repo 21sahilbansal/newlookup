@@ -53,10 +53,10 @@ public abstract class RetrofitCallback<T> implements Callback<T> {
         }
     }
 
-    public abstract void handleSuccess(Call<T> call, Response<T> response);
-    public abstract void handleFailure(Call<T> call, Throwable t);
+    protected abstract void handleSuccess(Call<T> call, Response<T> response);
+    protected abstract void handleFailure(Call<T> call, Throwable t);
 
-    public void throwExceptionToServer(String exception,String api)
+    private void throwExceptionToServer(String exception, String api)
     {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         ApiException exceptionThrow=new ApiException();

@@ -6,7 +6,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.loconav.lookup.adapter.LookupAdapter;
 import com.loconav.lookup.databinding.FragmentDeviceDetailBinding;
@@ -21,6 +20,8 @@ import com.loconav.lookup.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -36,11 +37,11 @@ public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefr
 
     private FragmentDeviceDetailBinding binding;
     private LookupAdapter lookupAdapter;
-    private List<Entity> entities = new ArrayList<>();
+    private final List<Entity> entities = new ArrayList<>();
     private String deviceID;
     private PassingReason passingReason;
-    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-    FragmentController fragmentController = new FragmentController();
+    private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+    private final FragmentController fragmentController = new FragmentController();
 
     @Override
     public int setViewId() {
@@ -66,18 +67,15 @@ public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefr
 
     }
     private void setShareDetails() {
-        binding.shareDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (passingReason.getUserChoice().equals(NEW_INSTALL)) {
-                    FetchClientFragment f1 = new FetchClientFragment();
-                    ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
-                    fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
-                } else {
-                    ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
-                    CommonRepairFragment f1 = new CommonRepairFragment();
-                    fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
-                }
+        binding.shareDetails.setOnClickListener(view -> {
+            if (passingReason.getUserChoice().equals(NEW_INSTALL)) {
+                FetchClientFragment f1 = new FetchClientFragment();
+                ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
+                fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
+            } else {
+                ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
+                CommonRepairFragment f1 = new CommonRepairFragment();
+                fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
             }
         });
     }
@@ -91,12 +89,7 @@ public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefr
 
     private void setSwipeRefresh() {
         binding.swipeRefresh.setOnRefreshListener(this);
-        binding.refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onRefresh();
-            }
-        });
+        binding.refresh.setOnClickListener(view -> onRefresh());
     }
 
     @Override
@@ -119,7 +112,13 @@ public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefr
                 @Override
                 public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
                     Log.e("handle ", response.code() + "");
-                    setData(response.body());
+                    try {
+                        setData(Objects.requireNonNull(response.body()));
+                    }
+                    catch (Exception ex){
+                        Toaster.makeToast(getString(R.string.something_went_wrong));
+                    }
+
                     binding.swipeRefresh.setRefreshing(false);
                 }
 
@@ -138,7 +137,7 @@ public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefr
         Log.e("save ", "getSetData: ");
         Bundle receivedBundle;
         receivedBundle = getArguments();
-        LookupResponse lookupResponse = (LookupResponse) receivedBundle.getParcelable(LOOKUP_RESPONSE);
+        LookupResponse lookupResponse = receivedBundle.getParcelable(LOOKUP_RESPONSE);
         passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
         setData(lookupResponse);
     }

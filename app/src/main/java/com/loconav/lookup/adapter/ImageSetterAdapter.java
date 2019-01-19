@@ -10,8 +10,8 @@ import com.loconav.lookup.base.BaseAdapter;
 import java.util.List;
 
 public class ImageSetterAdapter extends BaseAdapter{
-    public List<String> images;
-    private Callback callback;
+    private final List<String> images;
+    private final Callback callback;
 
     public  ImageSetterAdapter(List<String> images,Callback callback)
     {

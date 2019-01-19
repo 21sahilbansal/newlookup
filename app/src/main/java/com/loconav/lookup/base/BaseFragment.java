@@ -25,11 +25,11 @@ public abstract class BaseFragment extends Fragment {
         return view;
     }
 
-    public abstract int setViewId();
+    protected abstract int setViewId();
 
-    public abstract void onFragmentCreated();
+    protected abstract void onFragmentCreated();
 
-    public abstract void bindView(View view);
+    protected abstract void bindView(View view);
 
     @Nullable
     @Override
@@ -41,6 +41,6 @@ public abstract class BaseFragment extends Fragment {
         this.view = view;
     }
 
-    public abstract void getComponentFactory();
+    protected abstract void getComponentFactory();
 
 }

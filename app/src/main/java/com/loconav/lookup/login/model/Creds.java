@@ -20,7 +20,7 @@ public class Creds extends BaseObservable implements Parcelable {
     @SerializedName("password")
     private String password;
 
-    protected Creds(Parcel in) {
+    private Creds(Parcel in) {
         phoneNumber = in.readString();
         password = in.readString();
     }

@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.loconav.lookup.R;
 import com.loconav.lookup.Toaster;
@@ -23,6 +22,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static com.loconav.lookup.Constants.FILE_PROVIDER_AUTHORITY;
 import static com.loconav.lookup.Constants.IMAGE_LIST;
@@ -31,12 +31,14 @@ import static com.loconav.lookup.Constants.IMAGE_LIST;
 public class CameraPickerFragment extends BaseFragment {
     private FragmentCamerapickerBinding binding;
     private Camera mCamera;
-    private CameraPreview mPreview;
     private Camera.Parameters parameters;
     private boolean isFlashOn=false;
-    private ArrayList<ImageUri> imageList=new ArrayList<>();
+    private final ArrayList<ImageUri> imageList=new ArrayList<>();
     private RecycleCustomImageAdapter recycleCustomImageAdapter;
-    private int FRONT_CAMERA=1,REAR_CAMERA=0,camera_code=REAR_CAMERA,limit;
+    private int FRONT_CAMERA=1;
+    private final int REAR_CAMERA=0;
+    private final int camera_code=REAR_CAMERA;
+    private int limit;
     @Override
     public int setViewId() {
         return R.layout.fragment_camerapicker;
@@ -44,12 +46,12 @@ public class CameraPickerFragment extends BaseFragment {
 
     @Override
     public void onFragmentCreated() {
-        limit=getActivity().getIntent().getExtras().getInt("limit");
+        limit= Objects.requireNonNull(Objects.requireNonNull(getActivity()).getIntent().getExtras()).getInt("limit");
         // Create an instance of Camera
         mCamera = getCameraInstance(camera_code);
 
         // Create our Preview view and set it as the content of our activity.
-        mPreview = new CameraPreview(getContext(), mCamera);
+        CameraPreview mPreview = new CameraPreview(getContext(), mCamera);
         FrameLayout preview = binding.cameraPreview;
         preview.addView(mPreview);
 
@@ -57,104 +59,86 @@ public class CameraPickerFragment extends BaseFragment {
         setImageAdapter();
 
         //Capture the photo and save it
-        binding.capture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.capture.setClickable(false);
-                if(imageList.size()<limit) {
-                    mCamera.takePicture(null, null, new Camera.PictureCallback() {
-                        @Override
-                        public void onPictureTaken(byte[] bytes, Camera camera) {
-                            File pictureFile = null;
-                            try {
-                                pictureFile = ImageUtils.getImagefile(getContext());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            if (pictureFile == null) {
-                                Log.d("hey", "Error creating media file, check storage permissions");
-                                return;
-                            }
+        binding.capture.setOnClickListener(view -> {
+            binding.capture.setClickable(false);
+            if(imageList.size()<limit) {
+                mCamera.takePicture(null, null, (bytes, camera) -> {
+                    File pictureFile = null;
+                    try {
+                        pictureFile = ImageUtils.getImagefile(getContext());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (pictureFile == null) {
+                        Log.d("hey", "Error creating media file, check storage permissions");
+                        return;
+                    }
 
-                            try {
-                                FileOutputStream fos = new FileOutputStream(pictureFile);
-                                fos.write(bytes);
-                                fos.close();
-                                mCamera.startPreview();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                    try {
+                        FileOutputStream fos = new FileOutputStream(pictureFile);
+                        fos.write(bytes);
+                        fos.close();
+                        mCamera.startPreview();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
-                            //Settting ImageView List for original images list
-                            ImageUri imageUri = new ImageUri();
-                            imageUri.setUri(FileProvider.getUriForFile(getContext(), FILE_PROVIDER_AUTHORITY, pictureFile));
-                            imageList.add(imageUri);
-                            recycleCustomImageAdapter.notifyDataSetChanged();
-                            binding.capture.setClickable(true);
-                        }
-                    });
-                }
-                else
-                {
-                    Toaster.makeToast(getString(R.string.size_limit)+limit);
-                }
+                    //Settting ImageView List for original images list
+                    ImageUri imageUri = new ImageUri();
+                    imageUri.setUri(FileProvider.getUriForFile(getContext(), FILE_PROVIDER_AUTHORITY, pictureFile));
+                    imageList.add(imageUri);
+                    recycleCustomImageAdapter.notifyDataSetChanged();
+                    binding.capture.setClickable(true);
+                });
+            }
+            else
+            {
+                Toaster.makeToast(getString(R.string.size_limit)+limit);
             }
         });
 
         //It is for auto focus when user touches the screen and it is only enable for rear camera
-        binding.cameraPreview.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    mCamera.autoFocus(new Camera.AutoFocusCallback() {
-                        @Override
-                        public void onAutoFocus(boolean b, Camera camera) {
-                        }
-                    });
-                }
-                return true;
+        binding.cameraPreview.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                mCamera.autoFocus((b, camera) -> {
+                });
             }
+            return true;
         });
 
         //for turn ON or OFF the Flash in camera
-        binding.flash.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mCamera!=null) {
-                    parameters = mCamera.getParameters();
-                    if (parameters!=null &&parameters.getSupportedFlashModes() != null) {
-                        if (isFlashOn) {
-                            isFlashOn = false;
-                            binding.flash.setImageResource(R.drawable.noflash);
-                            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                        } else {
-                            isFlashOn = true;
-                            binding.flash.setImageResource(R.drawable.flash);
-                            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
-                        }
-                        mCamera.setParameters(parameters);
+        binding.flash.setOnClickListener(v -> {
+            if(mCamera!=null) {
+                parameters = mCamera.getParameters();
+                if (parameters!=null &&parameters.getSupportedFlashModes() != null) {
+                    if (isFlashOn) {
+                        isFlashOn = false;
+                        binding.flash.setImageResource(R.drawable.noflash);
+                        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                    } else {
+                        isFlashOn = true;
+                        binding.flash.setImageResource(R.drawable.flash);
+                        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
                     }
+                    mCamera.setParameters(parameters);
                 }
             }
         });
 
         //When the Images are Final
-        binding.totalcorrect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent returnIntent = new Intent();
-                //As Uri is not parceble/Seriazable we have to convert it into string list
-                ArrayList<String> imageListinString=new ArrayList<>();
-                for(ImageUri uri:imageList)
-                    imageListinString.add(uri.getUri().toString());
-                returnIntent.putExtra(IMAGE_LIST,imageListinString);
-                getActivity().setResult(Activity.RESULT_OK,returnIntent);
-                getActivity().finish();
-            }
+        binding.totalcorrect.setOnClickListener(view -> {
+            Intent returnIntent = new Intent();
+            //As Uri is not parceble/Seriazable we have to convert it into string list
+            ArrayList<String> imageListinString=new ArrayList<>();
+            for(ImageUri uri:imageList)
+                imageListinString.add(uri.getUri().toString());
+            returnIntent.putExtra(IMAGE_LIST,imageListinString);
+            getActivity().setResult(Activity.RESULT_OK,returnIntent);
+            getActivity().finish();
         });
     }
 
-    public void setImageAdapter()
+    private void setImageAdapter()
     {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -177,6 +161,7 @@ public class CameraPickerFragment extends BaseFragment {
             camera = Camera.open(camera_code);
         }
         catch (Exception e){
+            e.printStackTrace();
         }
         return camera;
     }

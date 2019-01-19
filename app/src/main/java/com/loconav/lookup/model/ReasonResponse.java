@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class ReasonResponse implements Parcelable {
 
     }
 
-    protected ReasonResponse(Parcel in) {
+    ReasonResponse(Parcel in) {
         id = in.readInt();
         name = in.readString();
         reasons = in.createTypedArrayList(ReasonTypeResponse.CREATOR);

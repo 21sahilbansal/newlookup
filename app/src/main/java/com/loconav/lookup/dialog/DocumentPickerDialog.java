@@ -13,17 +13,13 @@ import android.widget.LinearLayout;
 
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseDialogFragment;
-import com.loconav.lookup.customcamera.ImageUri;
 import com.loconav.lookup.databinding.DialogImagePickerBinding;
-
-import java.util.ArrayList;
 
 public class DocumentPickerDialog extends BaseDialogFragment {
     private static final int REQUEST_CODE = 99;
     private DialogImagePickerBinding binding;
     public static DocumentPickerDialog newInstance() {
-        DocumentPickerDialog imagePickerDialog = new DocumentPickerDialog();
-        return imagePickerDialog;
+        return new DocumentPickerDialog();
     }
 
     @NonNull
@@ -34,19 +30,9 @@ public class DocumentPickerDialog extends BaseDialogFragment {
                 .inflate(R.layout.dialog_image_picker, new LinearLayout(getActivity()),
                         false);
         binding= DataBindingUtil.bind(dialogView);
-        binding.camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cameraIntent();
-            }
-        });
+        binding.camera.setOnClickListener(v -> cameraIntent());
 
-        binding.gallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                galleryIntent();
-            }
-        });
+        binding.gallery.setOnClickListener(v -> galleryIntent());
 
         Dialog builder = new Dialog(getActivity());
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -58,12 +44,12 @@ public class DocumentPickerDialog extends BaseDialogFragment {
         return builder;
     }
 
-    void galleryIntent() {
+    private void galleryIntent() {
 //        Intent intent= new Intent(getContext(), ScanActivity.class);
 //        intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, ScanConstants.OPEN_MEDIA);
 //        startActivityForResult(intent, Constants.REQUEST_CODE_FOR_DOCUMENT);
     }
-    public void cameraIntent()
+    private void cameraIntent()
     {
 //        Intent intent= new Intent(getContext(), ScanActivity.class);
 //        intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, ScanConstants.OPEN_CAMERA);

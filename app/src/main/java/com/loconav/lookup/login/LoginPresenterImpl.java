@@ -14,8 +14,8 @@ import retrofit2.Response;
  */
 
 public class LoginPresenterImpl implements LoginPresenter{
-    private LoginView loginView;
-    private ApiInterface apiService = LoginApiClient.getClient().create(ApiInterface.class);
+    private final LoginView loginView;
+    private final ApiInterface apiService = LoginApiClient.getClient().create(ApiInterface.class);
 
 
     public LoginPresenterImpl(LoginView loginView) {

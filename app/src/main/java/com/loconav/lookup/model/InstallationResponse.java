@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.loconav.lookup.login.model.User;
 
 /**
  * Created by sejal on 18-07-2018.
@@ -22,7 +21,7 @@ public class InstallationResponse implements Parcelable {
 
     }
 
-    protected InstallationResponse(Parcel in) {
+    private InstallationResponse(Parcel in) {
         message = in.readString();
     }
 

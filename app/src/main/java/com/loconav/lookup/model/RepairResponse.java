@@ -24,7 +24,7 @@ public class RepairResponse implements Parcelable {
 
     }
 
-    protected RepairResponse(Parcel in) {
+    private RepairResponse(Parcel in) {
         byte tmpSuccess = in.readByte();
         success = tmpSuccess == 0 ? null : tmpSuccess == 1;
         message = in.readString();

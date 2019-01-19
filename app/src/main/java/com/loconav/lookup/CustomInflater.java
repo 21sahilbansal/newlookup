@@ -24,9 +24,10 @@ import java.util.ArrayList;
  * Created by sejal on 17-07-2018.
  */
 
+@SuppressWarnings("deprecation")
 public class CustomInflater extends LinearLayout {
-    LinearLayout linearLayout;
-    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    private LinearLayout linearLayout;
+    private final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
     public CustomInflater(Context context) {
         super(context);
@@ -126,7 +127,7 @@ public class CustomInflater extends LinearLayout {
         setSpinner(spinnerList,spinner);
     }
 
-    public void setSpinner(ArrayList<String> categories, Spinner spinnerRep ) {
+    private void setSpinner(ArrayList<String> categories, Spinner spinnerRep) {
         spinnerRep.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -137,7 +138,7 @@ public class CustomInflater extends LinearLayout {
 
             }
         });
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, categories);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categories);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerRep.setAdapter(dataAdapter);
     }

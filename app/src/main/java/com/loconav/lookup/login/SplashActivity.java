@@ -3,7 +3,6 @@ package com.loconav.lookup.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.loconav.lookup.BaseCameraActivity;
 import com.loconav.lookup.LandingActivity;
@@ -27,8 +26,8 @@ import static com.loconav.lookup.Constants.REASONS_RESPONSE;
 
 public class SplashActivity extends BaseCameraActivity {
 
-    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-    private SharedPrefHelper sharedPrefHelper = SharedPrefHelper.getInstance();
+    private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+    private final SharedPrefHelper sharedPrefHelper = SharedPrefHelper.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +77,7 @@ public class SplashActivity extends BaseCameraActivity {
     /**
      * This function fetch the reason for repars(like sim_change,device_change etc.) and save it in shared preferences.
      */
-    void fetchAndSetData() {
+    private void fetchAndSetData() {
         if (AppUtils.isNetworkAvailable()) {
             apiService.getReasons().enqueue(new Callback<ResponseBody>() {
                 String str;

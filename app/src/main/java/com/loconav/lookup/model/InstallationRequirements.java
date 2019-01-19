@@ -22,7 +22,7 @@ public class InstallationRequirements implements Parcelable {
 
     }
 
-    protected InstallationRequirements(Parcel in) {
+    private InstallationRequirements(Parcel in) {
         truck_id = in.readInt();
         fastag_id = in.readInt();
     }

@@ -14,7 +14,6 @@ import com.google.android.gms.samples.vision.barcodereader.BarcodeGraphic;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FargmentQrScannerBinding;
-import com.loconav.lookup.databinding.FragmentDeviceIdBinding;
 
 import java.util.List;
 
@@ -67,12 +66,9 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
     @Override
     public void onRetrieved(Barcode barcode) {
         sendMessage(barcode.displayValue);
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(getActivity()!=null) {
-                    getActivity().onBackPressed();
-                }
+        getActivity().runOnUiThread(() -> {
+            if(getActivity()!=null) {
+                getActivity().onBackPressed();
             }
         });
     }
@@ -89,11 +85,7 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
     @Override
     public void onPermissionRequestDenied() {
         if(getActivity() != null)
-            getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                    getActivity().onBackPressed();
-            }});
+            getActivity().runOnUiThread(() -> getActivity().onBackPressed());
     }
     @Override
     public void onDestroyView() {

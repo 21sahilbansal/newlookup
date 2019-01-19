@@ -29,7 +29,7 @@ public class Installs implements Parcelable {
     {
 
     }
-    protected Installs(Parcel in) {
+    private Installs(Parcel in) {
         id = in.readString();
         installable_serial_number = in.readString();
         attachments = in.createTypedArray(AttachmentsDetails.CREATOR);

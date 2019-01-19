@@ -5,13 +5,13 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 public class ApiException implements Parcelable {
     @SerializedName("crash_log")
+    private
     String crash_log;
 
     @SerializedName("note")
+    private
     String note;
 
     public ApiException()
@@ -19,7 +19,7 @@ public class ApiException implements Parcelable {
 
     }
 
-    protected ApiException(Parcel in) {
+    private ApiException(Parcel in) {
         crash_log = in.readString();
         note = in.readString();
     }

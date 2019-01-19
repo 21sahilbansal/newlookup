@@ -1,12 +1,9 @@
 package com.loconav.lookup.model;
 
-import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
 
 /**
  * Created by sejal on 29-06-2018.
@@ -24,7 +21,7 @@ public class VehiclesList implements Parcelable {
 
     }
 
-    protected VehiclesList(Parcel in) {
+    private VehiclesList(Parcel in) {
         number = in.readString();
         id = in.readInt();
     }

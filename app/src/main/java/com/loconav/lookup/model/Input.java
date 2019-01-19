@@ -3,7 +3,6 @@ package com.loconav.lookup.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -25,7 +24,7 @@ public class Input implements Parcelable {
         this.field_type = field_type;
     }
 
-    protected Input(Parcel in) {
+    private Input(Parcel in) {
         name = in.readString();
         key = in.readString();
         field_type = in.readString();

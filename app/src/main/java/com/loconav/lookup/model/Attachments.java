@@ -6,8 +6,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 public class Attachments implements Parcelable {
     @SerializedName("title")
     @Expose
@@ -22,7 +20,7 @@ public class Attachments implements Parcelable {
 
     }
 
-    protected Attachments(Parcel in) {
+    private Attachments(Parcel in) {
         title = in.readString();
         image = in.readString();
     }

@@ -4,11 +4,9 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.Html;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.loconav.lookup.adapter.ImageSetterAdapter;
 import com.loconav.lookup.base.BaseFragment;
@@ -21,17 +19,15 @@ import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
 
-import java.net.IDN;
-
 import retrofit2.Call;
 import retrofit2.Response;
 
 import static com.loconav.lookup.Constants.ID;
 
 public class RepairDetailFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
-    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-    FragmentRepairDetailsBinding repairDetailsBinding;
-    int repairId;
+    private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+    private FragmentRepairDetailsBinding repairDetailsBinding;
+    private int repairId;
     @Override
     public int setViewId() {
         return R.layout.fragment_repair_details;
@@ -62,11 +58,11 @@ public class RepairDetailFragment extends BaseFragment implements SwipeRefreshLa
     @Override
     public void onRefresh() {
         loadRepairDetail();
-        if(((LinearLayout) repairDetailsBinding.repairdata).getChildCount() > 0)
-            ((LinearLayout) repairDetailsBinding.repairdata).removeAllViews();
+        if(repairDetailsBinding.repairdata.getChildCount() > 0)
+            repairDetailsBinding.repairdata.removeAllViews();
     }
 
-    public void loadRepairDetail() {
+    private void loadRepairDetail() {
         apiService.getRepairDetail(repairId).enqueue(new RetrofitCallback<RepairDetail>() {
             @Override
             public void handleSuccess(Call<RepairDetail> call, Response<RepairDetail> response) {

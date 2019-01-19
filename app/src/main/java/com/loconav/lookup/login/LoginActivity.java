@@ -6,7 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
+
 import com.loconav.lookup.R;
 import com.loconav.lookup.Toaster;
 import com.loconav.lookup.utils.AppUtils;
@@ -23,7 +23,6 @@ import static com.loconav.lookup.UserPrefs.authenticationToken;
 import static com.loconav.lookup.UserPrefs.phoneNumber;
 
 public class LoginActivity extends AppCompatActivity implements LoginView{
-    private ActivityLoginBinding binding;
     private ProgressDialog dialog;
     private SharedPrefHelper sharedPrefHelper;
 
@@ -31,7 +30,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
+        ActivityLoginBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         sharedPrefHelper=SharedPrefHelper.getInstance();
         initProgressDialog();
         Creds creds = new Creds();

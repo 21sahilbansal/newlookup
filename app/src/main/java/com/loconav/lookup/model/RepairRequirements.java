@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -42,7 +41,7 @@ public class RepairRequirements implements Parcelable {
     public RepairRequirements(){}
 
 
-    protected RepairRequirements(Parcel in) {
+    private RepairRequirements(Parcel in) {
         device_serial_number = in.readString();
         reason_id = in.readInt();
         remarks = in.readString();

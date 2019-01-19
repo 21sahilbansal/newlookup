@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.loconav.lookup.adapter.ImageSetterAdapter;
 import com.loconav.lookup.base.BaseFragment;
@@ -33,10 +32,10 @@ import static com.loconav.lookup.Constants.FRAGMENT_NAME;
 import static com.loconav.lookup.Constants.ID;
 
 public class InstallDetailFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
-    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-    FragmentInstallDetailsBinding installDetailsBinding;
-    InstallationDetails installs=new InstallationDetails();
-    int installId;
+    private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+    private FragmentInstallDetailsBinding installDetailsBinding;
+    private InstallationDetails installs=new InstallationDetails();
+    private int installId;
     @Override
     public int setViewId() {
         return R.layout.fragment_install_details;
@@ -94,7 +93,7 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
         loadInstallDetail();
     }
 
-    public void loadInstallDetail()
+    private void loadInstallDetail()
     {
         apiService.getInstallDetail(installId).enqueue(new RetrofitCallback<InstallationDetails>() {
             @Override

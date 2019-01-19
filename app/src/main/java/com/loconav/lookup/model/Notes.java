@@ -5,8 +5,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 public class Notes implements Parcelable {
     @SerializedName("type_of_goods")
     private String typeOfGoods;
@@ -44,7 +42,7 @@ public class Notes implements Parcelable {
 
     }
 
-    protected Notes(Parcel in) {
+    private Notes(Parcel in) {
         typeOfGoods = in.readString();
         deviceModel = in.readString();
         model = in.readString();

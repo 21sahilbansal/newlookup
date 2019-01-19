@@ -2,11 +2,7 @@ package com.loconav.lookup.customcamera;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.databinding.BindingAdapter;
 import android.net.Uri;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
 
 import java.io.Serializable;
 

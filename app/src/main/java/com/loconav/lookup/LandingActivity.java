@@ -2,55 +2,25 @@ package com.loconav.lookup;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
-import android.widget.Toast;
-
-
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.loconav.lookup.adapter.WhatToDoAdapter;
-import com.loconav.lookup.application.SharedPrefHelper;
 
 
 import com.loconav.lookup.base.BaseActivity;
 import com.loconav.lookup.databinding.ActivityLookupEntryBinding;
 import com.loconav.lookup.location.LocationBroadcastReciever;
-import com.loconav.lookup.location.LocationGetter;
 import com.loconav.lookup.location.OnGpsDialog;
-import com.loconav.lookup.model.PassingReason;
-import com.loconav.lookup.model.ReasonResponse;
-import com.loconav.lookup.model.ReasonTypeResponse;
 import com.loconav.lookup.utils.AppUtils;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import smartdevelop.ir.eram.showcaseviewlib.GuideView;
-import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
-import smartdevelop.ir.eram.showcaseviewlib.config.Gravity;
-import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
-
-import static com.loconav.lookup.Constants.REASONS_RESPONSE;
-import static com.loconav.lookup.Constants.TUTORIAL_KEY;
 
 public class LandingActivity extends BaseActivity {
     private ActivityLookupEntryBinding lookupEntryBinding;
-    private FragmentController fragmentController=new FragmentController();
+    private final FragmentController fragmentController=new FragmentController();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +71,7 @@ public class LandingActivity extends BaseActivity {
         }
     }
     //This is used to start the receiver in background after the app is killed
-    public void startBroadcstReceiver()
+    private void startBroadcstReceiver()
     {
         Intent intent = new Intent(this, LocationBroadcastReciever.class);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);

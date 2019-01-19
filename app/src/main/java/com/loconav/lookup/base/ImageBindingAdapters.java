@@ -7,9 +7,7 @@ import android.text.Html;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.loconav.lookup.R;
 import com.loconav.lookup.application.LookUpApplication;
 import com.loconav.lookup.customcamera.ImageUtils;

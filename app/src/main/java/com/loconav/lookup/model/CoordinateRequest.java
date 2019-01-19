@@ -5,11 +5,10 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class CoordinateRequest implements Parcelable {
-    protected CoordinateRequest(Parcel in) {
+    private CoordinateRequest(Parcel in) {
         coordinates = in.createTypedArrayList(Coordinates.CREATOR);
     }
 

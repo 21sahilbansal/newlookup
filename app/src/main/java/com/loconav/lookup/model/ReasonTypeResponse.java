@@ -6,8 +6,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 /**
  * Created by sejal on 25-07-2018.
  */
@@ -37,7 +35,7 @@ public class ReasonTypeResponse implements Parcelable {
         this.iconUrl = iconUrl;
     }
 
-    protected ReasonTypeResponse(Parcel in) {
+    private ReasonTypeResponse(Parcel in) {
         id = in.readInt();
         iconUrl = in.readString();
         name = in.readString();

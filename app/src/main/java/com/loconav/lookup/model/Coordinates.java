@@ -16,7 +16,7 @@ public class Coordinates implements Parcelable {
     public Coordinates() {
     }
 
-    public Coordinates(Parcel in) {
+    private Coordinates(Parcel in) {
         latitude = in.readString();
         longitude = in.readString();
         recordedAt = in.readLong();

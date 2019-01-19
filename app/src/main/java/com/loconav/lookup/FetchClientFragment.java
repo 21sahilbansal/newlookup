@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.loconav.lookup.adapter.ClientAdapter;
 import com.loconav.lookup.customcamera.Callback;
@@ -27,10 +26,10 @@ import retrofit2.Response;
 public class FetchClientFragment extends BaseTitleFragment {
     private ActivityFetchClientBinding binding;
     private ClientAdapter clientAdapter;
-    private List<Client> clients = new ArrayList<>();
-    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-    PassingReason passingReason;
-    FragmentController fragmentController=new FragmentController();
+    private final List<Client> clients = new ArrayList<>();
+    private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+    private PassingReason passingReason;
+    private final FragmentController fragmentController=new FragmentController();
 
     @Override
     public int setViewId() {
@@ -55,12 +54,9 @@ public class FetchClientFragment extends BaseTitleFragment {
     }
 
     private void setFetchClientButton() {
-        binding.fetchClient.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(CommonFunction.validate(new EditText[]{binding.clientId})) {
-                    getSetData(binding.clientId.getText().toString());
-                }
+        binding.fetchClient.setOnClickListener(view -> {
+            if(CommonFunction.validate(new EditText[]{binding.clientId})) {
+                getSetData(binding.clientId.getText().toString());
             }
         });
     }
@@ -96,14 +92,11 @@ public class FetchClientFragment extends BaseTitleFragment {
     private void setAdapter() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.rvClients.setLayoutManager(layoutManager);
-        clientAdapter = new ClientAdapter(clients, new Callback() {
-            @Override
-            public void onEventDone(Object object) {
-                NewInstallationFragment f1 = new NewInstallationFragment();
-                passingReason.setClientId((Client)object);
-                ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
-                fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
-            }
+        clientAdapter = new ClientAdapter(clients, object -> {
+            NewInstallationFragment f1 = new NewInstallationFragment();
+            passingReason.setClientId((Client)object);
+            ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
+            fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
         });
         binding.rvClients.setAdapter(clientAdapter);
     }

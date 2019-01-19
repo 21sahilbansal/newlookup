@@ -5,8 +5,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 public class Status_message implements Parcelable {
     @SerializedName("received_at")
     private String received_at;
@@ -19,7 +17,7 @@ public class Status_message implements Parcelable {
 
     }
 
-    protected Status_message(Parcel in) {
+    Status_message(Parcel in) {
         received_at = in.readString();
         io_state = in.readString();
     }

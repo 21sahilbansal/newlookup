@@ -5,8 +5,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 /**
  * Created by sejal on 04-07-2018.
  */
@@ -24,7 +22,7 @@ public class FastagsList implements Parcelable {
 
     }
 
-    protected FastagsList(Parcel in) {
+    private FastagsList(Parcel in) {
         serialNumber = in.readString();
         id = in.readInt();
         color = in.readString();

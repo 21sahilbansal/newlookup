@@ -13,7 +13,7 @@ public class DeviceClient extends BaseObservable implements Parcelable {
     private String clientId;
     private String deviceId;
 
-    protected DeviceClient(Parcel in) {
+    private DeviceClient(Parcel in) {
         clinetName = in.readString();
         clientId = in.readString();
         deviceId = in.readString();

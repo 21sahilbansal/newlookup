@@ -21,7 +21,7 @@ public class RepairsDataandTotalRepairCount implements Parcelable {
 
     }
 
-    protected RepairsDataandTotalRepairCount(Parcel in) {
+    private RepairsDataandTotalRepairCount(Parcel in) {
         data = in.createTypedArrayList(Repairs.CREATOR);
         totalcount = in.readInt();
     }

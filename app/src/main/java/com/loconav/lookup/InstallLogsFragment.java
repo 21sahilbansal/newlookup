@@ -29,14 +29,17 @@ import retrofit2.Response;
 import static com.loconav.lookup.Constants.ID;
 
 public class InstallLogsFragment extends BaseFragment {
-    FragmentInstallLogsBinding fragmentInstallLogsBinding;
-    InstallLogAdapter installLogAdapter;
-    ApiInterface apiInterface= ApiClient.getClient().create(ApiInterface.class);
-    List<Installs> fullInstallList=new ArrayList<>(),installList=new ArrayList<>();
-    int totalitem,oppo;
-    int placeholdersToLoad=20;
-    boolean loadmore=true,itemsloaded=true;
-    FragmentController fragmentController=new FragmentController();
+    private FragmentInstallLogsBinding fragmentInstallLogsBinding;
+    private InstallLogAdapter installLogAdapter;
+    private final ApiInterface apiInterface= ApiClient.getClient().create(ApiInterface.class);
+    private final List<Installs> fullInstallList=new ArrayList<>();
+    private List<Installs> installList=new ArrayList<>();
+    private int totalitem;
+    private int oppo;
+    private final int placeholdersToLoad=20;
+    private boolean loadmore=true;
+    private boolean itemsloaded=true;
+    private final FragmentController fragmentController=new FragmentController();
     @Override
     public int setViewId() {
         return R.layout.fragment_install_logs;
@@ -61,17 +64,14 @@ public class InstallLogsFragment extends BaseFragment {
             }
         });
 
-        installLogAdapter=new InstallLogAdapter(fullInstallList, new Callback() {
-            @Override
-            public void onEventDone(Object object) {
-                Bundle bundle = new Bundle();
-                Installs installs = (Installs) object;
-                if(installs!=null) {
-                    InstallDetailFragment installDetailFragment=new InstallDetailFragment();
-                    bundle.putInt(ID, Integer.parseInt((installs.getId())));
-                    installDetailFragment.setArguments(bundle);
-                    fragmentController.loadFragment(installDetailFragment,getFragmentManager(),R.id.fragment_host,true);
-                }
+        installLogAdapter=new InstallLogAdapter(fullInstallList, object -> {
+            Bundle bundle = new Bundle();
+            Installs installs = (Installs) object;
+            if(installs!=null) {
+                InstallDetailFragment installDetailFragment=new InstallDetailFragment();
+                bundle.putInt(ID, Integer.parseInt((installs.getId())));
+                installDetailFragment.setArguments(bundle);
+                fragmentController.loadFragment(installDetailFragment,getFragmentManager(),R.id.fragment_host,true);
             }
         });
 
@@ -79,8 +79,8 @@ public class InstallLogsFragment extends BaseFragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                int visibleItemCount = ((LinearLayoutManager)recyclerView.getLayoutManager()).getChildCount();
-                int totalItemCount = ((LinearLayoutManager)recyclerView.getLayoutManager()).getItemCount();
+                int visibleItemCount = recyclerView.getLayoutManager().getChildCount();
+                int totalItemCount = recyclerView.getLayoutManager().getItemCount();
                 int pastVisibleItems = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
                 switch (newState)
                 {
@@ -94,7 +94,6 @@ public class InstallLogsFragment extends BaseFragment {
                                     if (totalItemCount+placeholdersToLoad<totalitem && loadmore) {
                                         for (int i = 0; i < placeholdersToLoad; i++) {
                                             Installs installs = new Installs();
-                                            installs = null;
                                             fullInstallList.add(installs);
                                         }
                                         recyclerView.getAdapter().notifyDataSetChanged();
@@ -104,7 +103,6 @@ public class InstallLogsFragment extends BaseFragment {
                                         loadmore = false;
                                         for (int i = 0; i < totalitem-(totalItemCount); i++) {
                                             Installs installs = new Installs();
-                                            installs = null;
                                             fullInstallList.add(installs);
                                         }
                                         recyclerView.getAdapter().notifyDataSetChanged();
@@ -151,7 +149,7 @@ public class InstallLogsFragment extends BaseFragment {
     @Override
     public void getComponentFactory() {
     }
-    public void getInstallLogs(int first,int last,RecyclerView recyclerView)
+    private void getInstallLogs(int first, int last, RecyclerView recyclerView)
     {
         apiInterface.getInstallLogs(first, last).enqueue(new RetrofitCallback<InstallDatandTotalInstallCount>() {
             @Override

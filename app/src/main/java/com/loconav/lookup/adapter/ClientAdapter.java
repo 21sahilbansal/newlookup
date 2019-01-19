@@ -17,8 +17,8 @@ import java.util.List;
 
 public class ClientAdapter extends BaseAdapter {
 
-    List<Client> data;
-    private Callback callback;
+    private final List<Client> data;
+    private final Callback callback;
     // Provide repair suitable constructor (depends on the kind of dataset)
     public ClientAdapter(List<Client> myDataset, Callback callback) {
         data = myDataset;

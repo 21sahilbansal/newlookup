@@ -18,13 +18,13 @@ public class VersionResponse implements Parcelable {
     private Boolean forceUpdate;
     @SerializedName("app_link")
     private String appLink;
-    
+
     public VersionResponse()
     {
 
     }
 
-    protected VersionResponse(Parcel in) {
+    private VersionResponse(Parcel in) {
         byte tmpUpdateAvailable = in.readByte();
         updateAvailable = tmpUpdateAvailable == 0 ? null : tmpUpdateAvailable == 1;
         nextVersion = in.readInt();

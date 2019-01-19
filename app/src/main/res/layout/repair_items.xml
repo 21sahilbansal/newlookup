@@ -6,10 +6,12 @@
     >
     <data>
         <import type="java.lang.Double" />
-        <import type="com.loconav.lookup.utils.TimeUtils"></import>
+
+        <import type="com.loconav.lookup.utils.TimeUtils" />
+
         <variable
             name="obj"
-            type="com.loconav.lookup.model.Repairs"></variable>
+            type="com.loconav.lookup.model.Repairs" />
     </data>
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"

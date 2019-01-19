@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.loconav.lookup.customcamera.FileUtils;
 
@@ -14,8 +13,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class ScreenShotUtils {
-    public static Bitmap takescreenshot(View v) {
+class ScreenShotUtils {
+    private static Bitmap takescreenshot(View v) {
         v.setDrawingCacheEnabled(true);
         v.buildDrawingCache(true);
         Bitmap b = Bitmap.createBitmap(v.getDrawingCache());
@@ -54,6 +53,7 @@ public class ScreenShotUtils {
                     out.close();
                 }
             } catch (Exception exc) {
+                exc.printStackTrace();
             }
         }
     }
