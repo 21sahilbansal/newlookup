@@ -1,5 +1,8 @@
 package com.loconav.lookup.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,7 +13,7 @@ import java.util.ArrayList;
  * Created by sejal on 26-07-2018.
  */
 
-public class RepairRequirements implements Serializable {
+public class RepairRequirements implements Parcelable {
 
     @SerializedName("device_serial_number")
     @Expose
@@ -38,6 +41,27 @@ public class RepairRequirements implements Serializable {
 
     public RepairRequirements(){}
 
+
+    protected RepairRequirements(Parcel in) {
+        device_serial_number = in.readString();
+        reason_id = in.readInt();
+        remarks = in.readString();
+        repairData = in.readString();
+        pre_repair_images = in.createTypedArrayList(Attachments.CREATOR);
+        post_repair_images = in.createTypedArrayList(Attachments.CREATOR);
+    }
+
+    public static final Creator<RepairRequirements> CREATOR = new Creator<RepairRequirements>() {
+        @Override
+        public RepairRequirements createFromParcel(Parcel in) {
+            return new RepairRequirements(in);
+        }
+
+        @Override
+        public RepairRequirements[] newArray(int size) {
+            return new RepairRequirements[size];
+        }
+    };
 
     public String getDevice_id() {
         return device_serial_number;
@@ -85,5 +109,20 @@ public class RepairRequirements implements Serializable {
 
     public void setPost_repair_images(ArrayList<Attachments> post_repair_images) {
         this.post_repair_images = post_repair_images;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(device_serial_number);
+        dest.writeInt(reason_id);
+        dest.writeString(remarks);
+        dest.writeString(repairData);
+        dest.writeTypedList(pre_repair_images);
+        dest.writeTypedList(post_repair_images);
     }
 }

@@ -1,5 +1,8 @@
 package com.loconav.lookup.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -7,7 +10,7 @@ import java.io.Serializable;
 /**
  * Created by prateek on 28/05/18.
  */
-public class Client implements Serializable{
+public class Client implements Parcelable {
     @SerializedName("client_id")
     private String clientId;
     @SerializedName("contact_number")
@@ -18,6 +21,30 @@ public class Client implements Serializable{
     private String contactEmail;
     @SerializedName("transporter_id")
     private String transporter_id;
+
+    public Client()
+    {
+
+    }
+    protected Client(Parcel in) {
+        clientId = in.readString();
+        contactNumber = in.readString();
+        name = in.readString();
+        contactEmail = in.readString();
+        transporter_id = in.readString();
+    }
+
+    public static final Creator<Client> CREATOR = new Creator<Client>() {
+        @Override
+        public Client createFromParcel(Parcel in) {
+            return new Client(in);
+        }
+
+        @Override
+        public Client[] newArray(int size) {
+            return new Client[size];
+        }
+    };
 
     public String getTransporter_id() {
         return transporter_id;
@@ -61,4 +88,17 @@ public class Client implements Serializable{
         this.contactEmail = contactEmail;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(clientId);
+        dest.writeString(contactNumber);
+        dest.writeString(name);
+        dest.writeString(contactEmail);
+        dest.writeString(transporter_id);
+    }
 }

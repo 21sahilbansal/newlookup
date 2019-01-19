@@ -29,6 +29,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.loconav.lookup.Constants.FRAGMENT_NAME;
+
 public class InstallDetailFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     FragmentInstallDetailsBinding installDetailsBinding;
@@ -60,8 +62,8 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
             case R.id.action_share:
                 Intent intent =new Intent(getActivity(), BaseNavigationActivity.class);
                 Bundle bundle=new Bundle();
-                bundle.putString(getString(R.string.fragment_name),getString(R.string.screenshot_fragment));
-                bundle.putSerializable(getString(R.string.installation_details),installs);
+                bundle.putString(FRAGMENT_NAME,getString(R.string.screenshot_fragment));
+                bundle.putParcelable(getString(R.string.installation_details),installs);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 return true;
@@ -221,14 +223,14 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
                 }
                 else{
                     if(getContext()!=null)
-                        Toast.makeText(getContext(), "Swipe to Refresh", Toast.LENGTH_SHORT).show();
+                        Toaster.makeToast(getString(R.string.swipe_to_refresh));
                 }
             }
             @Override
             public void handleFailure(Call<InstallationDetails> call, Throwable t) {
                 installDetailsBinding.swipeRefresh.setRefreshing(false);
                 if(getContext()!=null)
-                    Toast.makeText(getContext(), ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toaster.makeToast(t.getMessage());
             }
         });
     }

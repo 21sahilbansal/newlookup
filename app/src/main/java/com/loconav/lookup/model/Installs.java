@@ -1,9 +1,12 @@
 package com.loconav.lookup.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Installs {
+public class Installs implements Parcelable {
     @SerializedName("id")
     @Expose
     private String id;
@@ -21,6 +24,31 @@ public class Installs {
     private String truck_number;
     @SerializedName("audit_status")
     private String auditStatus;
+
+    public Installs()
+    {
+
+    }
+    protected Installs(Parcel in) {
+        id = in.readString();
+        installable_serial_number = in.readString();
+        attachments = in.createTypedArray(AttachmentsDetails.CREATOR);
+        installation_date = in.readString();
+        truck_number = in.readString();
+        auditStatus = in.readString();
+    }
+
+    public static final Creator<Installs> CREATOR = new Creator<Installs>() {
+        @Override
+        public Installs createFromParcel(Parcel in) {
+            return new Installs(in);
+        }
+
+        @Override
+        public Installs[] newArray(int size) {
+            return new Installs[size];
+        }
+    };
 
     public String getAuditStatus() {
         return auditStatus;
@@ -81,4 +109,18 @@ public class Installs {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(installable_serial_number);
+        dest.writeTypedArray(attachments, flags);
+        dest.writeString(installation_date);
+        dest.writeString(truck_number);
+        dest.writeString(auditStatus);
+    }
 }

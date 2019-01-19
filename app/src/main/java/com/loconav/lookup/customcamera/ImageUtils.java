@@ -53,7 +53,7 @@ public class ImageUtils {
 
     public static Bitmap getThumbnailImage(Uri image, Context context) throws IOException
     {
-        final int THUMBSIZE = 256;
+        final int THUMBSIZE = 256;//pixels
         Log.e("the image is ","the big image path is "+image.getPath());
         return  ThumbnailUtils.extractThumbnail(BitmapFactory.decodeStream(context.getContentResolver().openInputStream(image)),
                 THUMBSIZE, THUMBSIZE);

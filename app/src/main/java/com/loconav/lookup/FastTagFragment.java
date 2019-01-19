@@ -78,7 +78,7 @@ public class FastTagFragment extends BaseFragment {
 
             @Override
             public void handleFailure(Call<List<FastagsList>> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                Toaster.makeToast(t.getMessage());
                 Log.e("error ", t.getMessage());
             }
         });
@@ -108,7 +108,7 @@ public class FastTagFragment extends BaseFragment {
 
             @Override
             public void handleFailure(Call<List<VehiclesList>> call, Throwable t) {
-            Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+            Toaster.makeToast(t.getMessage());
             Log.e("error ", t.getMessage());
             }
         });
@@ -161,12 +161,12 @@ public class FastTagFragment extends BaseFragment {
         apiService.createInstallation(installerCreds).enqueue(new RetrofitCallback<InstallationResponse>() {
             @Override
             public void handleSuccess(Call<InstallationResponse> call, Response<InstallationResponse> response) {
-                Toast.makeText(getContext(),response.message(), Toast.LENGTH_LONG).show();
+                Toaster.makeToast(response.message());
             }
 
             @Override
             public void handleFailure(Call<InstallationResponse> call, Throwable t) {
-                Toast.makeText(getContext(),t.getMessage(), Toast.LENGTH_LONG).show();
+                Toaster.makeToast(t.getMessage());
                 Log.e("error ", t.getMessage());
             }
         });

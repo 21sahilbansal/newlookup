@@ -59,7 +59,7 @@ public class RepairFragment extends BaseTitleFragment {
             DeviceIdFragment f1 =new DeviceIdFragment();
             fragmentController.loadFragment(f1,getActivity().getSupportFragmentManager(),R.id.frameLayout,true);
         }else
-            Toast.makeText(getContext(),"Add Device Image",Toast.LENGTH_SHORT).show();
+            Toaster.makeToast(getString(R.string.add_device_image));
     }
 
 

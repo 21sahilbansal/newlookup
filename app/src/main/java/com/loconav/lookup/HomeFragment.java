@@ -34,6 +34,7 @@ import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.config.Gravity;
 import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
 
+import static com.loconav.lookup.Constants.FRAGMENT_NAME;
 import static com.loconav.lookup.Constants.REASONS_RESPONSE;
 import static com.loconav.lookup.Constants.TUTORIAL_KEY;
 
@@ -67,7 +68,7 @@ public class HomeFragment extends BaseFragment {
         if (jsonLog != null) {
             setPhotoAdapter();
         } else {
-            Toast.makeText(getContext(), "something went wrong", Toast.LENGTH_LONG).show();
+            Toaster.makeToast(getString(R.string.something_went_wrong));
         }
         binding.newInstall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +86,7 @@ public class HomeFragment extends BaseFragment {
             public void onClick(View v) {
                 Intent i = new Intent(getContext(), BaseNavigationActivity.class);
                 Bundle bundle=new Bundle();
-                bundle.putString(getString(R.string.fragment_name),getString(R.string.upload_documents_fragment));
+                bundle.putString(FRAGMENT_NAME,getString(R.string.upload_documents_fragment));
                 i.putExtras(bundle);
                 startActivity(i);
             }
@@ -122,8 +123,8 @@ public class HomeFragment extends BaseFragment {
     private void passIntent() {
         Intent intent = new Intent(getActivity(), LookupSubActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("PassingReason", passingReason);
-        bundle.putSerializable("reasonResponse", reasonResponse);
+        bundle.putParcelable("PassingReason", passingReason);
+        bundle.putParcelable("reasonResponse", reasonResponse);
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -187,7 +188,7 @@ public class HomeFragment extends BaseFragment {
             case R.id.action_user:
                 Intent i = new Intent(getContext(), BaseNavigationActivity.class);
                 Bundle bundle=new Bundle();
-                bundle.putString(getString(R.string.fragment_name),getString(R.string.user_profile_fragment));
+                bundle.putString(FRAGMENT_NAME,getString(R.string.user_profile_fragment));
                 i.putExtras(bundle);
                 startActivity(i);
                 return true;

@@ -30,8 +30,8 @@ public class LookupSubActivity extends BaseActivity {
         setContentView(R.layout.activity_lookup_sub_activity);
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
-        passingReason = (PassingReason)bundle.getSerializable("PassingReason");
-        reasonResponse = (ReasonResponse)bundle.getSerializable("reasonResponse");
+        passingReason = (PassingReason)bundle.getParcelable("PassingReason");
+        reasonResponse = (ReasonResponse)bundle.getParcelable("reasonResponse");
         addOtherFields(passingReason.getUserChoice());
         reasonResponse.setAdditional_fields(addtionalFields);
         passingReason.setReasonResponse(reasonResponse);

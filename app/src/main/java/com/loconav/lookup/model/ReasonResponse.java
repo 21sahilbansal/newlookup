@@ -1,5 +1,8 @@
 package com.loconav.lookup.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -11,7 +14,7 @@ import java.util.List;
  * Created by sejal on 25-07-2018.
  */
 
-public class ReasonResponse implements Serializable {
+public class ReasonResponse implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -31,6 +34,32 @@ public class ReasonResponse implements Serializable {
 
     @SerializedName("icon_url")
     private String iconUrl;
+
+    public ReasonResponse()
+    {
+
+    }
+
+    protected ReasonResponse(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        reasons = in.createTypedArrayList(ReasonTypeResponse.CREATOR);
+        additional_fields = in.createTypedArrayList(Input.CREATOR);
+        iconUrl = in.readString();
+        color = in.readInt();
+    }
+
+    public static final Creator<ReasonResponse> CREATOR = new Creator<ReasonResponse>() {
+        @Override
+        public ReasonResponse createFromParcel(Parcel in) {
+            return new ReasonResponse(in);
+        }
+
+        @Override
+        public ReasonResponse[] newArray(int size) {
+            return new ReasonResponse[size];
+        }
+    };
 
     public int getColor() {
         return color;
@@ -90,5 +119,20 @@ public class ReasonResponse implements Serializable {
 
     public void setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeTypedList(reasons);
+        dest.writeTypedList(additional_fields);
+        dest.writeString(iconUrl);
+        dest.writeInt(color);
     }
 }

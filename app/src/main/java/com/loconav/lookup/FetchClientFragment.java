@@ -85,12 +85,12 @@ public class FetchClientFragment extends BaseTitleFragment {
                 public void handleFailure(Call<List<Client>> call, Throwable t) {
                     binding.layoutClient.setVisibility(View.GONE);
                     if(getContext()!=null)
-                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                    Toaster.makeToast(t.getMessage());
                     Log.e("error ", t.getMessage());
                 }
             });
         } else
-            Toast.makeText(getContext(), "Internet not available", Toast.LENGTH_SHORT).show();
+            Toaster.makeToast(getString(R.string.internet_not_available));
     }
 
     private void setAdapter() {

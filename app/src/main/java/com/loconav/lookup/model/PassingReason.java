@@ -1,6 +1,9 @@
 package com.loconav.lookup.model;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -8,7 +11,7 @@ import java.util.ArrayList;
  * Created by sejal on 28-07-2018.
  */
 
-public class PassingReason implements Serializable {
+public class PassingReason implements Parcelable {
 
     private String deviceId;
 
@@ -40,6 +43,29 @@ public class PassingReason implements Serializable {
         this.reasonResponse = reasons;
         this.userChoice = UserChoice;
     }
+
+    protected PassingReason(Parcel in) {
+        deviceId = in.readString();
+        userChoice = in.readString();
+        clientId = in.readParcelable(Client.class.getClassLoader());
+        imagesList = in.createStringArrayList();
+        reasonResponse = in.readParcelable(ReasonResponse.class.getClassLoader());
+        imagesPreRepair = in.readInt();
+        imagesInRepair = in.readInt();
+        imagesPostRepair = in.readInt();
+    }
+
+    public static final Creator<PassingReason> CREATOR = new Creator<PassingReason>() {
+        @Override
+        public PassingReason createFromParcel(Parcel in) {
+            return new PassingReason(in);
+        }
+
+        @Override
+        public PassingReason[] newArray(int size) {
+            return new PassingReason[size];
+        }
+    };
 
     public int getImagesPreRepair() {
         return imagesPreRepair;
@@ -104,5 +130,22 @@ public class PassingReason implements Serializable {
 
     public void setReasonResponse( ReasonResponse reasons) {
         this.reasonResponse = reasons;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(deviceId);
+        dest.writeString(userChoice);
+        dest.writeParcelable(clientId, flags);
+        dest.writeStringList(imagesList);
+        dest.writeParcelable(reasonResponse, flags);
+        dest.writeInt(imagesPreRepair);
+        dest.writeInt(imagesInRepair);
+        dest.writeInt(imagesPostRepair);
     }
 }

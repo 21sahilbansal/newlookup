@@ -3,6 +3,9 @@ package com.loconav.lookup;
 import android.os.Bundle;
 
 import com.loconav.lookup.base.BaseActivity;
+
+import static com.loconav.lookup.Constants.FRAGMENT_NAME;
+
 //This activity is used to open RepairLogsFragment and RepairDetailFragment
 public class BaseNavigationActivity extends BaseActivity {
     FragmentController fragmentController=new FragmentController();
@@ -11,7 +14,7 @@ public class BaseNavigationActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logs_repair);
         Bundle bundle=getIntent().getExtras();
-        String fragmentName=bundle.getString(getString(R.string.fragment_name));
+        String fragmentName=bundle.getString(FRAGMENT_NAME);
         if(fragmentName.equals(getString(R.string.install_log_fragment))) {
             InstallLogsFragment installLogsFragment=new InstallLogsFragment();
             setTitle(getString(R.string.install_log_heading));

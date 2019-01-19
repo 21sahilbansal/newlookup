@@ -61,14 +61,14 @@ public class UploadDocumentsFragment extends BaseFragment {
                                 .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
                                     @Override
                                     public void onSuccess(FirebaseVisionText firebaseVisionText) {
-                                        Toast.makeText(getContext(), ""+firebaseVisionText.getText(), Toast.LENGTH_SHORT).show();
+                                        Toaster.makeToast(firebaseVisionText.getText());
                                         Log.e("sourav",firebaseVisionText.getText());
                                         String string=firebaseVisionText.getText();
                                         String regex = "^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[1,3-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$";
                                         Pattern p = Pattern.compile(regex);
                                         Matcher m1 = p.matcher(string);
                                         while (m1.find()) {
-                                            Toast.makeText(getContext(), "ss"+(m1.group()), Toast.LENGTH_SHORT).show();
+                                            //Toast.makeText(getContext(), "ss"+(m1.group()), Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 })
@@ -78,15 +78,12 @@ public class UploadDocumentsFragment extends BaseFragment {
                                             public void onFailure(@NonNull Exception e) {
                                                 // Task failed with an exception
                                                 // ...
-                                                Toast.makeText(getContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                //Toast.makeText(getContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                                             }
                                         });
                 if(bitmap!=null) {
                     binding.image.setImageBitmap(bitmap);
-                    Toast.makeText(getContext(), "The bitmap is not null", Toast.LENGTH_SHORT).show();
                 }
-                else
-                    Toast.makeText(getContext(), "Bitmap is null", Toast.LENGTH_SHORT).show();
             }
         });
     }

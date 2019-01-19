@@ -16,4 +16,8 @@ public class Constants {
     public static final String REASONS_RESPONSE = "reasons_response";
     public static final String TUTORIAL_KEY="tutorial_key";
     public static final int REQUEST_CODE_FOR_DOCUMENT = 99;
+    public static final String FRAGMENT_NAME="Fragment Name";
+    public static final String IMAGE_LIST="imageList";
+    public static final String ORIENTATION="orientation";
+
 }

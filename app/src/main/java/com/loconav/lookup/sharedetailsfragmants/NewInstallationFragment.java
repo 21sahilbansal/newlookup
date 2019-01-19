@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.loconav.lookup.BaseNavigationActivity;
 import com.loconav.lookup.BaseTitleFragment;
 import com.loconav.lookup.CommonFunction;
+import com.loconav.lookup.Toaster;
 import com.loconav.lookup.customcamera.CustomImagePicker;
 import com.loconav.lookup.databinding.FragmentNewInstallationBinding;
 import com.loconav.lookup.customcamera.FileUtils;
@@ -44,6 +45,8 @@ import com.loconav.lookup.model.NewInstall;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.loconav.lookup.Constants.FRAGMENT_NAME;
 
 /**
  * Created by prateek on 13/11/17.
@@ -114,7 +117,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
 
                 if(validate)
                 {
-                    progressDialog.setMessage("Image Compressing..");
+                    progressDialog.setMessage(getString(R.string.image_compressing));
                     progressDialog.show();
                     handler.post(new Runnable() {
                         @Override
@@ -157,7 +160,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
                                 getActivity().runOnUiThread(new Runnable() { // now we are not on ui thread so we have to show progress on ui thread so we call method runOnUiThread()
                                     @Override
                                     public void run() {
-                                        progressDialog.setMessage("Uploading...");
+                                        progressDialog.setMessage(getString(R.string.uploading));
                                     }
                                 });
                             }
@@ -188,12 +191,12 @@ public class NewInstallationFragment extends BaseTitleFragment {
             if(customImagePicker.textID.equals("accessories") && (getFeatures(binding.cbSos).equals("YES") || getFeatures(binding.cbTrip).equals("YES") || getFeatures(binding.cbImm).equals("YES")))
             {
                 if (customImagePicker.getimagesList().size() < 1 ) {
-                    Toast.makeText(getContext(), "Add "+customImagePicker.textID, Toast.LENGTH_SHORT).show();
+                    Toaster.makeToast("Add "+customImagePicker.textID);
                     return false;
                 }
             }
             else if (customImagePicker.getimagesList().size() < 1 && !customImagePicker.textID.equals("accessories") ) {
-                Toast.makeText(getContext(), "Add "+customImagePicker.textID, Toast.LENGTH_SHORT).show();
+                Toaster.makeToast("Add "+customImagePicker.textID);
                 return false;
             }
         }
@@ -231,7 +234,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
                 progressDialog.dismiss();
                 FileUtils.deleteFiles(getContext());
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
-                builder.setMessage("New Installation created successfully")
+                builder.setMessage(R.string.installation_creation_successfull)
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 progressDialog.dismiss();
@@ -244,8 +247,8 @@ public class NewInstallationFragment extends BaseTitleFragment {
                                 details.setDevice_phone_number(newInstall.getNotes().getSim_number());
                                 Intent intent =new Intent(getActivity(), BaseNavigationActivity.class);
                                 Bundle bundle=new Bundle();
-                                bundle.putSerializable(getString(R.string.installation_details),details);
-                                bundle.putString(getString(R.string.fragment_name),getString(R.string.screenshot_fragment));
+                                bundle.putParcelable(getString(R.string.installation_details),details);
+                                bundle.putString(FRAGMENT_NAME,getString(R.string.screenshot_fragment));
                                 intent.putExtras(bundle);
                                 startActivity(intent);
                                 getActivity().finish();
@@ -258,7 +261,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
             public void handleFailure(Call<ResponseBody> call, Throwable t) {
                 progressDialog.dismiss();
                 if(getContext()!=null)
-                    Toast.makeText(getContext(), ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toaster.makeToast(t.getMessage());
             }
         });
     }

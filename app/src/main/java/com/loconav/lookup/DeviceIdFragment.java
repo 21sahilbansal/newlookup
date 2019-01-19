@@ -88,7 +88,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
 
     private void initProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Please Wait...");
+        progressDialog.setMessage(getString(R.string.please_wait));
         progressDialog.setCancelable(false);
     }
 
@@ -108,7 +108,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
                             passingReason.setDeviceid(binding.etDeviceId.getText().toString());
                             ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable("lookup_response", response.body());
+                            bundle.putParcelable("lookup_response", response.body());
                             deviceDetailFragment.setArguments(bundle);
                             fragmentController.loadFragment(deviceDetailFragment, getFragmentManager(), R.id.frameLayout, true);
                             progressDialog.dismiss();
@@ -117,14 +117,14 @@ public class DeviceIdFragment extends BaseTitleFragment {
                         @Override
                         public void handleFailure(Call<LookupResponse> call, Throwable t) {
                             progressDialog.dismiss();
-                            Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                            Toaster.makeToast(t.getMessage());
                         }
                     });
                 } else
-                    Toast.makeText(getContext(), "Internet not available", Toast.LENGTH_SHORT).show();
+                    Toaster.makeToast(getString(R.string.internet_not_available));
             }
                 else
-                    Toast.makeText(getContext(), "Device id can't be empty", Toast.LENGTH_LONG).show();
+                    Toaster.makeToast(getString(R.string.device_cant_be_empty));
 
         });
         binding.fastTag.setOnClickListener(new View.OnClickListener() {
@@ -199,7 +199,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
                             sharedPrefHelper.setStringData(USER_ID ,input.getText().toString());
                             mAlertDialog.cancel();
                         } else
-                            Toast.makeText(getContext(), "User Id can't be Empty", Toast.LENGTH_LONG).show();
+                            Toaster.makeToast(getString(R.string.user_cant_empty));
                     }
                 });
             }

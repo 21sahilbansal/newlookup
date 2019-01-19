@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loconav.lookup.R;
+import com.loconav.lookup.Toaster;
 import com.loconav.lookup.adapter.RecycleCustomImageAdapter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -75,7 +76,7 @@ public class CustomImagePicker extends LinearLayout {
             @Override
             public void onClick(View view) {
                 if (originalImageUris.size()==limit) {
-                    Toast.makeText(getContext(),"Not more than "+limit+" images", Toast.LENGTH_SHORT).show();
+                    Toaster.makeToast(getResources().getString(R.string.size_limit)+limit);
                 }else{
                     ImagePickerDialog imagePickerDialog = ImagePickerDialog.newInstance(textID, limit);
                     imagePickerDialog.show(fm, getClass().getSimpleName());
@@ -123,7 +124,7 @@ public class CustomImagePicker extends LinearLayout {
             resultLinkedList.clear();
             resultLinkedList.addAll((List<ImageUri>) event.getObject());
             if (originalImageUris.size() + resultLinkedList.size() > limit)
-                Toast.makeText(getContext(), "Not more than " + limit + " images", Toast.LENGTH_SHORT).show();
+                Toaster.makeToast(getResources().getString(R.string.not_more_than) + limit + getResources().getString(R.string.images));
             for (int i = 0; i < resultLinkedList.size(); i++) {
 
                 if (originalImageUris.size() < limit) {
@@ -135,7 +136,7 @@ public class CustomImagePicker extends LinearLayout {
             resultLinkedList.clear();
             resultLinkedList.addAll((List<ImageUri>) event.getObject());
             if (originalImageUris.size() + resultLinkedList.size() > limit)
-                Toast.makeText(getContext(), "Not more than " + limit + " images", Toast.LENGTH_SHORT).show();
+                Toaster.makeToast(getResources().getString(R.string.not_more_than) + limit + getResources().getString(R.string.images));
             for (int i = 0; i < resultLinkedList.size(); i++) {
                 if (originalImageUris.size() < limit) {
                         this.originalImageUris.add(i,resultLinkedList.get(i));

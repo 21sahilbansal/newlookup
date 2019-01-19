@@ -1,10 +1,13 @@
 package com.loconav.lookup.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Notes implements Serializable {
+public class Notes implements Parcelable {
     @SerializedName("type_of_goods")
     private String typeOfGoods;
     @SerializedName("device_model")
@@ -36,6 +39,40 @@ public class Notes implements Serializable {
     @SerializedName("installdate")
     private String installdate;
 
+    public Notes()
+    {
+
+    }
+
+    protected Notes(Parcel in) {
+        typeOfGoods = in.readString();
+        deviceModel = in.readString();
+        model = in.readString();
+        trip_button = in.readString();
+        immobilizer = in.readString();
+        sim_number = in.readString();
+        owner_name = in.readString();
+        location = in.readString();
+        manufacturer = in.readString();
+        odometer_reading = in.readString();
+        chassis_number = in.readString();
+        dealer_name = in.readString();
+        sos = in.readString();
+        clientid = in.readString();
+        installdate = in.readString();
+    }
+
+    public static final Creator<Notes> CREATOR = new Creator<Notes>() {
+        @Override
+        public Notes createFromParcel(Parcel in) {
+            return new Notes(in);
+        }
+
+        @Override
+        public Notes[] newArray(int size) {
+            return new Notes[size];
+        }
+    };
 
     public String getTrip_button() {
         return trip_button;
@@ -181,4 +218,27 @@ public class Notes implements Serializable {
         this.sos = sos;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(typeOfGoods);
+        dest.writeString(deviceModel);
+        dest.writeString(model);
+        dest.writeString(trip_button);
+        dest.writeString(immobilizer);
+        dest.writeString(sim_number);
+        dest.writeString(owner_name);
+        dest.writeString(location);
+        dest.writeString(manufacturer);
+        dest.writeString(odometer_reading);
+        dest.writeString(chassis_number);
+        dest.writeString(dealer_name);
+        dest.writeString(sos);
+        dest.writeString(clientid);
+        dest.writeString(installdate);
+    }
 }

@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.loconav.lookup.BaseTitleFragment;
+import com.loconav.lookup.Toaster;
 import com.loconav.lookup.customcamera.CustomImagePicker;
 import com.loconav.lookup.CustomInflater;
 import com.loconav.lookup.model.Input;
@@ -74,7 +75,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
     public void onFragmentCreated() {
         //progress dialog features
         progressDialog = new ProgressDialog(getActivity());//we are on ui thread
-        progressDialog.setMessage("Image Compressing..");
+        progressDialog.setMessage(getString(R.string.image_compressing));
         progressDialog.setCancelable(false);
         //start the handler thread to get looper
         handlerThread.start();
@@ -85,7 +86,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
         repairRequirements = new RepairRequirements();
         userChoice = passingReason.getUserChoice();
         addtional.addAll(passingReason.getReasonResponse().getAdditional_fields());
-        LinearLayout linearLayout = binding.ll;
+        LinearLayout linearLayout = binding.linearLayout;
 
         //making the custom view
         for (int i = 0; i < addtional.size(); i++) {
@@ -117,8 +118,8 @@ public class CommonRepairFragment extends BaseTitleFragment {
             binding.share.setEnabled(false);
 
             //so validate that all feilds are filled correctly
-            for (int i = 0; i < binding.ll.getChildCount() - 1; i++) {
-                View view = binding.ll.getChildAt(i);
+            for (int i = 0; i < binding.linearLayout.getChildCount() - 1; i++) {
+                View view = binding.linearLayout.getChildAt(i);
                 validate = validator(view);
                 if(!validate){
                     binding.share.setEnabled(true);
@@ -136,8 +137,8 @@ public class CommonRepairFragment extends BaseTitleFragment {
                     @Override
                     public void run() {
                         //Compresssiong Post Repair Images and making list of Attachment type to send to sever
-                        for (int i = 0; i < binding.ll.getChildCount() - 1; i++) {
-                            View view = binding.ll.getChildAt(i);
+                        for (int i = 0; i < binding.linearLayout.getChildCount() - 1; i++) {
+                            View view = binding.linearLayout.getChildAt(i);
                             if (view instanceof CustomImagePicker) {
                                 CustomImagePicker customImagePicker = (CustomImagePicker) view;
                                 if(customImagePicker.textID.equals(getString(R.string.truck_images)))
@@ -175,7 +176,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
                             getActivity().runOnUiThread(new Runnable() { // now we are not on ui thread so we have to show progress on ui thread so we call method runOnUiThread()
                                 @Override
                                 public void run() {
-                                    progressDialog.setMessage("Uploading...");
+                                    progressDialog.setMessage(getString(R.string.uploading));
                                 }
                             });
                         }
@@ -199,7 +200,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
         } else if (object instanceof Spinner) {
             Spinner spinner = (Spinner)object;
             if (spinner.getSelectedItem().toString().equals("Select option")) {
-                Toast.makeText(getContext(), "Select reasons", Toast.LENGTH_LONG).show();
+                Toaster.makeToast(getString(R.string.select_reasons));
                 return false;
             }else{
                 getSpinnerData(spinner);
@@ -207,7 +208,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
         } else if (object instanceof CustomImagePicker) {
             CustomImagePicker customImagePicker = (CustomImagePicker) object;
             if (customImagePicker.getimagesList().size() < 1 && !customImagePicker.textID.equals(getString(R.string.accessories_images))) {
-                Toast.makeText(getContext(), "Add "+customImagePicker.textID, Toast.LENGTH_SHORT).show();
+                Toaster.makeToast("Add "+customImagePicker.textID);
                 return false;
             }
         }
@@ -308,7 +309,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
             public void handleFailure(Call<RepairResponse> call, Throwable t) {
                 progressDialog.dismiss();
                 binding.share.setEnabled(true);
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+                Toaster.makeToast(t.getMessage());
                 Log.e("error ", t.getMessage());
             }
         });

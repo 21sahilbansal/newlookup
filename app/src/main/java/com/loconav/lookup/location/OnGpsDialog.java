@@ -86,7 +86,6 @@ public class OnGpsDialog implements GoogleApiClient.ConnectionCallbacks, GoogleA
                         // Location settings are not satisfied. However, we have no way to fix the
                         // settings so we won't show the dialog.
                         //Log.e("Application","Button Clicked2");
-                        Toast.makeText(context, "Location is Enabled", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

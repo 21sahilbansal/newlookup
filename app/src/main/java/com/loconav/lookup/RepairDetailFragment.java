@@ -116,14 +116,14 @@ public class RepairDetailFragment extends BaseFragment implements SwipeRefreshLa
                 else
                 {
                     if(getContext()!=null)
-                        Toast.makeText(getContext(), "Swipe to Refresh", Toast.LENGTH_SHORT).show();
+                        Toaster.makeToast(getString(R.string.swipe_to_refresh));
                 }
             }
             @Override
             public void handleFailure(Call<RepairDetail> call, Throwable t) {
                 repairDetailsBinding.swipeRefresh.setRefreshing(false);
                 if(getContext()!=null)
-                    Toast.makeText(getContext(), ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toaster.makeToast(t.getMessage());
             }
         });
     }

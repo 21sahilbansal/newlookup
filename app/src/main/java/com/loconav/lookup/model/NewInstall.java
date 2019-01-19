@@ -1,5 +1,8 @@
 package com.loconav.lookup.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,7 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewInstall  implements Serializable{
+public class NewInstall  implements Parcelable {
     @SerializedName("attachments")
     private List<Attachments> attachments=new ArrayList<>();
 
@@ -35,6 +38,33 @@ public class NewInstall  implements Serializable{
     @SerializedName("tripbutton")
     private String tripbutton;
 
+    public NewInstall()
+    {
+
+    }
+
+    protected NewInstall(Parcel in) {
+        attachments = in.createTypedArrayList(Attachments.CREATOR);
+        client_id = in.readString();
+        imei_number = in.readString();
+        truck_number = in.readString();
+        transporter_id = in.readLong();
+        immobilizer = in.readString();
+        SOS = in.readString();
+        tripbutton = in.readString();
+    }
+
+    public static final Creator<NewInstall> CREATOR = new Creator<NewInstall>() {
+        @Override
+        public NewInstall createFromParcel(Parcel in) {
+            return new NewInstall(in);
+        }
+
+        @Override
+        public NewInstall[] newArray(int size) {
+            return new NewInstall[size];
+        }
+    };
 
     public String getImmobilizer() {
         return immobilizer;
@@ -119,4 +149,20 @@ public class NewInstall  implements Serializable{
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(attachments);
+        dest.writeString(client_id);
+        dest.writeString(imei_number);
+        dest.writeString(truck_number);
+        dest.writeLong(transporter_id);
+        dest.writeString(immobilizer);
+        dest.writeString(SOS);
+        dest.writeString(tripbutton);
+    }
 }

@@ -10,14 +10,17 @@ import android.view.SurfaceView;
 import java.io.IOException;
 import java.util.List;
 
+import static com.loconav.lookup.Constants.ORIENTATION;
+
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
+    public static final String PORTRAIT = "portrait";
+    public static final String LANDSCAPE = "landscape";
     private SurfaceHolder mHolder;
     private Camera mCamera;
 
     public CameraPreview(Context context, Camera camera) {
         super(context);
         mCamera = camera;
-
         // Install a SurfaceHolder.Callback so we get notified when the
         // underlying surface is created and destroyed.
         mHolder = getHolder();
@@ -36,15 +39,15 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 size = allSizes.get(i);
         }
         //Change the Orientation
-        if(this.getResources().getConfiguration().orientation!= Configuration.ORIENTATION_LANDSCAPE)
+        if(getResources().getConfiguration().orientation!= Configuration.ORIENTATION_LANDSCAPE)
         {
-            parameters.set("orientation","portrait");
+            parameters.set(ORIENTATION,PORTRAIT);
             mCamera.setDisplayOrientation(90);
             parameters.setRotation(90);
         }
         else
         {
-            parameters.set("orientation","landscape");
+            parameters.set(ORIENTATION,LANDSCAPE);
             mCamera.setDisplayOrientation(0);
             parameters.setRotation(0);
         }

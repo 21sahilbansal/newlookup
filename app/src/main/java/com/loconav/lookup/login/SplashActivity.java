@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.loconav.lookup.BaseCameraActivity;
 import com.loconav.lookup.LandingActivity;
 import com.loconav.lookup.R;
+import com.loconav.lookup.Toaster;
 import com.loconav.lookup.utils.AppUtils;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.network.rest.ApiClient;
@@ -96,12 +97,12 @@ public class SplashActivity extends BaseCameraActivity {
                 }
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Toast.makeText(getBaseContext(), t.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    Toaster.makeToast(t.getMessage());
                     Log.e("res ", "onResponse: " + t.getMessage());
                 }
             });
         } else
-            Toast.makeText(getBaseContext(), "Internet not available", Toast.LENGTH_SHORT).show();
+            Toaster.makeToast(getString(R.string.internet_not_available));
     }
 
 }

@@ -14,6 +14,7 @@ import com.loconav.lookup.model.InstallationDetails;
 import com.loconav.lookup.utils.AppUtils;
 import com.loconav.lookup.utils.TimeUtils;
 
+import static com.loconav.lookup.Constants.FRAGMENT_NAME;
 import static com.loconav.lookup.UserPrefs.code;
 import static com.loconav.lookup.UserPrefs.name;
 
@@ -27,7 +28,7 @@ public class ScreenshotFragment extends BaseFragment {
 
     @Override
     public void onFragmentCreated() {
-        InstallationDetails installationDetails=(InstallationDetails) getActivity().getIntent().getExtras().getSerializable(getString(R.string.installation_details));
+        InstallationDetails installationDetails=(InstallationDetails) getActivity().getIntent().getExtras().getParcelable(getString(R.string.installation_details));
         Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.stamp_animation);
         binding.done.setAnimation(animation);
         binding.done.setVisibility(View.VISIBLE);
@@ -43,7 +44,7 @@ public class ScreenshotFragment extends BaseFragment {
             public void onClick(View v) {
                 Intent i=new Intent(getContext(), BaseNavigationActivity.class);
                 Bundle bundle=new Bundle();
-                bundle.putString(getString(R.string.fragment_name),getString(R.string.install_log_fragment));
+                bundle.putString(FRAGMENT_NAME,getString(R.string.install_log_fragment));
                 i.putExtras(bundle);
                 startActivity(i);
             }

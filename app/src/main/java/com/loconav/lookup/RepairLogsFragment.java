@@ -76,7 +76,7 @@ public class RepairLogsFragment extends BaseFragment  {
                 }
                 else
                 {
-                    Toast.makeText(getContext(), "Internet not available", Toast.LENGTH_SHORT).show();
+                    Toaster.makeToast(getString(R.string.internet_not_available));
                 }
             }
         });

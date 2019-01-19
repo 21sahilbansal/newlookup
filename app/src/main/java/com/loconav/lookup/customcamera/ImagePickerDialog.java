@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.loconav.lookup.R;
+import com.loconav.lookup.Toaster;
 import com.loconav.lookup.base.BaseDialogFragment;
 import com.loconav.lookup.databinding.DialogImagePickerBinding;
 
@@ -22,6 +23,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static com.loconav.lookup.Constants.IMAGE_LIST;
 
 
 public class ImagePickerDialog extends BaseDialogFragment {
@@ -105,7 +108,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
                         try {
                             imagesUriArrayList=ImageUtils.compressImageList(imagesUriArrayList,getContext());
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            Toaster.makeToast(getString(R.string.images_not_compressed));
                         }
                         Log.e("sd",""+stringId);
                         EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_GALLERY+""+stringId, imagesUriArrayList));
@@ -119,7 +122,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
                     public void run() {
                         //We get the list of string as uri is non seriazable object so then we again convert it into list of uri
                         ArrayList<ImageUri> imageUris=new ArrayList<>();
-                        for(String s: (ArrayList<String>)data.getExtras().get("imageList"))
+                        for(String s: (ArrayList<String>)data.getExtras().get(IMAGE_LIST))
                         {
                             ImageUri imageUri=new ImageUri();
                             imageUri.setUri(Uri.parse(s));
@@ -127,7 +130,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
                         try {
                             imagesUriArrayList=ImageUtils.compressImageList(imageUris,getContext());
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            Toaster.makeToast(getString(R.string.images_not_compressed));
                         }
                         Log.e("sd",""+stringId);
                         EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_CAMERA+""+stringId, imagesUriArrayList));
@@ -159,7 +162,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
                     imageUri.setUri(data.getClipData().getItemAt(i).getUri());
                     imagesUriArrayList.add(imageUri);
                 }
-                Toast.makeText(getContext(), "size limit upto "+limit, Toast.LENGTH_SHORT).show();
+                Toaster.makeToast(getString(R.string.size_limit)+limit);
             }
         }
         Log.e("SIZE", imagesUriArrayList.size() + ""+imagesUriArrayList);

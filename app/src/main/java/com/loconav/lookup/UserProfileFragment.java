@@ -13,6 +13,7 @@ import com.loconav.lookup.databinding.FragmentUserProfileBinding;
 import com.loconav.lookup.login.SplashActivity;
 import com.loconav.lookup.utils.AppUtils;
 
+import static com.loconav.lookup.Constants.FRAGMENT_NAME;
 import static com.loconav.lookup.Constants.IS_LOGGED_IN;
 import static com.loconav.lookup.Constants.USER_ID;
 import static com.loconav.lookup.UserPrefs.authenticationToken;
@@ -83,13 +84,13 @@ public class UserProfileFragment extends BaseFragment {
         if(AppUtils.isNetworkAvailable()) {
             Intent i=new Intent(getContext(), BaseNavigationActivity.class);
             Bundle bundle=new Bundle();
-            bundle.putString(getString(R.string.fragment_name),getString(R.string.repair_log_fragment));
+            bundle.putString(FRAGMENT_NAME,getString(R.string.repair_log_fragment));
             i.putExtras(bundle);
             startActivity(i);
         }
         else
         {
-            Toast.makeText(getContext(), "Internet not available", Toast.LENGTH_SHORT).show();
+            Toaster.makeToast(getString(R.string.internet_not_available));
         }
     }
 
@@ -98,13 +99,13 @@ public class UserProfileFragment extends BaseFragment {
         if(AppUtils.isNetworkAvailable()) {
             Intent i=new Intent(getContext(), BaseNavigationActivity.class);
             Bundle bundle=new Bundle();
-            bundle.putString(getString(R.string.fragment_name),getString(R.string.install_log_fragment));
+            bundle.putString(FRAGMENT_NAME,getString(R.string.install_log_fragment));
             i.putExtras(bundle);
             startActivity(i);
         }
         else
         {
-            Toast.makeText(getContext(), "Internet not available", Toast.LENGTH_SHORT).show();
+            Toaster.makeToast(getString(R.string.internet_not_available));
         }
     }
 

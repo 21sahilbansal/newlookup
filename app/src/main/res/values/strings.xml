@@ -63,4 +63,22 @@
     <string name="user_profile_heading">User Profile</string>
     <string name="upload_documents_fragment">UploadDocuments Fragment</string>
     <string name="upload_documents_heading">Upload Documents</string>
+    <string name="image_list">imageList</string>
+    <string name="not_more_than">Not more than </string>
+    <string name="images"> images</string>
+    <string name="images_not_compressed">Images could not be compressed</string>
+    <string name="please_wait">Please Wait...</string>
+    <string name="internet_not_available">Internet not available</string>
+    <string name="device_cant_be_empty">Device id can\'t be empty</string>
+    <string name="user_cant_empty">User Id can\'t be Empty</string>
+    <string name="swipe_to_refresh">Swipe to Refresh</string>
+    <string name="add_device_image">Add Device Image</string>
+    <string name="something_went_wrong">something went wrong</string>
+    <string name="select_reasons">Select reasons</string>
+    <string name="size_limit">size limit upto</string>
+    <string name="want_to_exit">Are you sure you want to exit?</string>
+    <string name="closing_application">Closing application</string>
+    <string name="image_compressing">Image Compressing..</string>
+    <string name="uploading">Uploading...</string>
+    <string name="installation_creation_successfull">New Installation created successfully</string>
 </resources>

@@ -124,18 +124,18 @@ public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefr
                 public void handleFailure(Call<LookupResponse> call, Throwable t) {
                     binding.swipeRefresh.setRefreshing(false);
                     if(getContext()!=null)
-                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                    Toaster.makeToast(t.getMessage());
                 }
             });
         }else
-            Toast.makeText(getContext(), "Internet not available", Toast.LENGTH_SHORT).show();
+            Toaster.makeToast(getString(R.string.internet_not_available));
     }
 
     private void getSetIntentData() {
         Log.e("save ", "getSetData: ");
         Bundle receivedBundle;
         receivedBundle = getArguments();
-        LookupResponse lookupResponse = (LookupResponse) receivedBundle.getSerializable("lookup_response");
+        LookupResponse lookupResponse = (LookupResponse) receivedBundle.getParcelable("lookup_response");
         passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
         setData(lookupResponse);
     }

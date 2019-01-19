@@ -1,5 +1,8 @@
 package com.loconav.lookup.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,7 +10,7 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class InstallationDetails implements Serializable {
+public class InstallationDetails implements Parcelable {
         @SerializedName("installable_id")
         private String installable_id;
 
@@ -64,6 +67,46 @@ public class InstallationDetails implements Serializable {
         private String auditNotes;
 
         private String chassis;
+
+        public InstallationDetails()
+        {
+
+        }
+
+    protected InstallationDetails(Parcel in) {
+        installable_id = in.readString();
+        uninstalled_at = in.readLong();
+        status_message = in.readParcelable(Status_message.class.getClassLoader());
+        installable_type = in.readString();
+        installation_date = in.readLong();
+        truck_number = in.readString();
+        temperature = in.readString();
+        id = in.readString();
+        installable_serial_number = in.readString();
+        transporter_name = in.readString();
+        client_id = in.readString();
+        uses_immobilization = in.readString();
+        active = in.readString();
+        attachments = in.createTypedArrayList(AttachmentsDetails.CREATOR);
+        notes = in.readString();
+        device_subscription_expires_at = in.readString();
+        device_phone_number = in.readString();
+        auditStatus = in.readString();
+        auditNotes = in.readString();
+        chassis = in.readString();
+    }
+
+    public static final Creator<InstallationDetails> CREATOR = new Creator<InstallationDetails>() {
+        @Override
+        public InstallationDetails createFromParcel(Parcel in) {
+            return new InstallationDetails(in);
+        }
+
+        @Override
+        public InstallationDetails[] newArray(int size) {
+            return new InstallationDetails[size];
+        }
+    };
 
     public String getChassis() {
         return chassis;
@@ -257,4 +300,33 @@ public class InstallationDetails implements Serializable {
         {
             this.device_phone_number = device_phone_number;
         }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(installable_id);
+        dest.writeLong(uninstalled_at);
+        dest.writeParcelable(status_message, flags);
+        dest.writeString(installable_type);
+        dest.writeLong(installation_date);
+        dest.writeString(truck_number);
+        dest.writeString(temperature);
+        dest.writeString(id);
+        dest.writeString(installable_serial_number);
+        dest.writeString(transporter_name);
+        dest.writeString(client_id);
+        dest.writeString(uses_immobilization);
+        dest.writeString(active);
+        dest.writeTypedList(attachments);
+        dest.writeString(notes);
+        dest.writeString(device_subscription_expires_at);
+        dest.writeString(device_phone_number);
+        dest.writeString(auditStatus);
+        dest.writeString(auditNotes);
+        dest.writeString(chassis);
+    }
+}

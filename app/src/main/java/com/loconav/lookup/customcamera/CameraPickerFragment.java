@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.loconav.lookup.R;
+import com.loconav.lookup.Toaster;
 import com.loconav.lookup.adapter.RecycleCustomImageAdapter;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FragmentCamerapickerBinding;
@@ -22,6 +23,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static com.loconav.lookup.Constants.IMAGE_LIST;
 
 
 public class CameraPickerFragment extends BaseFragment {
@@ -90,7 +93,7 @@ public class CameraPickerFragment extends BaseFragment {
                 }
                 else
                 {
-                    Toast.makeText(getContext(), "You cannot put more than "+limit+" images", Toast.LENGTH_SHORT).show();
+                    Toaster.makeToast(getString(R.string.size_limit)+limit);
                 }
             }
         });
@@ -100,11 +103,11 @@ public class CameraPickerFragment extends BaseFragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        mCamera.autoFocus(new Camera.AutoFocusCallback() {
-                            @Override
-                            public void onAutoFocus(boolean b, Camera camera) {
-                            }
-                        });
+                    mCamera.autoFocus(new Camera.AutoFocusCallback() {
+                        @Override
+                        public void onAutoFocus(boolean b, Camera camera) {
+                        }
+                    });
                 }
                 return true;
             }
@@ -114,18 +117,20 @@ public class CameraPickerFragment extends BaseFragment {
         binding.flash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                parameters=mCamera.getParameters();
-                if(mCamera.getParameters().getSupportedFlashModes()!=null) {
-                    if (isFlashOn) {
-                        isFlashOn = false;
-                        binding.flash.setImageResource(R.drawable.noflash);
-                        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                    } else {
-                        isFlashOn = true;
-                        binding.flash.setImageResource(R.drawable.flash);
-                        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+                if(mCamera!=null) {
+                    parameters = mCamera.getParameters();
+                    if (parameters!=null &&parameters.getSupportedFlashModes() != null) {
+                        if (isFlashOn) {
+                            isFlashOn = false;
+                            binding.flash.setImageResource(R.drawable.noflash);
+                            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                        } else {
+                            isFlashOn = true;
+                            binding.flash.setImageResource(R.drawable.flash);
+                            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+                        }
+                        mCamera.setParameters(parameters);
                     }
-                    mCamera.setParameters(parameters);
                 }
             }
         });
@@ -139,7 +144,7 @@ public class CameraPickerFragment extends BaseFragment {
                 ArrayList<String> imageListinString=new ArrayList<>();
                 for(ImageUri uri:imageList)
                     imageListinString.add(uri.getUri().toString());
-                returnIntent.putExtra("imageList",imageListinString);
+                returnIntent.putExtra(IMAGE_LIST,imageListinString);
                 getActivity().setResult(Activity.RESULT_OK,returnIntent);
                 getActivity().finish();
             }
@@ -163,7 +168,7 @@ public class CameraPickerFragment extends BaseFragment {
     }
 
 
-    public static Camera getCameraInstance(int camera_code){
+    private Camera getCameraInstance(int camera_code){
         Camera camera = null;
         try {
             camera = Camera.open(camera_code);
@@ -186,8 +191,10 @@ public class CameraPickerFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding.unbind();
-        mCamera.stopPreview();
-        mCamera.release();
+        if(mCamera!=null) {
+            mCamera.stopPreview();
+            mCamera.release();
+        }
     }
 
 }
