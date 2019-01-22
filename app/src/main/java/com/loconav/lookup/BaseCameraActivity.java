@@ -25,14 +25,14 @@ import java.util.List;
  */
 
 public abstract class BaseCameraActivity extends AppCompatActivity {
-    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
+    private static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
     protected  final int REQUEST_CHECK_SETTINGS = 0x1;
-    List<String> listPermissionsNeeded = new ArrayList<>();
-    public String TAG = getClass().getSimpleName();
+    private final List<String> listPermissionsNeeded = new ArrayList<>();
+    protected final String TAG = getClass().getSimpleName();
     private static GoogleApiClient mGoogleApiClient;
 
 
-    public  boolean checkAndRequestPermissions(Context context) {
+    protected boolean checkAndRequestPermissions(Context context) {
         int write_storage = ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int read_storage = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
         int camera = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA);
@@ -79,31 +79,25 @@ public abstract class BaseCameraActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    void showGoToSettings(){
+    private void showGoToSettings(){
         new AlertDialog.Builder(BaseCameraActivity.this)
-                .setTitle("Closing application")
-                .setMessage("Are you sure you want to exit?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Activity a=BaseCameraActivity.this;
-                        a.finish();
-                    }
-                }).setNegativeButton("No",  new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent();
-                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                Uri uri = Uri.fromParts("package", getPackageName(), null);
-                intent.setData(uri);
-                startActivity(intent);
-            }
-        }).show();
+                .setTitle(getString(R.string.closing_application))
+                .setMessage(getString(R.string.want_to_exit))
+                .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
+                    Activity a=BaseCameraActivity.this;
+                    a.finish();
+                }).setNegativeButton(getString(R.string.no), (dialog, which) -> {
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
+                }).show();
     }
 
-    public abstract void onAllPermissionsGranted();
+    protected abstract void onAllPermissionsGranted();
 
-    public void onAnyPermissionDenied() {
+    private void onAnyPermissionDenied() {
         showGoToSettings();
     }
 

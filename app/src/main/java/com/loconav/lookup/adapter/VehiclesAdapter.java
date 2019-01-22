@@ -1,16 +1,9 @@
 package com.loconav.lookup.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.*;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.*;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseArrayAdapter;
@@ -23,18 +16,18 @@ import java.util.ArrayList;
  */
 
 public class VehiclesAdapter extends BaseArrayAdapter<VehiclesList> {
-    ArrayList<VehiclesList>  suggestions;
-    SearchView.SearchAutoComplete searchAutoComplete;
+    private final ArrayList<VehiclesList>  suggestions;
+    private final SearchView.SearchAutoComplete searchAutoComplete;
     public VehiclesAdapter(@NonNull Context context, ArrayList<VehiclesList> vehiclesLists, SearchView.SearchAutoComplete searchAutoComplete) {
         super(context, 0, vehiclesLists);
-        this.suggestions = new ArrayList<VehiclesList>(vehiclesLists);
+        this.suggestions = new ArrayList<>(vehiclesLists);
         this.searchAutoComplete=searchAutoComplete;
     }
 
     @Override
     public void setData(View view, int position) {
         VehiclesList vl = getItem(position);
-        TextView name = (TextView) view.findViewById(R.id.vehicle_no);
+        TextView name = view.findViewById(R.id.vehicle_no);
         if (name != null)
             name.setText(vl.getNumber());
     }
@@ -50,7 +43,7 @@ public class VehiclesAdapter extends BaseArrayAdapter<VehiclesList> {
         return myFilter;
     }
 
-    Filter myFilter = new Filter() {
+    private final Filter myFilter = new Filter() {
         @Override
         public CharSequence convertResultToString(Object resultValue) {
             VehiclesList customer = (VehiclesList) resultValue;

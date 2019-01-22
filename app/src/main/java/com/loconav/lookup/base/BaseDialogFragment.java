@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import com.loconav.lookup.R;
 
+import java.util.Objects;
+
 /**
  * Created by gauravmittal on 26/12/17.
  */
@@ -17,16 +19,16 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     private int isSuccessful ;
 
-    public interface OnDialogCompletionListener {
+    protected interface OnDialogCompletionListener {
         void onComplete();
     }
 
-    protected OnDialogCompletionListener onCompletionListener;
+    private OnDialogCompletionListener onCompletionListener;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getDialog().getWindow()
+        Objects.requireNonNull(getDialog().getWindow())
                 .getAttributes().windowAnimations = R.style.DialogWindowAnimation;
     }
 

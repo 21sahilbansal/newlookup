@@ -18,9 +18,9 @@ import java.util.List;
 
 public class RecycleCustomImageAdapter extends BaseAdapter {
 
-    List<ImageUri> data;
-    Context context;
-    private Callback callback;
+    private final List<ImageUri> data;
+    private final Context context;
+    private final Callback callback;
     // Provide repair suitable constructor (depends on the kind of dataset)
     public RecycleCustomImageAdapter(List<ImageUri> myDataset, Callback callback, Context context) {
         data = myDataset;
@@ -57,12 +57,9 @@ public class RecycleCustomImageAdapter extends BaseAdapter {
         super.onBindViewHolder(holder, position);
         View view = holder.itemView;
         ImageView imageView = view.findViewById(R.id.remove);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                data.remove(data.get(position));
-                notifyDataSetChanged();
-            }
+        imageView.setOnClickListener(view1 -> {
+            data.remove(data.get(position));
+            notifyDataSetChanged();
         });
     }
 }

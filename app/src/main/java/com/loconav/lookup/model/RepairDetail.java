@@ -1,5 +1,8 @@
 package com.loconav.lookup.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,9 +10,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import okhttp3.ResponseBody;
-
-public class RepairDetail {
+public class RepairDetail implements Parcelable {
     @SerializedName("id")
     @Expose
     private int id;
@@ -41,6 +42,36 @@ public class RepairDetail {
     private String auditStatus;
     @SerializedName("audit_notes")
     private String auditNotes;
+
+    public RepairDetail()
+    {
+
+    }
+
+    protected RepairDetail(Parcel in) {
+        id = in.readInt();
+        serialNumber = in.readString();
+        truckNumber = in.readString();
+        repairReason = in.readString();
+        preRepairImages = in.createStringArrayList();
+        postRepairImages = in.createStringArrayList();
+        remarks = in.readString();
+        createdAt = in.readLong();
+        auditStatus = in.readString();
+        auditNotes = in.readString();
+    }
+
+    public static final Creator<RepairDetail> CREATOR = new Creator<RepairDetail>() {
+        @Override
+        public RepairDetail createFromParcel(Parcel in) {
+            return new RepairDetail(in);
+        }
+
+        @Override
+        public RepairDetail[] newArray(int size) {
+            return new RepairDetail[size];
+        }
+    };
 
     public String getAuditStatus() {
         return auditStatus;
@@ -128,5 +159,24 @@ public class RepairDetail {
 
     public void setCreatedAt(long createdAt) {
         this.createdAt = createdAt;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(serialNumber);
+        dest.writeString(truckNumber);
+        dest.writeString(repairReason);
+        dest.writeStringList(preRepairImages);
+        dest.writeStringList(postRepairImages);
+        dest.writeString(remarks);
+        dest.writeLong(createdAt);
+        dest.writeString(auditStatus);
+        dest.writeString(auditNotes);
     }
 }

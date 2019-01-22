@@ -6,8 +6,9 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
+
 import com.loconav.lookup.R;
+import com.loconav.lookup.Toaster;
 import com.loconav.lookup.utils.AppUtils;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.databinding.ActivityLoginBinding;
@@ -22,7 +23,6 @@ import static com.loconav.lookup.UserPrefs.authenticationToken;
 import static com.loconav.lookup.UserPrefs.phoneNumber;
 
 public class LoginActivity extends AppCompatActivity implements LoginView{
-    private ActivityLoginBinding binding;
     private ProgressDialog dialog;
     private SharedPrefHelper sharedPrefHelper;
 
@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
+        ActivityLoginBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         sharedPrefHelper=SharedPrefHelper.getInstance();
         initProgressDialog();
         Creds creds = new Creds();
@@ -40,12 +40,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
 
     @Override
     public void showToast(int resId) {
-        Toast.makeText(getBaseContext(), resId, Toast.LENGTH_SHORT).show();
+        Toaster.makeToast(String.valueOf(resId));
     }
 
     @Override
     public void showToast(String message) {
-        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+        Toaster.makeToast(message);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
 
     private void initProgressDialog() {
         dialog = new ProgressDialog(LoginActivity.this);
-        dialog.setMessage("Please wait..");
+        dialog.setMessage(getString(R.string.please_wait));
         dialog.setCancelable(false);
     }
 

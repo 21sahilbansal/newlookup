@@ -1,12 +1,14 @@
 package com.loconav.lookup.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 
-public class Repairs {
+public class Repairs implements Parcelable {
 
 
     @SerializedName("id")
@@ -39,6 +41,43 @@ public class Repairs {
     private long createdAt;
     @SerializedName("audit_status")
     private String auditStatus=null;
+
+    public Repairs()
+    {
+
+    }
+
+    private Repairs(Parcel in) {
+        id = in.readInt();
+        serialNumber = in.readString();
+        truckNumber = in.readString();
+        repairReason = in.readString();
+        if (in.readByte() == 0) {
+            preRepairImages = null;
+        } else {
+            preRepairImages = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            postRepairImages = null;
+        } else {
+            postRepairImages = in.readInt();
+        }
+        remarks = in.readString();
+        createdAt = in.readLong();
+        auditStatus = in.readString();
+    }
+
+    public static final Creator<Repairs> CREATOR = new Creator<Repairs>() {
+        @Override
+        public Repairs createFromParcel(Parcel in) {
+            return new Repairs(in);
+        }
+
+        @Override
+        public Repairs[] newArray(int size) {
+            return new Repairs[size];
+        }
+    };
 
     public String getAuditStatus() {
         return auditStatus;
@@ -120,4 +159,31 @@ public class Repairs {
         this.createdAt = createdAt;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(serialNumber);
+        dest.writeString(truckNumber);
+        dest.writeString(repairReason);
+        if (preRepairImages == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(preRepairImages);
+        }
+        if (postRepairImages == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(postRepairImages);
+        }
+        dest.writeString(remarks);
+        dest.writeLong(createdAt);
+        dest.writeString(auditStatus);
+    }
 }

@@ -4,6 +4,7 @@ import com.loconav.lookup.login.model.Creds;
 import com.loconav.lookup.login.model.LoginResponse;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.CoordinateRequest;
+import com.loconav.lookup.model.ApiException;
 import com.loconav.lookup.model.FastagsList;
 import com.loconav.lookup.model.InstallationDetails;
 import com.loconav.lookup.model.InstallationRequirements;
@@ -142,7 +143,7 @@ public interface ApiInterface {
      * @param end - The end index of the repairs
      * @return
      */
-    @GET("api/installers/installations/get_installations")
+    @GET("api/installers/installations/get_device_installations")
     Call<InstallDatandTotalInstallCount> getInstallLogs(@Query("start_index") int start, @Query("end_index") int end);
 
     /**
@@ -152,4 +153,7 @@ public interface ApiInterface {
      */
     @GET("api/installers/installations/{install_id}")
     Call<InstallationDetails> getInstallDetail(@Path(value = "install_id", encoded = true) int installId);
+
+    @POST("api/v1/android/app_crash_logs")
+    Call<ResponseBody> throwException(@Body ApiException exceptionThrow);
 }

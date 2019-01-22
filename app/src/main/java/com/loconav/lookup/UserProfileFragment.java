@@ -5,18 +5,14 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
 
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseFragment;
-import com.loconav.lookup.databinding.ActivityUserBinding;
 import com.loconav.lookup.databinding.FragmentUserProfileBinding;
 import com.loconav.lookup.login.SplashActivity;
 import com.loconav.lookup.utils.AppUtils;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
+import static com.loconav.lookup.Constants.FRAGMENT_NAME;
 import static com.loconav.lookup.Constants.IS_LOGGED_IN;
 import static com.loconav.lookup.Constants.USER_ID;
 import static com.loconav.lookup.UserPrefs.authenticationToken;
@@ -28,7 +24,6 @@ import static com.loconav.lookup.UserPrefs.phoneNumber;
 public class UserProfileFragment extends BaseFragment {
     private SharedPrefHelper sharedPrefHelper ;
     private FragmentUserProfileBinding binding;
-    private NavController navController;
     @Override
     public int setViewId() {
         return R.layout.fragment_user_profile;
@@ -40,19 +35,8 @@ public class UserProfileFragment extends BaseFragment {
         initSharedPf();
         attachClickListener();
         fillUserId();
-        navController= Navigation.findNavController(getActivity(),R.id.user_fragment_host);
-        binding.checkInstallLogs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkInstallLogs();
-            }
-        });
-        binding.checkRepairLogs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkRepairLogs();
-            }
-        });
+        binding.checkInstallLogs.setOnClickListener(v -> checkInstallLogs());
+        binding.checkRepairLogs.setOnClickListener(v -> checkRepairLogs());
 
     }
     private void initSharedPf() {
@@ -60,20 +44,17 @@ public class UserProfileFragment extends BaseFragment {
     }
 
     private void attachClickListener() {
-        binding.logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sharedPrefHelper.removeStringData(code);
-                sharedPrefHelper.removeStringData(USER_ID);
-                sharedPrefHelper.removeStringData(authenticationToken);
-                sharedPrefHelper.removeStringData(phoneNumber);
-                sharedPrefHelper.removeStringData(location);
-                sharedPrefHelper.removeStringData(name);
-                sharedPrefHelper.setBooleanData(IS_LOGGED_IN,false);
-                Intent intent=new Intent(getContext(), SplashActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
+        binding.logout.setOnClickListener(view -> {
+            sharedPrefHelper.removeStringData(code);
+            sharedPrefHelper.removeStringData(USER_ID);
+            sharedPrefHelper.removeStringData(authenticationToken);
+            sharedPrefHelper.removeStringData(phoneNumber);
+            sharedPrefHelper.removeStringData(location);
+            sharedPrefHelper.removeStringData(name);
+            sharedPrefHelper.setBooleanData(IS_LOGGED_IN,false);
+            Intent intent=new Intent(getContext(), SplashActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         });
 
     }
@@ -84,25 +65,33 @@ public class UserProfileFragment extends BaseFragment {
         binding.userPhone.setText(SharedPrefHelper.getInstance().getStringData(phoneNumber));
     }
 
-    public void checkRepairLogs()
+    private void checkRepairLogs()
     {
         if(AppUtils.isNetworkAvailable()) {
-            navController.navigate(R.id.action_userProfileFragment_to_repairLogActivity);
+            Intent i=new Intent(getContext(), BaseNavigationActivity.class);
+            Bundle bundle=new Bundle();
+            bundle.putString(FRAGMENT_NAME,getString(R.string.repair_log_fragment));
+            i.putExtras(bundle);
+            startActivity(i);
         }
         else
         {
-            Toast.makeText(getContext(), "Internet not available", Toast.LENGTH_SHORT).show();
+            Toaster.makeToast(getString(R.string.internet_not_available));
         }
     }
 
-    public void checkInstallLogs()
+    private void checkInstallLogs()
     {
         if(AppUtils.isNetworkAvailable()) {
-            navController.navigate(R.id.action_userProfileFragment_to_installLogsActivity);
+            Intent i=new Intent(getContext(), BaseNavigationActivity.class);
+            Bundle bundle=new Bundle();
+            bundle.putString(FRAGMENT_NAME,getString(R.string.install_log_fragment));
+            i.putExtras(bundle);
+            startActivity(i);
         }
         else
         {
-            Toast.makeText(getContext(), "Internet not available", Toast.LENGTH_SHORT).show();
+            Toaster.makeToast(getString(R.string.internet_not_available));
         }
     }
 

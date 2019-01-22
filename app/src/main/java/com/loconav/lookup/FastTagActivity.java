@@ -12,7 +12,7 @@ import com.loconav.lookup.databinding.ActivityFastTagBinding;
 
 public class FastTagActivity extends AppCompatActivity {
     private ActivityFastTagBinding binding;
-    String fastTagUrl = "http://192.168.2.188:3000/installers";
+    private final String fastTagUrl = "http://192.168.2.188:3000/installers";
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {

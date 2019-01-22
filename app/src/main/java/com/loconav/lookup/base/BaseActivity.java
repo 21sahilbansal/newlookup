@@ -12,6 +12,7 @@ import com.loconav.lookup.login.SplashActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by prateek on 09/07/18.
@@ -28,10 +29,10 @@ public abstract class BaseActivity extends AppCompatActivity{
            startActivity(intent);
        }
         if(showBackButton())
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
 
-    public  boolean checkPermissions() {
+    private boolean checkPermissions() {
         List<String> listPermissionsNeeded = new ArrayList<>();
         int write_storage = ContextCompat.checkSelfPermission(getBaseContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int read_storage = ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -46,13 +47,10 @@ public abstract class BaseActivity extends AppCompatActivity{
         if (camera != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.CAMERA);
         }
-        if (!listPermissionsNeeded.isEmpty()) {
-            return false;
-        }
-        return true;
+        return listPermissionsNeeded.isEmpty();
     }
 
-    public abstract boolean showBackButton();
+    protected abstract boolean showBackButton();
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {

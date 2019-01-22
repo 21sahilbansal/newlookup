@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 
 public class FullImageDialog extends BaseDialogFragment {
     private FragmentFullImageBinding binding;
-    String imageUrl;
+    private String imageUrl;
     public static FullImageDialog newInstance(String imageurl) {
         FullImageDialog fullImageDialog = new FullImageDialog();
         Bundle bundle=new Bundle();
@@ -36,12 +36,7 @@ public class FullImageDialog extends BaseDialogFragment {
         Dialog builder = new Dialog(getActivity(),R.style.CustomDialog);
         Picasso.get().load(imageUrl).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).into(binding.image);
         binding.delete.setVisibility(View.INVISIBLE);
-        binding.cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               builder.dismiss();
-            }
-        });
+        binding.cancel.setOnClickListener(v -> builder.dismiss());
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
         if (builder.getWindow() != null) {
             builder.getWindow()

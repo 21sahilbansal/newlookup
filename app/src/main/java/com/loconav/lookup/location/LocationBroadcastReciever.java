@@ -21,8 +21,8 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class LocationBroadcastReciever extends BroadcastReceiver implements Callback {
-    Context context;
-    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+    private Context context;
+    private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -50,7 +50,7 @@ public class LocationBroadcastReciever extends BroadcastReceiver implements Call
         }
     }
 
-    public void sendCoordinates(CoordinateRequest coordinateRequest)
+    private void sendCoordinates(CoordinateRequest coordinateRequest)
     {
         apiService.addCoordinates(coordinateRequest).enqueue(new RetrofitCallback<ResponseBody>() {
             @Override

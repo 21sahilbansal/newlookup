@@ -1,19 +1,17 @@
 package com.loconav.lookup;
 
 
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+
 import java.util.List;
 
 /**
  * Created by sejal on 12-07-2018.
  */
 
-public class FragmentController extends AppCompatActivity {
+public class FragmentController {
 
     private String TAG_NAME_FRAGMENT = "ACTIVITY_FRAGMENT";
 

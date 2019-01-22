@@ -2,12 +2,8 @@ package com.loconav.lookup.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.SearchView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
 
@@ -23,21 +19,21 @@ import java.util.ArrayList;
  */
 
 public class FastagAdapter extends BaseArrayAdapter<FastagsList> {
-    ArrayList<FastagsList>  suggestions;
-    SearchView.SearchAutoComplete searchAutoComplete;
+    private final ArrayList<FastagsList>  suggestions;
+    private final SearchView.SearchAutoComplete searchAutoComplete;
     public FastagAdapter(@NonNull Context context, ArrayList<FastagsList> fastagsList, SearchView.SearchAutoComplete searchAutoComplete) {
         super(context, 0, fastagsList);
-        this.suggestions = new ArrayList<FastagsList>(fastagsList);
+        this.suggestions = new ArrayList<>(fastagsList);
         this.searchAutoComplete=searchAutoComplete;
     }
 
     @Override
     public void setData(View view, int position) {
         FastagsList vl = getItem(position);
-        TextView name = (TextView) view.findViewById(R.id.vehicle_no);
+        TextView name = view.findViewById(R.id.vehicle_no);
         if (name != null)
             name.setText(vl.getSerialNumber());
-        TextView color = (TextView) view.findViewById(R.id.fastag_color);
+        TextView color = view.findViewById(R.id.fastag_color);
         if (color != null)
             color.setText(vl.getColor());
     }
@@ -52,7 +48,7 @@ public class FastagAdapter extends BaseArrayAdapter<FastagsList> {
         return myFilter;
     }
 
-    Filter myFilter = new Filter() {
+    private final Filter myFilter = new Filter() {
         @Override
         public CharSequence convertResultToString(Object resultValue) {
             FastagsList customer = (FastagsList) resultValue;

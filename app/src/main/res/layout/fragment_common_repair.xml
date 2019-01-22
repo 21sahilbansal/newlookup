@@ -9,7 +9,7 @@
     android:clickable="true"
     android:scrollbars="none">
         <LinearLayout
-            android:id="@+id/ll"
+            android:id="@+id/linear_layout"
             android:padding="15dp"
             android:orientation="vertical"
             android:layout_width="match_parent"

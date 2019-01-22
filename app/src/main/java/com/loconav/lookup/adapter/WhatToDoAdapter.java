@@ -16,8 +16,8 @@ import java.util.List;
 
 public class
 WhatToDoAdapter extends BaseAdapter {
-    List<ReasonResponse> data;
-    private Callback callback;
+    private final List<ReasonResponse> data;
+    private final Callback callback;
     // Provide repair suitable constructor (depends on the kind of dataset)
     public WhatToDoAdapter(List<ReasonResponse> myDataset, Callback callback) {
         data = myDataset;

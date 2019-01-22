@@ -1,20 +1,44 @@
 package com.loconav.lookup.model;
 
-import com.google.gson.annotations.SerializedName;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import java.io.Serializable;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by sejal on 04-07-2018.
  */
 
-public class FastagsList implements Serializable {
+public class FastagsList implements Parcelable {
     @SerializedName("serial_number")
     private String serialNumber;
     @SerializedName("id")
     private int id;
     @SerializedName("color")
     private String color;
+
+    public FastagsList()
+    {
+
+    }
+
+    private FastagsList(Parcel in) {
+        serialNumber = in.readString();
+        id = in.readInt();
+        color = in.readString();
+    }
+
+    public static final Creator<FastagsList> CREATOR = new Creator<FastagsList>() {
+        @Override
+        public FastagsList createFromParcel(Parcel in) {
+            return new FastagsList(in);
+        }
+
+        @Override
+        public FastagsList[] newArray(int size) {
+            return new FastagsList[size];
+        }
+    };
 
     public String getSerialNumber() {
         return serialNumber;
@@ -44,5 +68,17 @@ public class FastagsList implements Serializable {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(serialNumber);
+        dest.writeInt(id);
+        dest.writeString(color);
     }
 }

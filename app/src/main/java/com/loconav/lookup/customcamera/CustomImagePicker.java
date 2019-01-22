@@ -11,33 +11,36 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.loconav.lookup.R;
+import com.loconav.lookup.Toaster;
 import com.loconav.lookup.adapter.RecycleCustomImageAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static com.loconav.lookup.Constants.STARTED_COMPRESSION;
 
 /**
  * Created by sejal on 12-07-2018.
  */
 
-public class CustomImagePicker extends LinearLayout{
-    private ArrayList<ImageUri> originalImageUris = new ArrayList<>();
-    private ArrayList<ImageUri> thumbNailUris = new ArrayList<>();
-    private LinearLayout linearLayout;
+public class CustomImagePicker extends LinearLayout {
+    private final ArrayList<ImageUri> originalImageUris = new ArrayList<>();
+    private ProgressBar progressBar;
     //needed to differentiate different imagepickers that where inflated through custominflater so did it by textID
-    public String textID ,titleText;
-    public int limit;
-    RecycleCustomImageAdapter recycleCustomImageAdapter;
-    TypedArray typedArrayCustom;
+    public String textID;
+    private String titleText;
+    private int limit;
+    private RecycleCustomImageAdapter recycleCustomImageAdapter;
+    private TypedArray typedArrayCustom;
 
     public CustomImagePicker(Context context) {
         super(context, null);
@@ -45,7 +48,7 @@ public class CustomImagePicker extends LinearLayout{
 
     public CustomImagePicker(final Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-         typedArrayCustom = context.obtainStyledAttributes(attrs,
+        typedArrayCustom = context.obtainStyledAttributes(attrs,
                 R.styleable.Options, 0, 0);
         titleText= typedArrayCustom.getString(R.styleable.Options_titleText);
         textID = typedArrayCustom.getString(R.styleable.Options_id);
@@ -63,18 +66,19 @@ public class CustomImagePicker extends LinearLayout{
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.custom_image_picker, this, true);
+        Objects.requireNonNull(inflater).inflate(R.layout.custom_image_picker, this, true);
 
+        progressBar=findViewById(R.id.progress_circular);
         TextView title=findViewById(R.id.devText1);
         title.setText(titleText);
-        linearLayout =findViewById(R.id.devImage1);
+        LinearLayout linearLayout = findViewById(R.id.devImage1);
         android.support.v4.app.FragmentActivity fragmentActivity = (android.support.v4.app.FragmentActivity) getContext();
         final FragmentManager fm = fragmentActivity.getSupportFragmentManager();
         linearLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (thumbNailUris.size()==limit) {
-                    Toast.makeText(getContext(),"Not more than "+limit+" images",Toast.LENGTH_SHORT).show();
+                if (originalImageUris.size()==limit) {
+                    Toaster.makeToast(getResources().getString(R.string.size_limit)+limit+getResources().getString(R.string.images));
                 }else{
                     ImagePickerDialog imagePickerDialog = ImagePickerDialog.newInstance(textID, limit);
                     imagePickerDialog.show(fm, getClass().getSimpleName());
@@ -97,15 +101,12 @@ public class CustomImagePicker extends LinearLayout{
     }
 
     private void setPhotoAdapter() {
-        LinearLayoutManager linearLayoutManager= new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager linearLayoutManager= new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL,false);
 //        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),3,GridLayoutManager.VERTICAL,false);
         linearLayoutManager.setInitialPrefetchItemCount(4);
         RecyclerView recyclerImages=findViewById(R.id.rvImages);
         recyclerImages.setLayoutManager(linearLayoutManager);
-        recycleCustomImageAdapter = new RecycleCustomImageAdapter(thumbNailUris, new Callback() {
-            @Override
-            public void onEventDone(Object object) {
-            }
+        recycleCustomImageAdapter = new RecycleCustomImageAdapter(originalImageUris, object -> {
         },getContext());
         recyclerImages.setAdapter(recycleCustomImageAdapter);
         recyclerImages.setNestedScrollingEnabled(false);
@@ -113,6 +114,7 @@ public class CustomImagePicker extends LinearLayout{
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getImagePickingEvents(ImagePickerEvent event) {
+        progressBar.setVisibility(GONE);
         String message = event.getMessage();
         String imageEventCamera=ImagePickerEvent.IMAGE_SELECTED_FROM_CAMERA+ textID;
         String imageEventGallery=ImagePickerEvent.IMAGE_SELECTED_FROM_GALLERY+ textID;
@@ -120,44 +122,43 @@ public class CustomImagePicker extends LinearLayout{
         if (message.equals(imageEventCamera)) {
             resultLinkedList.clear();
             resultLinkedList.addAll((List<ImageUri>) event.getObject());
-            if (thumbNailUris.size() + resultLinkedList.size() > limit)
-                Toast.makeText(getContext(), "Not more than " + limit + " images", Toast.LENGTH_SHORT).show();
+            if (originalImageUris.size() + resultLinkedList.size() > limit)
+                Toaster.makeToast(getResources().getString(R.string.not_more_than) + limit + getResources().getString(R.string.images));
             for (int i = 0; i < resultLinkedList.size(); i++) {
 
-                if (thumbNailUris.size() < limit) {
-                    try {
-                        this.thumbNailUris.add(i, ImageUtils.getBitmapFile(resultLinkedList.get(i).getUri(),getContext()));
-                        this.originalImageUris.add(i,resultLinkedList.get(i));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                if (originalImageUris.size() < limit) {
+                        this.originalImageUris.add(i, resultLinkedList.get(i));
                 }
             }
             recycleCustomImageAdapter.notifyDataSetChanged();
         } else if (message.equals(imageEventGallery)) {
             resultLinkedList.clear();
             resultLinkedList.addAll((List<ImageUri>) event.getObject());
-            if (thumbNailUris.size() + resultLinkedList.size() > limit)
-                Toast.makeText(getContext(), "Not more than " + limit + " images", Toast.LENGTH_SHORT).show();
+            if (originalImageUris.size() + resultLinkedList.size() > limit)
+                Toaster.makeToast(getResources().getString(R.string.not_more_than) + limit + getResources().getString(R.string.images));
             for (int i = 0; i < resultLinkedList.size(); i++) {
-                if (thumbNailUris.size() < limit) {
-                    try {
-                        this.thumbNailUris.add(i, ImageUtils.getBitmapFile(resultLinkedList.get(i).getUri(),getContext()));
+                if (originalImageUris.size() < limit) {
                         this.originalImageUris.add(i,resultLinkedList.get(i));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
             recycleCustomImageAdapter.notifyDataSetChanged();
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void isCompressionStarted(String startCompression) {
+        if(startCompression.equals(STARTED_COMPRESSION+textID)) {
+            progressBar.setVisibility(VISIBLE);
+        }
+    }
+
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         EventBus.getDefault().unregister(this);
     }
-    public  ArrayList<ImageUri> getimagesList(){
+
+    public ArrayList<ImageUri> getimagesList(){
         return originalImageUris;
     }
 

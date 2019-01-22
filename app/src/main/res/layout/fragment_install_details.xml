@@ -2,14 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".InstallDetailFragment"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:imagesetter="http://schemas.android.com/tools">
 
     <data>
         <import type="java.lang.Double" />
-        <import type="com.loconav.lookup.utils.TimeUtils"></import>
+
+        <import type="com.loconav.lookup.utils.TimeUtils" />
+
         <variable
             name="installs"
-            type="com.loconav.lookup.model.InstallationDetails"></variable>
+            type="com.loconav.lookup.model.InstallationDetails" />
     </data>
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -83,9 +86,9 @@
                 <TextView
                     android:id="@+id/serial_number"
                     android:layout_width="wrap_content"
-                    android:layout_height="12dp"
-                    android:layout_marginLeft="200dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="200dp"
+                    android:layout_marginLeft="200dp"
                     android:layout_marginTop="8dp"
                     android:text="@{installs.installable_type}"
                     android:textColor="#000000"
@@ -322,7 +325,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="60dp"
                     android:layout_marginRight="60dp"
-                    android:text="@{installs.auditNotes}"
+                    imagesetter:html_beautify="@{installs.auditNotes}"
                     android:textColor="#000000"
                     android:textSize="10sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -367,6 +370,7 @@
                     android:orientation="vertical"
                     android:textColor="#000000"
                     android:textSize="12sp"
+                    imagesetter:html_beautify="@{installs.notes}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -411,7 +415,7 @@
                     android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView13"></android.support.v7.widget.RecyclerView>
+                    app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
                 <TextView
                     android:id="@+id/textView14"
@@ -437,7 +441,7 @@
                     android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView14"></android.support.v7.widget.RecyclerView>
+                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
                 <TextView
                     android:id="@+id/textView15"
@@ -463,7 +467,7 @@
                     android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView15"></android.support.v7.widget.RecyclerView>
+                    app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
                 <TextView
                     android:id="@+id/textView22"
@@ -477,6 +481,7 @@
                     android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/wireconnection" />
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/earthwireconnection"
                     android:layout_width="0dp"
@@ -488,7 +493,7 @@
                     android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView22"></android.support.v7.widget.RecyclerView>
+                    app:layout_constraintTop_toBottomOf="@+id/textView22" />
                 <TextView
                     android:id="@+id/textView16"
                     android:layout_width="wrap_content"
@@ -513,7 +518,7 @@
                     android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView16"></android.support.v7.widget.RecyclerView>
+                    app:layout_constraintTop_toBottomOf="@+id/textView16" />
                 <TextView
                     android:id="@+id/textView17"
                     android:layout_width="wrap_content"
@@ -540,7 +545,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView17"></android.support.v7.widget.RecyclerView>
+                    app:layout_constraintTop_toBottomOf="@+id/textView17" />
             </android.support.constraint.ConstraintLayout>
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>

@@ -3,7 +3,6 @@ package com.loconav.lookup;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,33 +23,31 @@ import com.loconav.lookup.utils.AppUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.loconav.lookup.Constants.ID;
+
 public class InstallLogsFragment extends BaseFragment {
-    FragmentInstallLogsBinding fragmentInstallLogsBinding;
-    InstallLogAdapter installLogAdapter;
-    ApiInterface apiInterface= ApiClient.getClient().create(ApiInterface.class);
-    List<Installs> fullInstallList=new ArrayList<>(),installList=new ArrayList<>();
-    int totalitem,oppo;
-    int placeholdersToLoad=20;
-    boolean loadmore=true,itemsloaded=true;
-    private NavController navController;
+    private FragmentInstallLogsBinding fragmentInstallLogsBinding;
+    private InstallLogAdapter installLogAdapter;
+    private final ApiInterface apiInterface= ApiClient.getClient().create(ApiInterface.class);
+    private final List<Installs> fullInstallList=new ArrayList<>();
+    private List<Installs> installList=new ArrayList<>();
+    private int totalitem;
+    private int oppo;
+    private final int placeholdersToLoad=20;
+    private boolean loadmore=true;
+    private boolean itemsloaded=true;
+    private final FragmentController fragmentController=new FragmentController();
     @Override
     public int setViewId() {
         return R.layout.fragment_install_logs;
     }
     @Override
     public void onFragmentCreated() {
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Install Logs");
-        Bundle bundle = this.getArguments();
-        //This layout is on which the InstallLogsFragment and InstallDetailFragment will inflate
-        int layout = bundle.getInt("layout");
         //It is to initially load the number of items
         int start = 0,end=8;
-        navController= Navigation.findNavController(getActivity(),R.id.install_fragment_host);
         apiInterface.getInstallLogs(start,end).enqueue(new RetrofitCallback<InstallDatandTotalInstallCount>() {
             @Override
             public void handleSuccess(Call<InstallDatandTotalInstallCount> call, Response<InstallDatandTotalInstallCount> response) {
@@ -67,15 +64,14 @@ public class InstallLogsFragment extends BaseFragment {
             }
         });
 
-        installLogAdapter=new InstallLogAdapter(fullInstallList, new Callback() {
-            @Override
-            public void onEventDone(Object object) {
-                Bundle bundle = new Bundle();
-                Installs installs = (Installs) object;
-                if(installs!=null) {
-                    bundle.putInt("id", Integer.parseInt((installs.getId())));
-                    navController.navigate(R.id.action_installLogsFragment2_to_installDetailFragment,bundle);
-                }
+        installLogAdapter=new InstallLogAdapter(fullInstallList, object -> {
+            Bundle bundle = new Bundle();
+            Installs installs = (Installs) object;
+            if(installs!=null) {
+                InstallDetailFragment installDetailFragment=new InstallDetailFragment();
+                bundle.putInt(ID, Integer.parseInt((installs.getId())));
+                installDetailFragment.setArguments(bundle);
+                fragmentController.loadFragment(installDetailFragment,getFragmentManager(),R.id.fragment_host,true);
             }
         });
 
@@ -83,8 +79,8 @@ public class InstallLogsFragment extends BaseFragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                int visibleItemCount = ((LinearLayoutManager)recyclerView.getLayoutManager()).getChildCount();
-                int totalItemCount = ((LinearLayoutManager)recyclerView.getLayoutManager()).getItemCount();
+                int visibleItemCount = recyclerView.getLayoutManager().getChildCount();
+                int totalItemCount = recyclerView.getLayoutManager().getItemCount();
                 int pastVisibleItems = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
                 switch (newState)
                 {
@@ -98,7 +94,6 @@ public class InstallLogsFragment extends BaseFragment {
                                     if (totalItemCount+placeholdersToLoad<totalitem && loadmore) {
                                         for (int i = 0; i < placeholdersToLoad; i++) {
                                             Installs installs = new Installs();
-                                            installs = null;
                                             fullInstallList.add(installs);
                                         }
                                         recyclerView.getAdapter().notifyDataSetChanged();
@@ -108,7 +103,6 @@ public class InstallLogsFragment extends BaseFragment {
                                         loadmore = false;
                                         for (int i = 0; i < totalitem-(totalItemCount); i++) {
                                             Installs installs = new Installs();
-                                            installs = null;
                                             fullInstallList.add(installs);
                                         }
                                         recyclerView.getAdapter().notifyDataSetChanged();
@@ -155,7 +149,7 @@ public class InstallLogsFragment extends BaseFragment {
     @Override
     public void getComponentFactory() {
     }
-    public void getInstallLogs(int first,int last,RecyclerView recyclerView)
+    private void getInstallLogs(int first, int last, RecyclerView recyclerView)
     {
         apiInterface.getInstallLogs(first, last).enqueue(new RetrofitCallback<InstallDatandTotalInstallCount>() {
             @Override

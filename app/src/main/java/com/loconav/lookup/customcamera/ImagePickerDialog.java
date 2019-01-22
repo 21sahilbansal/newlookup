@@ -5,39 +5,43 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.loconav.lookup.R;
+import com.loconav.lookup.Toaster;
 import com.loconav.lookup.base.BaseDialogFragment;
 import com.loconav.lookup.databinding.DialogImagePickerBinding;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by prateek on 09/07/18.
- */
+import static com.loconav.lookup.Constants.ID;
+import static com.loconav.lookup.Constants.IMAGE_LIST;
+import static com.loconav.lookup.Constants.LIMIT_IMAGES;
+import static com.loconav.lookup.Constants.STARTED_COMPRESSION;
+
 
 public class ImagePickerDialog extends BaseDialogFragment {
     private DialogImagePickerBinding binding;
-    private int SELECT_FILE = 1;
-    private String stringId;
+    private final int SELECT_FILE = 1;
+    private final int CAMERA_FILE=2;
+    private String stringId; //it is the name of custom image picker
     private int limit;
+    private final String startCompression=STARTED_COMPRESSION;//for the progress bar to start in the custom image picker
     private ArrayList<ImageUri> imagesUriArrayList=new ArrayList<>();
-    public static ImagePickerDialog newInstance(String id,int limit) {
+    public static ImagePickerDialog newInstance(String id, int limit) {
         ImagePickerDialog imagePickerDialog = new ImagePickerDialog();
         Bundle bundle=new Bundle();
-        bundle.putString("id",id);
-        bundle.putInt("limitImages",limit);
+        bundle.putString(ID,id);
+        bundle.putInt(LIMIT_IMAGES,limit);
         imagePickerDialog.setArguments(bundle);
         return imagePickerDialog;
     }
@@ -51,21 +55,11 @@ public class ImagePickerDialog extends BaseDialogFragment {
                         false);
         binding= DataBindingUtil.bind(dialogView);
 
-        stringId=getArguments().getString("id");
-        limit=getArguments().getInt("limitImages");
-        binding.camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cameraIntent();
-            }
-        });
+        stringId=getArguments().getString(ID);
+        limit=getArguments().getInt(LIMIT_IMAGES);
+        binding.camera.setOnClickListener(v -> cameraIntent());
 
-        binding.gallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                galleryIntent();
-            }
-        });
+        binding.gallery.setOnClickListener(v -> galleryIntent());
 
         Dialog builder = new Dialog(getActivity());
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -74,41 +68,67 @@ public class ImagePickerDialog extends BaseDialogFragment {
                     .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         }
         builder.setContentView(dialogView);
-        EventBus.getDefault().register(this);
         return builder;
     }
 
-    void galleryIntent() {
+    private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         intent.setAction(Intent.ACTION_GET_CONTENT);//
         startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
     }
-    public void cameraIntent()
-    {
+
+    private void cameraIntent() {
         Bundle bundle=new Bundle();
         bundle.putInt("limit",limit);
-        bundle.putString("Stringid",stringId);
         Intent i =new Intent(getContext(),CameraOpenActivity.class);
         i.putExtras(bundle);
-        startActivity(i);
+        startActivityForResult(i,CAMERA_FILE);
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         if (resultCode == Activity.RESULT_OK) {
+            EventBus.getDefault().post(startCompression+stringId);
             if (requestCode == SELECT_FILE){
                 parsingGalleryImage(data);
                 Log.e("list size",""+imagesUriArrayList.size());
-                EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_GALLERY+""+stringId, imagesUriArrayList));
+                new Thread(() -> {
+                    try {
+                        imagesUriArrayList=ImageUtils.compressImageList(imagesUriArrayList,getContext());
+                    } catch (IOException e) {
+                        Toaster.makeToast(getString(R.string.images_not_compressed));
+                    }
+                    Log.e("sd",""+stringId);
+                    EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_GALLERY+""+stringId, imagesUriArrayList));
+                }).start();
+            }
+            if (requestCode == CAMERA_FILE){
+                Log.e("list size",""+imagesUriArrayList.size());
+                new Thread(() -> {
+                    //We get the list of string as uri is non seriazable object so then we again convert it into list of uri
+                    ArrayList<ImageUri> imageUris=new ArrayList<>();
+                    for(String s: (ArrayList<String>)data.getExtras().get(IMAGE_LIST))
+                    {
+                        ImageUri imageUri=new ImageUri();
+                        imageUri.setUri(Uri.parse(s));
+                        imageUris.add(imageUri);}
+                    try {
+                        imagesUriArrayList=ImageUtils.compressImageList(imageUris,getContext());
+                    } catch (IOException e) {
+                        Toaster.makeToast(getString(R.string.images_not_compressed));
+                    }
+                    Log.e("sd",""+stringId);
+                    EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_CAMERA+""+stringId, imagesUriArrayList));
+                }).start();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
         dismiss();
     }
 
-    public void parsingGalleryImage(final Intent data)  {
+    private void parsingGalleryImage(final Intent data)  {
         data.getExtras();
         if(data.getClipData()==null){
             ImageUri imageUri = new ImageUri();
@@ -118,7 +138,6 @@ public class ImagePickerDialog extends BaseDialogFragment {
             if(data.getClipData().getItemCount()<=limit) {
                 Log.e("clip3",""+data.getClipData().getItemCount());
                 for (int i = 0; i < data.getClipData().getItemCount(); i++) {
-
                     ImageUri imageUri = new ImageUri();
                     imageUri.setUri(data.getClipData().getItemAt(i).getUri());
                     imagesUriArrayList.add(imageUri);
@@ -129,24 +148,16 @@ public class ImagePickerDialog extends BaseDialogFragment {
                     imageUri.setUri(data.getClipData().getItemAt(i).getUri());
                     imagesUriArrayList.add(imageUri);
                 }
-                Toast.makeText(getContext(), "size limit upto "+limit, Toast.LENGTH_SHORT).show();
+                Toaster.makeToast(getString(R.string.size_limit)+limit);
             }
         }
         Log.e("SIZE", imagesUriArrayList.size() + ""+imagesUriArrayList);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getToDismiss(String dismiss) {
-       if(dismiss.equals("true")) {
-           Log.e("the dialog ","the dialog should dismiss");
-           getDialog().dismiss();
-       }
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
         binding.unbind();
     }
+
 }
