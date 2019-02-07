@@ -8,14 +8,6 @@
             android:background="#ffffff"
             android:layout_height="match_parent">
 
-            <ProgressBar
-                android:id="@+id/startprogressbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/repairs"
@@ -36,10 +28,12 @@
                 android:id="@+id/progessbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/repairs" />
+
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/retry"
                 android:layout_width="match_parent"

@@ -25,13 +25,13 @@ public class FragmentController {
         if(addToBackStack) {
             transaction.addToBackStack(fragment.getClass().getName());
         }
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
     public  void deleteFragment(final  Fragment fragment,FragmentManager fragmentManager)
     {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.remove(fragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
     public  void replaceFragment(final Fragment fragment,FragmentManager fragmentManager,int resId,Boolean addToBackStack) {
@@ -40,7 +40,7 @@ public class FragmentController {
         if(addToBackStack) {
             transaction.addToBackStack(fragment.getClass().getName());
         }
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
     public Fragment getFragmentsStack(FragmentManager fragmentManager) {
