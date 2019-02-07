@@ -35,9 +35,6 @@ public class CameraPickerFragment extends BaseFragment {
     private boolean isFlashOn=false;
     private final ArrayList<ImageUri> imageList=new ArrayList<>();
     private RecycleCustomImageAdapter recycleCustomImageAdapter;
-    private int FRONT_CAMERA=1;
-    private final int REAR_CAMERA=0;
-    private final int camera_code=REAR_CAMERA;
     private int limit;
     @Override
     public int setViewId() {
@@ -48,7 +45,7 @@ public class CameraPickerFragment extends BaseFragment {
     public void onFragmentCreated() {
         limit= Objects.requireNonNull(Objects.requireNonNull(getActivity()).getIntent().getExtras()).getInt("limit");
         // Create an instance of Camera
-        mCamera = getCameraInstance(camera_code);
+        mCamera = getCameraInstance();
 
         // Create our Preview view and set it as the content of our activity.
         CameraPreview mPreview = new CameraPreview(getContext(), mCamera);
@@ -65,7 +62,7 @@ public class CameraPickerFragment extends BaseFragment {
                 mCamera.takePicture(null, null, (bytes, camera) -> {
                     File pictureFile = null;
                     try {
-                        pictureFile = ImageUtils.getImagefile(getContext());
+                        pictureFile = ImageUtils.getImagefile();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -155,10 +152,10 @@ public class CameraPickerFragment extends BaseFragment {
     }
 
 
-    private Camera getCameraInstance(int camera_code){
+    private Camera getCameraInstance(){
         Camera camera = null;
         try {
-            camera = Camera.open(camera_code);
+            camera = Camera.open();
         }
         catch (Exception e){
             e.printStackTrace();

@@ -10,6 +10,8 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 
+import com.loconav.lookup.application.LookUpApplication;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,7 +23,7 @@ import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
 public class ImageUtils {
 
     private static ImageUri compressImageFile(ImageUri imageUri, Context context) throws IOException {
-        File imagefile=getImagefile(context);
+        File imagefile=getImagefile();
         FileOutputStream fout=new FileOutputStream(imagefile);
         Bitmap bitmap= MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri.getUri());
         bitmap= Bitmap.createScaledBitmap(bitmap,(bitmap.getWidth()*30)/100,(bitmap.getHeight()*30)/100,true);
@@ -40,10 +42,10 @@ public class ImageUtils {
         return newImageUriList;
     }
 
-    public static File getImagefile(Context context) throws IOException {
+    public static File getImagefile() throws IOException {
         File storageDir;
         String imageFileName = "JPEG_" + "Loconav" + "_";
-        storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        storageDir = LookUpApplication.getInstance().getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         return File.createTempFile(
                 imageFileName,
                 ".jpg",

@@ -31,35 +31,34 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
-        Camera.Parameters parameters = mCamera.getParameters();
-        //display resolution
-        List<Camera.Size> allSizes = parameters.getSupportedPictureSizes();
-        Camera.Size size = allSizes.get(0); // get top size
-        for (int i = 0; i < allSizes.size(); i++) {
-            if (allSizes.get(i).width > size.width)
-                size = allSizes.get(i);
+        if(mCamera.getParameters()!=null) {
+            Camera.Parameters parameters = mCamera.getParameters();
+            //display resolution
+            List<Camera.Size> allSizes = parameters.getSupportedPictureSizes();
+            Camera.Size size = allSizes.get(0); // get top size
+            for (int i = 0; i < allSizes.size(); i++) {
+                if (allSizes.get(i).width > size.width)
+                    size = allSizes.get(i);
+            }
+            //Change the Orientation
+            if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+                parameters.set(ORIENTATION, PORTRAIT);
+                mCamera.setDisplayOrientation(90);
+                parameters.setRotation(90);
+            } else {
+                parameters.set(ORIENTATION, LANDSCAPE);
+                mCamera.setDisplayOrientation(0);
+                parameters.setRotation(0);
+            }
+            parameters.setPictureSize(size.width, size.height);
+            mCamera.setParameters(parameters);
+            try {
+                mCamera.setPreviewDisplay(holder);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mCamera.startPreview();
         }
-        //Change the Orientation
-        if(getResources().getConfiguration().orientation!= Configuration.ORIENTATION_LANDSCAPE)
-        {
-            parameters.set(ORIENTATION,PORTRAIT);
-            mCamera.setDisplayOrientation(90);
-            parameters.setRotation(90);
-        }
-        else
-        {
-            parameters.set(ORIENTATION,LANDSCAPE);
-            mCamera.setDisplayOrientation(0);
-            parameters.setRotation(0);
-        }
-        parameters.setPictureSize(size.width,size.height);
-        mCamera.setParameters(parameters);
-        try {
-            mCamera.setPreviewDisplay(holder);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mCamera.startPreview();
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
