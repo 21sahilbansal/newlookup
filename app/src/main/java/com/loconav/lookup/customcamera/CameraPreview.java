@@ -31,7 +31,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
-        if(mCamera.getParameters()!=null) {
+        if( mCamera!=null && mCamera.getParameters()!=null) {
             Camera.Parameters parameters = mCamera.getParameters();
             //display resolution
             List<Camera.Size> allSizes = parameters.getSupportedPictureSizes();

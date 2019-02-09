@@ -45,7 +45,7 @@ public class ImageUtils {
     public static File getImagefile() throws IOException {
         File storageDir;
         String imageFileName = "JPEG_" + "Loconav" + "_";
-        storageDir = LookUpApplication.getInstance().getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        storageDir = LookUpApplication.getInstance().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         return File.createTempFile(
                 imageFileName,
                 ".jpg",
