@@ -25,7 +25,7 @@ public class FragmentController {
         if(addToBackStack) {
             transaction.addToBackStack(fragment.getClass().getName());
         }
-        transaction.commitAllowingStateLoss();
+        transaction.commitAllowingStateLoss();//as there was a state loss and the final state is not saved sometime and i cannot replicate this error
     }
     public  void deleteFragment(final  Fragment fragment,FragmentManager fragmentManager)
     {
