@@ -55,7 +55,6 @@ public class FragmentController {
 
     public  void deleteFragmentStack(FragmentManager fm)
     {
-
         for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
             fm.popBackStack();
         }
