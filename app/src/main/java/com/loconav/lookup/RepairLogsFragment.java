@@ -110,6 +110,7 @@ public class RepairLogsFragment extends BaseFragment  {
                 else {
                     loadmore = false;
                 }
+                fragmentRepairLogsBinding.progessbar.setVisibility(View.INVISIBLE);
             }
 
             @Override
