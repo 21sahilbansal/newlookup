@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 
 import com.loconav.lookup.adapter.RepairLogAdapter;
 import com.loconav.lookup.base.BaseFragment;
-import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.model.Repairs;
 import com.loconav.lookup.databinding.FragmentRepairLogsBinding;
 import com.loconav.lookup.model.RepairsDataandTotalRepairCount;
@@ -31,13 +30,12 @@ import static com.loconav.lookup.Constants.ID;
 
 @SuppressWarnings("deprecation")
 public class RepairLogsFragment extends BaseFragment  {
-    private FragmentRepairLogsBinding fragmentRepairLogsBinding;
+    private FragmentRepairLogsBinding binding;
     private RepairLogAdapter repairLogAdapter;
     private final List<Repairs> fullRepairsList=new ArrayList<>();
     private List<Repairs> repairsList=new ArrayList<>();
     private final ApiInterface apiInterface=ApiClient.getClient().create(ApiInterface.class);
-    private final int placeholdersToLoad=20;
-    private boolean loadmore=true;
+    private final int itemsToLoad =20;
     private LinearLayoutManager layoutManager;
     private final FragmentController fragmentController=new FragmentController();
     @Override
@@ -49,7 +47,12 @@ public class RepairLogsFragment extends BaseFragment  {
         //It is to initially load the number of items
         int start = 0,end=8;
         getRepairLogs(start,end);
+        //set repair log adapter
+        setRepairLogAdapter();
+    }
 
+    public void setRepairLogAdapter()
+    {
         repairLogAdapter=new RepairLogAdapter(fullRepairsList, object -> {
             if(AppUtils.isNetworkAvailable()) {
                 Bundle bundle = new Bundle();
@@ -73,29 +76,26 @@ public class RepairLogsFragment extends BaseFragment  {
                 super.onScrolled(recyclerView, dx, dy);
                 if(!recyclerView.canScrollVertically(1)&& dy>0) {
                     int totalItemCount = layoutManager.getItemCount();
-                    if(loadmore) {
-                        fragmentRepairLogsBinding.progessbar.setVisibility(View.VISIBLE);
-                        getRepairLogs(totalItemCount,totalItemCount+placeholdersToLoad);
-                    }
+                    binding.progessbar.setVisibility(View.VISIBLE);
+                    getRepairLogs(totalItemCount,totalItemCount+ itemsToLoad);
                 }
             }
         };
-        fragmentRepairLogsBinding.repairs.setOnScrollListener(scrollListener);
+        binding.repairs.setOnScrollListener(scrollListener);
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayout.VERTICAL);
-        fragmentRepairLogsBinding.repairs.setLayoutManager(layoutManager);
-        fragmentRepairLogsBinding.repairs.setAdapter(repairLogAdapter);
+        binding.repairs.setLayoutManager(layoutManager);
+        binding.repairs.setAdapter(repairLogAdapter);
     }
+
     @Override
     public void bindView(View view) {
-        fragmentRepairLogsBinding=DataBindingUtil.bind(view);
+        binding =DataBindingUtil.bind(view);
     }
 
     @Override
     public void getComponentFactory() {
     }
-
-
 
     private void getRepairLogs(int first, int last)
     {
@@ -108,9 +108,9 @@ public class RepairLogsFragment extends BaseFragment  {
                     repairLogAdapter.notifyDataSetChanged();
                 }
                 else {
-                    loadmore = false;
+                    binding.repairs.removeOnScrollListener(null);
                 }
-                fragmentRepairLogsBinding.progessbar.setVisibility(View.INVISIBLE);
+                binding.progessbar.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -123,6 +123,6 @@ public class RepairLogsFragment extends BaseFragment  {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        fragmentRepairLogsBinding.unbind();
+        binding.unbind();
     }
 }

@@ -118,7 +118,7 @@ public interface ApiInterface {
      * @return
      */
     @GET("api/installers/repairs/{repair_id}")
-    Call<RepairDetail> getRepairDetail(@Path(value = "repair_id", encoded = true) int repairId);
+    Call<RepairDetail> getRepairDetail(@Path(value = "repair_id") int repairId);
 
     /**
      * This GET method return the total repairs data and the total no of repairs between start and end index as parameters
@@ -152,8 +152,8 @@ public interface ApiInterface {
      * @return
      */
     @GET("api/installers/installations/{install_id}")
-    Call<InstallationDetails> getInstallDetail(@Path(value = "install_id", encoded = true) String installId);
+    Call<InstallationDetails> getInstallDetail(@Path(value = "install_id") String installId);
 
     @POST("api/v1/android/app_crash_logs")
-    Call<ResponseBody> throwException(@Body ApiException exceptionThrow);
+    Call<ResponseBody> logExceptionToServer(@Body ApiException exceptionThrow);
 }

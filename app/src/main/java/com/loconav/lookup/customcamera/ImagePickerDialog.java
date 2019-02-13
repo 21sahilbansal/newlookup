@@ -96,7 +96,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
                 Log.e("list size",""+imagesUriArrayList.size());
                 new Thread(() -> {
                     try {
-                        imagesUriArrayList=ImageUtils.compressImageList(imagesUriArrayList,getContext());
+                        imagesUriArrayList=ImageUtils.compressImageList(imagesUriArrayList);
                     } catch (IOException e) {
                         Toaster.makeToast(getString(R.string.images_not_compressed));
                     }
@@ -115,7 +115,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
                         imageUri.setUri(Uri.parse(s));
                         imageUris.add(imageUri);}
                     try {
-                        imagesUriArrayList=ImageUtils.compressImageList(imageUris,getContext());
+                        imagesUriArrayList=ImageUtils.compressImageList(imageUris);
                     } catch (IOException e) {
                         Toaster.makeToast(getString(R.string.images_not_compressed));
                     }

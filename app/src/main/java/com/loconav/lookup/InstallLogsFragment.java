@@ -11,14 +11,12 @@ import android.widget.LinearLayout;
 
 import com.loconav.lookup.adapter.InstallLogAdapter;
 import com.loconav.lookup.base.BaseFragment;
-import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.databinding.FragmentInstallLogsBinding;
 import com.loconav.lookup.model.Installs;
 import com.loconav.lookup.model.InstallDatandTotalInstallCount;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
-import com.loconav.lookup.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +27,10 @@ import retrofit2.Response;
 import static com.loconav.lookup.Constants.ID;
 
 public class InstallLogsFragment extends BaseFragment {
-    private FragmentInstallLogsBinding fragmentInstallLogsBinding;
+    private FragmentInstallLogsBinding binding;
     private InstallLogAdapter installLogAdapter;
     private final List<Installs> fullInstallList=new ArrayList<>();
-    private final int placeholdersToLoad=20;
-    private boolean loadmore=true;
+    private final int itemsToLoad =20;
     private LinearLayoutManager layoutManager;
     private final FragmentController fragmentController=new FragmentController();
     @Override
@@ -45,7 +42,11 @@ public class InstallLogsFragment extends BaseFragment {
         //It is to initially load the number of items
         int start = 0,end=8;
         getInstallLogs(start,end);
+        //set the adapter
+        setInstallLogAdapter();
+    }
 
+    public void setInstallLogAdapter() {
         installLogAdapter=new InstallLogAdapter(fullInstallList, object -> {
             Bundle bundle = new Bundle();
             Installs installs = (Installs) object;
@@ -63,24 +64,21 @@ public class InstallLogsFragment extends BaseFragment {
                 super.onScrolled(recyclerView, dx, dy);
                 if(!recyclerView.canScrollVertically(1)&& dy>0) {
                     int totalItemCount = layoutManager.getItemCount();
-                    if(loadmore) {
-                        fragmentInstallLogsBinding.progessbar.setVisibility(View.VISIBLE);
-                        getInstallLogs(totalItemCount,totalItemCount+placeholdersToLoad);
-                    }
+                    binding.progessbar.setVisibility(View.VISIBLE);
+                    getInstallLogs(totalItemCount,totalItemCount+ itemsToLoad);
                 }
             }
         };
-
-        fragmentInstallLogsBinding.installs.addOnScrollListener(scrollListener);
+        binding.installs.addOnScrollListener(scrollListener);
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayout.VERTICAL);
-        fragmentInstallLogsBinding.installs.setLayoutManager(layoutManager);
-        fragmentInstallLogsBinding.installs.setAdapter(installLogAdapter);
+        binding.installs.setLayoutManager(layoutManager);
+        binding.installs.setAdapter(installLogAdapter);
     }
 
     @Override
     public void bindView(View view) {
-        fragmentInstallLogsBinding= DataBindingUtil.bind(view);
+        binding = DataBindingUtil.bind(view);
     }
 
     @Override
@@ -98,12 +96,11 @@ public class InstallLogsFragment extends BaseFragment {
                     fullInstallList.addAll(installList);
                     installLogAdapter.notifyDataSetChanged();
                 }
-                else {
-                    loadmore = false;
+                else{
+                    binding.installs.removeOnScrollListener(null);
                 }
-                fragmentInstallLogsBinding.progessbar.setVisibility(View.INVISIBLE);
+                binding.progessbar.setVisibility(View.INVISIBLE);
             }
-
             @Override
             public void handleFailure(Call<InstallDatandTotalInstallCount> call, Throwable t) {
                 Log.e("the data ", "the data not found");
@@ -114,6 +111,6 @@ public class InstallLogsFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        fragmentInstallLogsBinding.unbind();
+        binding.unbind();
     }
 }

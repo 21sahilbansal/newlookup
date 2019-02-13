@@ -22,22 +22,24 @@ import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
 
 public class ImageUtils {
 
-    private static ImageUri compressImageFile(ImageUri imageUri, Context context) throws IOException {
+    private static final Context FILE_CONTEXT =LookUpApplication.getInstance();
+
+    private static ImageUri compressImageFile(ImageUri imageUri) throws IOException {
         File imagefile=getImagefile();
         FileOutputStream fout=new FileOutputStream(imagefile);
-        Bitmap bitmap= MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri.getUri());
+        Bitmap bitmap= MediaStore.Images.Media.getBitmap(FILE_CONTEXT.getContentResolver(), imageUri.getUri());
         bitmap= Bitmap.createScaledBitmap(bitmap,(bitmap.getWidth()*30)/100,(bitmap.getHeight()*30)/100,true);
         bitmap.compress(Bitmap.CompressFormat.JPEG, 30, fout);
         ImageUri compressedImageUri=new ImageUri();
-        compressedImageUri.setUri(FileProvider.getUriForFile(context, FILE_PROVIDER_AUTHORITY, imagefile));
+        compressedImageUri.setUri(FileProvider.getUriForFile(FILE_CONTEXT, FILE_PROVIDER_AUTHORITY, imagefile));
         return compressedImageUri;
     }
 
-    public static ArrayList<ImageUri> compressImageList(ArrayList<ImageUri> imageUriArrayList, Context context) throws IOException {
+    public static ArrayList<ImageUri> compressImageList(ArrayList<ImageUri> imageUriArrayList) throws IOException {
         ArrayList<ImageUri> newImageUriList=new ArrayList<>();
         for(ImageUri imageUri :imageUriArrayList)
         {
-            newImageUriList.add(compressImageFile(imageUri,context));
+            newImageUriList.add(compressImageFile(imageUri));
         }
         return newImageUriList;
     }

@@ -44,7 +44,9 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
     @Override
     public void onFragmentCreated() {
         Bundle bundle = this.getArguments();
-        installId = bundle.getString(ID);
+        if(bundle!=null) {
+            installId = bundle.getString(ID);
+        }
         installDetailsBinding.swipeRefresh.setOnRefreshListener(this);
         loadInstallDetail();
         setHasOptionsMenu(true);
