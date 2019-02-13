@@ -13,6 +13,6 @@
         <attr name="limitImages" format="integer"  />
     </declare-styleable>
     <declare-styleable name="imageurl">
-        <attr name="imageurl" format="string"></attr>
+        <attr name="imageurl" format="string" />
     </declare-styleable>
 </resources>

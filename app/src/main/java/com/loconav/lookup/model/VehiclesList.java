@@ -1,21 +1,42 @@
 package com.loconav.lookup.model;
 
-import android.content.Intent;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
 
 /**
  * Created by sejal on 29-06-2018.
  */
 
-public class VehiclesList implements Serializable {
+public class VehiclesList implements Parcelable {
 
     @SerializedName("number")
     private String number;
     @SerializedName("id")
     private int id;
+
+    public VehiclesList()
+    {
+
+    }
+
+    private VehiclesList(Parcel in) {
+        number = in.readString();
+        id = in.readInt();
+    }
+
+    public static final Creator<VehiclesList> CREATOR = new Creator<VehiclesList>() {
+        @Override
+        public VehiclesList createFromParcel(Parcel in) {
+            return new VehiclesList(in);
+        }
+
+        @Override
+        public VehiclesList[] newArray(int size) {
+            return new VehiclesList[size];
+        }
+    };
 
     public String getNumber() {
         return number;
@@ -36,5 +57,16 @@ public class VehiclesList implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(number);
+        dest.writeInt(id);
     }
 }

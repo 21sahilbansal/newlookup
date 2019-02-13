@@ -3,7 +3,6 @@ package com.loconav.lookup;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
 
 import com.loconav.lookup.databinding.RepairBinding;
 import com.loconav.lookup.customcamera.ImageUri;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 public class RepairFragment extends BaseTitleFragment {
     private RepairBinding binding;
     private PassingReason passingReason;
-    FragmentController fragmentController=new FragmentController();
+    private final FragmentController fragmentController=new FragmentController();
     @Override
     public int setViewId() {
         return R.layout.repair;
@@ -29,12 +28,7 @@ public class RepairFragment extends BaseTitleFragment {
     public void onFragmentCreated() {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Upload repair image");
         passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
-        binding.proceed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onProceedClicked();
-            }
-        });
+        binding.proceed.setOnClickListener(view -> onProceedClicked());
     }
 
     @Override
@@ -59,7 +53,7 @@ public class RepairFragment extends BaseTitleFragment {
             DeviceIdFragment f1 =new DeviceIdFragment();
             fragmentController.loadFragment(f1,getActivity().getSupportFragmentManager(),R.id.frameLayout,true);
         }else
-            Toast.makeText(getContext(),"Add Device Image",Toast.LENGTH_SHORT).show();
+            Toaster.makeToast(getString(R.string.add_device_image));
     }
 
 

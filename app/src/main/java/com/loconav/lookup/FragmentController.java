@@ -1,19 +1,17 @@
 package com.loconav.lookup;
 
 
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+
 import java.util.List;
 
 /**
  * Created by sejal on 12-07-2018.
  */
 
-public class FragmentController extends AppCompatActivity {
+public class FragmentController {
 
     private String TAG_NAME_FRAGMENT = "ACTIVITY_FRAGMENT";
 
@@ -27,13 +25,13 @@ public class FragmentController extends AppCompatActivity {
         if(addToBackStack) {
             transaction.addToBackStack(fragment.getClass().getName());
         }
-        transaction.commit();
+        transaction.commitAllowingStateLoss();//as there was a state loss and the final state is not saved sometime and i cannot replicate this error
     }
     public  void deleteFragment(final  Fragment fragment,FragmentManager fragmentManager)
     {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.remove(fragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
     public  void replaceFragment(final Fragment fragment,FragmentManager fragmentManager,int resId,Boolean addToBackStack) {
@@ -42,7 +40,7 @@ public class FragmentController extends AppCompatActivity {
         if(addToBackStack) {
             transaction.addToBackStack(fragment.getClass().getName());
         }
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
     public Fragment getFragmentsStack(FragmentManager fragmentManager) {
@@ -57,7 +55,6 @@ public class FragmentController extends AppCompatActivity {
 
     public  void deleteFragmentStack(FragmentManager fm)
     {
-
         for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
             fm.popBackStack();
         }

@@ -7,7 +7,7 @@ import com.loconav.lookup.login.model.LoginResponse;
  * Created by prateek on 12/06/18.
  */
 
-public interface LoginView extends BaseView{
+interface LoginView extends BaseView{
     void onLoginSuccess(LoginResponse loginResponse);
     void onLoginFailure();
     void showSigningInDialog();

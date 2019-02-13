@@ -6,15 +6,15 @@ package com.loconav.lookup.base;
 
 public class PubSubEvent {
 
-    private Object object;
-    private String message;
+    private final Object object;
+    private final String message;
 
-    public PubSubEvent(String message, Object object) {
+    protected PubSubEvent(String message, Object object) {
         this.object = object;
         this.message = message;
     }
 
-    public PubSubEvent(String message) {
+    protected PubSubEvent(String message) {
         this.message = message;
         this.object = null;
     }

@@ -5,7 +5,6 @@ import com.loconav.lookup.application.SharedPrefHelper;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.plugins.RxJavaPlugins;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -20,22 +19,19 @@ import static com.loconav.lookup.UserPrefs.authenticationToken;
  */
 
 public class StagingApiClient {
-    public static final String BASE_URL = "http://staging.loconav.com/";
+    private static final String BASE_URL = "http://staging.loconav.com/";
     private static Retrofit retrofit = null;
     public static Retrofit getClient() {
         if (retrofit==null) {
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder().connectTimeout(60, TimeUnit.SECONDS)
                     .readTimeout(100,TimeUnit.SECONDS);
 
-            httpClient.addInterceptor(new Interceptor() {
-                @Override
-                public Response intercept(Chain chain) throws IOException {
-                    Request request = chain.request().newBuilder()
-                            .addHeader("X-Linehaul-V2-Secret", "1f0ec3aafb662b71b0dcee84cef5615ea78bd")
-                            .addHeader("Authorization",SharedPrefHelper.getInstance().getStringData(authenticationToken)).build();
-                    return chain.proceed(request);
+            httpClient.addInterceptor(chain -> {
+                Request request = chain.request().newBuilder()
+                        .addHeader("X-Linehaul-V2-Secret", "1f0ec3aafb662b71b0dcee84cef5615ea78bd")
+                        .addHeader("Authorization",SharedPrefHelper.getInstance().getStringData(authenticationToken)).build();
+                return chain.proceed(request);
 
-                }
             });
 
 

@@ -19,7 +19,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.databinding.FragmentDeviceIdBinding;
@@ -34,6 +33,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import static com.loconav.lookup.Constants.DEVICE_ID;
+import static com.loconav.lookup.Constants.LOOKUP_RESPONSE;
 import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
 import static com.loconav.lookup.Constants.USER_ID;
 
@@ -45,12 +45,12 @@ public class DeviceIdFragment extends BaseTitleFragment {
 
 
     private FragmentDeviceIdBinding binding;
-    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+    private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     private ProgressDialog progressDialog;
     private SharedPrefHelper sharedPrefHelper;
     private PassingReason passingReason;
-    FragmentController fragmentController = new FragmentController();
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+    private final FragmentController fragmentController = new FragmentController();
+    private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra(DEVICE_ID);
@@ -88,7 +88,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
 
     private void initProgressDialog() {
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Please Wait...");
+        progressDialog.setMessage(getString(R.string.please_wait));
         progressDialog.setCancelable(false);
     }
 
@@ -108,7 +108,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
                             passingReason.setDeviceid(binding.etDeviceId.getText().toString());
                             ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable("lookup_response", response.body());
+                            bundle.putParcelable(LOOKUP_RESPONSE, response.body());
                             deviceDetailFragment.setArguments(bundle);
                             fragmentController.loadFragment(deviceDetailFragment, getFragmentManager(), R.id.frameLayout, true);
                             progressDialog.dismiss();
@@ -117,47 +117,41 @@ public class DeviceIdFragment extends BaseTitleFragment {
                         @Override
                         public void handleFailure(Call<LookupResponse> call, Throwable t) {
                             progressDialog.dismiss();
-                            Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                            Toaster.makeToast(t.getMessage());
                         }
                     });
                 } else
-                    Toast.makeText(getContext(), "Internet not available", Toast.LENGTH_SHORT).show();
+                    Toaster.makeToast(getString(R.string.internet_not_available));
             }
                 else
-                    Toast.makeText(getContext(), "Device id can't be empty", Toast.LENGTH_LONG).show();
+                    Toaster.makeToast(getString(R.string.device_cant_be_empty));
 
         });
-        binding.fastTag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        binding.fastTag.setOnClickListener(view -> {
 //                TODO : Open new activity ...
-                Intent intent = new Intent(getContext(), FastTagActivity.class);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(getContext(), FastTagActivity.class);
+            startActivity(intent);
         });
     }
     private void setScanner() {
-        binding.ibQrScanner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(getActivity()!=null)
-                    AppUtils.hideKeyboard(getActivity());
-                QRScannerFragment qrScannerFragment = new QRScannerFragment();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.container,qrScannerFragment).addToBackStack("qr_scanner");
-                transaction.commit();
-            }
+        binding.ibQrScanner.setOnClickListener(view -> {
+            if(getActivity()!=null)
+                AppUtils.hideKeyboard(getActivity());
+            QRScannerFragment qrScannerFragment = new QRScannerFragment();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.container,qrScannerFragment).addToBackStack("qr_scanner");
+            transaction.commit();
         });
     }
 
 
-    public void registerBroadcast() {
+    private void registerBroadcast() {
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mMessageReceiver,
                 new IntentFilter(MESSENGER_SCANNED_ID));
     }
 
 
-    public void unRegisterBroadcastReceiver() {
+    private void unRegisterBroadcastReceiver() {
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mMessageReceiver);
     }
 
@@ -186,23 +180,17 @@ public class DeviceIdFragment extends BaseTitleFragment {
         builder.setCancelable(false);
 
         final AlertDialog mAlertDialog = builder.create();
-        mAlertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                b.setTextColor(Color.BLACK);
-                b.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // TODO Do something
-                        if(!input.getText().toString().trim().equals("")) {
-                            sharedPrefHelper.setStringData(USER_ID ,input.getText().toString());
-                            mAlertDialog.cancel();
-                        } else
-                            Toast.makeText(getContext(), "User Id can't be Empty", Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
+        mAlertDialog.setOnShowListener(dialog -> {
+            Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            b.setTextColor(Color.BLACK);
+            b.setOnClickListener(view -> {
+                // TODO Do something
+                if (!input.getText().toString().trim().equals("")) {
+                    sharedPrefHelper.setStringData(USER_ID, input.getText().toString());
+                    mAlertDialog.cancel();
+                } else
+                    Toaster.makeToast(getString(R.string.user_cant_empty));
+            });
         });
         mAlertDialog.show();
     }

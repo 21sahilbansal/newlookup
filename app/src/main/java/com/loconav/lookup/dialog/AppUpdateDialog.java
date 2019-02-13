@@ -15,12 +15,14 @@ import com.loconav.lookup.R;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseDialogFragment;
 
+import java.util.Objects;
+
 import static com.loconav.lookup.AppUpdateController.LATER;
 
 public class AppUpdateDialog extends BaseDialogFragment {
 
-    Button laterButton;
-    Button okButton;
+    private Button laterButton;
+    private Button okButton;
     private boolean forceUpdate;
     private int nextVersion;
 
@@ -37,7 +39,7 @@ public class AppUpdateDialog extends BaseDialogFragment {
     @Nullable
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_update, new LinearLayout(getActivity()), false);
+        View view = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.dialog_update, new LinearLayout(getActivity()), false);
         laterButton = view.findViewById(R.id.later_button);
         okButton = view.findViewById(R.id.ok_button);
         attachListeners();
@@ -55,7 +57,7 @@ public class AppUpdateDialog extends BaseDialogFragment {
         });
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
         builder.setContentView(view);
-        forceUpdate = getArguments().getBoolean("force_update");
+        forceUpdate = Objects.requireNonNull(getArguments()).getBoolean("force_update");
         nextVersion = getArguments().getInt("next_version");
         initViews();
         return builder;
@@ -82,6 +84,6 @@ public class AppUpdateDialog extends BaseDialogFragment {
     }
 
     private void goToPlayStore() {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getArguments().getString("url"))));
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Objects.requireNonNull(getArguments()).getString("url"))));
     }
 }

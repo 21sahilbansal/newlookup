@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -14,11 +15,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
+
 import com.loconav.lookup.BaseTitleFragment;
+import com.loconav.lookup.Toaster;
 import com.loconav.lookup.customcamera.CustomImagePicker;
 import com.loconav.lookup.CustomInflater;
-import com.loconav.lookup.Input;
+import com.loconav.lookup.model.Input;
 import com.loconav.lookup.LandingActivity;
 import com.loconav.lookup.LookupSubActivity;
 import com.loconav.lookup.R;
@@ -38,6 +40,7 @@ import com.loconav.lookup.customcamera.ImageUtils;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -54,16 +57,17 @@ public class CommonRepairFragment extends BaseTitleFragment {
     private PassingReason passingReason;
     private String userChoice;
     private Boolean validate=false;
-    private ArrayList<Input> addtional = new ArrayList<>();
-    private ArrayList<String> spinnerList = new ArrayList<>();
-    private JSONObject jsonObj = new JSONObject();
-    CustomInflater customInflater;
-    Attachments attachments;
-    Handler handler;
-    HandlerThread handlerThread = new HandlerThread("background");
+    private final ArrayList<Input> addtional = new ArrayList<>();
+    private final ArrayList<String> spinnerList = new ArrayList<>();
+    private final JSONObject jsonObj = new JSONObject();
+    private CustomInflater customInflater;
+    private Attachments attachments;
+    private Handler handler;
+    private final HandlerThread handlerThread = new HandlerThread("background");
     private ProgressDialog progressDialog;
-    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-    ArrayList<Attachments> postRepairAttachmentsList =new ArrayList<>(),preRepairAttachmentList=new ArrayList<>();
+    private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+    private final ArrayList<Attachments> postRepairAttachmentsList =new ArrayList<>();
+    private final ArrayList<Attachments> preRepairAttachmentList=new ArrayList<>();
     @Override
     public int setViewId() {
         return R.layout.fragment_common_repair;
@@ -71,106 +75,119 @@ public class CommonRepairFragment extends BaseTitleFragment {
 
     @Override
     public void onFragmentCreated() {
+        //progress dialog features
+        progressDialog = new ProgressDialog(getActivity());//we are on ui thread
+        progressDialog.setMessage(getString(R.string.image_compressing));
+        progressDialog.setCancelable(false);
+        //start the handler thread to get looper
         handlerThread.start();
         handler = new Handler(handlerThread.getLooper());
-        passingReason = ((LookupSubActivity) getActivity()).getPassingReason();
-        addSpinnerData();
+        passingReason = ((LookupSubActivity) Objects.requireNonNull(getActivity())).getPassingReason();
         customInflater = new CustomInflater(getContext());
-        LinearLayout linearLayout = binding.ll;
+        addSpinnerData();
         repairRequirements = new RepairRequirements();
         userChoice = passingReason.getUserChoice();
         addtional.addAll(passingReason.getReasonResponse().getAdditional_fields());
+        LinearLayout linearLayout = binding.linearLayout;
 
         //making the custom view
         for (int i = 0; i < addtional.size(); i++) {
-            if (addtional.get(i).getField_type().equals("textView")) {
-                customInflater.addtext(addtional.get(i).getHint() + passingReason.getDeviceid(), linearLayout, addtional.get(i), 0 + i);
-            } else if (addtional.get(i).getField_type().equals("text")) {
-                customInflater.addEditText(linearLayout, addtional.get(i), 0 + i);
-            } else if (addtional.get(i).getField_type().equals("spinner")) {
-                customInflater.addSpinner(linearLayout, spinnerList, 0 + i, addtional.get(i));
-            } else if (addtional.get(i).getField_type().equals("TruckImages")) {
-                customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_truck_images), 1, getString(R.string.truck_images));
-            } else if (addtional.get(i).getField_type().equals("DeviceImages")) {
-                customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_device_images), 1, getString(R.string.device_images));
-            } else if (addtional.get(i).getField_type().equals("WireConnectionImages")) {
-                customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_wire_connection), 2, getString(R.string.wire_connection_images));
-            } else if (addtional.get(i).getField_type().equals("EarthWireConnectionImages")) {
-                customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_earth_wire_connection), 1, getString(R.string.earthwire_connection_images));
-            } else if (addtional.get(i).getField_type().equals("DeviceFitting")) {
-                customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_device_fitting), 3, getString(R.string.device_fitting_images));
-            } else if (addtional.get(i).getField_type().equals("Accessories")) {
-                customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_accessories), 2, getString(R.string.accessories_images));
+            switch (addtional.get(i).getField_type()) {
+                case "textView":
+                    customInflater.addtext(addtional.get(i).getHint() + passingReason.getDeviceid(), linearLayout, addtional.get(i), 0 + i);
+                    break;
+                case "text":
+                    customInflater.addEditText(linearLayout, addtional.get(i), 0 + i);
+                    break;
+                case "spinner":
+                    customInflater.addSpinner(linearLayout, spinnerList, 0 + i, addtional.get(i));
+                    break;
+                case "TruckImages":
+                    customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_truck_images), 1, getString(R.string.truck_images));
+                    break;
+                case "DeviceImages":
+                    customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_device_images), 1, getString(R.string.device_images));
+                    break;
+                case "WireConnectionImages":
+                    customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_wire_connection), 2, getString(R.string.wire_connection_images));
+                    break;
+                case "EarthWireConnectionImages":
+                    customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_earth_wire_connection), 1, getString(R.string.earthwire_connection_images));
+                    break;
+                case "DeviceFitting":
+                    customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_device_fitting), 3, getString(R.string.device_fitting_images));
+                    break;
+                case "Accessories":
+                    customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_accessories), 2, getString(R.string.accessories_images));
+                    break;
             }
         }
 
         // performing the click on upload button
         binding.share.setOnClickListener(v -> {
+
+            //So that button is not clicked twice
             binding.share.setEnabled(false);
-            for (int i = 0; i < binding.ll.getChildCount() - 1; i++) {
-                View view = binding.ll.getChildAt(i);
+
+            //so validate that all feilds are filled correctly
+            for (int i = 0; i < binding.linearLayout.getChildCount() - 1; i++) {
+                View view = binding.linearLayout.getChildAt(i);
                 validate = validator(view);
                 if(!validate){
                     binding.share.setEnabled(true);
                     break;
                 }
             }
+            
             if(validate) {
+                //Both the attachements are cleared because if one time the request to server fails then there should not be redundant
+                //images next time so we have to clear the images list every time.
                 preRepairAttachmentList.clear();
                 postRepairAttachmentsList.clear();
-                progressDialog = new ProgressDialog(getActivity());//we are on ui thread
-                progressDialog.setMessage("Image Compressing..");
-                progressDialog.setCancelable(false);
                 progressDialog.show();
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        //Compresssiong Post Repair Images and making list of Attachment type to send to sever
-                        for (int i = 0; i < binding.ll.getChildCount() - 1; i++) {
-                            View view = binding.ll.getChildAt(i);
-                            if (view instanceof CustomImagePicker) {
-                                CustomImagePicker customImagePicker = (CustomImagePicker) view;
-                                if(customImagePicker.textID.equals(getString(R.string.truck_images)))
-                                    compressImages(customImagePicker,"truck_image");
-                                else if(customImagePicker.textID.equals(getString(R.string.device_images)))
-                                    compressImages(customImagePicker,"device_image");
-                                else  if(customImagePicker.textID.equals(getString(R.string.wire_connection_images)))
-                                    compressImages(customImagePicker,"wire_connection");
-                                else  if(customImagePicker.textID.equals(getString(R.string.earthwire_connection_images)))
-                                    compressImages(customImagePicker,"earth_wire_connection");
-                                else  if(customImagePicker.textID.equals(getString(R.string.accessories_images)))
-                                    compressImages(customImagePicker,"accessories");
-                                else if(customImagePicker.textID.equals(getString(R.string.device_fitting_images)))
-                                    compressImages(customImagePicker,"device_fitting");
-                            }
+                handler.post(() -> {
+                    //Compresssiong Post Repair Images and making list of Attachment type to send to sever
+                    for (int i = 0; i < binding.linearLayout.getChildCount() - 1; i++) {
+                        View view = binding.linearLayout.getChildAt(i);
+                        if (view instanceof CustomImagePicker) {
+                            CustomImagePicker customImagePicker = (CustomImagePicker) view;
+                            if(customImagePicker.textID.equals(getString(R.string.truck_images)))
+                                compressImages(customImagePicker,"truck_image");
+                            else if(customImagePicker.textID.equals(getString(R.string.device_images)))
+                                compressImages(customImagePicker,"device_image");
+                            else  if(customImagePicker.textID.equals(getString(R.string.wire_connection_images)))
+                                compressImages(customImagePicker,"wire_connection");
+                            else  if(customImagePicker.textID.equals(getString(R.string.earthwire_connection_images)))
+                                compressImages(customImagePicker,"earth_wire_connection");
+                            else  if(customImagePicker.textID.equals(getString(R.string.accessories_images)))
+                                compressImages(customImagePicker,"accessories");
+                            else if(customImagePicker.textID.equals(getString(R.string.device_fitting_images)))
+                                compressImages(customImagePicker,"device_fitting");
                         }
-                        repairRequirements.setPost_repair_images(postRepairAttachmentsList);
-                        //Compression Pre Repair Images and making list of Attachement type to send to server
-                        for (int i = 0; i < passingReason.getImagesPreRepair(); i++) {
-                            String image = null;
-                            attachments=new Attachments();
-                            try {
-                                image = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(),Uri.parse(passingReason.getImagesList().get(i))),getContext());
-                                attachments.setTitle("pre_repair");
-                                attachments.setImage(image);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            preRepairAttachmentList.add(attachments);
-                        }
-                        repairRequirements.setPre_repair_images(preRepairAttachmentList);
-
-                        if(getActivity()!=null) {
-                            getActivity().runOnUiThread(new Runnable() { // now we are not on ui thread so we have to show progress on ui thread so we call method runOnUiThread()
-                                @Override
-                                public void run() {
-                                    progressDialog.setMessage("Uploading...");
-                                }
-                            });
-                        }
-                        //upload repair requirement
-                        hitApi(repairRequirements);
                     }
+                    repairRequirements.setPost_repair_images(postRepairAttachmentsList);
+
+                    //Compression Pre Repair Images and making list of Attachement type to send to server
+                    for (int i = 0; i < passingReason.getImagesPreRepair(); i++) {
+                        String image = null;
+                        attachments=new Attachments();
+                        try {
+                            image=ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), Uri.parse(passingReason.getImagesList().get(i))));
+                            attachments.setTitle("pre_repair");
+                            attachments.setImage(image);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        preRepairAttachmentList.add(attachments);
+                    }
+                    repairRequirements.setPre_repair_images(preRepairAttachmentList);
+
+                    if(getActivity()!=null) {
+                        // now we are not on ui thread so we have to show progress on ui thread so we call method runOnUiThread()
+                        getActivity().runOnUiThread(() -> progressDialog.setMessage(getString(R.string.uploading)));
+                    }
+                    //upload repair requirement
+                    hitApi(repairRequirements);
                 });
             }
         });
@@ -188,7 +205,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
         } else if (object instanceof Spinner) {
             Spinner spinner = (Spinner)object;
             if (spinner.getSelectedItem().toString().equals("Select option")) {
-                Toast.makeText(getContext(), "Select reasons", Toast.LENGTH_LONG).show();
+                Toaster.makeToast(getString(R.string.select_reasons));
                 return false;
             }else{
                 getSpinnerData(spinner);
@@ -196,7 +213,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
         } else if (object instanceof CustomImagePicker) {
             CustomImagePicker customImagePicker = (CustomImagePicker) object;
             if (customImagePicker.getimagesList().size() < 1 && !customImagePicker.textID.equals(getString(R.string.accessories_images))) {
-                Toast.makeText(getContext(), "Add "+customImagePicker.textID, Toast.LENGTH_SHORT).show();
+                Toaster.makeToast("Add "+customImagePicker.textID);
                 return false;
             }
         }
@@ -212,7 +229,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
     @Override
     public void getComponentFactory() {}
 
-    public void makeJson(EditText editText) {
+    private void makeJson(EditText editText) {
         Input i = (Input) editText.getTag();
         try {
             jsonObj.put(userChoice, "yes");
@@ -227,7 +244,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
         repairRequirements.setRepairData(jsonObj.toString());
     }
 
-    void getSpinnerData(Spinner spinner) {
+    private void getSpinnerData(Spinner spinner) {
         String text = spinner.getSelectedItem().toString();
         for (int i = 0; i < sizelist + 1; i++) {
             if (spinnerList.get(i).equals(text)) {
@@ -239,12 +256,12 @@ public class CommonRepairFragment extends BaseTitleFragment {
         repairRequirements.setReason_id(reasonid);
     }
 
-        @Override
-        public String getTitle () {
+    @Override
+    public String getTitle () {
             return "" + userChoice;
         }
 
-    void addSpinnerData() {
+    private void addSpinnerData() {
         spinnerList.add("Select option");
         sizelist = passingReason.getReasonResponse().getReasons().size();
         for (int i = 0; i < sizelist; i++) {
@@ -257,13 +274,12 @@ public class CommonRepairFragment extends BaseTitleFragment {
      * @param imagePicker It takes the instance of CustomImagePicker class to get the images from it
      * @param title It is used to set the tiltle for those images
      */
-    public void compressImages(CustomImagePicker imagePicker,String title)
-    {
+    private void compressImages(CustomImagePicker imagePicker, String title) {
         String compressedImage;
         for (ImageUri imageUri : imagePicker.getimagesList()) {
             attachments=new Attachments();
             try {
-                compressedImage = ImageUtils.reduceBititmap(FileUtils.bitmapTouri(getContext(), imageUri.getUri()), getActivity());
+                compressedImage = ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(Objects.requireNonNull(getContext()).getContentResolver(), imageUri.getUri()));
                 attachments.setTitle(title);
                 attachments.setImage(compressedImage);
                 postRepairAttachmentsList.add(attachments);
@@ -274,21 +290,19 @@ public class CommonRepairFragment extends BaseTitleFragment {
         }
     }
 
-    public void hitApi(RepairRequirements repairRequirements) {
+    private void hitApi(RepairRequirements repairRequirements) {
         apiService.addRepairs(repairRequirements).enqueue(new RetrofitCallback<RepairResponse>() {
 
             @Override
             public void handleSuccess(Call<RepairResponse> call, Response<RepairResponse> response) {
                 progressDialog.dismiss();
-                FileUtils.deleteFiles(getContext());
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
-                builder.setMessage(response.body().getMessage())
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(getContext(), LandingActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                            }
+                FileUtils.deleteFiles(Objects.requireNonNull(getContext()));
+                final AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()), R.style.DialogTheme);
+                builder.setMessage(Objects.requireNonNull(response.body()).getMessage())
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                            Intent intent = new Intent(getContext(), LandingActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
                         })
                         .setCancelable(false)
                         .show();
@@ -298,7 +312,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
             public void handleFailure(Call<RepairResponse> call, Throwable t) {
                 progressDialog.dismiss();
                 binding.share.setEnabled(true);
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+                Toaster.makeToast(t.getMessage());
                 Log.e("error ", t.getMessage());
             }
         });
@@ -307,6 +321,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        handlerThread.quit();
         binding.unbind();
     }
 }

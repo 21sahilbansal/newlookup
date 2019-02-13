@@ -4,17 +4,16 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.Html;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.loconav.lookup.adapter.ImageSetterAdapter;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.databinding.FragmentRepairDetailsBinding;
 import com.loconav.lookup.dialog.FullImageDialog;
+import com.loconav.lookup.model.Input;
 import com.loconav.lookup.model.RepairDetail;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
@@ -23,10 +22,12 @@ import com.loconav.lookup.network.rest.ApiInterface;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.loconav.lookup.Constants.ID;
+
 public class RepairDetailFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
-    private ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-    FragmentRepairDetailsBinding repairDetailsBinding;
-    int repairId;
+    private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+    private FragmentRepairDetailsBinding repairDetailsBinding;
+    private int repairId=0;
     @Override
     public int setViewId() {
         return R.layout.fragment_repair_details;
@@ -35,7 +36,9 @@ public class RepairDetailFragment extends BaseFragment implements SwipeRefreshLa
     @Override
     public void onFragmentCreated() {
         Bundle bundle = this.getArguments();
-        repairId = bundle.getInt("id");
+        if(bundle!=null) {
+            repairId = bundle.getInt(ID);
+        }
         repairDetailsBinding.swipeRefresh.setOnRefreshListener(this);
         loadRepairDetail();
     }
@@ -57,11 +60,11 @@ public class RepairDetailFragment extends BaseFragment implements SwipeRefreshLa
     @Override
     public void onRefresh() {
         loadRepairDetail();
-        if(((LinearLayout) repairDetailsBinding.repairdata).getChildCount() > 0)
-            ((LinearLayout) repairDetailsBinding.repairdata).removeAllViews();
+        if(repairDetailsBinding.repairdata.getChildCount() > 0)
+            repairDetailsBinding.repairdata.removeAllViews();
     }
 
-    public void loadRepairDetail() {
+    private void loadRepairDetail() {
         apiService.getRepairDetail(repairId).enqueue(new RetrofitCallback<RepairDetail>() {
             @Override
             public void handleSuccess(Call<RepairDetail> call, Response<RepairDetail> response) {
@@ -72,8 +75,6 @@ public class RepairDetailFragment extends BaseFragment implements SwipeRefreshLa
                         CustomInflater customInflater = new CustomInflater(getContext());
                         int index = 0;
                         repairDetailsBinding.setRepairs(repairs);
-                        if (repairs.getAuditNotes() != null)
-                            repairDetailsBinding.auditNotes.setText(Html.fromHtml(repairs.getAuditNotes()));
                         for (String r : repairs.getRepairData().keySet()) {
                             Input input = new Input(r, r, r, r);
                             TextView labels = customInflater.addtext(r, repairDetailsBinding.repairdata, input, index);
@@ -116,15 +117,13 @@ public class RepairDetailFragment extends BaseFragment implements SwipeRefreshLa
                 }
                 else
                 {
-                    if(getContext()!=null)
-                        Toast.makeText(getContext(), "Swipe to Refresh", Toast.LENGTH_SHORT).show();
+                    Toaster.makeToast(getString(R.string.swipe_to_refresh));
                 }
             }
             @Override
             public void handleFailure(Call<RepairDetail> call, Throwable t) {
                 repairDetailsBinding.swipeRefresh.setRefreshing(false);
-                if(getContext()!=null)
-                    Toast.makeText(getContext(), ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toaster.makeToast(t.getMessage());
             }
         });
     }

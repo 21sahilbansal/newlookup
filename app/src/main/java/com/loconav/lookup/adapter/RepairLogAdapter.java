@@ -13,8 +13,8 @@ import java.util.List;
 
 
 public class RepairLogAdapter extends BaseAdapter {
-    public List<Repairs> repairsdata;
-    private Callback callback;
+    private final List<Repairs> repairsdata;
+    private final Callback callback;
     public RepairLogAdapter(List<Repairs> repairsList,Callback callback)
     {
         this.repairsdata=repairsList;

@@ -24,12 +24,13 @@ import com.loconav.lookup.customcamera.Callback;
 import java.util.concurrent.TimeUnit;
 
 
-public class LocationGetter implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
-    Context context;
-    GoogleApiClient googleApiClient;
-    Callback callback;
-    Location mLocation;
-    long FASTEST_INTERVAL =  TimeUnit.MINUTES.toMillis(30);
+@SuppressWarnings("deprecation")
+class LocationGetter implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+    private final Context context;
+    private final GoogleApiClient googleApiClient;
+    private final Callback callback;
+    private Location mLocation;
+    private final long FASTEST_INTERVAL =  TimeUnit.MINUTES.toMillis(30);
     private Location currentLocation = null;
     private long locationUpdatedAt = Long.MIN_VALUE;
 
@@ -42,7 +43,7 @@ public class LocationGetter implements GoogleApiClient.ConnectionCallbacks, Goog
         }
     }
 
-    public GoogleApiClient getInstance() {
+    private GoogleApiClient getInstance() {
         GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(context).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(LocationServices.API).build();
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return null;
@@ -51,7 +52,7 @@ public class LocationGetter implements GoogleApiClient.ConnectionCallbacks, Goog
         return mGoogleApiClient;
     }
 
-    public void settingsrequest() {
+    private void settingsrequest() {
         Log.e("settingsrequest", "Comes");
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER);

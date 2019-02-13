@@ -206,7 +206,6 @@
                 custom:titleText="@string/upload_wire_connection"
                 custom:limitImages="2">
             </com.loconav.lookup.customcamera.CustomImagePicker>
-
             <com.loconav.lookup.customcamera.CustomImagePicker
                 android:id="@+id/Accessories"
                 android:layout_width="match_parent"

@@ -9,10 +9,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.loconav.lookup.R;
@@ -29,15 +27,14 @@ public class DateTimeDialog extends BaseDialogFragment {
     private DialogDateTimePickerBinding binding;
     private String str1,str2;
     private final Calendar c = Calendar.getInstance();
-    private int mYear = c.get(Calendar.YEAR);
-    private int mMonth = c.get(Calendar.MONTH);
-    private int mDay = c.get(Calendar.DAY_OF_MONTH);
-    private int mHour = c.get(Calendar.HOUR_OF_DAY);
-    private int mMinute = c.get(Calendar.MINUTE);
+    private final int mYear = c.get(Calendar.YEAR);
+    private final int mMonth = c.get(Calendar.MONTH);
+    private final int mDay = c.get(Calendar.DAY_OF_MONTH);
+    private final int mHour = c.get(Calendar.HOUR_OF_DAY);
+    private final int mMinute = c.get(Calendar.MINUTE);
 
     public static DateTimeDialog newInstance() {
-        DateTimeDialog dateTimeDialog = new DateTimeDialog();
-        return dateTimeDialog;
+        return new DateTimeDialog();
     }
 
     @NonNull
@@ -48,19 +45,9 @@ public class DateTimeDialog extends BaseDialogFragment {
                         false);
         binding= DataBindingUtil.bind(dialogView);
 
-        binding.date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               addDatepicker();
-            }
-        });
+        binding.date.setOnClickListener(v -> addDatepicker());
 
-        binding.time.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addTimerPicker();
-            }
-        });
+        binding.time.setOnClickListener(v -> addTimerPicker());
 
         binding.timeTv.setText(mHour+":"+mMinute);
         binding.dateTv.setText(mDay+"/"+mMonth+"/"+mYear);
@@ -71,43 +58,25 @@ public class DateTimeDialog extends BaseDialogFragment {
                     .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         }
         builder.setContentView(dialogView);
-        binding.DateDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                str1=binding.dateTv.getText().toString();
-                str2=binding.timeTv.getText().toString();
-                dismiss();
-              //  newc.displaytext();
+        binding.DateDone.setOnClickListener(view -> {
+            str1=binding.dateTv.getText().toString();
+            str2=binding.timeTv.getText().toString();
+            dismiss();
+          //  newc.displaytext();
 
-            }
         });
         return builder;
     }
 
     private void addDatepicker(){
 
-        DatePickerDialog dp=new DatePickerDialog(getContext(),new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year,
-                                  int monthOfYear, int dayOfMonth) {
-             binding.dateTv.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
-            }
-        },mYear,mMonth,mDay);
+        DatePickerDialog dp=new DatePickerDialog(getContext(), (view, year, monthOfYear, dayOfMonth) -> binding.dateTv.setText(dayOfMonth+"/"+monthOfYear+"/"+year),mYear,mMonth,mDay);
         dp.show();
     }
 
     private void addTimerPicker(){
         TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
-                new TimePickerDialog.OnTimeSetListener() {
-
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                          int minute) {
-
-                        binding.timeTv.setText(hourOfDay + ":" + minute);
-                    }
-                }, mHour, mMinute, false);
+                (view, hourOfDay, minute) -> binding.timeTv.setText(hourOfDay + ":" + minute), mHour, mMinute, false);
         timePickerDialog.show();
     }
 

@@ -1,15 +1,16 @@
 package com.loconav.lookup.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
 
 /**
  * Created by sejal on 25-07-2018.
  */
 
-public class ReasonTypeResponse implements Serializable {
+public class ReasonTypeResponse implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -23,11 +24,34 @@ public class ReasonTypeResponse implements Serializable {
     @Expose
     private String name;
 
+    public ReasonTypeResponse()
+    {
+
+    }
+
     public ReasonTypeResponse(int id, String name, String iconUrl) {
         this.id = id;
         this.name = name;
         this.iconUrl = iconUrl;
     }
+
+    private ReasonTypeResponse(Parcel in) {
+        id = in.readInt();
+        iconUrl = in.readString();
+        name = in.readString();
+    }
+
+    public static final Creator<ReasonTypeResponse> CREATOR = new Creator<ReasonTypeResponse>() {
+        @Override
+        public ReasonTypeResponse createFromParcel(Parcel in) {
+            return new ReasonTypeResponse(in);
+        }
+
+        @Override
+        public ReasonTypeResponse[] newArray(int size) {
+            return new ReasonTypeResponse[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -51,5 +75,17 @@ public class ReasonTypeResponse implements Serializable {
 
     public void setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(iconUrl);
+        dest.writeString(name);
     }
 }

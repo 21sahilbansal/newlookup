@@ -1,17 +1,43 @@
 package com.loconav.lookup.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class AttachmentsDetails
+public class AttachmentsDetails implements Parcelable
     {
         @SerializedName("id")
-         String id;
+        private
+        String id;
         @SerializedName("updated_at")
-         String updatedAt;
+        private
+        String updatedAt;
         @SerializedName("urls")
-         Urls urls;
+        private
+        Urls urls;
         @SerializedName("tag")
+        private
         String tag;
+
+        private AttachmentsDetails(Parcel in) {
+            id = in.readString();
+            updatedAt = in.readString();
+            urls = in.readParcelable(Urls.class.getClassLoader());
+            tag = in.readString();
+        }
+
+        public static final Creator<AttachmentsDetails> CREATOR = new Creator<AttachmentsDetails>() {
+            @Override
+            public AttachmentsDetails createFromParcel(Parcel in) {
+                return new AttachmentsDetails(in);
+            }
+
+            @Override
+            public AttachmentsDetails[] newArray(int size) {
+                return new AttachmentsDetails[size];
+            }
+        };
 
         public String getTag() {
             return tag;
@@ -42,5 +68,18 @@ public class AttachmentsDetails
         public void setUrls (Urls urls)
         {
             this.urls = urls;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(id);
+            dest.writeString(updatedAt);
+            dest.writeParcelable(urls, flags);
+            dest.writeString(tag);
         }
     }
