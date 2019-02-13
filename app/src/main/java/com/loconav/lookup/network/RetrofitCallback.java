@@ -63,7 +63,7 @@ public abstract class RetrofitCallback<T> implements Callback<T> {
         exceptionThrow.setCrash_log(exception);
         exceptionThrow.setNote(api);
 
-        apiService.throwException(exceptionThrow).enqueue(new RetrofitCallback<ResponseBody>() {
+        apiService.logExceptionToServer(exceptionThrow).enqueue(new RetrofitCallback<ResponseBody>() {
             @Override
             public void handleSuccess(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.e(TAG,"Exception thrown");

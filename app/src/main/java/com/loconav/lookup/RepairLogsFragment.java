@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 
 import com.loconav.lookup.adapter.RepairLogAdapter;
 import com.loconav.lookup.base.BaseFragment;
-import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.model.Repairs;
 import com.loconav.lookup.databinding.FragmentRepairLogsBinding;
 import com.loconav.lookup.model.RepairsDataandTotalRepairCount;
@@ -31,14 +30,13 @@ import static com.loconav.lookup.Constants.ID;
 
 @SuppressWarnings("deprecation")
 public class RepairLogsFragment extends BaseFragment  {
-    private FragmentRepairLogsBinding fragmentRepairLogsBinding;
+    private FragmentRepairLogsBinding binding;
     private RepairLogAdapter repairLogAdapter;
     private final List<Repairs> fullRepairsList=new ArrayList<>();
     private List<Repairs> repairsList=new ArrayList<>();
     private final ApiInterface apiInterface=ApiClient.getClient().create(ApiInterface.class);
-    private int totalitem,oppo;
-    private final int placeholdersToLoad=20;
-    private boolean loadmore=true,itemsloaded=true;
+    private final int itemsToLoad =20;
+    private LinearLayoutManager layoutManager;
     private final FragmentController fragmentController=new FragmentController();
     @Override
     public int setViewId() {
@@ -48,22 +46,13 @@ public class RepairLogsFragment extends BaseFragment  {
     public void onFragmentCreated() {
         //It is to initially load the number of items
         int start = 0,end=8;
-        apiInterface.getRepairLogs(start,end).enqueue(new RetrofitCallback<RepairsDataandTotalRepairCount>() {
-            @Override
-            public void handleSuccess(Call<RepairsDataandTotalRepairCount> call, Response<RepairsDataandTotalRepairCount> response) {
-                fragmentRepairLogsBinding.startprogressbar.setVisibility(View.INVISIBLE);
-                repairsList=response.body().getData();
-                totalitem=response.body().getTotalcount();
-                for(Repairs repairs:repairsList)
-                    fullRepairsList.add(repairs);
-                repairLogAdapter.notifyDataSetChanged();
-                Log.e("the data","The data is "+fullRepairsList);
-            }
-            @Override
-            public void handleFailure(Call<RepairsDataandTotalRepairCount> call, Throwable t) {
-            }
-        });
+        getRepairLogs(start,end);
+        //set repair log adapter
+        setRepairLogAdapter();
+    }
 
+    public void setRepairLogAdapter()
+    {
         repairLogAdapter=new RepairLogAdapter(fullRepairsList, object -> {
             if(AppUtils.isNetworkAvailable()) {
                 Bundle bundle = new Bundle();
@@ -83,92 +72,45 @@ public class RepairLogsFragment extends BaseFragment  {
 
         RecyclerView.OnScrollListener  scrollListener=new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                int visibleItemCount = recyclerView.getLayoutManager().getChildCount();
-                int totalItemCount = recyclerView.getLayoutManager().getItemCount();
-                int pastVisibleItems = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-                switch (newState)
-                {
-                    case RecyclerView.SCROLL_STATE_IDLE:
-                        if(AppUtils.isNetworkAvailable()) {
-                            fragmentRepairLogsBinding.retry.setVisibility(View.GONE);
-                            if (pastVisibleItems + visibleItemCount >= totalItemCount && itemsloaded) {
-                                itemsloaded=false;
-                                if(totalItemCount+placeholdersToLoad<totalitem && loadmore)
-                                {
-                                for (int i = 0; i <placeholdersToLoad ; i++) {
-                                    Repairs repairs = new Repairs();
-                                    fullRepairsList.add(repairs);
-                                }
-                                recyclerView.getAdapter().notifyDataSetChanged();
-                                Log.e("the","the first is"+totalItemCount+"the last is"+totalItemCount+placeholdersToLoad);
-                                getRepairLogs(totalItemCount,totalItemCount+placeholdersToLoad,recyclerView);
-                                }
-                                else
-                                {
-                                    loadmore=false;
-                                    for(int i=0;i<totalitem-(totalItemCount);i++){
-                                            Repairs repairs = new Repairs();
-                                            fullRepairsList.add(repairs);
-                                        }
-                                    recyclerView.getAdapter().notifyDataSetChanged();
-                                   getRepairLogs(totalItemCount,totalItemCount+(totalitem-(totalItemCount)),recyclerView);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if(loadmore)
-                                fragmentRepairLogsBinding.retry.setVisibility(View.VISIBLE);
-                            else
-                                fragmentRepairLogsBinding.retry.setVisibility(View.GONE);
-                        }
-                }
-            }
-            @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-            if(!recyclerView.canScrollVertically(1)&& dy>0)
-            {
-                if(loadmore)
-                    fragmentRepairLogsBinding.progessbar.setVisibility(View.VISIBLE);
-                onScrollStateChanged(recyclerView,RecyclerView.SCROLL_STATE_IDLE);
-            }
+                if(!recyclerView.canScrollVertically(1)&& dy>0) {
+                    int totalItemCount = layoutManager.getItemCount();
+                    binding.progessbar.setVisibility(View.VISIBLE);
+                    getRepairLogs(totalItemCount,totalItemCount+ itemsToLoad);
+                }
             }
         };
-
-        fragmentRepairLogsBinding.repairs.setOnScrollListener(scrollListener);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        binding.repairs.setOnScrollListener(scrollListener);
+        layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayout.VERTICAL);
-        fragmentRepairLogsBinding.repairs.setLayoutManager(layoutManager);
-        fragmentRepairLogsBinding.repairs.setAdapter(repairLogAdapter);
+        binding.repairs.setLayoutManager(layoutManager);
+        binding.repairs.setAdapter(repairLogAdapter);
     }
+
     @Override
     public void bindView(View view) {
-        fragmentRepairLogsBinding=DataBindingUtil.bind(view);
+        binding =DataBindingUtil.bind(view);
     }
 
     @Override
     public void getComponentFactory() {
     }
 
-
-
-    private void getRepairLogs(int first, int last, RecyclerView recyclerView)
+    private void getRepairLogs(int first, int last)
     {
         apiInterface.getRepairLogs(first, last).enqueue(new RetrofitCallback<RepairsDataandTotalRepairCount>() {
             @Override
             public void handleSuccess(Call<RepairsDataandTotalRepairCount> call, Response<RepairsDataandTotalRepairCount> response) {
                 repairsList = response.body().getData();
-                oppo=0;
-                for (int i = first; i < last; i++) {
-                    fullRepairsList.set(i, repairsList.get(oppo));
-                    recyclerView.getAdapter().notifyDataSetChanged();
-                    oppo++;
+                if(!repairsList.isEmpty()) {
+                    fullRepairsList.addAll(repairsList);
+                    repairLogAdapter.notifyDataSetChanged();
                 }
-                    fragmentRepairLogsBinding.progessbar.setVisibility(View.INVISIBLE);
-                    itemsloaded = true;
+                else {
+                    binding.repairs.removeOnScrollListener(null);
+                }
+                binding.progessbar.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -181,6 +123,6 @@ public class RepairLogsFragment extends BaseFragment  {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        fragmentRepairLogsBinding.unbind();
+        binding.unbind();
     }
 }

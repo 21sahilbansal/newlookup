@@ -35,7 +35,7 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
     private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     private FragmentInstallDetailsBinding installDetailsBinding;
     private InstallationDetails installs=new InstallationDetails();
-    private int installId;
+    private String installId;
     @Override
     public int setViewId() {
         return R.layout.fragment_install_details;
@@ -44,7 +44,9 @@ public class InstallDetailFragment extends BaseFragment implements SwipeRefreshL
     @Override
     public void onFragmentCreated() {
         Bundle bundle = this.getArguments();
-        installId = bundle.getInt(ID);
+        if(bundle!=null) {
+            installId = bundle.getString(ID);
+        }
         installDetailsBinding.swipeRefresh.setOnRefreshListener(this);
         loadInstallDetail();
         setHasOptionsMenu(true);

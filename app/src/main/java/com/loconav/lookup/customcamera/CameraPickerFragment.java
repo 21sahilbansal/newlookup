@@ -35,10 +35,8 @@ public class CameraPickerFragment extends BaseFragment {
     private boolean isFlashOn=false;
     private final ArrayList<ImageUri> imageList=new ArrayList<>();
     private RecycleCustomImageAdapter recycleCustomImageAdapter;
-    private int FRONT_CAMERA=1;
-    private final int REAR_CAMERA=0;
-    private final int camera_code=REAR_CAMERA;
     private int limit;
+    private boolean safeToTakePhoto=false;//this checks if the surface is created or not and user is allowed to take photos and autofocus
     @Override
     public int setViewId() {
         return R.layout.fragment_camerapicker;
@@ -48,7 +46,7 @@ public class CameraPickerFragment extends BaseFragment {
     public void onFragmentCreated() {
         limit= Objects.requireNonNull(Objects.requireNonNull(getActivity()).getIntent().getExtras()).getInt("limit");
         // Create an instance of Camera
-        mCamera = getCameraInstance(camera_code);
+        mCamera = getCameraInstance();
 
         // Create our Preview view and set it as the content of our activity.
         CameraPreview mPreview = new CameraPreview(getContext(), mCamera);
@@ -61,11 +59,11 @@ public class CameraPickerFragment extends BaseFragment {
         //Capture the photo and save it
         binding.capture.setOnClickListener(view -> {
             binding.capture.setClickable(false);
-            if(imageList.size()<limit) {
+            if(imageList.size()<limit && safeToTakePhoto) {
                 mCamera.takePicture(null, null, (bytes, camera) -> {
                     File pictureFile = null;
                     try {
-                        pictureFile = ImageUtils.getImagefile(getContext());
+                        pictureFile = ImageUtils.getImagefile();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -99,7 +97,7 @@ public class CameraPickerFragment extends BaseFragment {
 
         //It is for auto focus when user touches the screen and it is only enable for rear camera
         binding.cameraPreview.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN && safeToTakePhoto) {
                 mCamera.autoFocus((b, camera) -> {
                 });
             }
@@ -136,6 +134,8 @@ public class CameraPickerFragment extends BaseFragment {
             getActivity().setResult(Activity.RESULT_OK,returnIntent);
             getActivity().finish();
         });
+
+        safeToTakePhoto=true;
     }
 
     private void setImageAdapter()
@@ -155,10 +155,10 @@ public class CameraPickerFragment extends BaseFragment {
     }
 
 
-    private Camera getCameraInstance(int camera_code){
+    private Camera getCameraInstance(){
         Camera camera = null;
         try {
-            camera = Camera.open(camera_code);
+            camera = Camera.open();
         }
         catch (Exception e){
             e.printStackTrace();

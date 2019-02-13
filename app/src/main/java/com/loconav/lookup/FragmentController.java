@@ -25,13 +25,13 @@ public class FragmentController {
         if(addToBackStack) {
             transaction.addToBackStack(fragment.getClass().getName());
         }
-        transaction.commit();
+        transaction.commitAllowingStateLoss();//as there was a state loss and the final state is not saved sometime and i cannot replicate this error
     }
     public  void deleteFragment(final  Fragment fragment,FragmentManager fragmentManager)
     {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.remove(fragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
     public  void replaceFragment(final Fragment fragment,FragmentManager fragmentManager,int resId,Boolean addToBackStack) {
@@ -40,7 +40,7 @@ public class FragmentController {
         if(addToBackStack) {
             transaction.addToBackStack(fragment.getClass().getName());
         }
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
     public Fragment getFragmentsStack(FragmentManager fragmentManager) {
@@ -55,7 +55,6 @@ public class FragmentController {
 
     public  void deleteFragmentStack(FragmentManager fm)
     {
-
         for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
             fm.popBackStack();
         }

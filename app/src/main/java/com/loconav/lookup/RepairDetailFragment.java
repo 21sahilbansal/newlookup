@@ -27,7 +27,7 @@ import static com.loconav.lookup.Constants.ID;
 public class RepairDetailFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     private FragmentRepairDetailsBinding repairDetailsBinding;
-    private int repairId;
+    private int repairId=0;
     @Override
     public int setViewId() {
         return R.layout.fragment_repair_details;
@@ -36,7 +36,9 @@ public class RepairDetailFragment extends BaseFragment implements SwipeRefreshLa
     @Override
     public void onFragmentCreated() {
         Bundle bundle = this.getArguments();
-        repairId = bundle.getInt(ID);
+        if(bundle!=null) {
+            repairId = bundle.getInt(ID);
+        }
         repairDetailsBinding.swipeRefresh.setOnRefreshListener(this);
         loadRepairDetail();
     }

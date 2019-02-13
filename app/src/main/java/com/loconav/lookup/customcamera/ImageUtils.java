@@ -10,6 +10,8 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 
+import com.loconav.lookup.application.LookUpApplication;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,30 +22,32 @@ import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
 
 public class ImageUtils {
 
-    private static ImageUri compressImageFile(ImageUri imageUri, Context context) throws IOException {
-        File imagefile=getImagefile(context);
+    private static final Context FILE_CONTEXT =LookUpApplication.getInstance();
+
+    private static ImageUri compressImageFile(ImageUri imageUri) throws IOException {
+        File imagefile=getImagefile();
         FileOutputStream fout=new FileOutputStream(imagefile);
-        Bitmap bitmap= MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri.getUri());
+        Bitmap bitmap= MediaStore.Images.Media.getBitmap(FILE_CONTEXT.getContentResolver(), imageUri.getUri());
         bitmap= Bitmap.createScaledBitmap(bitmap,(bitmap.getWidth()*30)/100,(bitmap.getHeight()*30)/100,true);
         bitmap.compress(Bitmap.CompressFormat.JPEG, 30, fout);
         ImageUri compressedImageUri=new ImageUri();
-        compressedImageUri.setUri(FileProvider.getUriForFile(context, FILE_PROVIDER_AUTHORITY, imagefile));
+        compressedImageUri.setUri(FileProvider.getUriForFile(FILE_CONTEXT, FILE_PROVIDER_AUTHORITY, imagefile));
         return compressedImageUri;
     }
 
-    public static ArrayList<ImageUri> compressImageList(ArrayList<ImageUri> imageUriArrayList, Context context) throws IOException {
+    public static ArrayList<ImageUri> compressImageList(ArrayList<ImageUri> imageUriArrayList) throws IOException {
         ArrayList<ImageUri> newImageUriList=new ArrayList<>();
         for(ImageUri imageUri :imageUriArrayList)
         {
-            newImageUriList.add(compressImageFile(imageUri,context));
+            newImageUriList.add(compressImageFile(imageUri));
         }
         return newImageUriList;
     }
 
-    public static File getImagefile(Context context) throws IOException {
+    public static File getImagefile() throws IOException {
         File storageDir;
         String imageFileName = "JPEG_" + "Loconav" + "_";
-        storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        storageDir = LookUpApplication.getInstance().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         return File.createTempFile(
                 imageFileName,
                 ".jpg",
