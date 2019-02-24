@@ -1,0 +1,146 @@
+{
+  "project_info": {
+    "project_number": "965855944653",
+    "firebase_url": "https://loconav-144711.firebaseio.com",
+    "project_id": "loconav-144711",
+    "storage_bucket": "loconav-144711.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:965855944653:android:f3d9a6d8c7a8dbc4",
+        "android_client_info": {
+          "package_name": "com.loconav"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "965855944653-k9p6up4sfb8f75h9cai3036raa64je2i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.loconav",
+            "certificate_hash": "226ad46b338ac2498d78565bf441abdfe27a6ed5"
+          }
+        },
+        {
+          "client_id": "965855944653-5vqkq4dijmctr6ah2gghk1havq310a2o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCb_AMmfQc8YbkwBh6Nsut5UC79VfxraTU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "965855944653-5vqkq4dijmctr6ah2gghk1havq310a2o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "965855944653-cr1al3pvmerqev65mid0rj2c8hvg7up9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "BT-Techlabs.Loconav",
+                "app_store_id": "12345"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:965855944653:android:aac1216d31a955e1",
+        "android_client_info": {
+          "package_name": "com.loconav.locox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "965855944653-5vqkq4dijmctr6ah2gghk1havq310a2o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCb_AMmfQc8YbkwBh6Nsut5UC79VfxraTU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:965855944653:android:463cc898572bb09c",
+        "android_client_info": {
+          "package_name": "com.loconav.lookup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "965855944653-5fi3vobv4o0p849r0dfq570bbg3h0rmn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.loconav.lookup",
+            "certificate_hash": "226ad46b338ac2498d78565bf441abdfe27a6ed5"
+          }
+        },
+        {
+          "client_id": "965855944653-5vqkq4dijmctr6ah2gghk1havq310a2o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCb_AMmfQc8YbkwBh6Nsut5UC79VfxraTU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "965855944653-5vqkq4dijmctr6ah2gghk1havq310a2o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "965855944653-cr1al3pvmerqev65mid0rj2c8hvg7up9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "BT-Techlabs.Loconav",
+                "app_store_id": "12345"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
