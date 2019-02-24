@@ -41,4 +41,5 @@ public class Constants {
     public static final String IMEI="imei";
     public static final String TEXT_VIEW="textView";
     public static final String TEXT="text";
+    public static final String SLUG_ID_FOR_DEVICE_REMOVED="01a121a700c99da870e6fd1d8940aad4";
 }

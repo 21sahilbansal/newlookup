@@ -45,6 +45,8 @@ import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.loconav.lookup.Constants.SLUG_ID_FOR_DEVICE_REMOVED;
+
 
 /**
  * Created by prateek on 13/11/17.
@@ -90,7 +92,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
         addtional.addAll(passingReason.getReasonResponse().getAdditional_fields());
         LinearLayout linearLayout = binding.linearLayout;
 
-        //making the custom view
+        //making the custom view (if the the reson is "Remove device" is selected then we only have to add device image and truck images)
         for (int i = 0; i < addtional.size(); i++) {
             switch (addtional.get(i).getField_type()) {
                 case "textView":
@@ -109,16 +111,20 @@ public class CommonRepairFragment extends BaseTitleFragment {
                     customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_device_images), 1, getString(R.string.device_images));
                     break;
                 case "WireConnectionImages":
-                    customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_wire_connection), 2, getString(R.string.wire_connection_images));
+                    if(!passingReason.getReasonResponse().getSlug().equals(SLUG_ID_FOR_DEVICE_REMOVED))
+                        customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_wire_connection), 2, getString(R.string.wire_connection_images));
                     break;
                 case "EarthWireConnectionImages":
-                    customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_earth_wire_connection), 1, getString(R.string.earthwire_connection_images));
+                    if(!passingReason.getReasonResponse().getSlug().equals(SLUG_ID_FOR_DEVICE_REMOVED))
+                        customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_earth_wire_connection), 1, getString(R.string.earthwire_connection_images));
                     break;
                 case "DeviceFitting":
-                    customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_device_fitting), 3, getString(R.string.device_fitting_images));
+                    if(!passingReason.getReasonResponse().getSlug().equals(SLUG_ID_FOR_DEVICE_REMOVED))
+                        customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_device_fitting), 3, getString(R.string.device_fitting_images));
                     break;
                 case "Accessories":
-                    customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_accessories), 2, getString(R.string.accessories_images));
+                    if(!passingReason.getReasonResponse().getSlug().equals(SLUG_ID_FOR_DEVICE_REMOVED))
+                        customInflater.addImagePicker(linearLayout, 0 + i, addtional.get(i), getString(R.string.upload_accessories), 2, getString(R.string.accessories_images));
                     break;
             }
         }
