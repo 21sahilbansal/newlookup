@@ -52,10 +52,12 @@ public class ScreenshotFragment extends BaseFragment {
         binding.deviceNumber.setText(details.getInstallable_serial_number());
         binding.phoneNo.setText(details.getDevice_phone_number());
         binding.truckNumber.setText(details.getTruck_number());
+        binding.clientCode.setText(details.getClient_id());
         textToWhatsapp="Installer Name:- "+SharedPrefHelper.getInstance().getStringData(name)
                         +"\nInstaller Id:- "+SharedPrefHelper.getInstance().getStringData(code)
                         +"\nInstallation Date:- "+TimeUtils.getDate(String.valueOf(details.getInstallation_date()))
                         +"\nTruck Number:-"+details.getTruck_number()
+                        +"\nClient Code:-"+details.getClient_id()
                         +"\nPhone Number:-"+details.getDevice_phone_number()
                         +"\nDevice IMEI Number:-"+details.getInstallable_serial_number()
                         +"\nUnique Id:-"+AppUtils.getMd5(details.getTruck_number()+""+details.getInstallable_serial_number());

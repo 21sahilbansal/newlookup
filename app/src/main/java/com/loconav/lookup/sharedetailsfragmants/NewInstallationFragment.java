@@ -216,6 +216,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
                             details.setChassis(newInstall.getNotes().getChassis_number());
                             details.setInstallation_date(System.currentTimeMillis());
                             details.setDevice_phone_number(newInstall.getNotes().getSim_number());
+                            details.setClient_id(newInstall.getClient_id());
                             Intent intent =new Intent(getActivity(), BaseNavigationActivity.class);
                             Bundle bundle=new Bundle();
                             bundle.putParcelable(getString(R.string.installation_details),details);
