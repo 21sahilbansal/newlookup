@@ -50,12 +50,13 @@ public class ReasonResponse implements Parcelable {
     }
 
     public ReasonResponse(int id, String name, List<ReasonTypeResponse> reasons,
-                          ArrayList<Input> additional_fields, String iconUrl) {
+                          ArrayList<Input> additional_fields, String iconUrl,String slug) {
         this.id = id;
         this.name = name;
         this.additional_fields=additional_fields;
         this.reasons = reasons;
         this.iconUrl = iconUrl;
+        this.slug=slug;
     }
 
     public static final Creator<ReasonResponse> CREATOR = new Creator<ReasonResponse>() {

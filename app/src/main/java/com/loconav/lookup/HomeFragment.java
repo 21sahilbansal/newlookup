@@ -75,7 +75,7 @@ public class HomeFragment extends BaseFragment {
         binding.newInstall.setOnClickListener(v -> {
             List<ReasonTypeResponse> reasons = new ArrayList<>();
             ArrayList<Input> additionalFields = new ArrayList<>();
-            reasonResponse = new ReasonResponse(1, NEW_INSTALL, reasons, additionalFields, "abc");
+            reasonResponse = new ReasonResponse(1, NEW_INSTALL, reasons, additionalFields, "abc","new install");
             passingReason.setUserChoice(reasonResponse.getName());
             passIntent();
         });
