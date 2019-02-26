@@ -97,7 +97,7 @@ public class InstallLogsFragment extends BaseFragment {
                     installLogAdapter.notifyDataSetChanged();
                 }
                 else{
-                    binding.installs.removeOnScrollListener(null);
+                    binding.installs.clearOnScrollListeners();
                 }
                 binding.progessbar.setVisibility(View.INVISIBLE);
             }

@@ -23,6 +23,10 @@ public class ReasonResponse implements Parcelable {
     @Expose
     private String name;
 
+    @SerializedName("slug")
+    @Expose
+    private String slug;
+
     @SerializedName("reasons")
     @Expose
     private List<ReasonTypeResponse> reasons;
@@ -34,18 +38,25 @@ public class ReasonResponse implements Parcelable {
     @SerializedName("icon_url")
     private String iconUrl;
 
-    public ReasonResponse()
-    {
 
-    }
-
-    ReasonResponse(Parcel in) {
+    public ReasonResponse(Parcel in) {
         id = in.readInt();
         name = in.readString();
+        slug = in.readString();
         reasons = in.createTypedArrayList(ReasonTypeResponse.CREATOR);
         additional_fields = in.createTypedArrayList(Input.CREATOR);
         iconUrl = in.readString();
         color = in.readInt();
+    }
+
+    public ReasonResponse(int id, String name, List<ReasonTypeResponse> reasons,
+                          ArrayList<Input> additional_fields, String iconUrl,String slug) {
+        this.id = id;
+        this.name = name;
+        this.additional_fields=additional_fields;
+        this.reasons = reasons;
+        this.iconUrl = iconUrl;
+        this.slug=slug;
     }
 
     public static final Creator<ReasonResponse> CREATOR = new Creator<ReasonResponse>() {
@@ -69,6 +80,14 @@ public class ReasonResponse implements Parcelable {
 
     }
 
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
     public ArrayList<Input> getAdditional_fields() {
         return additional_fields;
     }
@@ -78,15 +97,6 @@ public class ReasonResponse implements Parcelable {
     }
 
     private int color;
-
-    public ReasonResponse(int id, String name, List<ReasonTypeResponse> reasons,
-                          ArrayList<Input> additional_fields, String iconUrl) {
-        this.id = id;
-        this.name = name;
-        this.additional_fields=additional_fields;
-        this.reasons = reasons;
-        this.iconUrl = iconUrl;
-    }
 
     public int getId() {
         return id;
@@ -127,11 +137,15 @@ public class ReasonResponse implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+
         dest.writeInt(id);
         dest.writeString(name);
+        dest.writeString(slug);
         dest.writeTypedList(reasons);
         dest.writeTypedList(additional_fields);
         dest.writeString(iconUrl);
         dest.writeInt(color);
     }
+
+
 }

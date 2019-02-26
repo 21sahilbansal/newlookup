@@ -27,6 +27,7 @@ import retrofit2.Response;
 
 import static com.loconav.lookup.Constants.LOOKUP_RESPONSE;
 import static com.loconav.lookup.Constants.NEW_INSTALL;
+import static com.loconav.lookup.Constants.SLUG_ID_FOR_DEVICE_REMOVED;
 
 
 /**
@@ -146,13 +147,24 @@ public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefr
         entities.clear();
         setDeviceId(lookupResponse.getData());
         entities.addAll(lookupResponse.getData());
-        if(lookupResponse.getPassed()) {
-            binding.passed.setImageResource(R.drawable.passed);
+        //If the reason is "Remove Device" then we don't care if the lookup is passing or not.
+        if(passingReason.getReasonResponse().getSlug().equals(SLUG_ID_FOR_DEVICE_REMOVED))
+        {
+            if (lookupResponse.getPassed()) {
+                binding.passed.setImageResource(R.drawable.passed);
+            } else {
+                binding.passed.setImageResource(android.R.color.transparent);
+            }
             binding.shareDetails.setVisibility(View.VISIBLE);
         }
         else {
-            binding.passed.setImageResource(android.R.color.transparent);
-            binding.shareDetails.setVisibility(View.GONE);
+            if (lookupResponse.getPassed()) {
+                binding.passed.setImageResource(R.drawable.passed);
+                binding.shareDetails.setVisibility(View.VISIBLE);
+            } else {
+                binding.passed.setImageResource(android.R.color.transparent);
+                binding.shareDetails.setVisibility(View.GONE);
+            }
         }
         lookupAdapter.notifyDataSetChanged();
     }

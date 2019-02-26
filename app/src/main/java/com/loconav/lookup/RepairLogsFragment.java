@@ -108,7 +108,7 @@ public class RepairLogsFragment extends BaseFragment  {
                     repairLogAdapter.notifyDataSetChanged();
                 }
                 else {
-                    binding.repairs.removeOnScrollListener(null);
+                    binding.repairs.clearOnScrollListeners();
                 }
                 binding.progessbar.setVisibility(View.INVISIBLE);
             }
