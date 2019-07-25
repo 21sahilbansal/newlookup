@@ -86,7 +86,7 @@ public class NewInstallationFragment extends BaseTitleFragment {
         binding.cbTrip.setOnCheckedChangeListener((buttonView, isChecked) -> accessoriesChecked(isChecked));
 
         binding.share.setOnClickListener(v -> {
-
+            binding.share.setEnabled(false);
             for (int i = 0; i < binding.linear.getChildCount() - 1; i++) {
                 View view = binding.linear.getChildAt(i);
                 validate = validator(view);
@@ -227,9 +227,11 @@ public class NewInstallationFragment extends BaseTitleFragment {
                         })
                         .setCancelable(false)
                         .show();
+                binding.share.setEnabled(true);
             }
             @Override
             public void handleFailure(Call<ResponseBody> call, Throwable t) {
+                binding.share.setEnabled(true);
                 progressDialog.dismiss();
                 if(getContext()!=null)
                     Toaster.makeToast(t.getMessage());
