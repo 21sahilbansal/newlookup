@@ -30,7 +30,7 @@ class LocationGetter implements GoogleApiClient.ConnectionCallbacks, GoogleApiCl
     private final GoogleApiClient googleApiClient;
     private final Callback callback;
     private Location mLocation;
-    private final long FASTEST_INTERVAL =  TimeUnit.MINUTES.toMillis(30);
+    private final long FASTEST_INTERVAL =  TimeUnit.MINUTES.toMillis(15);
     private Location currentLocation = null;
     private long locationUpdatedAt = Long.MIN_VALUE;
 
@@ -56,8 +56,8 @@ class LocationGetter implements GoogleApiClient.ConnectionCallbacks, GoogleApiCl
         Log.e("settingsrequest", "Comes");
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER);
-        locationRequest.setInterval(TimeUnit.MINUTES.toMillis(30));
-        locationRequest.setFastestInterval(TimeUnit.MINUTES.toMillis(30));
+        locationRequest.setInterval(TimeUnit.MINUTES.toMillis(15));
+        locationRequest.setFastestInterval(TimeUnit.MINUTES.toMillis(15));
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest);
