@@ -19,6 +19,14 @@ repositories {
 //    maven { url 'http://hypertrack-core-android.s3-website-us-east-1.amazonaws.com/' }
 }
 android {
+    signingConfigs {
+        Release {
+            storeFile file('lookup.keystore')
+            storePassword 'android'
+            keyAlias = 'lookup_creds'
+            keyPassword 'btloconav'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.loconav.lookup"
