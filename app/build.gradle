@@ -39,9 +39,33 @@ android {
         multiDexEnabled = true
     }
     buildTypes {
+
+        def PROD_ENDPOINT = '"https://loconav.com/"'
+        def STAGE_ENDPOINT = '"https://android-stage.loconav.com/"'
+        def PROD_HAUL_SECRET = '"5ed183673b9709a69e51ed86e6b53b"'
+        def STAGE_HAUL_SECRET = '"_ed183673b9709a69e51ed86e6b53b"'
+
+        def KEY_ENDPOINT = "BASE_URL"
+        def KEY_HAUL_SECRET = "HAUL_SECRET"
         release {
             minifyEnabled false
+            shrinkResources false
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", KEY_ENDPOINT, PROD_ENDPOINT)
+            buildConfigField("String", KEY_HAUL_SECRET, PROD_HAUL_SECRET)
+        }
+
+        debug{
+            debuggable true
+            buildConfigField("String",KEY_ENDPOINT,STAGE_ENDPOINT)
+            buildConfigField("String",KEY_HAUL_SECRET,STAGE_HAUL_SECRET)
+        }
+
+        preProd{
+            initWith debug
+            buildConfigField("String",KEY_ENDPOINT,PROD_ENDPOINT)
+            buildConfigField("String",KEY_HAUL_SECRET,PROD_HAUL_SECRET)
         }
     }
     dataBinding {
