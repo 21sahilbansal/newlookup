@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class LoginApiClient {
-    private static final String BASE_URL = "http://loconav.com/";
+    private static final String BASE_URL = "http://loconav.com";
     private static Retrofit retrofit = null;
     public static Retrofit getClient() {
         if (retrofit==null) {
