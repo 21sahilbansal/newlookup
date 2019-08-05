@@ -61,7 +61,7 @@ private PassingReason passingReason;
     }
 
     private void passIntentData(){
-        if(passingReason.getUserChoice().equals("New Install")){
+        if(passingReason.getUserChoice().equals("New Install") || reasonResponse.getId() == 39){
 //            navController.navigate(R.id.action_blankFragment2_to_deviceIdFragment);
             DeviceIdFragment deviceIdFragment = new DeviceIdFragment();
             fragmentController.loadFragment(deviceIdFragment,getSupportFragmentManager(),R.id.frameLayout,false);

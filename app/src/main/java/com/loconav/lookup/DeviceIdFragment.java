@@ -50,6 +50,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
     private SharedPrefHelper sharedPrefHelper;
     private PassingReason passingReason;
     private final FragmentController fragmentController = new FragmentController();
+    private boolean FasttagSelection ;
     private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -68,15 +69,41 @@ public class DeviceIdFragment extends BaseTitleFragment {
     @Override
     public void onFragmentCreated() {
         passingReason= ((LookupSubActivity)getActivity()).getPassingReason();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Enter device ID");
-        initSharedPf();
-        setScanner();
-        initProgressDialog();
-        setInfoButton();
+        Log.e("passing",passingReason.getUserChoice());
+        if(passingReason.getUserChoice().equals("New Install")){
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Enter device ID");
+            enterDeviceId();
+        }
+        else
+        {
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Fastag Installation");
+            fastagInstallation();
+        }
         registerBroadcast();
         checkAndShowUserIdDialog();
     }
+    private void enterDeviceId(){
+        binding.etDeviceId.setHint("Enter device id");
+        commonFunction();
+        FasttagSelection = false;
+        setInfoButton();
+    }
+    private void fastagInstallation(){
+        binding.etDeviceId.setHint("Enter truck number");
+        commonFunction();
+        FasttagSelection = true;
+        setFasttagInfoButton();
+    }
 
+    private void setFasttagInfoButton() {
+
+    }
+
+    private void commonFunction(){
+        initSharedPf();
+        setScanner();
+        initProgressDialog();
+    }
     private void initSharedPf() {
         sharedPrefHelper = SharedPrefHelper.getInstance();
     }
@@ -95,35 +122,39 @@ public class DeviceIdFragment extends BaseTitleFragment {
     private void setInfoButton() {
         binding.btGetInfo.setOnClickListener(view -> {
             String deviceId = binding.etDeviceId.getText().toString().trim();
-            if(!deviceId.isEmpty()) {
-                if (AppUtils.isNetworkAvailable()) {
-                    progressDialog.show();
-                    apiService.getDeviceLookup(binding.etDeviceId.getText().toString()).enqueue(new RetrofitCallback<LookupResponse>() {
-                        @Override
-                        public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
-                            if(getActivity()!=null)
-                                AppUtils.hideKeyboard(getActivity());
-                            Log.e("handle ", response.code() + "");
-                            DeviceDetailFragment deviceDetailFragment = new DeviceDetailFragment();
-                            passingReason.setDeviceid(binding.etDeviceId.getText().toString());
-                            ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
-                            Bundle bundle = new Bundle();
-                            bundle.putParcelable(LOOKUP_RESPONSE, response.body());
-                            deviceDetailFragment.setArguments(bundle);
-                            fragmentController.loadFragment(deviceDetailFragment, getFragmentManager(), R.id.frameLayout, true);
-                            progressDialog.dismiss();
-                        }
+                if (!deviceId.isEmpty()) {
+                    if (AppUtils.isNetworkAvailable()) {
+                        progressDialog.show();
+                        if(!FasttagSelection)
+                        {
+                        apiService.getDeviceLookup(binding.etDeviceId.getText().toString()).enqueue(new RetrofitCallback<LookupResponse>() {
+                            @Override
+                            public void handleSuccess(Call<LookupResponse> call, Response<LookupResponse> response) {
+                                if (getActivity() != null)
+                                    AppUtils.hideKeyboard(getActivity());
+                                Log.e("handle ", response.code() + "");
+                                DeviceDetailFragment deviceDetailFragment = new DeviceDetailFragment();
+                                passingReason.setDeviceid(binding.etDeviceId.getText().toString());
+                                ((LookupSubActivity) getActivity()).setPassingReason(passingReason);
+                                Bundle bundle = new Bundle();
+                                bundle.putParcelable(LOOKUP_RESPONSE, response.body());
+                                deviceDetailFragment.setArguments(bundle);
+                                fragmentController.loadFragment(deviceDetailFragment, getFragmentManager(), R.id.frameLayout, true);
+                                progressDialog.dismiss();
+                            }
 
-                        @Override
-                        public void handleFailure(Call<LookupResponse> call, Throwable t) {
-                            progressDialog.dismiss();
-                            Toaster.makeToast(t.getMessage());
+                            @Override
+                            public void handleFailure(Call<LookupResponse> call, Throwable t) {
+                                progressDialog.dismiss();
+                                Toaster.makeToast(t.getMessage());
+                            }
+                        });
+                    }else{
+
                         }
-                    });
+                    } else
+                        Toaster.makeToast(getString(R.string.internet_not_available));
                 } else
-                    Toaster.makeToast(getString(R.string.internet_not_available));
-            }
-                else
                     Toaster.makeToast(getString(R.string.device_cant_be_empty));
 
         });
@@ -178,7 +209,6 @@ public class DeviceIdFragment extends BaseTitleFragment {
         builder.setPositiveButton("OK", null);
         builder.setView(input);
         builder.setCancelable(false);
-
         final AlertDialog mAlertDialog = builder.create();
         mAlertDialog.setOnShowListener(dialog -> {
             Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);

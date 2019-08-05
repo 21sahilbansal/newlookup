@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class LoginApiClient {
-    private static final String BASE_URL = "http://loconav.com";
+    private static final String BASE_URL = "https://android-stage.loconav.com";
     private static Retrofit retrofit = null;
     public static Retrofit getClient() {
         if (retrofit==null) {
@@ -22,7 +22,7 @@ public class LoginApiClient {
 
             httpClient.addInterceptor(chain -> {
                 Request request = chain.request().newBuilder()
-                        .addHeader("X-Linehaul-V2-Secret", "5ed183673b9709a69e51ed86e6b53b")
+                        .addHeader("X-Linehaul-V2-Secret", "_ed183673b9709a69e51ed86e6b53b")
                         .build();
                 return chain.proceed(request);
             });
