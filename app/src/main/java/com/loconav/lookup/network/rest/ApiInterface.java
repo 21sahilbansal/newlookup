@@ -2,10 +2,12 @@ package com.loconav.lookup.network.rest;
 
 import com.loconav.lookup.login.model.Creds;
 import com.loconav.lookup.login.model.LoginResponse;
+import com.loconav.lookup.model.Attachments;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.CoordinateRequest;
 import com.loconav.lookup.model.ApiException;
 import com.loconav.lookup.model.FastagsList;
+import com.loconav.lookup.model.FastTagResponse;
 import com.loconav.lookup.model.InstallationDetails;
 import com.loconav.lookup.model.InstallationRequirements;
 import com.loconav.lookup.model.InstallationResponse;
@@ -23,7 +25,10 @@ import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.CallAdapter;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -64,6 +69,14 @@ public interface ApiInterface {
      */
     @GET("api/installers/install/approved_vehicles")
     Call<List<VehiclesList>> getVehicles();
+
+    /**
+     * This GET method is used to validate the truckNo or fasttag no
+     * @param truckNumber This is truck number entered by the user
+     */
+     @GET("api/installers/fastag_installations/search")
+     Call<FastTagResponse>  validateTruckNumber(@Query("truck_number")String truckNumber );
+
 
     /**
      * This GET method return the list of Fastags for a particular truck id
@@ -136,6 +149,15 @@ public interface ApiInterface {
      */
     @POST("api/installers/installations/device_installation")
     Call<ResponseBody>  addNewInstall(@Body NewInstall newInstall);
+
+    /**
+     * This post method is used to upload image of fasttag installations
+     * @param attachments- Photos related to fast tag
+     *
+     */
+    @FormUrlEncoded
+    @POST("api/installers/fastag_installation/{id}/images")
+    Call<ResponseBody>  addFastTagPhotos(@Path("id") String id, @Body Attachments attachments);
 
     /**
      * This GET method returns the total install data and number of install from start and end index as params.

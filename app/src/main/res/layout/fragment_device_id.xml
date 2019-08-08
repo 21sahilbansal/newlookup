@@ -47,7 +47,6 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:hint="Enter device id"
-                    android:inputType="number"
                     android:maxLines="1"
                     android:padding="5dp"
                     android:singleLine="true"

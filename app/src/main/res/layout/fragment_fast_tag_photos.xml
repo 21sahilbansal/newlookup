@@ -1,0 +1,131 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:id="@+id/scrool_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clickable="true"
+        android:divider="?android:attr/listDivider"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/LinearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:clickable="true"
+                android:elevation="3dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:shadowColor="@color/gray">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/serial_number_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Serial Number"
+                        android:textSize="14sp"
+                        custom:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/serial_number_et"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="9839875398759"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        custom:layout_constraintBottom_toBottomOf="parent"
+                        custom:layout_constraintTop_toBottomOf="@id/serial_number_tv" />
+
+                    <TextView
+                        android:id="@+id/truck_Number_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Truck Number"
+                        android:textSize="14sp"
+                        custom:layout_constraintEnd_toEndOf="parent" />
+
+                    <TextView
+                        android:id="@+id/truck_number_et"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="ldhfohj"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        custom:layout_constraintEnd_toEndOf="parent"
+                        custom:layout_constraintTop_toBottomOf="@id/truck_Number_tv" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
+
+            <com.loconav.lookup.customcamera.CustomImagePicker
+                android:id="@+id/ft_before_install"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="?android:selectableItemBackground"
+                custom:id="beforeInstall"
+                custom:limitImages="1"
+                custom:titleText="@string/fasttag_before_installation" />
+
+            <com.loconav.lookup.customcamera.CustomImagePicker
+                android:id="@+id/ft_installed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="?android:selectableItemBackground"
+                custom:limitImages="1"
+                custom:titleText="@string/fasttag_installed"
+                custom:id="afterInstalled"/>
+
+            <com.loconav.lookup.customcamera.CustomImagePicker
+                android:id="@+id/front_view1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="?android:selectableItemBackground"
+                custom:limitImages="1"
+                custom:titleText="@string/front_view1"
+                custom:id="frontView"/>
+
+            <com.loconav.lookup.customcamera.CustomImagePicker
+                android:id="@+id/side_view1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="?android:selectableItemBackground"
+                custom:limitImages="1"
+                custom:titleText="@string/side_view1"
+                custom:id="sideView"/>
+
+            <Button
+                android:id="@+id/ftPhoto_upload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="UpLoad Photos"
+                custom:layout_constraintBottom_toBottomOf="@id/LinearLayout1" />
+        </LinearLayout>
+    </ScrollView>
+
+</layout>

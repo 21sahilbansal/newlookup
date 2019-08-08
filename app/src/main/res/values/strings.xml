@@ -83,4 +83,12 @@
     <string name="installation_creation_successfull">New Installation created successfully</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="fasttag_before_installation">FastTag Before Installation</string>
+    <string name="fasttag_installed">FastTag Installed</string>
+    <string name="front_view1">Front View</string>
+    <string name="side_view1">Side View</string>
+    <string name="before_pasting_fastag">before_pasting_fastag</string>
+    <string name="after_pasting_fastag">after_pasting_fastag</string>
+    <string name="front_view">front_view</string>
+    <string name="side_view">side_view</string>
 </resources>
