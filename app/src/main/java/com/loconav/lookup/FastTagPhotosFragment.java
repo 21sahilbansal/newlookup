@@ -13,9 +13,10 @@ import android.widget.Toast;
 
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.customcamera.CustomImagePicker;
-import com.loconav.lookup.customcamera.ImageUri;
+import com.loconav.lookup.customcamera.FileUtils;
 import com.loconav.lookup.customcamera.ImageUtils;
 import com.loconav.lookup.databinding.FragmentFastTagPhotosBinding;
+import com.loconav.lookup.model.AttachmentList;
 import com.loconav.lookup.model.Attachments;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
@@ -30,7 +31,8 @@ import retrofit2.Response;
 
 public class FastTagPhotosFragment extends BaseFragment {
     private FragmentFastTagPhotosBinding binding;
-    private String Truck_No, Serial_No;
+    private String truckNo, serialNo;
+    private Integer installationId;
     private final HandlerThread handlerThread = new HandlerThread("background");
     private Handler handler;
     private boolean validate;
@@ -72,32 +74,33 @@ public class FastTagPhotosFragment extends BaseFragment {
                     upload();
 
                 });
+
             }
         });
     }
 
     private void upload() {
-        apiService.addFastTagPhotos(Truck_No,attachmentsList.get(0)).enqueue(new RetrofitCallback<ResponseBody>() {
+        AttachmentList attachmentList = new AttachmentList();
+        attachmentList.setAttachmentsArrayList(attachmentsList);
+        apiService.addFastTagPhotos(installationId,attachmentList).enqueue(new RetrofitCallback<ResponseBody>() {
             @Override
             protected void handleSuccess(Call<ResponseBody> call, Response<ResponseBody> response) {
                 progressDialog.dismiss();
                 Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
-
             }
 
             @Override
             protected void handleFailure(Call<ResponseBody> call, Throwable t) {
+                progressDialog.dismiss();
                 Toaster.makeToast(t.getMessage());
             }
         });
-        progressDialog.dismiss();
     }
 
     private void compressImages(CustomImagePicker imagePicker, String title) {
-        for (ImageUri imageUri : imagePicker.getimagesList()) {
             Attachments attachments = new Attachments();
             try {
-                compressedImage = ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri.getUri()));
+                compressedImage = ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),imagePicker.getimagesList().get(0).getUri()));
                 attachments.setTitle(title);
                 attachments.setImage(compressedImage);
                 attachmentsList.add(attachments);
@@ -106,7 +109,6 @@ public class FastTagPhotosFragment extends BaseFragment {
                 e.printStackTrace();
             }
         }
-    }
 
     private boolean validator() {
         if (binding.ftBeforeInstall.getimagesList().size() <= 1 & binding.ftInstalled.getimagesList().size() == 1 & binding.frontView1.getimagesList().size() == 1 & binding.sideView1.getimagesList().size() == 1) {
@@ -120,13 +122,14 @@ public class FastTagPhotosFragment extends BaseFragment {
     private void getIntentData() {
         Bundle receivedBundle;
         receivedBundle = getArguments();
-        Truck_No = receivedBundle.getString("Truck_No");
-        Serial_No = receivedBundle.getString("FastTag_Serial_no");
+        truckNo = receivedBundle.getString("Truck_No");
+        serialNo = receivedBundle.getString("FastTag_Serial_no");
+        installationId = receivedBundle.getInt("Installation_id");
     }
 
     private void setContent() {
-        binding.serialNumberEt.setText(Serial_No);
-        binding.truckNumberEt.setText(Truck_No);
+        binding.serialNumberEt.setText(serialNo);
+        binding.truckNumberEt.setText(truckNo);
     }
 
     @Override
@@ -137,4 +140,5 @@ public class FastTagPhotosFragment extends BaseFragment {
     @Override
     protected void getComponentFactory() {
     }
+
 }

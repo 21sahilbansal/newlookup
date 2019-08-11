@@ -9,7 +9,6 @@ import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
-
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
@@ -20,7 +19,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.databinding.FragmentDeviceIdBinding;
 import com.loconav.lookup.model.FastTagResponse;
@@ -29,11 +27,10 @@ import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
+import com.loconav.lookup.sharedetailsfragmants.NewInstallationFragment;
 import com.loconav.lookup.utils.AppUtils;
-
 import retrofit2.Call;
 import retrofit2.Response;
-
 import static com.loconav.lookup.Constants.DEVICE_ID;
 import static com.loconav.lookup.Constants.LOOKUP_RESPONSE;
 import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
@@ -44,8 +41,6 @@ import static com.loconav.lookup.Constants.USER_ID;
  */
 
 public class DeviceIdFragment extends BaseTitleFragment {
-
-
     private FragmentDeviceIdBinding binding;
     private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     private ProgressDialog progressDialog;
@@ -70,9 +65,9 @@ public class DeviceIdFragment extends BaseTitleFragment {
 
     @Override
     public void onFragmentCreated() {
+
         passingReason = ((LookupSubActivity) getActivity()).getPassingReason();
-        Log.e("passing", passingReason.getUserChoice());
-        if (passingReason.getUserChoice().equals("New Install")) {
+        if (passingReason.getReasonResponse().getId() !=  37) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Enter device ID");
             enterDeviceId();
         } else {
@@ -94,7 +89,6 @@ public class DeviceIdFragment extends BaseTitleFragment {
         FasttagSelection = true;
         commonFunction();
     }
-
 
     private void commonFunction() {
         initSharedPf();
@@ -147,28 +141,30 @@ public class DeviceIdFragment extends BaseTitleFragment {
                                 Toaster.makeToast(t.getMessage());
                             }
                         });
-                    } else {apiService.validateTruckNumber(binding.etDeviceId.getText().toString()).enqueue(new RetrofitCallback<FastTagResponse>() {
-                        @Override
-                        protected void handleSuccess(Call<FastTagResponse> call, Response<FastTagResponse> response) {
-                            Log.e("fastt",response.body().getTruckNumber()+","+ response.body().getFastagSerialNumber());
-                            if (getActivity() != null)
-                                AppUtils.hideKeyboard(getActivity());
-                            FastTagPhotosFragment fastTagPhotosFragment = new FastTagPhotosFragment();
-                            Bundle bundle = new Bundle();
-                            bundle.putString("Truck_No",response.body().getTruckNumber());
-                            bundle.putString("FastTag_Serial_no",response.body().getFastagSerialNumber());
-                            fastTagPhotosFragment.setArguments(bundle);
-                            fragmentController.loadFragment(fastTagPhotosFragment,getFragmentManager(),R.id.frameLayout,true);
-                            progressDialog.dismiss();
-                        }
+                    } else {
+                        apiService.validateTruckNumber(binding.etDeviceId.getText().toString()).enqueue(new RetrofitCallback<FastTagResponse>() {
+                            @Override
+                            protected void handleSuccess(Call<FastTagResponse> call, Response<FastTagResponse> response) {
+                                Log.e("fastt", response.body().getTruckNumber() + "," + response.body().getFastagSerialNumber());
+                                if (getActivity() != null)
+                                    AppUtils.hideKeyboard(getActivity());
+                                FastTagPhotosFragment fastTagPhotosFragment = new FastTagPhotosFragment();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("Truck_No", response.body().getTruckNumber());
+                                bundle.putString("FastTag_Serial_no", response.body().getFastagSerialNumber());
+                                bundle.putInt("Installation_id",response.body().getId());
+                                fastTagPhotosFragment.setArguments(bundle);
+                                fragmentController.loadFragment(fastTagPhotosFragment, getFragmentManager(), R.id.frameLayout, true);
+                                progressDialog.dismiss();
+                            }
 
-                        @Override
-                        protected void handleFailure(Call<FastTagResponse> call, Throwable t) {
-                            Log.e("fast1","no response");
-                            Toast.makeText(getContext(),"Invalid Truck No",Toast.LENGTH_LONG).show();
+                            @Override
+                            protected void handleFailure(Call<FastTagResponse> call, Throwable t) {
+                                Toast.makeText(getContext(), "Invalid Truck No", Toast.LENGTH_LONG).show();
+                                progressDialog.dismiss();
 
-                        }
-                    });
+                            }
+                        });
 
                     }
                 } else
@@ -195,12 +191,10 @@ public class DeviceIdFragment extends BaseTitleFragment {
         });
     }
 
-
     private void registerBroadcast() {
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mMessageReceiver,
                 new IntentFilter(MESSENGER_SCANNED_ID));
     }
-
 
     private void unRegisterBroadcastReceiver() {
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mMessageReceiver);
@@ -212,7 +206,6 @@ public class DeviceIdFragment extends BaseTitleFragment {
         unRegisterBroadcastReceiver();
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -221,9 +214,6 @@ public class DeviceIdFragment extends BaseTitleFragment {
 
     private void showEnterIdDialog() {
         final EditText input = new EditText(getActivity());
-// Specify the type of Input expected; this, for example, sets the Input as repair password, and will mask the text
-     //   input.setInputType(InputType.TYPE_CLASS_TEXT);
-
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Enter Your Phone Number");
         builder.setPositiveButton("OK", null);

@@ -16,7 +16,7 @@ public class FastTagResponse {
 
         @SerializedName("registered_on")
         @Expose
-        private Integer registeredOn;
+        private Long registeredOn;
 
         public Integer getId() {
             return id;
@@ -42,11 +42,11 @@ public class FastTagResponse {
             this.fastagSerialNumber = fastagSerialNumber;
         }
 
-        public Integer getRegisteredOn() {
+        public Long getRegisteredOn() {
             return registeredOn;
         }
 
-        public void setRegisteredOn(Integer registeredOn) {
+        public void setRegisteredOn(Long registeredOn) {
             this.registeredOn = registeredOn;
         }
 

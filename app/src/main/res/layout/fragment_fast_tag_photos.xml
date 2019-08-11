@@ -115,7 +115,7 @@
                 android:layout_marginRight="8dp"
                 android:background="?android:selectableItemBackground"
                 custom:limitImages="1"
-                custom:titleText="@string/side_view1"
+                custom:titleText="@string/sideview1"
                 custom:id="sideView"/>
 
             <Button

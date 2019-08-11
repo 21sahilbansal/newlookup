@@ -6,6 +6,8 @@ package com.loconav.lookup.network.rest;
 
 import com.loconav.lookup.application.SharedPrefHelper;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -13,25 +15,31 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
 import static com.loconav.lookup.UserPrefs.authenticationToken;
 
 public class ApiClient {
     private static final String BASE_URL = "https://android-stage.loconav.com/";
     private static Retrofit retrofit = null;
-    public static Retrofit getClient() {
-        if (retrofit==null) {
-            OkHttpClient.Builder httpClient = new OkHttpClient.Builder().connectTimeout(100, TimeUnit.SECONDS)
-                    .readTimeout(100,TimeUnit.SECONDS).writeTimeout(100, TimeUnit.SECONDS);
 
+    public static Retrofit getClient() {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
+        if (retrofit == null) {
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder().connectTimeout(100, TimeUnit.SECONDS)
+                    .readTimeout(100, TimeUnit.SECONDS).writeTimeout(100, TimeUnit.SECONDS);
             httpClient.addInterceptor(chain -> {
                 Request request = chain.request().newBuilder()
                         .addHeader("X-Linehaul-V2-Secret", "_ed183673b9709a69e51ed86e6b53b")
-                        .addHeader("Authorization",SharedPrefHelper.getInstance().getStringData(authenticationToken)).build();
+                        .addHeader("Authorization", SharedPrefHelper.getInstance().getStringData(authenticationToken)).build();
                 return chain.proceed(request);
 
-            });
+            }).addInterceptor(loggingInterceptor);
+
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL).client(httpClient.build())
                     .addConverterFactory(GsonConverterFactory.create())
