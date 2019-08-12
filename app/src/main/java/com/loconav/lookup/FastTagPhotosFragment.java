@@ -86,7 +86,7 @@ public class FastTagPhotosFragment extends BaseFragment {
             @Override
             protected void handleSuccess(Call<ResponseBody> call, Response<ResponseBody> response) {
                 progressDialog.dismiss();
-                Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Uploaded Successfully", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -123,8 +123,8 @@ public class FastTagPhotosFragment extends BaseFragment {
         Bundle receivedBundle;
         receivedBundle = getArguments();
         truckNo = receivedBundle.getString("Truck_No");
-        serialNo = receivedBundle.getString("FastTag_Serial_no");
-        installationId = receivedBundle.getInt("Installation_id");
+        serialNo = receivedBundle.getString("FastTag_Serial_No");
+        installationId = receivedBundle.getInt("Installation_Id");
     }
 
     private void setContent() {
@@ -141,4 +141,9 @@ public class FastTagPhotosFragment extends BaseFragment {
     protected void getComponentFactory() {
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding.unbind();
+    }
 }

@@ -49,6 +49,8 @@
                         android:hint="Enter device id"
                         android:maxLines="1"
                         android:padding="5dp"
+                        android:inputType="text|textVisiblePassword"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
                         android:singleLine="true"
                         android:textSize="15sp" />
 

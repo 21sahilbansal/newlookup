@@ -60,6 +60,7 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
         Intent intent = new Intent(MESSENGER_SCANNED_ID);
         // You can also include some extra data.
         intent.putExtra(DEVICE_ID, scannedDeviceId);
+        intent.putExtra("FastagScanned",true);
         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
     }
 

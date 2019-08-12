@@ -12,7 +12,7 @@
         android:scrollbars="none">
 
         <LinearLayout
-            android:id="@+id/LinearLayout1"
+            android:id="@+id/linearLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -46,7 +46,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="9839875398759"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         custom:layout_constraintBottom_toBottomOf="parent"
@@ -66,7 +65,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="ldhfohj"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         custom:layout_constraintEnd_toEndOf="parent"
@@ -83,7 +81,7 @@
                 android:background="?android:selectableItemBackground"
                 custom:id="beforeInstall"
                 custom:limitImages="1"
-                custom:titleText="@string/fasttag_before_installation" />
+                custom:titleText="@string/fastag_before_pasting" />
 
             <com.loconav.lookup.customcamera.CustomImagePicker
                 android:id="@+id/ft_installed"
@@ -93,7 +91,7 @@
                 android:layout_marginRight="8dp"
                 android:background="?android:selectableItemBackground"
                 custom:limitImages="1"
-                custom:titleText="@string/fasttag_installed"
+                custom:titleText="@string/fastag_after_pasting"
                 custom:id="afterInstalled"/>
 
             <com.loconav.lookup.customcamera.CustomImagePicker
@@ -123,8 +121,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="UpLoad Photos"
-                custom:layout_constraintBottom_toBottomOf="@id/LinearLayout1" />
+                android:text="Upload Photos"
+                custom:layout_constraintBottom_toBottomOf="@id/linearLayout1" />
         </LinearLayout>
     </ScrollView>
 
