@@ -1,5 +1,7 @@
 package com.loconav.lookup.network.rest;
 
+import com.loconav.lookup.BuildConfig;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -26,14 +28,14 @@ public class LoginApiClient {
 
             httpClient.addInterceptor(chain -> {
                 Request request = chain.request().newBuilder()
-                        .addHeader("X-Linehaul-V2-Secret", "_ed183673b9709a69e51ed86e6b53b")
+                        .addHeader("X-Linehaul-V2-Secret", BuildConfig.HAUL_SECRET)
                         .build();
                 return chain.proceed(request);
             }).addInterceptor(loggingInterceptor);
 
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL).client(httpClient.build())
+                    .baseUrl(BuildConfig.BASE_URL).client(httpClient.build())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
