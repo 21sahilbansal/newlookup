@@ -70,6 +70,7 @@
     <string name="please_wait">Please Wait...</string>
     <string name="internet_not_available">Internet not available</string>
     <string name="device_cant_be_empty">Device id can\'t be empty</string>
+    <string name="truckno_cant_be_empty">Truck no can\'t be empty</string>
     <string name="user_cant_empty">User Id can\'t be Empty</string>
     <string name="swipe_to_refresh">Swipe to Refresh</string>
     <string name="add_device_image">Add Device Image</string>

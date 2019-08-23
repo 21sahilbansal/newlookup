@@ -179,8 +179,12 @@ public class DeviceIdFragment extends BaseTitleFragment {
                     }
                 } else
                     Toaster.makeToast(getString(R.string.internet_not_available));
-            } else
-                Toaster.makeToast(getString(R.string.device_cant_be_empty));
+            } else{
+                if(fastagSelection){
+                    Toaster.makeToast(getString(R.string.truckno_cant_be_empty));
+                }
+                else {
+                Toaster.makeToast(getString(R.string.device_cant_be_empty));}}
 
         });
         binding.fastTag.setOnClickListener(view -> {
