@@ -3,7 +3,6 @@ package com.loconav.lookup;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
@@ -13,13 +12,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.databinding.FragmentDeviceIdBinding;
 import com.loconav.lookup.model.FastTagResponse;
@@ -28,13 +25,9 @@ import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
-import com.loconav.lookup.sharedetailsfragmants.NewInstallationFragment;
 import com.loconav.lookup.utils.AppUtils;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
-
 import static com.loconav.lookup.Constants.DEVICE_ID;
 import static com.loconav.lookup.Constants.LOOKUP_RESPONSE;
 import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
@@ -51,12 +44,12 @@ public class DeviceIdFragment extends BaseTitleFragment {
     private SharedPrefHelper sharedPrefHelper;
     private PassingReason passingReason;
     private final FragmentController fragmentController = new FragmentController();
-    private boolean fastagSelection, fastagScanned;
+    private boolean fastagSelection;
+
     private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra(DEVICE_ID);
-            fastagScanned = intent.getBooleanExtra("FastagScanned", false);
             Log.d("receiver", "Got message: " + message);
             binding.etDeviceId.setText(message);
             binding.etDeviceId.setSelection(binding.etDeviceId.getText().length());
@@ -70,7 +63,6 @@ public class DeviceIdFragment extends BaseTitleFragment {
 
     @Override
     public void onFragmentCreated() {
-
         passingReason = ((LookupSubActivity) getActivity()).getPassingReason();
         if (passingReason.getReasonResponse().getId() != 37) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Enter device ID");
@@ -147,48 +139,31 @@ public class DeviceIdFragment extends BaseTitleFragment {
                             }
                         });
                     } else {
-                        if (fastagScanned == true) {
-                            apiService.validateFastagNumber(binding.etDeviceId.getText().toString()).enqueue(new RetrofitCallback<FastTagResponse>() {
-                                @Override
-                                protected void handleSuccess(Call<FastTagResponse> call, Response<FastTagResponse> response) {
-                                    setFastagPhotoFrag(response);
-                                }
+                        apiService.validateTruckNumberOrFastagNumber(binding.etDeviceId.getText().toString()).enqueue(new RetrofitCallback<FastTagResponse>() {
+                            @Override
+                            protected void handleSuccess(Call<FastTagResponse> call, Response<FastTagResponse> response) {
+                                setFastagPhotoFrag(response);
+                            }
 
-                                @Override
-                                protected void handleFailure(Call<FastTagResponse> call, Throwable t) {
-                                    Toast.makeText(getContext(), "Invalid Fast Tag", Toast.LENGTH_LONG).show();
-                                    progressDialog.dismiss();
-
-                                }
-                            });
-
-                        } else {
-                            apiService.validateTruckNumber(binding.etDeviceId.getText().toString()).enqueue(new RetrofitCallback<FastTagResponse>() {
-                                @Override
-                                protected void handleSuccess(Call<FastTagResponse> call, Response<FastTagResponse> response) {
-                                    setFastagPhotoFrag(response);
-                                }
-
-                                @Override
-                                protected void handleFailure(Call<FastTagResponse> call, Throwable t) {
-                                    Toast.makeText(getContext(), "Invalid Truck No", Toast.LENGTH_LONG).show();
-                                    progressDialog.dismiss();
-                                }
-                            });
-                        }
+                            @Override
+                            protected void handleFailure(Call<FastTagResponse> call, Throwable t) {
+                                Toast.makeText(getContext(),"Invalid FasTag Or Truck No", Toast.LENGTH_LONG).show();
+                                progressDialog.dismiss();
+                            }
+                        });
                     }
                 } else
                     Toaster.makeToast(getString(R.string.internet_not_available));
-            } else{
-                if(fastagSelection){
+            } else {
+                if (fastagSelection) {
                     Toaster.makeToast(getString(R.string.truckno_cant_be_empty));
+                } else {
+                    Toaster.makeToast(getString(R.string.device_cant_be_empty));
                 }
-                else {
-                Toaster.makeToast(getString(R.string.device_cant_be_empty));}}
+            }
 
         });
         binding.fastTag.setOnClickListener(view -> {
-//                TODO : Open new activity ...
             Intent intent = new Intent(getContext(), FastTagActivity.class);
             startActivity(intent);
         });
@@ -205,7 +180,6 @@ public class DeviceIdFragment extends BaseTitleFragment {
         fastTagPhotosFragment.setArguments(bundle);
         fragmentController.loadFragment(fastTagPhotosFragment, getFragmentManager(), R.id.frameLayout, true);
         progressDialog.dismiss();
-
     }
 
     private void setScanner() {
@@ -242,7 +216,6 @@ public class DeviceIdFragment extends BaseTitleFragment {
 
     private void showEnterIdDialog() {
         final EditText input = new EditText(getActivity());
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Enter Your Phone Number");
         builder.setPositiveButton("OK", null);
@@ -253,7 +226,6 @@ public class DeviceIdFragment extends BaseTitleFragment {
             Button b = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
             b.setTextColor(Color.BLACK);
             b.setOnClickListener(view -> {
-                // TODO Do something
                 if (!input.getText().toString().trim().equals("")) {
                     sharedPrefHelper.setStringData(USER_ID, input.getText().toString());
                     mAlertDialog.cancel();

@@ -70,7 +70,7 @@
     <string name="please_wait">Please Wait...</string>
     <string name="internet_not_available">Internet not available</string>
     <string name="device_cant_be_empty">Device id can\'t be empty</string>
-    <string name="truckno_cant_be_empty">Truck no can\'t be empty</string>
+    <string name="truckno_cant_be_empty">Truck no or Fastag no can\'t be empty</string>
     <string name="user_cant_empty">User Id can\'t be Empty</string>
     <string name="swipe_to_refresh">Swipe to Refresh</string>
     <string name="add_device_image">Add Device Image</string>
@@ -85,9 +85,9 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="fastag_before_pasting">Before Pasting Fastag</string>
-    <string name="fastag_after_pasting">After Pasting Fastag</string>
-    <string name="front_view1">Front View</string>
-    <string name="sideview1">Side View</string>
+    <string name="fastag_after_pasting">After Pasting Fastag \u002A</string>
+    <string name="front_view1">Front View \u002A </string>
+    <string name="side_view1">Side View \u002A</string>
     <string name="before_pasting_fastag">before_pasting_fastag</string>
     <string name="after_pasting_fastag">after_pasting_fastag</string>
     <string name="front_view">front_view</string>

@@ -11,6 +11,7 @@ import com.loconav.lookup.databinding.ActivityCameraOpenBinding;
 import java.util.Objects;
 
 public class CameraOpenActivity extends BaseActivity {
+    public static final String STRINGID = "Stringid";
     private ActivityCameraOpenBinding cameraOpenBinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,8 +19,9 @@ public class CameraOpenActivity extends BaseActivity {
         cameraOpenBinding=DataBindingUtil.setContentView(this,R.layout.activity_camera_open);
         FragmentController fragmentController=new FragmentController();
         Bundle bundle=new Bundle();
-        bundle.putInt("limit", Objects.requireNonNull(getIntent().getExtras()).getInt("limit"));
-        bundle.putString("Stringid",getIntent().getExtras().getString("Stringid"));
+        bundle.putInt(ImagePickerDialog.LIMIT, Objects.requireNonNull(getIntent().getExtras()).getInt(ImagePickerDialog.LIMIT));
+        bundle.putInt(ImagePickerDialog.ALREADY_TAKEN_PHOTOS,Objects.requireNonNull(getIntent().getExtras()).getInt(ImagePickerDialog.ALREADY_TAKEN_PHOTOS));
+        bundle.putString(STRINGID,getIntent().getExtras().getString(STRINGID));
         CameraPickerFragment cameraPickerFragment=new CameraPickerFragment();
         cameraPickerFragment.setArguments(bundle);
         fragmentController.loadFragment(cameraPickerFragment,getSupportFragmentManager(),R.id.camera,false);

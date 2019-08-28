@@ -23,6 +23,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.loconav.lookup.Constants.ALREADY_TAKEN_IMAGES;
 import static com.loconav.lookup.Constants.ID;
 import static com.loconav.lookup.Constants.IMAGE_LIST;
 import static com.loconav.lookup.Constants.LIMIT_IMAGES;
@@ -30,18 +31,22 @@ import static com.loconav.lookup.Constants.STARTED_COMPRESSION;
 
 
 public class ImagePickerDialog extends BaseDialogFragment {
+    public static final String ALREADY_TAKEN_PHOTOS = "alreadyTakenPhotos";
+    public static final String LIMIT = "limit";
     private DialogImagePickerBinding binding;
     private final int SELECT_FILE = 1;
     private final int CAMERA_FILE=2;
     private String stringId; //it is the name of custom image picker
     private int limit;
+    private int alreadyTakenPhotos;
     private final String startCompression=STARTED_COMPRESSION;//for the progress bar to start in the custom image picker
     private ArrayList<ImageUri> imagesUriArrayList=new ArrayList<>();
-    public static ImagePickerDialog newInstance(String id, int limit) {
+    public static ImagePickerDialog newInstance(String id, int limit,int alreadyTakenPhotos) {
         ImagePickerDialog imagePickerDialog = new ImagePickerDialog();
         Bundle bundle=new Bundle();
         bundle.putString(ID,id);
         bundle.putInt(LIMIT_IMAGES,limit);
+        bundle.putInt(ALREADY_TAKEN_IMAGES,alreadyTakenPhotos);
         imagePickerDialog.setArguments(bundle);
         return imagePickerDialog;
     }
@@ -57,6 +62,8 @@ public class ImagePickerDialog extends BaseDialogFragment {
 
         stringId=getArguments().getString(ID);
         limit=getArguments().getInt(LIMIT_IMAGES);
+        alreadyTakenPhotos=getArguments().getInt(ALREADY_TAKEN_IMAGES);
+
         binding.camera.setOnClickListener(v -> cameraIntent());
 
         binding.gallery.setOnClickListener(v -> galleryIntent());
@@ -81,7 +88,8 @@ public class ImagePickerDialog extends BaseDialogFragment {
 
     private void cameraIntent() {
         Bundle bundle=new Bundle();
-        bundle.putInt("limit",limit);
+        bundle.putInt(LIMIT,limit);
+        bundle.putInt(ALREADY_TAKEN_PHOTOS,alreadyTakenPhotos);
         Intent i =new Intent(getContext(),CameraOpenActivity.class);
         i.putExtras(bundle);
         startActivityForResult(i,CAMERA_FILE);

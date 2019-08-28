@@ -83,15 +83,15 @@ public interface ApiInterface {
      *
      * @param truckNumber This is truck number entered by the user
      */
-    @GET("api/installers/fastag_installations/search")
-    Call<FastTagResponse> validateTruckNumber(@Query("truck_number") String truckNumber);
 
     /**
-     * This GET method is used to validate the fastagScanned Bar code,if it associated with any truck or not
-     * @param  fastagno This is fastagno obtained after scannig fastag
+     * This GET method is used to validate the truckNo or fasttag no
+     * @param truckNumberOrFastagNumber
+     * @return
      */
     @GET("api/installers/fastag_installations/search")
-    Call<FastTagResponse> validateFastagNumber(@Query("fastag_serial_number") String fastagno);
+    Call<FastTagResponse> validateTruckNumberOrFastagNumber(@Query("truck_number_or_fastag_serial_number") String truckNumberOrFastagNumber);
+
     /**
      * This GET method return the list of Fastags for a particular truck id
      *

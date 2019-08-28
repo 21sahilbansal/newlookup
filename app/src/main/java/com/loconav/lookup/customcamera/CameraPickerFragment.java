@@ -18,6 +18,10 @@ import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FragmentCamerapickerBinding;
 import com.loconav.lookup.dialog.FullImageDialog;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -36,6 +40,7 @@ public class CameraPickerFragment extends BaseFragment {
     private final ArrayList<ImageUri> imageList=new ArrayList<>();
     private RecycleCustomImageAdapter recycleCustomImageAdapter;
     private int limit;
+    private int alreadyTakenPhotos;
     private boolean safeToTakePhoto=false;//this checks if the surface is created or not and user is allowed to take photos and autofocus
     @Override
     public int setViewId() {
@@ -44,7 +49,8 @@ public class CameraPickerFragment extends BaseFragment {
 
     @Override
     public void onFragmentCreated() {
-        limit= Objects.requireNonNull(Objects.requireNonNull(getActivity()).getIntent().getExtras()).getInt("limit");
+        limit= Objects.requireNonNull(Objects.requireNonNull(getArguments().getInt(ImagePickerDialog.LIMIT)));
+        alreadyTakenPhotos= getArguments().getInt(ImagePickerDialog.ALREADY_TAKEN_PHOTOS);
         // Create an instance of Camera
         mCamera = getCameraInstance();
 
@@ -56,10 +62,11 @@ public class CameraPickerFragment extends BaseFragment {
         //set recyclerview adapter
         setImageAdapter();
 
+        EventBus.getDefault().register(this);
         //Capture the photo and save it
         binding.capture.setOnClickListener(view -> {
             binding.capture.setClickable(false);
-            if(imageList.size()<limit && safeToTakePhoto) {
+            if(imageList.size()<limit && safeToTakePhoto && limit>alreadyTakenPhotos) {
                 mCamera.takePicture(null, null, (bytes, camera) -> {
                     File pictureFile = null;
                     try {
@@ -81,10 +88,11 @@ public class CameraPickerFragment extends BaseFragment {
                         e.printStackTrace();
                     }
 
-                    //Settting ImageView List for original images list
+                    //Setting ImageView List for original images list
                     ImageUri imageUri = new ImageUri();
                     imageUri.setUri(FileProvider.getUriForFile(getContext(), FILE_PROVIDER_AUTHORITY, pictureFile));
                     imageList.add(imageUri);
+                    alreadyTakenPhotos++;
                     recycleCustomImageAdapter.notifyDataSetChanged();
                     binding.capture.setClickable(true);
                 });
@@ -149,40 +157,53 @@ public class CameraPickerFragment extends BaseFragment {
                 FullImageDialog fullImageDialog = FullImageDialog.newInstance(uri.getUri().toString());
                 fullImageDialog.show(getActivity().getSupportFragmentManager(),getClass().getSimpleName());
             }
-        },getContext());
+        },this);
         binding.rvImages.setLayoutManager(linearLayoutManager);
         binding.rvImages.setAdapter(recycleCustomImageAdapter);
     }
-
-
-    private Camera getCameraInstance(){
-        Camera camera = null;
-        try {
-            camera = Camera.open();
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void imageRemovingEvent(ImagePickerEvent event) {
+        String message = event.getMessage();
+        String imageRemoved = ImagePickerEvent.IMAGE_REMOVED_AFTER_CAPTURING;
+        if (message.equals(imageRemoved) && event.getObject().equals(this)) {
+            if (alreadyTakenPhotos != 0) {
+                alreadyTakenPhotos = alreadyTakenPhotos - 1;}
+                if (imageList.size() != 0) {
+                    imageList.remove(imageList.size() - 1);
+                }
+                binding.capture.setClickable(true);
+            }
         }
-        catch (Exception e){
-            e.printStackTrace();
+
+
+        private Camera getCameraInstance () {
+            Camera camera = null;
+            try {
+                camera = Camera.open();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return camera;
         }
-        return camera;
-    }
 
-    @Override
-    public void bindView(View view) {
-        binding= DataBindingUtil.bind(view);
-    }
-
-    @Override
-    public void getComponentFactory() {
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding.unbind();
-        if(mCamera!=null) {
-            mCamera.stopPreview();
-            mCamera.release();
+        @Override
+        public void bindView (View view){
+            binding = DataBindingUtil.bind(view);
         }
-    }
 
-}
+        @Override
+        public void getComponentFactory () {
+        }
+
+        @Override
+        public void onDestroyView () {
+            super.onDestroyView();
+            binding.unbind();
+            if (mCamera != null) {
+                mCamera.stopPreview();
+                mCamera.release();
+            }
+            EventBus.getDefault().unregister(this);
+        }
+
+    }

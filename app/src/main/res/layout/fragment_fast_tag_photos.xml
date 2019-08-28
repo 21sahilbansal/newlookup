@@ -7,7 +7,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:clickable="true"
         android:divider="?android:attr/listDivider"
         android:scrollbars="none">
 
@@ -72,49 +71,84 @@
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
 
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:elevation="5dp"
+                custom:cardCornerRadius="@dimen/dimen_5dp"
+                android:padding="10dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:shadowColor="@color/gray">
+
             <com.loconav.lookup.customcamera.CustomImagePicker
                 android:id="@+id/ft_before_install"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:background="?android:selectableItemBackground"
-                custom:id="beforeInstall"
+                custom:id="@string/fastag_before_pasting"
                 custom:limitImages="1"
                 custom:titleText="@string/fastag_before_pasting" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:elevation="3dp"
+                custom:cardCornerRadius="@dimen/dimen_5dp"
+                android:padding="10dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:shadowColor="@color/gray">
 
             <com.loconav.lookup.customcamera.CustomImagePicker
                 android:id="@+id/ft_installed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:background="?android:selectableItemBackground"
                 custom:limitImages="1"
                 custom:titleText="@string/fastag_after_pasting"
-                custom:id="afterInstalled"/>
-
+                custom:id="@string/fastag_after_pasting"/>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:elevation="3dp"
+                custom:cardCornerRadius="@dimen/dimen_5dp"
+                android:padding="10dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:shadowColor="@color/gray">
             <com.loconav.lookup.customcamera.CustomImagePicker
                 android:id="@+id/front_view1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:background="?android:selectableItemBackground"
                 custom:limitImages="1"
                 custom:titleText="@string/front_view1"
-                custom:id="frontView"/>
+                custom:id="@string/front_view1"/>
 
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:elevation="3dp"
+                custom:cardCornerRadius="@dimen/dimen_5dp"
+                android:padding="10dp"
+                android:paddingBottom="@dimen/dimen_5dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:shadowColor="@color/gray">
             <com.loconav.lookup.customcamera.CustomImagePicker
                 android:id="@+id/side_view1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:background="?android:selectableItemBackground"
                 custom:limitImages="1"
-                custom:titleText="@string/sideview1"
-                custom:id="sideView"/>
+                custom:titleText="@string/side_view1"
+                custom:id="@string/side_view1"/>
+            </android.support.v7.widget.CardView>
 
             <Button
                 android:id="@+id/ftPhoto_upload"
