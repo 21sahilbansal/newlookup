@@ -147,7 +147,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
 
                             @Override
                             protected void handleFailure(Call<FastTagResponse> call, Throwable t) {
-                                Toast.makeText(getContext(),"Invalid FasTag Or Truck No", Toast.LENGTH_LONG).show();
+                                Toaster.makeToast(t.getMessage());
                                 progressDialog.dismiss();
                             }
                         });
