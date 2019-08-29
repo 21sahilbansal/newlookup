@@ -77,7 +77,7 @@ public class CustomImagePicker extends LinearLayout {
             @Override
             public void onClick(View view) {
                 if (originalImageUris.size() == limit) {
-                    Toaster.makeToast(getResources().getString(R.string.size_limit) + limit + getResources().getString(R.string.images));
+                    Toaster.makeToast(getResources().getString(R.string.size_limit) + " "+limit + getResources().getString(R.string.images));
 
                 } else {
                     ImagePickerDialog imagePickerDialog = ImagePickerDialog.newInstance(textID, limit, recycleCustomImageAdapter.getItemCount());

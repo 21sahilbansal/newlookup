@@ -139,7 +139,8 @@ public class DeviceIdFragment extends BaseTitleFragment {
                             }
                         });
                     } else {
-                        apiService.validateTruckNumberOrFastagNumber(binding.etDeviceId.getText().toString()).enqueue(new RetrofitCallback<FastTagResponse>() {
+                         String truckId =binding.etDeviceId.getText().toString().toUpperCase();
+                        apiService.validateTruckNumberOrFastagNumber(truckId).enqueue(new RetrofitCallback<FastTagResponse>() {
                             @Override
                             protected void handleSuccess(Call<FastTagResponse> call, Response<FastTagResponse> response) {
                                 setFastagPhotoFrag(response);
