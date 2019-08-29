@@ -141,6 +141,10 @@ public class CustomImagePicker extends LinearLayout {
             resultLinkedList.addAll((List<ImageUri>) event.getObject());
             if (originalImageUris.size() + resultLinkedList.size() > limit)
                 Toaster.makeToast(getResources().getString(R.string.not_more_than) + limit + getResources().getString(R.string.images));
+
+            if (resultLinkedList.size() + originalImageUris.size() >= limit) {
+                linearLayout.setVisibility(View.GONE);
+            }
             for (int i = 0; i < resultLinkedList.size(); i++) {
                 if (originalImageUris.size() < limit) {
                     this.originalImageUris.add(i, resultLinkedList.get(i));
