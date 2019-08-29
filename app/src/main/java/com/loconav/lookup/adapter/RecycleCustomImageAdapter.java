@@ -4,13 +4,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseAdapter;
-import com.loconav.lookup.customcamera.ImagePickerEvent;
+import com.loconav.lookup.customcamera.Callback;
+import com.loconav.lookup.customcamera.ImageRemoved;
 import com.loconav.lookup.customcamera.ImageUri;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -21,13 +19,13 @@ public class RecycleCustomImageAdapter extends BaseAdapter {
 
     private final List<ImageUri> data;
     private final Callback callback;
-    private final Object object;
+    private final ImageRemoved imageRemoved;
 
     // Provide repair suitable constructor (depends on the kind of dataset)
     public RecycleCustomImageAdapter(List<ImageUri> myDataset, Callback callback, Object object) {
         data = myDataset;
         this.callback = callback;
-        this.object = object;
+        this.imageRemoved = (ImageRemoved) object;
     }
 
     @Override
@@ -61,7 +59,7 @@ public class RecycleCustomImageAdapter extends BaseAdapter {
         ImageView imageView = view.findViewById(R.id.remove);
         imageView.setOnClickListener(view1 -> {
             data.remove(data.get(position));
-            EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_REMOVED_AFTER_CAPTURING, object));
+            imageRemoved.afterImageRemoved();
             notifyDataSetChanged();
         });
     }

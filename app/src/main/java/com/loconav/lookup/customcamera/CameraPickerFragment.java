@@ -19,8 +19,6 @@ import com.loconav.lookup.databinding.FragmentCamerapickerBinding;
 import com.loconav.lookup.dialog.FullImageDialog;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -32,16 +30,17 @@ import static com.loconav.lookup.Constants.FILE_PROVIDER_AUTHORITY;
 import static com.loconav.lookup.Constants.IMAGE_LIST;
 
 
-public class CameraPickerFragment extends BaseFragment {
+public class CameraPickerFragment extends BaseFragment implements ImageRemoved {
     private FragmentCamerapickerBinding binding;
     private Camera mCamera;
     private Camera.Parameters parameters;
-    private boolean isFlashOn=false;
-    private final ArrayList<ImageUri> imageList=new ArrayList<>();
+    private boolean isFlashOn = false;
+    private final ArrayList<ImageUri> imageList = new ArrayList<>();
     private RecycleCustomImageAdapter recycleCustomImageAdapter;
     private int limit;
     private int alreadyTakenPhotos;
-    private boolean safeToTakePhoto=false;//this checks if the surface is created or not and user is allowed to take photos and autofocus
+    private boolean safeToTakePhoto = false;//this checks if the surface is created or not and user is allowed to take photos and autofocus
+
     @Override
     public int setViewId() {
         return R.layout.fragment_camerapicker;
@@ -49,8 +48,8 @@ public class CameraPickerFragment extends BaseFragment {
 
     @Override
     public void onFragmentCreated() {
-        limit= Objects.requireNonNull(Objects.requireNonNull(getArguments().getInt(ImagePickerDialog.LIMIT)));
-        alreadyTakenPhotos= getArguments().getInt(ImagePickerDialog.ALREADY_TAKEN_PHOTOS);
+        limit = Objects.requireNonNull(Objects.requireNonNull(getArguments().getInt(ImagePickerDialog.LIMIT)));
+        alreadyTakenPhotos = getArguments().getInt(ImagePickerDialog.ALREADY_TAKEN_PHOTOS);
         // Create an instance of Camera
         mCamera = getCameraInstance();
 
@@ -62,11 +61,10 @@ public class CameraPickerFragment extends BaseFragment {
         //set recyclerview adapter
         setImageAdapter();
 
-        EventBus.getDefault().register(this);
         //Capture the photo and save it
         binding.capture.setOnClickListener(view -> {
             binding.capture.setClickable(false);
-            if(imageList.size()<limit && safeToTakePhoto && limit>alreadyTakenPhotos) {
+            if (imageList.size() < limit && safeToTakePhoto && limit > alreadyTakenPhotos) {
                 mCamera.takePicture(null, null, (bytes, camera) -> {
                     File pictureFile = null;
                     try {
@@ -96,10 +94,8 @@ public class CameraPickerFragment extends BaseFragment {
                     recycleCustomImageAdapter.notifyDataSetChanged();
                     binding.capture.setClickable(true);
                 });
-            }
-            else
-            {
-                Toaster.makeToast(getString(R.string.size_limit)+limit);
+            } else {
+                Toaster.makeToast(getString(R.string.size_limit) + " " + limit);
             }
         });
 
@@ -114,9 +110,9 @@ public class CameraPickerFragment extends BaseFragment {
 
         //for turn ON or OFF the Flash in camera
         binding.flash.setOnClickListener(v -> {
-            if(mCamera!=null) {
+            if (mCamera != null) {
                 parameters = mCamera.getParameters();
-                if (parameters!=null &&parameters.getSupportedFlashModes() != null) {
+                if (parameters != null && parameters.getSupportedFlashModes() != null) {
                     if (isFlashOn) {
                         isFlashOn = false;
                         binding.flash.setImageResource(R.drawable.noflash);
@@ -135,75 +131,71 @@ public class CameraPickerFragment extends BaseFragment {
         binding.totalcorrect.setOnClickListener(view -> {
             Intent returnIntent = new Intent();
             //As Uri is not parceble/Seriazable we have to convert it into string list
-            ArrayList<String> imageListinString=new ArrayList<>();
-            for(ImageUri uri:imageList)
+            ArrayList<String> imageListinString = new ArrayList<>();
+            for (ImageUri uri : imageList)
                 imageListinString.add(uri.getUri().toString());
-            returnIntent.putExtra(IMAGE_LIST,imageListinString);
-            getActivity().setResult(Activity.RESULT_OK,returnIntent);
+            returnIntent.putExtra(IMAGE_LIST, imageListinString);
+            getActivity().setResult(Activity.RESULT_OK, returnIntent);
             getActivity().finish();
         });
 
-        safeToTakePhoto=true;
+        safeToTakePhoto = true;
     }
 
-    private void setImageAdapter()
-    {
+    private void setImageAdapter() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recycleCustomImageAdapter=new RecycleCustomImageAdapter(imageList, new Callback() {
+        recycleCustomImageAdapter = new RecycleCustomImageAdapter(imageList, new Callback() {
             @Override
             public void onEventDone(Object object) {
-                ImageUri uri=(ImageUri) object;
+                ImageUri uri = (ImageUri) object;
                 FullImageDialog fullImageDialog = FullImageDialog.newInstance(uri.getUri().toString());
-                fullImageDialog.show(getActivity().getSupportFragmentManager(),getClass().getSimpleName());
+                fullImageDialog.show(getActivity().getSupportFragmentManager(), getClass().getSimpleName());
             }
-        },this);
+        }, this);
         binding.rvImages.setLayoutManager(linearLayoutManager);
         binding.rvImages.setAdapter(recycleCustomImageAdapter);
     }
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void imageRemovingEvent(ImagePickerEvent event) {
-        String message = event.getMessage();
-        String imageRemoved = ImagePickerEvent.IMAGE_REMOVED_AFTER_CAPTURING;
-        if (message.equals(imageRemoved) && event.getObject().equals(this)) {
-            if (alreadyTakenPhotos != 0) {
-                alreadyTakenPhotos = alreadyTakenPhotos - 1;}
-                if (imageList.size() != 0) {
-                    imageList.remove(imageList.size() - 1);
-                }
-                binding.capture.setClickable(true);
-            }
+
+    private Camera getCameraInstance() {
+        Camera camera = null;
+        try {
+            camera = Camera.open();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-
-        private Camera getCameraInstance () {
-            Camera camera = null;
-            try {
-                camera = Camera.open();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return camera;
-        }
-
-        @Override
-        public void bindView (View view){
-            binding = DataBindingUtil.bind(view);
-        }
-
-        @Override
-        public void getComponentFactory () {
-        }
-
-        @Override
-        public void onDestroyView () {
-            super.onDestroyView();
-            binding.unbind();
-            if (mCamera != null) {
-                mCamera.stopPreview();
-                mCamera.release();
-            }
-            EventBus.getDefault().unregister(this);
-        }
-
+        return camera;
     }
+
+    @Override
+    public void bindView(View view) {
+        binding = DataBindingUtil.bind(view);
+    }
+
+    @Override
+    public void getComponentFactory() {
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding.unbind();
+        if (mCamera != null) {
+            mCamera.stopPreview();
+            mCamera.release();
+        }
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void afterImageRemoved() {
+        if (alreadyTakenPhotos != 0) {
+            alreadyTakenPhotos = alreadyTakenPhotos - 1;
+        }
+        if (imageList.size() != 0) {
+            imageList.remove(imageList.size() - 1);
+        }
+        binding.capture.setClickable(true);
+    }
+}
+

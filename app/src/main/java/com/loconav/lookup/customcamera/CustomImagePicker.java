@@ -32,7 +32,7 @@ import static com.loconav.lookup.Constants.STARTED_COMPRESSION;
  * Created by sejal on 12-07-2018.
  */
 
-public class CustomImagePicker extends LinearLayout {
+public class CustomImagePicker extends LinearLayout implements ImageRemoved {
     private final ArrayList<ImageUri> originalImageUris = new ArrayList<>();
     private ProgressBar progressBar;
     //needed to differentiate different imagepickers that where inflated through custominflater so did it by textID
@@ -77,7 +77,7 @@ public class CustomImagePicker extends LinearLayout {
             @Override
             public void onClick(View view) {
                 if (originalImageUris.size() == limit) {
-                    Toaster.makeToast(getResources().getString(R.string.size_limit) + " "+limit + getResources().getString(R.string.images));
+                    Toaster.makeToast(getResources().getString(R.string.size_limit) + " " + limit + getResources().getString(R.string.images));
 
                 } else {
                     ImagePickerDialog imagePickerDialog = ImagePickerDialog.newInstance(textID, limit, recycleCustomImageAdapter.getItemCount());
@@ -106,7 +106,7 @@ public class CustomImagePicker extends LinearLayout {
         RecyclerView recyclerImages = findViewById(R.id.rvImages);
         recyclerImages.setLayoutManager(linearLayoutManager);
         recycleCustomImageAdapter = new RecycleCustomImageAdapter(originalImageUris, object -> {
-        },this);
+        }, this);
         recyclerImages.setAdapter(recycleCustomImageAdapter);
         recyclerImages.setNestedScrollingEnabled(false);
     }
@@ -135,8 +135,7 @@ public class CustomImagePicker extends LinearLayout {
                 }
             }
             recycleCustomImageAdapter.notifyDataSetChanged();
-        }
-        else if (message.equals(imageEventGallery)) {
+        } else if (message.equals(imageEventGallery)) {
             resultLinkedList.clear();
             resultLinkedList.addAll((List<ImageUri>) event.getObject());
             if (originalImageUris.size() + resultLinkedList.size() > limit)
@@ -152,12 +151,7 @@ public class CustomImagePicker extends LinearLayout {
             }
             recycleCustomImageAdapter.notifyDataSetChanged();
         }
-        else if(message.equals(imageRemoved) && event.getObject().equals(this)){
 
-              this.linearLayout.setVisibility(VISIBLE);
-
-
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -175,5 +169,10 @@ public class CustomImagePicker extends LinearLayout {
 
     public ArrayList<ImageUri> getimagesList() {
         return originalImageUris;
+    }
+
+    @Override
+    public void afterImageRemoved() {
+        linearLayout.setVisibility(VISIBLE);
     }
 }
