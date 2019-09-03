@@ -60,9 +60,4 @@ public abstract class BaseActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(menuItem);
     }
 
-//    @Override
-//    public boolean onSupportNavigateUp() {
-//        onBackPressed();
-//        return super.onSupportNavigateUp();
-//    }
 }

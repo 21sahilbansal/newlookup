@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.model.CoordinateRequest;
@@ -47,6 +48,7 @@ public class LocationBroadcastReciever extends BroadcastReceiver implements Call
             coordinateRequest.setCoordinates(coordinatesList);
             sendCoordinates(coordinateRequest);
             Log.e("location", "onLocationChanged: " + location);
+            Toast.makeText(context,latitude +"and"+longitude,Toast.LENGTH_LONG).show();
         }
     }
 

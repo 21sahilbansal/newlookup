@@ -3,12 +3,16 @@ package com.loconav.lookup.login;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.loconav.lookup.R;
 import com.loconav.lookup.Toaster;
+import com.loconav.lookup.model.LocationUpdatesService;
 import com.loconav.lookup.utils.AppUtils;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.databinding.ActivityLoginBinding;
@@ -60,7 +64,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         Log.e("shared",""+sharedPrefHelper.getStringData(authenticationToken));
         Intent intent = new Intent(getBaseContext(),SplashActivity.class);
         startActivity(intent);
-        finish();
     }
 
     @Override

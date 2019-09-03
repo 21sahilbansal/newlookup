@@ -83,4 +83,6 @@
     <string name="installation_creation_successfull">New Installation created successfully</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="notification_title">Location Update</string>
+    <string name="notification_text">LookUp Tracks You</string>
 </resources>
