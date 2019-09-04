@@ -21,6 +21,7 @@ public class LocationUpdatesService extends Service {
     private Notification notification;
     private int Notification_ID = 12;
 
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         createNotificationChannel();
@@ -66,4 +67,5 @@ public class LocationUpdatesService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
+
 }

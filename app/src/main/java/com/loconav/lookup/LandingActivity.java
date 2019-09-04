@@ -15,7 +15,9 @@ import com.loconav.lookup.databinding.ActivityLookupEntryBinding;
 import com.loconav.lookup.location.LocationBroadcastReciever;
 import com.loconav.lookup.location.OnGpsDialog;
 import com.loconav.lookup.model.LocationUpdatesService;
+import com.loconav.lookup.service.BaseService;
 import com.loconav.lookup.utils.AppUtils;
+import com.loconav.lookup.utils.Constant;
 
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
@@ -23,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 public class LandingActivity extends BaseActivity {
     private ActivityLookupEntryBinding lookupEntryBinding;
     private final FragmentController fragmentController=new FragmentController();
+    private BaseService baseService ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,11 +42,11 @@ public class LandingActivity extends BaseActivity {
             startBroadcstReceiver();
         }
         showAppUpdateDialog();
-        startLocationService();
-    }
-    private void startLocationService() {
+        baseService = new BaseService();
         Intent serviceIntent = new Intent(this, LocationUpdatesService.class);
-        ContextCompat.startForegroundService(getApplicationContext(),serviceIntent);
+
+        baseService.startForegroundLocationService(getApplicationContext(),serviceIntent);
+
     }
 
 
@@ -84,7 +87,7 @@ public class LandingActivity extends BaseActivity {
         Intent intent = new Intent(this, LocationBroadcastReciever.class);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis(), TimeUnit.MINUTES.toMillis(15), pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis(), TimeUnit.MINUTES.toMillis(Constant.locationUpdateTime), pendingIntent);
     }
 
 
