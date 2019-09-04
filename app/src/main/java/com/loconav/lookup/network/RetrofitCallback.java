@@ -27,7 +27,6 @@ public abstract class RetrofitCallback<T> implements Callback<T> {
 
     @Override public void onFailure(Call<T> call,Throwable t) {
         Log.e(TAG, "onFailure: " + t.getMessage());
-        throwExceptionToServer("This is app side exception "+t.getMessage(),call.request().url().toString());
         handleFailure(call, new Throwable(DEFAULT_ERROR_MESSAGE));
     }
 
@@ -48,7 +47,6 @@ public abstract class RetrofitCallback<T> implements Callback<T> {
                 exception=e.getMessage();
                 e.printStackTrace();
             }
-            throwExceptionToServer("This is api(server) exception "+exception,call.request().url().toString());
             handleFailure(call, new Throwable(error));
         }
     }
@@ -56,23 +54,4 @@ public abstract class RetrofitCallback<T> implements Callback<T> {
     protected abstract void handleSuccess(Call<T> call, Response<T> response);
     protected abstract void handleFailure(Call<T> call, Throwable t);
 
-    private void throwExceptionToServer(String exception, String api)
-    {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        ApiException exceptionThrow=new ApiException();
-        exceptionThrow.setCrash_log(exception);
-        exceptionThrow.setNote(api);
-
-        apiService.logExceptionToServer(exceptionThrow).enqueue(new RetrofitCallback<ResponseBody>() {
-            @Override
-            public void handleSuccess(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.e(TAG,"Exception thrown");
-            }
-
-            @Override
-            public void handleFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e(TAG,"Exception not thrown");
-            }
-        });
-    }
 }
