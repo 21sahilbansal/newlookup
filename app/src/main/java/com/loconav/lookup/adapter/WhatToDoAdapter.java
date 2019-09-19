@@ -37,6 +37,7 @@ WhatToDoAdapter extends BaseAdapter {
     @Override
     public void onItemClick(Object object, int position) {
         callback.onEventDone(object);
+
     }
 
     @Override

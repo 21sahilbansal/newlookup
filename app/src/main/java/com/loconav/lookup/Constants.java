@@ -27,6 +27,7 @@ public class Constants {
     public static final String WHATSAPP_PACKAGE="com.whatsapp";
     public static final String STARTED_COMPRESSION="started_compression";
     public static final String LIMIT_IMAGES="limitImages";
+    public static final String ALREADY_TAKEN_IMAGES="already_taken_images";
     public static final String ADD_IMAGE="addImage";
     public static final String TRUCK_IMAGE="TruckImages";
     public static final String DEVICE_IMAGE="DeviceImages";
