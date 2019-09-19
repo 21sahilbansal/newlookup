@@ -28,7 +28,6 @@ public class LocationBroadcastReciever extends BroadcastReceiver implements Call
     @Override
     public void onReceive(Context context, Intent intent) {
         this.context=context;
-        LocationGetter locationGetter=new LocationGetter(this,context);
     }
 
     @Override

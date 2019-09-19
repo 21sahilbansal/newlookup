@@ -14,8 +14,9 @@ import android.support.v4.app.NotificationCompat;
 
 import com.loconav.lookup.LandingActivity;
 import com.loconav.lookup.R;
+import com.loconav.lookup.service.BaseService;
 
-public class LocationUpdatesService extends Service {
+public class LocationUpdatesService extends BaseService {
     private static final String TAG = LocationUpdatesService.class.getSimpleName();
     public static final String CHANNEL_ID = "LocationServiceChannel";
     private Notification notification;
@@ -24,6 +25,7 @@ public class LocationUpdatesService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        
         createNotificationChannel();
         startForeground(Notification_ID, getNotification());
         return START_STICKY;

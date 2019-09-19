@@ -22,10 +22,11 @@ import com.loconav.lookup.utils.Constant;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
+import static com.loconav.lookup.service.BaseService.startForegroundLocationService;
+
 public class LandingActivity extends BaseActivity {
     private ActivityLookupEntryBinding lookupEntryBinding;
     private final FragmentController fragmentController=new FragmentController();
-    private BaseService baseService ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +43,8 @@ public class LandingActivity extends BaseActivity {
             startBroadcstReceiver();
         }
         showAppUpdateDialog();
-        baseService = new BaseService();
         Intent serviceIntent = new Intent(this, LocationUpdatesService.class);
-
-        baseService.startForegroundLocationService(getApplicationContext(),serviceIntent);
+        startForegroundLocationService(getApplicationContext(),serviceIntent);
 
     }
 
