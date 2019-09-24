@@ -200,7 +200,4 @@ public interface ApiInterface {
      */
     @GET("api/installers/installations/{install_id}")
     Call<InstallationDetails> getInstallDetail(@Path(value = "install_id") String installId);
-
-    @POST("api/v1/android/app_crash_logs")
-    Call<ResponseBody> logExceptionToServer(@Body ApiException exceptionThrow);
 }
