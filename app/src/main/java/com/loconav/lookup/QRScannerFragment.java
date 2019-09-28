@@ -29,6 +29,7 @@ import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
 public class QRScannerFragment extends BaseFragment implements BarcodeRetriever {
 
     private FargmentQrScannerBinding binding;
+    private String messageForQrScanner;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
 
     @Override
     public void onFragmentCreated() {
+        this.messageForQrScanner = getArguments().getString(Constants.KEY_FOR_QRSCANNER);
         BarcodeCapture barcodeCapture = (BarcodeCapture) getChildFragmentManager().findFragmentById(R.id.barcode);
         barcodeCapture.setRetrieval(this);
     }
@@ -57,7 +59,7 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
 
     private void sendMessage(String scannedDeviceId) {
         Log.d("sender", "Broadcasting message");
-        Intent intent = new Intent(MESSENGER_SCANNED_ID);
+        Intent intent = new Intent(messageForQrScanner);
         // You can also include some extra data.
         intent.putExtra(DEVICE_ID, scannedDeviceId);
         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);

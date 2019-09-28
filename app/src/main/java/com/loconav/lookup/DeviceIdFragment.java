@@ -187,7 +187,10 @@ public class DeviceIdFragment extends BaseTitleFragment {
         binding.ibQrScanner.setOnClickListener(view -> {
             if (getActivity() != null)
                 AppUtils.hideKeyboard(getActivity());
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.KEY_FOR_QRSCANNER,Constants.MESSENGER_SCANNED_ID);
             QRScannerFragment qrScannerFragment = new QRScannerFragment();
+            qrScannerFragment.setArguments(bundle);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.container, qrScannerFragment).addToBackStack("qr_scanner");
             transaction.commit();
