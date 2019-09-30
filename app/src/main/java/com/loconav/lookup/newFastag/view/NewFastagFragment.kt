@@ -10,7 +10,7 @@ import com.loconav.lookup.newFastag.controller.NewFastagController
 import org.greenrobot.eventbus.EventBus
 
 class NewFastagFragment : BaseFragment() {
-    private lateinit var  newFastagController : NewFastagController
+    private  var  newFastagController : NewFastagController? = null
      var binding : FragmentNewfastagBinding?=null
 
 
@@ -25,7 +25,11 @@ class NewFastagFragment : BaseFragment() {
 
     private fun setUpController(view: View) {
         EventBus.getDefault().register(this)
-        newFastagController = NewFastagController(binding!!,fragmentManager!!,context!!)
+        binding?.let {
+            newFastagController = NewFastagController(it,fragmentManager!!,context!!)
+        }
+
+
 
     }
 
