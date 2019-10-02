@@ -9,9 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.Window;
-import android.widget.DatePicker;
 import android.widget.LinearLayout;
-import android.widget.TimePicker;
 
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseDialogFragment;

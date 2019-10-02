@@ -8,10 +8,10 @@ import com.loconav.lookup.BaseCameraActivity;
 import com.loconav.lookup.LandingActivity;
 import com.loconav.lookup.R;
 import com.loconav.lookup.Toaster;
-import com.loconav.lookup.utils.AppUtils;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
+import com.loconav.lookup.utils.AppUtils;
 
 import java.util.concurrent.TimeUnit;
 

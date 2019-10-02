@@ -9,6 +9,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.google.android.gms.samples.vision.barcodereader.BarcodeCapture;
 import com.google.android.gms.samples.vision.barcodereader.BarcodeGraphic;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -20,7 +21,6 @@ import java.util.List;
 import xyz.belvi.mobilevisionbarcodescanner.BarcodeRetriever;
 
 import static com.loconav.lookup.Constants.DEVICE_ID;
-import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
 
 /**
  * Created by prateek on 15/05/18.

@@ -14,12 +14,12 @@ import android.widget.LinearLayout;
 import com.loconav.lookup.adapter.ImageSetterAdapter;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.customcamera.Callback;
+import com.loconav.lookup.databinding.FragmentInstallDetailsBinding;
 import com.loconav.lookup.dialog.FullImageDialog;
 import com.loconav.lookup.model.AttachmentsDetails;
 import com.loconav.lookup.model.InstallationDetails;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
-import com.loconav.lookup.databinding.*;
 import com.loconav.lookup.network.rest.ApiInterface;
 
 import java.util.ArrayList;

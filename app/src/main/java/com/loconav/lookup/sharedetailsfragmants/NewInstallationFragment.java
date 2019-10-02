@@ -1,7 +1,6 @@
 package com.loconav.lookup.sharedetailsfragmants;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -13,23 +12,23 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.loconav.lookup.BaseNavigationActivity;
 import com.loconav.lookup.BaseTitleFragment;
 import com.loconav.lookup.CommonFunction;
-import com.loconav.lookup.Toaster;
-import com.loconav.lookup.customcamera.CustomImagePicker;
-import com.loconav.lookup.databinding.FragmentNewInstallationBinding;
-import com.loconav.lookup.customcamera.FileUtils;
-import com.loconav.lookup.customcamera.ImageUtils;
 import com.loconav.lookup.LookupSubActivity;
 import com.loconav.lookup.R;
+import com.loconav.lookup.Toaster;
+import com.loconav.lookup.customcamera.CustomImagePicker;
+import com.loconav.lookup.customcamera.FileUtils;
+import com.loconav.lookup.customcamera.ImageUri;
+import com.loconav.lookup.customcamera.ImageUtils;
+import com.loconav.lookup.databinding.FragmentNewInstallationBinding;
 import com.loconav.lookup.model.Attachments;
 import com.loconav.lookup.model.Client;
-import com.loconav.lookup.customcamera.ImageUri;
 import com.loconav.lookup.model.InstallationDetails;
+import com.loconav.lookup.model.NewInstall;
 import com.loconav.lookup.model.Notes;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.network.RetrofitCallback;
@@ -38,8 +37,6 @@ import com.loconav.lookup.network.rest.ApiInterface;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.loconav.lookup.model.NewInstall;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

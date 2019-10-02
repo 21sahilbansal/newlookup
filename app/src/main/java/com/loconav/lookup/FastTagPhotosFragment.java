@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.customcamera.CustomImagePicker;
-import com.loconav.lookup.customcamera.FileUtils;
 import com.loconav.lookup.customcamera.ImageUtils;
 import com.loconav.lookup.databinding.FragmentFastTagPhotosBinding;
 import com.loconav.lookup.model.AttachmentList;

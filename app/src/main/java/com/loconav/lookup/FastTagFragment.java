@@ -1,23 +1,21 @@
 package com.loconav.lookup;
 
-import com.loconav.lookup.adapter.FastagAdapter;
-import com.loconav.lookup.base.BaseFragment;
-import com.loconav.lookup.databinding.FragmentFastagBinding;
-import com.loconav.lookup.model.FastagsList;
-import com.loconav.lookup.model.InstallationRequirements;
-import com.loconav.lookup.model.InstallationResponse;
-import com.loconav.lookup.network.rest.ApiInterface;
-import com.loconav.lookup.adapter.VehiclesAdapter;
-
 import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 
+import com.loconav.lookup.adapter.FastagAdapter;
+import com.loconav.lookup.adapter.VehiclesAdapter;
+import com.loconav.lookup.base.BaseFragment;
+import com.loconav.lookup.databinding.FragmentFastagBinding;
+import com.loconav.lookup.model.FastagsList;
+import com.loconav.lookup.model.InstallationRequirements;
+import com.loconav.lookup.model.InstallationResponse;
 import com.loconav.lookup.model.VehiclesList;
 import com.loconav.lookup.network.RetrofitCallback;
+import com.loconav.lookup.network.rest.ApiInterface;
 import com.loconav.lookup.network.rest.StagingApiClient;
 import com.loconav.lookup.utils.AppUtils;
 

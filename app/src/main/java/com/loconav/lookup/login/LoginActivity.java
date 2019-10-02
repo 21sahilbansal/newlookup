@@ -3,23 +3,24 @@ package com.loconav.lookup.login;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.loconav.lookup.R;
 import com.loconav.lookup.Toaster;
-import com.loconav.lookup.utils.AppUtils;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.databinding.ActivityLoginBinding;
 import com.loconav.lookup.login.model.Creds;
 import com.loconav.lookup.login.model.LoginResponse;
+import com.loconav.lookup.utils.AppUtils;
+
 import static com.loconav.lookup.Constants.IS_LOGGED_IN;
 import static com.loconav.lookup.Constants.USER_ID;
+import static com.loconav.lookup.UserPrefs.authenticationToken;
 import static com.loconav.lookup.UserPrefs.code;
 import static com.loconav.lookup.UserPrefs.location;
 import static com.loconav.lookup.UserPrefs.name;
-import static com.loconav.lookup.UserPrefs.authenticationToken;
 import static com.loconav.lookup.UserPrefs.phoneNumber;
 
 public class LoginActivity extends AppCompatActivity implements LoginView{

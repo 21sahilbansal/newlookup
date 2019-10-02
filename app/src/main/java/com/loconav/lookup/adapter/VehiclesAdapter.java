@@ -4,7 +4,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.SearchView;
 import android.view.View;
-import android.widget.*;
+import android.widget.Filter;
+import android.widget.TextView;
+
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseArrayAdapter;
 import com.loconav.lookup.model.VehiclesList;

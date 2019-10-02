@@ -2,6 +2,7 @@ package com.loconav.lookup.application;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import static com.loconav.lookup.Constants.LOOK_UP_PREFERENCES;
 
 /**
