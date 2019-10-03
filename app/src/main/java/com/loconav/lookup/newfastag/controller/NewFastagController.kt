@@ -17,6 +17,7 @@ import android.widget.TextView
 import com.loconav.lookup.*
 import com.loconav.lookup.Constants.DEVICE_ID
 import com.loconav.lookup.databinding.FragmentNewfastagBinding
+import com.loconav.lookup.model.FastTagResponse
 import com.loconav.lookup.newfastag.model.FastagRequestApiService
 import com.loconav.lookup.newfastag.model.NewFastagEvent
 import com.loconav.lookup.newfastag.model.VehicleDetails
@@ -24,92 +25,104 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentManager: android.support.v4.app.FragmentManager,var context: Context) {
-    private lateinit var fragmentController: FragmentController
-    private  var fastagRequestApiService: FastagRequestApiService = FastagRequestApiService()
-    private lateinit var continueButton : Button
-    private var truckNo : EditText = binding.fastTruckNo
-    private var vehicleID : TextView = binding.vehicleIdEt
-    private var axleEt : TextView = binding.axleEt
-    private var colorEt : TextView = binding.colorEt
-    private var fastagCview : CardView = binding.fastagCview
-    private var linearLayout : LinearLayout = binding.linearLayout2
-    private var imageCView : CardView = binding.optionalImageCard
+class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentManager: android.support.v4.app.FragmentManager, var context: Context) {
+    private val fragmentController: FragmentController = FragmentController()
+    private var fastagRequestApiService: FastagRequestApiService = FastagRequestApiService()
+    private lateinit var continueButton: Button
+    private var truckNo: EditText = binding.fastTruckNo
+    private var vehicleID: TextView = binding.vehicleIdEt
+    private var axleEt: TextView = binding.axleEt
+    private var colorEt: TextView = binding.colorEt
+    private var fastagCview: CardView = binding.fastagCview
+    private var linearLayout: LinearLayout = binding.linearLayout2
+    private var imageCView: CardView = binding.optionalImageCard
+    private lateinit var vehicleDetails: VehicleDetails
+    private var verifiedTruckNumber: String = ""
+    private lateinit var messageReceiver : BroadcastReceiver
 
 
 
     private val continueSubmiter = View.OnClickListener {
-        Log.e("newfm","iamhere")
         if (truckNo.visibility == 0) {
             if (truckNo.text.isNotEmpty()) {
+                verifiedTruckNumber = truckNo.text.toString()
                 fastagRequestApiService.validateTruckNo(truckNo.text.toString())
+
             } else {
                 Toaster.makeToast("Truck no can't be empty")
+                verifiedTruckNumber = ""
             }
+        } else if (continueButton.text.equals(context.resources.getString(R.string.scan_fastag))) {
+              setScanner()
+        } else if (continueButton.text.equals(context.resources.getString(R.string.submit))) {
+            getDataForPhotosFrag()
 
-        }
-        if (    continueButton.text.equals(R.string.scan_fastag)) {
-            setScanner()
-        }
-
-        if(continueButton.text.equals(R.string.submit)){
-
-        }
-    }
-
-    init {
-        EventBus.getDefault().register(this)
-        attachListeners()
-        registerBroadcast()
-    }
-
-
-    private val mMessageReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val scannedFastag = intent.getStringExtra(DEVICE_ID)
-            validateFastag(scannedFastag)
-
+        } else {
+            Toaster.makeToast("These is some other issue")
         }
     }
 
-    private fun validateFastag(scannedFastag : String) {
-        if(scannedFastag.equals("kshad")){
-            Toaster.makeToast("Selected right fastag")
-            binding.btFastagContinue.setText(R.string.submit)
-        }
-        else{
-            Toaster.makeToast("Selected wrong fastag")
-        }
+    private fun getDataForPhotosFrag() {
+        fastagRequestApiService.getdataAfterFastagcreation(verifiedTruckNumber)
+    }
+
+    private fun openFastagPhotosFragment(fastTagResponse: FastTagResponse) {
+        val fastTagPhotosFragment = FastTagPhotosFragment()
+        val bundle = Bundle()
+        bundle.putString("Truck_No", fastTagResponse.getTruckNumber())
+        bundle.putString("FastTag_Serial_No", fastTagResponse.getFastagSerialNumber())
+        bundle.putInt("Installation_Id", fastTagResponse.getId()!!)
+        fastTagPhotosFragment.arguments = bundle
+        fragmentController.replaceFragment(fastTagPhotosFragment, fragmentManager, R.id.frameLayout, true)
     }
 
 
+    private fun validateFastag(scannedFastag: String) {
+        var id : Int = vehicleDetails.vehicleId!!
+        fastagRequestApiService.validateScannedFastag(vehicleDetails.vehicleId!!, scannedFastag)
+    }
 
 
     private fun setScanner() {
-        fragmentController = FragmentController()
-        val qrScannerRequest : String = Constants.NEW_SCANNED_FASTAG
+        val qrScannerRequest: String = Constants.NEW_SCANNED_FASTAG
         val bundle = Bundle()
-        bundle.putString(Constants.KEY_FOR_QRSCANNER,qrScannerRequest)
+        bundle.putString(Constants.KEY_FOR_QRSCANNER, qrScannerRequest)
         val qrScannerFragment = QRScannerFragment()
-        fragmentController.replaceFragment(qrScannerFragment, fragmentManager, R.id.frameLayout, true)
+        qrScannerFragment.arguments = bundle
+        val trasction: android.support.v4.app.FragmentTransaction? = fragmentManager.beginTransaction()
+        trasction?.replace(R.id.frameLayout, qrScannerFragment)
+        trasction?.commit()
     }
 
     private fun attachListeners() {
-        Log.e("newfm","iaminattach")
-         continueButton = binding.btFastagContinue
         continueButton.setOnClickListener(continueSubmiter)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun truckNoVerified(newFastagEvent: NewFastagEvent) {
         if (newFastagEvent.message.equals(NewFastagEvent.Truck_ID_VERIFIED)) {
-          val vehicleDetails :VehicleDetails = newFastagEvent.`object`as VehicleDetails
+            vehicleDetails = newFastagEvent.`object` as VehicleDetails
             populateVehicleCard(vehicleDetails)
         }
     }
 
-    private fun populateVehicleCard(vehicleDetails : VehicleDetails) {
-        linearLayout.visibility = View.GONE
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun scannedFastag(newFastagEvent: NewFastagEvent) {
+        if (newFastagEvent.message.equals(NewFastagEvent.Scanned_Correct_Fastag)) {
+            continueButton.setText(R.string.submit)
+        }
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun fastagPhotosData(newFastagEvent: NewFastagEvent) {
+        if (newFastagEvent.message.equals(NewFastagEvent.Got_data_for_fastag_photos)) {
+            openFastagPhotosFragment(newFastagEvent.`object` as FastTagResponse)
+        }
+    }
+
+    private fun populateVehicleCard(vehicleDetails: VehicleDetails) {
+        truckNo.visibility = View.GONE
         vehicleID.setText(vehicleDetails.vehicleId.toString())
         axleEt.setText(vehicleDetails.axleDescription)
         colorEt.setText(vehicleDetails.color)
@@ -122,7 +135,25 @@ class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentMan
 
 
     private fun registerBroadcast() {
-        LocalBroadcastManager.getInstance(context).registerReceiver(mMessageReceiver,
+        LocalBroadcastManager.getInstance(context).registerReceiver(messageReceiver,
                 IntentFilter(Constants.NEW_SCANNED_FASTAG))
+    }
+
+    init {
+        EventBus.getDefault().register(this)
+        essentialInitilaizers()
+        attachListeners()
+        registerBroadcast()
+    }
+
+    private fun essentialInitilaizers() {
+        continueButton = binding.btFastagContinue
+        messageReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                Log.d("receiver1", "Got message: ");
+                val scannedFastag = intent.getStringExtra(DEVICE_ID)
+                validateFastag(scannedFastag)
+            }
+        }
     }
 }

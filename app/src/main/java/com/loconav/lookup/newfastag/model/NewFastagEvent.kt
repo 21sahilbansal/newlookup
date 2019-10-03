@@ -8,5 +8,7 @@ class NewFastagEvent : PubSubEvent {
 
     companion object {
         const val Truck_ID_VERIFIED = "truckid is verified"
+        const val Scanned_Correct_Fastag = "Scanned correct fastag "
+        const val Got_data_for_fastag_photos = "Got data for fastag photos"
     }
 }

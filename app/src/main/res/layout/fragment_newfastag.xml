@@ -148,24 +148,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="360dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
             android:elevation="5dp"
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="10dp"
             android:shadowColor="@color/gray"
-            android:visibility="visible"
-            app:layout_constraintTop_toBottomOf="@+id/fastag_cview">
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/bt_fastag_continue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
             <com.loconav.lookup.customcamera.CustomImagePicker
                 android:id="@+id/install_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:selectableItemBackground"
-                android:layout_weight="0"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+                android:layout_weight="0"
+                android:background="?android:selectableItemBackground"
                 custom:id="@string/new_fastag_image"
-                custom:titleText="@string/new_fastag_image"
-                custom:limitImages="1"/>
+                custom:limitImages="1"
+                custom:titleText="Vehcile Photo" />
 
         </android.support.v7.widget.CardView>
 

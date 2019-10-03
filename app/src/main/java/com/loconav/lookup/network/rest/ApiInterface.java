@@ -208,4 +208,15 @@ public interface ApiInterface {
     @GET("api/installers/fastag_installations/search_by_vehicle")
     Call<VehicleDetails> getVehcileFastagDetails(@Query("vehicle_number") String vehicleNumber);
 
+    /**
+     * This POST method is used to verify whether the scanned fastag is compatible with the vehicle and if it is
+     * compatible then register the fastag with the vehicle
+     * @param VehicleID This is vehicle id on which fastag to be pasted
+     * @param fastagSerialNumber This is scanned fastag number
+     * @return
+     */
+
+    @POST("/api/installers/fastag_installations/install")
+    Call<ResponseBody> verifyScannedFastag(@Query("vehicle_id") Integer VehicleID, @Query("fastag_serial_number") String fastagSerialNumber);
+
 }
