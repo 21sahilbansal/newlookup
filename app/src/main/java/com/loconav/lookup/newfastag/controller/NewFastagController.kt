@@ -26,7 +26,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentManager: FragmentManager, var context: Context, var bundle: Bundle) {
+class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentManager: FragmentManager, var context: Context, var receivedbundle: Bundle) {
     private val fragmentController: FragmentController = FragmentController()
     private var fastagRequestApiService: FastagRequestApiService = FastagRequestApiService()
     private lateinit var continueButton: Button
@@ -154,8 +154,8 @@ class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentMan
 
 
     private fun retrieveBundle() {
-        vehicleDetails = bundle.getSerializable("vehicleDetail") as VehicleDetails
-        verifiedTruckNumber = bundle.getString("truckNo")
+        vehicleDetails = receivedbundle.getSerializable("vehicleDetail") as VehicleDetails
+        verifiedTruckNumber = receivedbundle.getString("truckNo")
     }
 }
 
