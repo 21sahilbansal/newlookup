@@ -36,7 +36,7 @@ public class FragmentController {
 
     public  void replaceFragment(final Fragment fragment,FragmentManager fragmentManager,int resId,Boolean addToBackStack) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(resId, fragment,"");
+        transaction.replace(resId, fragment,"");
         if(addToBackStack) {
             transaction.addToBackStack(fragment.getClass().getName());
         }

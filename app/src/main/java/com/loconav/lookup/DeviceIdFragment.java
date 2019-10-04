@@ -70,7 +70,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Enter device ID");
             enterDeviceId();
         } else {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Fastag Installation");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Fastag Installation Photos");
             fastagInstallation();
         }
         registerBroadcast();

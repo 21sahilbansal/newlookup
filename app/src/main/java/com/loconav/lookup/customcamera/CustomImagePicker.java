@@ -129,7 +129,6 @@ public class CustomImagePicker extends LinearLayout implements ImageRemoved {
             }
 
             for (int i = 0; i < resultLinkedList.size(); i++) {
-
                 if (originalImageUris.size() < limit) {
                     this.originalImageUris.add(i, resultLinkedList.get(i));
                 }

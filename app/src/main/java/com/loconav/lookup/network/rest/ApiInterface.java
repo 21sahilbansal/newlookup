@@ -217,6 +217,6 @@ public interface ApiInterface {
      */
 
     @POST("/api/installers/fastag_installations/install")
-    Call<ResponseBody> verifyScannedFastag(@Query("vehicle_id") Integer VehicleID, @Query("fastag_serial_number") String fastagSerialNumber);
+    Call<ResponseBody> verifyScannedFastag(@Query("vehicle_id") int VehicleID, @Query("fastag_serial_number") String fastagSerialNumber);
 
 }

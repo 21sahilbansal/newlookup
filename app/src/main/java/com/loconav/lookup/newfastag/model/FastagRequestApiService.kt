@@ -5,7 +5,6 @@ import com.loconav.lookup.model.FastTagResponse
 import com.loconav.lookup.network.RetrofitCallback
 import com.loconav.lookup.network.rest.ApiClient
 import com.loconav.lookup.network.rest.ApiInterface
-import io.reactivex.internal.schedulers.NewThreadWorker
 import okhttp3.ResponseBody
 import org.greenrobot.eventbus.EventBus
 import retrofit2.Call
@@ -22,7 +21,7 @@ class FastagRequestApiService {
             }
 
             override fun handleFailure(call: Call<VehicleDetails>?, t: Throwable?) {
-                Toaster.makeToast(t?.message)
+                EventBus.getDefault().post(NewFastagEvent(NewFastagEvent.TRUCK_ID_NOT_VERIFIED,t?.message))
             }
         })
     }
@@ -30,22 +29,23 @@ class FastagRequestApiService {
     fun validateScannedFastag(vehicleID: Int, fastagno: String) {
         apiService.verifyScannedFastag(vehicleID, fastagno).enqueue(object : RetrofitCallback<ResponseBody>() {
             override fun handleSuccess(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
-                EventBus.getDefault().post(NewFastagEvent(NewFastagEvent.Scanned_Correct_Fastag))
+                EventBus.getDefault().post(NewFastagEvent(NewFastagEvent.SCANNED_CORRECT_FASTAG))
             }
 
             override fun handleFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                Toaster.makeToast(t?.message)
+                EventBus.getDefault().post(NewFastagEvent(NewFastagEvent.SCANNED_WRONG_FASTAG,t!!.message) )
             }
         })}
 
         fun getdataAfterFastagcreation(truckNo: String) {
             apiService.validateTruckNumberOrFastagNumber(truckNo).enqueue(object : RetrofitCallback<FastTagResponse>() {
                 override fun handleSuccess(call: Call<FastTagResponse>, response: Response<FastTagResponse>) {
-                 EventBus.getDefault().post(NewFastagEvent(NewFastagEvent.Got_data_for_fastag_photos,response))
+                 EventBus.getDefault().post(NewFastagEvent(NewFastagEvent.GOT_DATA_FOR_FASTAG_PHOTOS,response.body()))
                 }
 
                 override fun handleFailure(call: Call<FastTagResponse>, t: Throwable) {
-                    Toaster.makeToast(t.message)
+                    EventBus.getDefault().post(NewFastagEvent(NewFastagEvent.DATA_FOR_FASTAG_NOT_FOUND,t!!.message) )
+
                 }
             })
         }

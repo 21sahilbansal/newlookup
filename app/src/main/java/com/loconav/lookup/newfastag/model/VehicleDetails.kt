@@ -1,8 +1,9 @@
 package com.loconav.lookup.newfastag.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-class VehicleDetails {
+class VehicleDetails : Serializable {
 
     @SerializedName("vehicle_id")
     var vehicleId :Int?= null

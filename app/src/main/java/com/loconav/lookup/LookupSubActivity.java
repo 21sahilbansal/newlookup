@@ -7,6 +7,7 @@ import com.loconav.lookup.model.Input;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.ReasonResponse;
 import com.loconav.lookup.newfastag.view.NewFastagFragment;
+import com.loconav.lookup.newfastag.view.VerifyTruckIdFragment;
 
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class LookupSubActivity extends BaseActivity {
     private ReasonResponse reasonResponse;
 
     private final FragmentController fragmentController = new FragmentController();
-    private NewFastagFragment newFastagFragmet;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +71,8 @@ public class LookupSubActivity extends BaseActivity {
             fragmentController.loadFragment(deviceIdFragment,getSupportFragmentManager(),R.id.frameLayout,false);
         }
         else if(reasonResponse.getReasons().get(0).getName().equals("Install New Fastag")){
-            newFastagFragmet = new NewFastagFragment();
-           fragmentController.loadFragment(newFastagFragmet,getSupportFragmentManager(),R.id.frameLayout,false);
+            VerifyTruckIdFragment verifyTruckIdFragment = new VerifyTruckIdFragment();
+           fragmentController.replaceFragment(verifyTruckIdFragment,getSupportFragmentManager(),R.id.frameLayout,true);
         }
         else {
 //            navController.navigate(R.id.action_blankFragment2_to_repairFragment);
