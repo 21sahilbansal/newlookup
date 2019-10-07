@@ -22,7 +22,6 @@ public class LookUpApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-/
 
         instance = this;
 
