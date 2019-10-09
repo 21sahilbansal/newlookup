@@ -70,7 +70,7 @@ public class LookupSubActivity extends BaseActivity {
             DeviceIdFragment deviceIdFragment = new DeviceIdFragment();
             fragmentController.loadFragment(deviceIdFragment,getSupportFragmentManager(),R.id.frameLayout,false);
         }
-        else if(reasonResponse.getReasons().get(0).getName().equals("Install New Fastag")){
+        else if(reasonResponse != null && reasonResponse.getReasons().get(0).getName().equals("Install New Fastag")){
             VerifyTruckIdFragment verifyTruckIdFragment = new VerifyTruckIdFragment();
            fragmentController.loadFragment(verifyTruckIdFragment,getSupportFragmentManager(),R.id.frameLayout,false);
         }
