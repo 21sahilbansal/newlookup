@@ -72,7 +72,7 @@ public class LookupSubActivity extends BaseActivity {
         }
         else if(reasonResponse.getReasons().get(0).getName().equals("Install New Fastag")){
             VerifyTruckIdFragment verifyTruckIdFragment = new VerifyTruckIdFragment();
-           fragmentController.replaceFragment(verifyTruckIdFragment,getSupportFragmentManager(),R.id.frameLayout,true);
+           fragmentController.loadFragment(verifyTruckIdFragment,getSupportFragmentManager(),R.id.frameLayout,false);
         }
         else {
 //            navController.navigate(R.id.action_blankFragment2_to_repairFragment);

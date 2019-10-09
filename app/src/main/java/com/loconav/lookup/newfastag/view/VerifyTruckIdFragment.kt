@@ -35,9 +35,8 @@ class VerifyTruckIdFragment : BaseFragment() {
             Toaster.makeToast("Truck no can't be empty")
         }
         else{
-            truckNumber = trucknoEt?.text.toString()
-            var truckId: String = truckNumber.toUpperCase()
-            fastagRequestApiService.validateTruckNo(truckId)
+            truckNumber = trucknoEt?.text.toString().toUpperCase()
+            fastagRequestApiService.validateTruckNo(truckNumber)
         }
     }
 

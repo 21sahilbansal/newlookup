@@ -38,7 +38,13 @@ class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentMan
     private var imageCView: CardView = binding.optionalImageCard
     private var customImagePicker: CustomImagePicker = binding.installImage
     private var verifiedTruckNumber: String = ""
-    private lateinit var messageReceiver: BroadcastReceiver
+    private  var messageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            Log.d("receiver1", "Got message: ");
+            val newScannedFastag = intent.getStringExtra(DEVICE_ID)
+            validateFastag(newScannedFastag)
+        }
+    }
 
 
     private val continueSubmiter = View.OnClickListener {
@@ -143,13 +149,7 @@ class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentMan
 
     fun essentialInitilaizers() {
         continueButton = binding.btFastagContinue
-        messageReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                Log.d("receiver1", "Got message: ");
-                val scannedFastag = intent.getStringExtra(DEVICE_ID)
-                validateFastag(scannedFastag)
-            }
-        }
+
     }
 
 

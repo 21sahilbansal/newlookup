@@ -148,7 +148,7 @@
                 android:background="?android:selectableItemBackground"
                 custom:id="@string/new_fastag_image"
                 custom:limitImages="1"
-                custom:titleText="Vehcile Photo" />
+                custom:titleText="Before Pasting Fastag(Optional)" />
 
 
         </android.support.v7.widget.CardView>
