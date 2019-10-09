@@ -13,6 +13,7 @@ class NewFastagEvent : PubSubEvent {
         const val SCANNED_WRONG_FASTAG = "Scanned wrong fastag"
         const val TRUCK_ID_NOT_VERIFIED = "Truck id not verified"
         const val DATA_FOR_FASTAG_NOT_FOUND = "Data for fastag not found"
+        const val SCANNED_FASTAG ="Scanned Fastag"
 
     }
 }

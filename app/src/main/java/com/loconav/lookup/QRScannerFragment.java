@@ -15,6 +15,11 @@ import com.google.android.gms.samples.vision.barcodereader.BarcodeGraphic;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FargmentQrScannerBinding;
+import com.loconav.lookup.newfastag.controller.NewFastagController;
+import com.loconav.lookup.newfastag.model.NewFastagEvent;
+import com.loconav.lookup.newfastag.view.NewFastagFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -58,7 +63,7 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
     public void getComponentFactory() {}
 
     private void sendMessage(String scannedDeviceId) {
-        Log.d("sender", "Broadcasting message");
+        Log.d("testLog", "Broadcasting message");
         Intent intent = new Intent(messageForQrScanner);
         // You can also include some extra data.
         intent.putExtra(DEVICE_ID, scannedDeviceId);
@@ -67,6 +72,10 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
 
     @Override
     public void onRetrieved(Barcode barcode) {
+        if(messageForQrScanner.equals(Constants.NEW_SCANNED_FASTAG)){
+            Log.d("testLog","sending event");
+            EventBus.getDefault().post(new NewFastagEvent(NewFastagEvent.SCANNED_FASTAG,barcode.displayValue));
+        }
         sendMessage(barcode.displayValue);
         getActivity().runOnUiThread(() -> {
             if(getActivity()!=null) {

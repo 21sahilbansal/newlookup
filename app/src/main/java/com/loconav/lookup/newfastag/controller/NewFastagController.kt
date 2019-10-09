@@ -25,6 +25,7 @@ import com.loconav.lookup.newfastag.model.VehicleDetails
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import kotlin.contracts.contract
 
 class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentManager: FragmentManager, var context: Context, var receivedbundle: Bundle) {
     private val fragmentController: FragmentController = FragmentController()
@@ -38,14 +39,6 @@ class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentMan
     private var imageCView: CardView = binding.optionalImageCard
     private var customImagePicker: CustomImagePicker = binding.installImage
     private var verifiedTruckNumber: String = ""
-    private  var messageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            Log.d("receiver1", "Got message: ");
-            val newScannedFastag = intent.getStringExtra(DEVICE_ID)
-            validateFastag(newScannedFastag)
-        }
-    }
-
 
     private val continueSubmiter = View.OnClickListener {
         if (continueButton.text.equals(context?.resources?.getString(R.string.scan_fastag))) {
@@ -108,7 +101,6 @@ class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentMan
                 val message: String = newFastagEvent.`object` as String
                 Toaster.makeToast(message)
             }
-
             NewFastagEvent.DATA_FOR_FASTAG_NOT_FOUND -> {
                 val message: String = newFastagEvent.`object` as String
                 Toaster.makeToast(message)
@@ -116,6 +108,12 @@ class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentMan
             NewFastagEvent.GOT_DATA_FOR_FASTAG_PHOTOS -> {
                 openFastagPhotosFragment(newFastagEvent.`object` as FastTagResponse)
 
+            }
+            NewFastagEvent.SCANNED_FASTAG -> {
+                Log.d("testLog", "received event")
+
+                val newScannedFastag : String = newFastagEvent.`object`as String
+                validateFastag(newScannedFastag)
             }
         }
     }
@@ -128,28 +126,20 @@ class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentMan
         colorEt.setText(vehicleDetails.color)
         fastagCview.setCardBackgroundColor(Color.parseColor(vehicleDetails.colorHex))
         continueButton.setText(R.string.scan_fastag)
-
     }
 
-
-    private fun registerBroadcast() {
-        LocalBroadcastManager.getInstance(context).registerReceiver(messageReceiver,
-                IntentFilter(Constants.NEW_SCANNED_FASTAG))
-    }
 
     init {
         EventBus.getDefault().register(this)
         retrieveBundle()
         essentialInitilaizers()
         attachListeners()
-        registerBroadcast()
         populateVehicleCard(vehicleDetails)
     }
 
 
     fun essentialInitilaizers() {
         continueButton = binding.btFastagContinue
-
     }
 
 
@@ -157,5 +147,10 @@ class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentMan
         vehicleDetails = receivedbundle.getSerializable("vehicleDetail") as VehicleDetails
         verifiedTruckNumber = receivedbundle.getString("truckNo")
     }
+
+    fun onDestroy() {
+        EventBus.getDefault().unregister(this)
+    }
 }
+
 

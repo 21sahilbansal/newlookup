@@ -161,5 +161,6 @@ public class FastTagPhotosFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding.unbind();
+
     }
 }

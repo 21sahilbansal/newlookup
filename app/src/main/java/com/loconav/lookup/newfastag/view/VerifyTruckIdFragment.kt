@@ -41,7 +41,6 @@ class VerifyTruckIdFragment : BaseFragment() {
     }
 
     override fun setViewId(): Int {
-        EventBus.getDefault().register(this)
         return R.layout.fragment_verify_truckno
     }
 
@@ -65,6 +64,7 @@ class VerifyTruckIdFragment : BaseFragment() {
 
     override fun getComponentFactory() {
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun scannedFastag(newFastagEvent: NewFastagEvent) {
         when (newFastagEvent.message) {
@@ -86,5 +86,15 @@ class VerifyTruckIdFragment : BaseFragment() {
         val newFastagFragment : NewFastagFragment = NewFastagFragment()
         newFastagFragment.arguments  = bundle
         fragmentController.loadFragment(newFastagFragment,fragmentManager,R.id.frameLayout,true)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
     }
 }

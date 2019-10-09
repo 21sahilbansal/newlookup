@@ -6,7 +6,6 @@ import com.loconav.lookup.base.BaseActivity;
 import com.loconav.lookup.model.Input;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.ReasonResponse;
-import com.loconav.lookup.newfastag.view.NewFastagFragment;
 import com.loconav.lookup.newfastag.view.VerifyTruckIdFragment;
 
 
@@ -116,5 +115,10 @@ public class LookupSubActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

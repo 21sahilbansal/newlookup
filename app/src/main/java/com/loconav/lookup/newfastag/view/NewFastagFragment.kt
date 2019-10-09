@@ -8,7 +8,6 @@ import com.loconav.lookup.R
 import com.loconav.lookup.base.BaseFragment
 import com.loconav.lookup.databinding.FragmentNewfastagBinding
 import com.loconav.lookup.newfastag.controller.NewFastagController
-import com.loconav.lookup.newfastag.model.VehicleDetails
 
 class NewFastagFragment : BaseFragment() {
     private var newFastagController: NewFastagController? = null
@@ -21,9 +20,11 @@ class NewFastagFragment : BaseFragment() {
     }
 
     override fun onFragmentCreated() {
-        (activity as AppCompatActivity).supportActionBar!!.title = "New Fastag Installation"
+        (activity as AppCompatActivity).supportActionBar?.title = "New Fastag Installation"
         receivedBundle = arguments
-        setUpController(view!!)
+        view?.let {
+            setUpController(it)
+        }
     }
 
     private fun setUpController(view: View) {
@@ -39,5 +40,11 @@ class NewFastagFragment : BaseFragment() {
     override fun getComponentFactory() {
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        newFastagController?.let {
+            it.onDestroy()
+        }
+    }
 }
 
