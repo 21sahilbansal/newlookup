@@ -2,6 +2,7 @@ package com.loconav.lookup.network.rest;
 
 import com.loconav.lookup.login.model.Creds;
 import com.loconav.lookup.login.model.LoginResponse;
+import com.loconav.lookup.model.ApiException;
 import com.loconav.lookup.model.AttachmentList;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.CoordinateRequest;
@@ -196,6 +197,9 @@ public interface ApiInterface {
     @GET("api/installers/installations/{install_id}")
     Call<InstallationDetails> getInstallDetail(@Path(value = "install_id") String installId);
 
+
+     @POST("api/v1/android/app_crash_logs")
+     Call<ResponseBody> logExceptionToServer(@Body ApiException exceptionThrow);
 
     /**
      * This GET method gives the details of vehicle on which fastag is going to be pasted
