@@ -25,13 +25,15 @@ public abstract class RetrofitCallback<T> implements Callback<T> {
     private final String TAG = getClass().getSimpleName();
     private final String DEFAULT_ERROR_MESSAGE = "Something Went Wrong!!";
 
-    @Override public void onFailure(Call<T> call,Throwable t) {
+    @Override
+    public void onFailure(Call<T> call, Throwable t) {
         Log.e(TAG, "onFailure: " + t.getMessage());
-        throwExceptionToServer("This is app side exception "+t.getMessage(),call.request().url().toString());
+        throwExceptionToServer("This is app side exception " + t.getMessage(), call.request().url().toString());
         handleFailure(call, new Throwable(DEFAULT_ERROR_MESSAGE));
     }
 
-    @Override public void onResponse(Call<T> call, Response<T> response) {
+    @Override
+    public void onResponse(Call<T> call, Response<T> response) {
         Log.i(TAG, "response " + response.raw().request().url() + " : " + (new Date()).getTime());
         //This is the exception to throw
         String exception;
@@ -42,37 +44,38 @@ public abstract class RetrofitCallback<T> implements Callback<T> {
             String error;
             try {
                 error = (new JSONObject(response.errorBody().string())).getString("message");
-                exception=error;
+                exception = error;
             } catch (IOException | NullPointerException | JSONException e) {
                 error = DEFAULT_ERROR_MESSAGE;
-                exception=e.getMessage();
+                exception = e.getMessage();
                 e.printStackTrace();
             }
-            throwExceptionToServer("This is api(server) exception "+exception,call.request().url().toString());
+            throwExceptionToServer("This is api(server) exception " + exception, call.request().url().toString());
             handleFailure(call, new Throwable(error));
         }
     }
 
     protected abstract void handleSuccess(Call<T> call, Response<T> response);
+
     protected abstract void handleFailure(Call<T> call, Throwable t);
 
-    private void throwExceptionToServer(String exception, String api)
-    {
+    private void throwExceptionToServer(String exception, String api) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        ApiException exceptionThrow=new ApiException();
+        ApiException exceptionThrow = new ApiException();
         exceptionThrow.setCrash_log(exception);
         exceptionThrow.setNote(api);
 
         apiService.logExceptionToServer(exceptionThrow).enqueue(new RetrofitCallback<ResponseBody>() {
             @Override
             public void handleSuccess(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.e(TAG,"Exception thrown");
+                Log.e(TAG, "Exception thrown");
             }
 
             @Override
             public void handleFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e(TAG,"Exception not thrown");
+                Log.e(TAG, "Exception not thrown");
             }
         });
     }
+
 }

@@ -1,7 +1,6 @@
 package com.loconav.lookup.sharedetailsfragmants;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
@@ -17,25 +16,25 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.loconav.lookup.BaseTitleFragment;
-import com.loconav.lookup.Toaster;
-import com.loconav.lookup.customcamera.CustomImagePicker;
+import com.loconav.lookup.CommonFunction;
 import com.loconav.lookup.CustomInflater;
-import com.loconav.lookup.model.Input;
 import com.loconav.lookup.LandingActivity;
 import com.loconav.lookup.LookupSubActivity;
 import com.loconav.lookup.R;
-import com.loconav.lookup.CommonFunction;
+import com.loconav.lookup.Toaster;
+import com.loconav.lookup.customcamera.CustomImagePicker;
+import com.loconav.lookup.customcamera.FileUtils;
+import com.loconav.lookup.customcamera.ImageUri;
+import com.loconav.lookup.customcamera.ImageUtils;
 import com.loconav.lookup.databinding.FragmentCommonRepairBinding;
 import com.loconav.lookup.model.Attachments;
-import com.loconav.lookup.customcamera.ImageUri;
+import com.loconav.lookup.model.Input;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.RepairRequirements;
 import com.loconav.lookup.model.RepairResponse;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
-import com.loconav.lookup.customcamera.FileUtils;
-import com.loconav.lookup.customcamera.ImageUtils;
 
 import org.json.JSONObject;
 

@@ -11,8 +11,8 @@ import android.widget.LinearLayout;
 
 import com.loconav.lookup.adapter.RepairLogAdapter;
 import com.loconav.lookup.base.BaseFragment;
-import com.loconav.lookup.model.Repairs;
 import com.loconav.lookup.databinding.FragmentRepairLogsBinding;
+import com.loconav.lookup.model.Repairs;
 import com.loconav.lookup.model.RepairsDataandTotalRepairCount;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;

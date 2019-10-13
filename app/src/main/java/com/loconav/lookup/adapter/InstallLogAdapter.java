@@ -4,9 +4,9 @@ package com.loconav.lookup.adapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseAdapter;
+import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.model.Installs;
 
 import java.util.List;

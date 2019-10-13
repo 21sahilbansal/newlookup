@@ -2,14 +2,14 @@ package com.loconav.lookup;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.loconav.lookup.base.BaseActivity;
 import com.loconav.lookup.model.Input;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.ReasonResponse;
+import com.loconav.lookup.newfastag.view.VerifyTruckIdFragment;
+
 
 import java.util.ArrayList;
-
 import androidx.navigation.NavController;
 
 import static com.loconav.lookup.Constants.ACCESSORIES;
@@ -34,12 +34,13 @@ public class LookupSubActivity extends BaseActivity {
     private final ArrayList<Input> addtionalFields = new ArrayList<>();
     NavController navController;
 //    It gathers info from all fragmnets attached to  this activity to post later on to server
-private PassingReason passingReason;
+    private PassingReason passingReason;
 
 //    Defines the type of fragment it will be like new install or repairs.
     private ReasonResponse reasonResponse;
 
     private final FragmentController fragmentController = new FragmentController();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,8 @@ private PassingReason passingReason;
         passingReason = bundle.getParcelable(PASSING_REASON);
         reasonResponse = bundle.getParcelable(REASON_RESPONSE);
         addOtherFields(passingReason.getUserChoice());
+        passingReason.getUserChoice();
+        reasonResponse.getReasons();
         reasonResponse.setAdditional_fields(addtionalFields);
         passingReason.setReasonResponse(reasonResponse);
         passIntentData();
@@ -65,6 +68,10 @@ private PassingReason passingReason;
 //            navController.navigate(R.id.action_blankFragment2_to_deviceIdFragment);
             DeviceIdFragment deviceIdFragment = new DeviceIdFragment();
             fragmentController.loadFragment(deviceIdFragment,getSupportFragmentManager(),R.id.frameLayout,false);
+        }
+        else if(reasonResponse != null && reasonResponse.getReasons().get(0).getName().equals("Install New Fastag")){
+            VerifyTruckIdFragment verifyTruckIdFragment = new VerifyTruckIdFragment();
+           fragmentController.loadFragment(verifyTruckIdFragment,getSupportFragmentManager(),R.id.frameLayout,false);
         }
         else {
 //            navController.navigate(R.id.action_blankFragment2_to_repairFragment);
@@ -108,5 +115,10 @@ private PassingReason passingReason;
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

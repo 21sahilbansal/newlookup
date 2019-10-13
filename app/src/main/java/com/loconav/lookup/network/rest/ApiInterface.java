@@ -1,38 +1,32 @@
 package com.loconav.lookup.network.rest;
 
-import android.util.Log;
-
 import com.loconav.lookup.login.model.Creds;
 import com.loconav.lookup.login.model.LoginResponse;
+import com.loconav.lookup.model.ApiException;
 import com.loconav.lookup.model.AttachmentList;
-import com.loconav.lookup.model.Attachments;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.CoordinateRequest;
-import com.loconav.lookup.model.ApiException;
-import com.loconav.lookup.model.FastagsList;
 import com.loconav.lookup.model.FastTagResponse;
+import com.loconav.lookup.model.FastagsList;
+import com.loconav.lookup.model.InstallDatandTotalInstallCount;
 import com.loconav.lookup.model.InstallationDetails;
 import com.loconav.lookup.model.InstallationRequirements;
 import com.loconav.lookup.model.InstallationResponse;
 import com.loconav.lookup.model.LookupResponse;
 import com.loconav.lookup.model.NewInstall;
-import com.loconav.lookup.model.InstallDatandTotalInstallCount;
 import com.loconav.lookup.model.RepairDetail;
 import com.loconav.lookup.model.RepairRequirements;
 import com.loconav.lookup.model.RepairResponse;
 import com.loconav.lookup.model.RepairsDataandTotalRepairCount;
 import com.loconav.lookup.model.VehiclesList;
 import com.loconav.lookup.model.VersionResponse;
+import com.loconav.lookup.newfastag.model.VehicleDetails;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.CallAdapter;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -86,11 +80,13 @@ public interface ApiInterface {
 
     /**
      * This GET method is used to validate the truckNo or fasttag no
+     *
      * @param truckNumberOrFastagNumber
      * @return
      */
     @GET("api/installers/fastag_installations/search")
     Call<FastTagResponse> validateTruckNumberOrFastagNumber(@Query("truck_number_or_fastag_serial_number") String truckNumberOrFastagNumber);
+
 
     /**
      * This GET method return the list of Fastags for a particular truck id
@@ -201,6 +197,29 @@ public interface ApiInterface {
     @GET("api/installers/installations/{install_id}")
     Call<InstallationDetails> getInstallDetail(@Path(value = "install_id") String installId);
 
-    @POST("api/v1/android/app_crash_logs")
-    Call<ResponseBody> logExceptionToServer(@Body ApiException exceptionThrow);
+
+     @POST("api/v1/android/app_crash_logs")
+     Call<ResponseBody> logExceptionToServer(@Body ApiException exceptionThrow);
+
+    /**
+     * This GET method gives the details of vehicle on which fastag is going to be pasted
+     *
+     * @param vehicleNumber This is the id of the vehicle
+     * @return
+     */
+    @GET("api/installers/fastag_installations/search_by_vehicle")
+    Call<VehicleDetails> getVehcileFastagDetails(@Query("vehicle_number") String vehicleNumber);
+
+    /**
+     * This POST method is used to verify whether the scanned fastag is compatible with the vehicle and if it is
+     * compatible then register the fastag with the vehicle
+     *
+     * @param VehicleID          This is vehicle id on which fastag to be pasted
+     * @param fastagSerialNumber This is scanned fastag number
+     * @return
+     */
+
+    @POST("/api/installers/fastag_installations/install")
+    Call<ResponseBody> verifyScannedFastag(@Query("vehicle_id") int VehicleID, @Query("fastag_serial_number") String fastagSerialNumber);
+
 }

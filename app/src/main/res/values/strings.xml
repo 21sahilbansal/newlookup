@@ -92,4 +92,14 @@
     <string name="after_pasting_fastag">after_pasting_fastag</string>
     <string name="front_view">front_view</string>
     <string name="side_view">side_view</string>
+    <string name="axle_info">Axle Info</string>
+    <string name="vehicle_no">Vehicle No</string>
+    <string name="colour">Colour</string>
+    <string name="fastag_sno">Fastag Serial No</string>
+    <string name="vehicle_photo">Vehicle Photo</string>
+    <string name="truck_number">Enter truck no </string>
+    <string name="continue_btn">Continue</string>
+    <string name="scan_fastag">Scan Fastag</string>
+    <string name="submit">Submit</string>
+    <string name="new_fastag_image">Vehicle Photo(Optional)</string>
 </resources>

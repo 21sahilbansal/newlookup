@@ -16,7 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.databinding.FragmentDeviceIdBinding;
 import com.loconav.lookup.model.FastTagResponse;
@@ -26,8 +26,10 @@ import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
 import com.loconav.lookup.utils.AppUtils;
+
 import retrofit2.Call;
 import retrofit2.Response;
+
 import static com.loconav.lookup.Constants.DEVICE_ID;
 import static com.loconav.lookup.Constants.LOOKUP_RESPONSE;
 import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
@@ -68,7 +70,7 @@ public class DeviceIdFragment extends BaseTitleFragment {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Enter device ID");
             enterDeviceId();
         } else {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Fastag Installation");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Fastag Installation Photos");
             fastagInstallation();
         }
         registerBroadcast();
@@ -187,7 +189,10 @@ public class DeviceIdFragment extends BaseTitleFragment {
         binding.ibQrScanner.setOnClickListener(view -> {
             if (getActivity() != null)
                 AppUtils.hideKeyboard(getActivity());
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.KEY_FOR_QRSCANNER,Constants.MESSENGER_SCANNED_ID);
             QRScannerFragment qrScannerFragment = new QRScannerFragment();
+            qrScannerFragment.setArguments(bundle);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.container, qrScannerFragment).addToBackStack("qr_scanner");
             transaction.commit();

@@ -2,8 +2,6 @@ package com.loconav.lookup.customcamera;
 
 import com.loconav.lookup.base.PubSubEvent;
 
-import gnu.trove.TObjectObjectProcedure;
-
 /**
  * Created by sejal on 19-07-2018.
  */

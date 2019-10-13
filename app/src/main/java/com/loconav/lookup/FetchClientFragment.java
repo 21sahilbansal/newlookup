@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.loconav.lookup.adapter.ClientAdapter;
-import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.databinding.ActivityFetchClientBinding;
 import com.loconav.lookup.model.Client;
 import com.loconav.lookup.model.PassingReason;
@@ -19,6 +18,7 @@ import com.loconav.lookup.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Response;
 

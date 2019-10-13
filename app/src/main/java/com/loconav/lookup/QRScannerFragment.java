@@ -9,18 +9,23 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.google.android.gms.samples.vision.barcodereader.BarcodeCapture;
 import com.google.android.gms.samples.vision.barcodereader.BarcodeGraphic;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FargmentQrScannerBinding;
+import com.loconav.lookup.newfastag.controller.NewFastagController;
+import com.loconav.lookup.newfastag.model.NewFastagEvent;
+import com.loconav.lookup.newfastag.view.NewFastagFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
 import xyz.belvi.mobilevisionbarcodescanner.BarcodeRetriever;
 
 import static com.loconav.lookup.Constants.DEVICE_ID;
-import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
 
 /**
  * Created by prateek on 15/05/18.
@@ -29,6 +34,7 @@ import static com.loconav.lookup.Constants.MESSENGER_SCANNED_ID;
 public class QRScannerFragment extends BaseFragment implements BarcodeRetriever {
 
     private FargmentQrScannerBinding binding;
+    private String messageForQrScanner;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,6 +48,7 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
 
     @Override
     public void onFragmentCreated() {
+        this.messageForQrScanner = getArguments().getString(Constants.KEY_FOR_QRSCANNER);
         BarcodeCapture barcodeCapture = (BarcodeCapture) getChildFragmentManager().findFragmentById(R.id.barcode);
         barcodeCapture.setRetrieval(this);
     }
@@ -56,8 +63,8 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
     public void getComponentFactory() {}
 
     private void sendMessage(String scannedDeviceId) {
-        Log.d("sender", "Broadcasting message");
-        Intent intent = new Intent(MESSENGER_SCANNED_ID);
+        Log.d("testLog", "Broadcasting message");
+        Intent intent = new Intent(messageForQrScanner);
         // You can also include some extra data.
         intent.putExtra(DEVICE_ID, scannedDeviceId);
         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
@@ -65,6 +72,10 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
 
     @Override
     public void onRetrieved(Barcode barcode) {
+        if(messageForQrScanner.equals(Constants.NEW_SCANNED_FASTAG)){
+            Log.d("testLog","sending event");
+            EventBus.getDefault().post(new NewFastagEvent(NewFastagEvent.SCANNED_FASTAG,barcode.displayValue));
+        }
         sendMessage(barcode.displayValue);
         getActivity().runOnUiThread(() -> {
             if(getActivity()!=null) {

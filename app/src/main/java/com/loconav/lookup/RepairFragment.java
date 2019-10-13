@@ -4,8 +4,8 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.loconav.lookup.databinding.RepairBinding;
 import com.loconav.lookup.customcamera.ImageUri;
+import com.loconav.lookup.databinding.RepairBinding;
 import com.loconav.lookup.model.PassingReason;
 
 import java.util.ArrayList;

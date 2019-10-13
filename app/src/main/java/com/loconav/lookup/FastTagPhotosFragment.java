@@ -2,6 +2,7 @@ package com.loconav.lookup;
 
 import android.app.ProgressDialog;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -13,7 +14,8 @@ import android.widget.Toast;
 
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.customcamera.CustomImagePicker;
-import com.loconav.lookup.customcamera.FileUtils;
+import com.loconav.lookup.customcamera.ImagePickerEvent;
+import com.loconav.lookup.customcamera.ImageUri;
 import com.loconav.lookup.customcamera.ImageUtils;
 import com.loconav.lookup.databinding.FragmentFastTagPhotosBinding;
 import com.loconav.lookup.model.AttachmentList;
@@ -21,6 +23,8 @@ import com.loconav.lookup.model.Attachments;
 import com.loconav.lookup.network.RetrofitCallback;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +42,7 @@ public class FastTagPhotosFragment extends BaseFragment {
     private boolean validate;
     private ProgressDialog progressDialog;
     private String compressedImage;
+    private Uri uri;
     private final List<Attachments> attachmentsList = new ArrayList<>();
     private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
@@ -125,11 +130,22 @@ public class FastTagPhotosFragment extends BaseFragment {
         truckNo = receivedBundle.getString("Truck_No");
         serialNo = receivedBundle.getString("FastTag_Serial_No");
         installationId = receivedBundle.getInt("Installation_Id");
-    }
+        if(receivedBundle.containsKey("Image_URI")){
+        uri = Uri.parse(receivedBundle.getString("Image_URI"));
+        String stringId = "Before Pasting Fastag";
+        ImageUri imageUri = new ImageUri();
+         imageUri.setUri(uri);
+            List<ImageUri> imageUriList = new ArrayList<>();
+         imageUriList.add(imageUri);
+         EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_CAMERA+""+stringId,imageUriList));
+
+
+    }}
 
     private void setContent() {
         binding.serialNumberEt.setText(serialNo);
         binding.truckNumberEt.setText(truckNo);
+
     }
 
     @Override
@@ -145,5 +161,6 @@ public class FastTagPhotosFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding.unbind();
+
     }
 }

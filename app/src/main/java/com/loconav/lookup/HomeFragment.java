@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,7 +18,6 @@ import com.google.gson.reflect.TypeToken;
 import com.loconav.lookup.adapter.WhatToDoAdapter;
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseFragment;
-import com.loconav.lookup.customcamera.Callback;
 import com.loconav.lookup.databinding.FragmentHomeBinding;
 import com.loconav.lookup.model.Input;
 import com.loconav.lookup.model.PassingReason;
@@ -32,7 +30,6 @@ import java.util.List;
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.config.Gravity;
-import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
 
 import static com.loconav.lookup.Constants.FRAGMENT_NAME;
 import static com.loconav.lookup.Constants.NEW_INSTALL;
@@ -94,9 +91,10 @@ public class HomeFragment extends BaseFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.rvTasks.setLayoutManager(layoutManager);
         adapter = new WhatToDoAdapter(jsonLog, object -> {
-            reasonResponse = (ReasonResponse) object;
+            reasonResponse = (ReasonResponse)  object;
             reasonResponse.setName("Repairs");
             passingReason.setUserChoice(reasonResponse.getName());
+            reasonResponse.getReasons();
             passIntent();
         });
         binding.rvTasks.setAdapter(adapter);

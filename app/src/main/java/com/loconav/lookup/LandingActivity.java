@@ -8,7 +8,6 @@ import android.databinding.DataBindingUtil;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-
 import com.loconav.lookup.base.BaseActivity;
 import com.loconav.lookup.databinding.ActivityLookupEntryBinding;
 import com.loconav.lookup.location.LocationBroadcastReciever;
