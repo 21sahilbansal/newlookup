@@ -2,19 +2,31 @@ package com.loconav.lookup.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.loconav.lookup.application.LookUpApplication;
+import com.loconav.lookup.application.SharedPrefHelper;
+import com.loconav.lookup.login.SplashActivity;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
+
+import static com.loconav.lookup.Constants.IS_LOGGED_IN;
+import static com.loconav.lookup.Constants.USER_ID;
+import static com.loconav.lookup.UserPrefs.authenticationToken;
+import static com.loconav.lookup.UserPrefs.code;
+import static com.loconav.lookup.UserPrefs.location;
+import static com.loconav.lookup.UserPrefs.name;
+import static com.loconav.lookup.UserPrefs.phoneNumber;
 
 
 /**
@@ -73,5 +85,26 @@ public class AppUtils {
         catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    public static void logOut(){
+        doLogOut();
+    }
+
+    private static void doLogOut( ) {
+         SharedPrefHelper sharedPrefHelper  = SharedPrefHelper.getInstance();
+        Context context = LookUpApplication.getInstance().getApplicationContext();
+        sharedPrefHelper.removeStringData(code);
+        sharedPrefHelper.removeStringData(USER_ID);
+        sharedPrefHelper.removeStringData(authenticationToken);
+        sharedPrefHelper.removeStringData(phoneNumber);
+        sharedPrefHelper.removeStringData(location);
+        sharedPrefHelper.removeStringData(name);
+        sharedPrefHelper.setBooleanData(IS_LOGGED_IN,false);
+        Intent intent=new Intent(context, SplashActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
+
     }
 }
