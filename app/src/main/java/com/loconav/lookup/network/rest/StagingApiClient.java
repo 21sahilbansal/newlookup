@@ -9,6 +9,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -22,6 +23,8 @@ public class StagingApiClient {
     private static final String BASE_URL = "http://staging.loconav.com/";
     private static Retrofit retrofit = null;
     public static Retrofit getClient() {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+       loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
         if (retrofit==null) {
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder().connectTimeout(60, TimeUnit.SECONDS)
                     .readTimeout(100,TimeUnit.SECONDS);
@@ -32,7 +35,7 @@ public class StagingApiClient {
                         .addHeader("Authorization",SharedPrefHelper.getInstance().getStringData(authenticationToken)).build();
                 return chain.proceed(request);
 
-            });
+            }).addInterceptor(loggingInterceptor);
 
 
             retrofit = new Retrofit.Builder()

@@ -51,7 +51,8 @@ import static com.loconav.lookup.Constants.FRAGMENT_NAME;
  * Created by prateek on 13/11/17.
  */
 
-public class NewInstallationFragment extends BaseTitleFragment {
+public class
+NewInstallationFragment extends BaseTitleFragment {
     private FragmentNewInstallationBinding binding;
     private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     private ProgressDialog progressDialog;
