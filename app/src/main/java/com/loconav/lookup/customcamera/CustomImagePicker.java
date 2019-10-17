@@ -2,10 +2,11 @@ package com.loconav.lookup.customcamera;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -71,7 +72,7 @@ public class CustomImagePicker extends LinearLayout implements ImageRemoved {
         TextView title = findViewById(R.id.devText1);
         title.setText(titleText);
         linearLayout = findViewById(R.id.devImage1);
-        android.support.v4.app.FragmentActivity fragmentActivity = (android.support.v4.app.FragmentActivity) getContext();
+        FragmentActivity fragmentActivity = (FragmentActivity) getContext();
         final FragmentManager fm = fragmentActivity.getSupportFragmentManager();
         linearLayout.setOnClickListener(new OnClickListener() {
             @Override

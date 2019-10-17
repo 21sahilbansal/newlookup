@@ -1,7 +1,7 @@
 package com.loconav.lookup.customcamera;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 import android.net.Uri;
 
 import java.io.Serializable;

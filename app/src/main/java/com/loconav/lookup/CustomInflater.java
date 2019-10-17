@@ -1,8 +1,8 @@
 package com.loconav.lookup;
 
 import android.content.Context;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.content.ContextCompat;
+import com.google.android.material.textfield.TextInputLayout;
+import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;

@@ -1,8 +1,8 @@
 package com.loconav.lookup.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.SearchView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import android.view.View;
 import android.widget.Filter;
 import android.widget.TextView;

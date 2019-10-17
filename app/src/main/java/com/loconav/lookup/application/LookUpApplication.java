@@ -1,7 +1,7 @@
 package com.loconav.lookup.application;
 
 import android.app.Application;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 
 import com.crashlytics.android.Crashlytics;
 import com.loconav.lookup.base.MyDataBindingComponent;

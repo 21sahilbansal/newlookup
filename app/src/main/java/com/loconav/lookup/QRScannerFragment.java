@@ -1,9 +1,16 @@
 package com.loconav.lookup;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
+
+
+import androidx.databinding.DataBindingUtil;
+
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
+
+import androidx.lifecycle.GenericLifecycleObserver;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -15,9 +22,7 @@ import com.google.android.gms.samples.vision.barcodereader.BarcodeGraphic;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FargmentQrScannerBinding;
-import com.loconav.lookup.newfastag.controller.NewFastagController;
 import com.loconav.lookup.newfastag.model.NewFastagEvent;
-import com.loconav.lookup.newfastag.view.NewFastagFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -25,6 +30,7 @@ import java.util.List;
 
 import xyz.belvi.mobilevisionbarcodescanner.BarcodeRetriever;
 
+import static androidx.lifecycle.Lifecycle.Event.ON_RESUME;
 import static com.loconav.lookup.Constants.DEVICE_ID;
 
 /**
@@ -35,6 +41,7 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
 
     private FargmentQrScannerBinding binding;
     private String messageForQrScanner;
+    private BarcodeCapture barcodeCapture;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,7 +56,7 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
     @Override
     public void onFragmentCreated() {
         this.messageForQrScanner = getArguments().getString(Constants.KEY_FOR_QRSCANNER);
-        BarcodeCapture barcodeCapture = (BarcodeCapture) getChildFragmentManager().findFragmentById(R.id.barcode);
+        barcodeCapture = (BarcodeCapture) getFragmentManager().findFragmentById(R.id.barcode);
         barcodeCapture.setRetrieval(this);
     }
 
@@ -57,6 +64,11 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
     public void bindView(View view) {
         binding= DataBindingUtil.bind(view);
         Log.e("time ", "bindView: "+ System.currentTimeMillis());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -103,4 +115,5 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
         super.onDestroyView();
         binding.unbind();
     }
+
 }

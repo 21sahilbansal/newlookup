@@ -1,6 +1,6 @@
 package com.loconav.lookup;
 
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 import android.util.Log;
 
 import com.loconav.lookup.application.SharedPrefHelper;
