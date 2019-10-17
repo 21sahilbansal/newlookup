@@ -30,7 +30,6 @@ import java.util.List;
 
 import xyz.belvi.mobilevisionbarcodescanner.BarcodeRetriever;
 
-import static androidx.lifecycle.Lifecycle.Event.ON_RESUME;
 import static com.loconav.lookup.Constants.DEVICE_ID;
 
 /**
@@ -41,7 +40,7 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
 
     private FargmentQrScannerBinding binding;
     private String messageForQrScanner;
-    private BarcodeCapture barcodeCapture;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,7 +55,7 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
     @Override
     public void onFragmentCreated() {
         this.messageForQrScanner = getArguments().getString(Constants.KEY_FOR_QRSCANNER);
-        barcodeCapture = (BarcodeCapture) getFragmentManager().findFragmentById(R.id.barcode);
+        BarcodeCapture barcodeCapture;  barcodeCapture = (BarcodeCapture) getFragmentManager().findFragmentById(R.id.barcode);
         barcodeCapture.setRetrieval(this);
     }
 
