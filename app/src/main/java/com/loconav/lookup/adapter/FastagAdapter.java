@@ -1,11 +1,12 @@
 package com.loconav.lookup.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
 import android.view.View;
 import android.widget.Filter;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 
 import com.loconav.lookup.R;
 import com.loconav.lookup.base.BaseArrayAdapter;

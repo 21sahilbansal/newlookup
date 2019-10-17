@@ -1,10 +1,11 @@
 package com.loconav.lookup;
 
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.loconav.lookup.adapter.ClientAdapter;
 import com.loconav.lookup.databinding.ActivityFetchClientBinding;

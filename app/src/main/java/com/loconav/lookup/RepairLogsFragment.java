@@ -1,13 +1,14 @@
 package com.loconav.lookup;
 
-import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.loconav.lookup.adapter.RepairLogAdapter;
 import com.loconav.lookup.base.BaseFragment;

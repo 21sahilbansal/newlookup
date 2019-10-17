@@ -5,10 +5,11 @@ import android.app.Activity;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;

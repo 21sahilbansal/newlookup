@@ -2,10 +2,11 @@ package com.loconav.lookup.login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.loconav.lookup.R;
 import com.loconav.lookup.Toaster;

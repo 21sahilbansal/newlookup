@@ -1,21 +1,16 @@
 package com.loconav.lookup;
 
 import android.content.Intent;
-
-
-import androidx.databinding.DataBindingUtil;
-
 import android.os.Bundle;
-
-import androidx.lifecycle.GenericLifecycleObserver;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+
+import androidx.databinding.DataBindingUtil;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.gms.samples.vision.barcodereader.BarcodeCapture;
 import com.google.android.gms.samples.vision.barcodereader.BarcodeGraphic;

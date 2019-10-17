@@ -1,10 +1,11 @@
 package com.loconav.lookup;
 
 import android.annotation.SuppressLint;
-import androidx.databinding.DataBindingUtil;
-import androidx.appcompat.widget.SearchView;
 import android.util.Log;
 import android.view.View;
+
+import androidx.appcompat.widget.SearchView;
+import androidx.databinding.DataBindingUtil;
 
 import com.loconav.lookup.adapter.FastagAdapter;
 import com.loconav.lookup.adapter.VehiclesAdapter;

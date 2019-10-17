@@ -1,18 +1,16 @@
 package com.loconav.lookup.newfastag.view
 
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.loconav.lookup.FragmentController
 import com.loconav.lookup.R
 import com.loconav.lookup.Toaster
 import com.loconav.lookup.base.BaseFragment
-import com.loconav.lookup.databinding.FragmentNewfastagBinding
 import com.loconav.lookup.databinding.FragmentVerifyTrucknoBinding
-import com.loconav.lookup.newfastag.controller.NewFastagController
 import com.loconav.lookup.newfastag.model.FastagRequestApiService
 import com.loconav.lookup.newfastag.model.NewFastagEvent
 import com.loconav.lookup.newfastag.model.VehicleDetails

@@ -1,7 +1,9 @@
 package com.loconav.lookup.model;
-import androidx.databinding.BaseObservable;
+
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import androidx.databinding.BaseObservable;
 
 /**
  * Created by prateek on 15/06/18.

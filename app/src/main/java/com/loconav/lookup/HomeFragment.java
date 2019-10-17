@@ -1,17 +1,18 @@
 package com.loconav.lookup;
 
 import android.content.Intent;
-import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

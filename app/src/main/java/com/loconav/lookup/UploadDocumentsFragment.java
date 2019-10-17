@@ -1,10 +1,11 @@
 package com.loconav.lookup;
 
-import androidx.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.View;
+
+import androidx.databinding.DataBindingUtil;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.ml.vision.FirebaseVision;

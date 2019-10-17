@@ -1,7 +1,8 @@
 package com.loconav.lookup;
 
-import androidx.fragment.app.FragmentManager;
 import android.util.Log;
+
+import androidx.fragment.app.FragmentManager;
 
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.dialog.AppUpdateDialog;

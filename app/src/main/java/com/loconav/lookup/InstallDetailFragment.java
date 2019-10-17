@@ -1,15 +1,16 @@
 package com.loconav.lookup;
 
 import android.content.Intent;
-import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.loconav.lookup.adapter.ImageSetterAdapter;
 import com.loconav.lookup.base.BaseFragment;
