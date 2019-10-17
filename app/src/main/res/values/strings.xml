@@ -102,4 +102,6 @@
     <string name="scan_fastag">Scan Fastag</string>
     <string name="submit">Submit</string>
     <string name="new_fastag_image">Vehicle Photo(Optional)</string>
+    <string name="turn_on_flash">Turn On Flash</string>
+    <string name="turn_off_flash">Turn Off Flash</string>
 </resources>
