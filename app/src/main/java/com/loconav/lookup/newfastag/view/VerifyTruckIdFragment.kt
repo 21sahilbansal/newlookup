@@ -10,9 +10,7 @@ import com.loconav.lookup.FragmentController
 import com.loconav.lookup.R
 import com.loconav.lookup.Toaster
 import com.loconav.lookup.base.BaseFragment
-import com.loconav.lookup.databinding.FragmentNewfastagBinding
 import com.loconav.lookup.databinding.FragmentVerifyTrucknoBinding
-import com.loconav.lookup.newfastag.controller.NewFastagController
 import com.loconav.lookup.newfastag.model.FastagRequestApiService
 import com.loconav.lookup.newfastag.model.NewFastagEvent
 import com.loconav.lookup.newfastag.model.VehicleDetails

@@ -3,6 +3,10 @@ package com.loconav.lookup.customcamera;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.PaintDrawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
@@ -57,6 +61,7 @@ public class ImageUtils {
 
     public static Bitmap getThumbnailImage(Uri image, Context context) throws IOException
     {
+        String base4 = getbase64Image(MediaStore.Images.Media.getBitmap(context.getContentResolver(), image));
         final int THUMBSIZE = 256;//pixels
         Log.e("the image is ","the big image path is "+image.getPath());
         return  ThumbnailUtils.extractThumbnail(BitmapFactory.decodeStream(context.getContentResolver().openInputStream(image)),
@@ -64,10 +69,19 @@ public class ImageUtils {
     }
 
     public static String getbase64Image(Bitmap bitmap)
-    {
-        String str= "data:image/png;base64,"+encodeToBase64(bitmap, Bitmap.CompressFormat.JPEG,100);
+    {    Bitmap bitmapWithTimeStamp = getImageWithTimeStamp(bitmap);
+        String str= "data:image/png;base64,"+encodeToBase64(bitmapWithTimeStamp, Bitmap.CompressFormat.JPEG,100);
         return str;
     }
 
-
+    private static Bitmap getImageWithTimeStamp(Bitmap bitmap) {
+        Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.RGB_565, true);
+        Canvas canvas = new Canvas(mutableBitmap);
+        Paint paint= new Paint();
+        paint.setColor(Color.YELLOW);
+        paint.setTextSize(28);
+        paint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText("THIS IS DATE",700,700,paint);
+        return mutableBitmap;
+    }
 }

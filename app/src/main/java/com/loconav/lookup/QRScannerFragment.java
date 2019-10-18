@@ -15,9 +15,7 @@ import com.google.android.gms.samples.vision.barcodereader.BarcodeGraphic;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FargmentQrScannerBinding;
-import com.loconav.lookup.newfastag.controller.NewFastagController;
 import com.loconav.lookup.newfastag.model.NewFastagEvent;
-import com.loconav.lookup.newfastag.view.NewFastagFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
