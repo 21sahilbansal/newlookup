@@ -8,7 +8,6 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -16,6 +15,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.google.android.gms.samples.vision.barcodereader.BarcodeCapture;
 import com.google.android.gms.samples.vision.barcodereader.BarcodeGraphic;
 import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FargmentQrScannerBinding;
 import com.loconav.lookup.newfastag.model.NewFastagEvent;
@@ -35,7 +35,7 @@ import static com.loconav.lookup.Constants.DEVICE_ID;
 public class QRScannerFragment extends BaseFragment implements BarcodeRetriever {
     private FargmentQrScannerBinding binding;
     private String messageForQrScanner;
-    private Button flashButton;
+    private FloatingActionButton flashButton;
     private Camera mCamera;
     private Camera.Parameters parameters;
     private Boolean isFlashOn = false;
@@ -56,20 +56,21 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
         this.messageForQrScanner = getArguments().getString(Constants.KEY_FOR_QRSCANNER);
         BarcodeCapture barcodeCapture = (BarcodeCapture) getChildFragmentManager().findFragmentById(R.id.barcode);
         barcodeCapture.setRetrieval(this);
-        flashButton = binding.flashButton;
-
+       flashButton = binding.flashButton;
         flashButton.setOnClickListener(v -> {
             barcodeCapture.setShowFlash(true);
+
+
             mCamera = barcodeCapture.retrieveCamera();
             parameters = mCamera.getParameters();
             if (parameters != null && parameters.getSupportedFlashModes() != null) {
                 if (isFlashOn) {
                     parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                    flashButton.setText(R.string.turn_on_flash);
+                    flashButton.setImageResource(R.drawable.flash);
                     isFlashOn = false;
                 } else {
                     parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                    flashButton.setText(R.string.turn_off_flash);
+                    flashButton.setImageResource(R.drawable.noflash);
                     isFlashOn = true;
                 }
                 mCamera.setParameters(parameters);
