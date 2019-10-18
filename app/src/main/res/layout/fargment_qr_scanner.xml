@@ -10,8 +10,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/color_blue">
+            android:layout_weight="1">
 
             <fragment
                 android:id="@+id/barcode"
@@ -44,7 +43,6 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="10dp"
             android:paddingBottom="10dp"
-            android:background="@color/orange"
             android:text="Scan bar code or Qr code, If there are more than One bar code cover remaining barcodes."
             android:textStyle="bold"
             />
