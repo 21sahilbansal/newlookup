@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.PaintDrawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
@@ -15,6 +14,7 @@ import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import com.loconav.lookup.application.LookUpApplication;
+import com.loconav.lookup.utils.TimeUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -81,7 +81,8 @@ public class ImageUtils {
         paint.setColor(Color.YELLOW);
         paint.setTextSize(28);
         paint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText("THIS IS DATE",700,700,paint);
+        String liveaDate = TimeUtils.getDate((String.valueOf(System.currentTimeMillis())));
+        canvas.drawText(liveaDate,700,700,paint);
         return mutableBitmap;
     }
 }
