@@ -63,12 +63,8 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
     public void onFragmentCreated() {
         this.messageForQrScanner = getArguments().getString(Constants.KEY_FOR_QRSCANNER);
         barcodeCapture = (BarcodeCapture) getChildFragmentManager().findFragmentById(R.id.barcode);
-        barcodeCapture.setShowFlash(true);
-        barcodeCapture.shouldAutoFocus(true);
         barcodeCapture.setRetrieval(this);
-
-     //   getChildFragmentManager().registerFragmentLifecycleCallbacks(new BarcodeCapture(), true);
-    }
+        }
 
     @Override
     public void bindView(View view) {
