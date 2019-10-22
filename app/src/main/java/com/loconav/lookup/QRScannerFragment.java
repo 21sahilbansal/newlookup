@@ -56,7 +56,7 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
         this.messageForQrScanner = getArguments().getString(Constants.KEY_FOR_QRSCANNER);
         BarcodeCapture barcodeCapture = (BarcodeCapture) getChildFragmentManager().findFragmentById(R.id.barcode);
         barcodeCapture.setRetrieval(this);
-       flashButton = binding.flashButton;
+        flashButton = binding.flashButton;
         flashButton.setOnClickListener(v -> {
             barcodeCapture.setShowFlash(true);
 
