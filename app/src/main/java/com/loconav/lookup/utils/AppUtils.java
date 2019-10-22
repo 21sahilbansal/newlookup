@@ -89,11 +89,7 @@ public class AppUtils {
 
 
     public static void logOut(){
-        doLogOut();
-    }
-
-    private static void doLogOut( ) {
-         SharedPrefHelper sharedPrefHelper  = SharedPrefHelper.getInstance();
+        SharedPrefHelper sharedPrefHelper  = SharedPrefHelper.getInstance();
         Context context = LookUpApplication.getInstance().getApplicationContext();
         sharedPrefHelper.removeStringData(code);
         sharedPrefHelper.removeStringData(USER_ID);
@@ -105,6 +101,6 @@ public class AppUtils {
         Intent intent=new Intent(context, SplashActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
-
     }
+
 }

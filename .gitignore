@@ -45,6 +45,7 @@ captures/
 .idea/caches
 .idea/caches/build_file_checksums.ser
 .idea/misc.xml
+.idea/modules.xml
 /.idea/caches/build_file_checksums.ser
 
 # Keystore files

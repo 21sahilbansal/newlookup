@@ -41,12 +41,9 @@ public abstract class RetrofitCallback<T> implements Callback<T> {
         //This is the exception to throw
         String exception;
         if(response.code() == 401) {
-            try {
                 Toaster.makeToast("Unauthorized access");
                 AppUtils.logOut();
-            } catch (Exception e) {
-                Log.e(TAG, "intercept: " + "login failed...");
-            }}
+            }
         else if (response.isSuccessful()){
             handleSuccess(call, response);
         } else {
