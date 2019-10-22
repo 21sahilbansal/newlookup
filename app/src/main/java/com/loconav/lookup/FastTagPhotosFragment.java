@@ -105,7 +105,8 @@ public class FastTagPhotosFragment extends BaseFragment {
     private void compressImages(CustomImagePicker imagePicker, String title) {
             Attachments attachments = new Attachments();
             try {
-                compressedImage = ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),imagePicker.getimagesList().get(0).getUri()));
+                compressedImage = ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),imagePicker.getimagesList().get(0).getUri()),imagePicker.getimagesList().get(0).getUri()
+                );
                 attachments.setTitle(title);
                 attachments.setImage(compressedImage);
                 attachmentsList.add(attachments);
