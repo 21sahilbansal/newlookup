@@ -44,6 +44,12 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        <service
+            android:name=".model.LocationUpdatesService"
+            android:icon="@drawable/app_icon"
+            android:label="LocationUpdater"
+            >
+        </service>
 
         <meta-data
             android:name="io.fabric.ApiKey"

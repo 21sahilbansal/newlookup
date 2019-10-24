@@ -19,6 +19,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.loconav.lookup.Constants;
+import com.loconav.lookup.utils.Constant;
 
 public class OnGpsDialog implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private final Activity context;
@@ -45,8 +47,8 @@ public class OnGpsDialog implements GoogleApiClient.ConnectionCallbacks, GoogleA
         Log.e("settingsrequest", "Comes");
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(30 * 1000);
-        locationRequest.setFastestInterval(5 * 1000);
+        locationRequest.setInterval(Constant.locationUpdateTime * 60 * 1000);
+        locationRequest.setFastestInterval(Constant.locationUpdateTime * 60 * 1000);
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest);
         builder.setAlwaysShow(true); //this is the key ingredient

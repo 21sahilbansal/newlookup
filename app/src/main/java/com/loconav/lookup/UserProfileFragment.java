@@ -10,6 +10,7 @@ import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FragmentUserProfileBinding;
 import com.loconav.lookup.login.SplashActivity;
+import com.loconav.lookup.model.LocationUpdatesService;
 import com.loconav.lookup.utils.AppUtils;
 
 import static com.loconav.lookup.Constants.FRAGMENT_NAME;
@@ -52,6 +53,7 @@ public class UserProfileFragment extends BaseFragment {
             sharedPrefHelper.removeStringData(location);
             sharedPrefHelper.removeStringData(name);
             sharedPrefHelper.setBooleanData(IS_LOGGED_IN,false);
+            getActivity().stopService(new Intent(getActivity(),LocationUpdatesService.class));
             Intent intent=new Intent(getContext(), SplashActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

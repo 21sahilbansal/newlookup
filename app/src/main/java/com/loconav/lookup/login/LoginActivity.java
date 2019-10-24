@@ -61,7 +61,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         Log.e("shared",""+sharedPrefHelper.getStringData(authenticationToken));
         Intent intent = new Intent(getBaseContext(),SplashActivity.class);
         startActivity(intent);
-        finish();
     }
 
     @Override
