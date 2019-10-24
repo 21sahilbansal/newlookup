@@ -3,10 +3,12 @@ package com.loconav.lookup.customcamera;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
@@ -17,10 +19,13 @@ import com.loconav.lookup.R;
 import com.loconav.lookup.Toaster;
 import com.loconav.lookup.base.BaseDialogFragment;
 import com.loconav.lookup.databinding.DialogImagePickerBinding;
+import com.loconav.lookup.utils.TimeUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileAttribute;
 import java.util.ArrayList;
 
 import static com.loconav.lookup.Constants.ALREADY_TAKEN_IMAGES;
@@ -82,7 +87,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
     }
 
@@ -105,7 +110,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
                 new Thread(() -> {
                     try {
                         imagesUriArrayList=ImageUtils.compressImageList(imagesUriArrayList);
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         Toaster.makeToast(getString(R.string.images_not_compressed));
                     }
                     Log.e("sd",""+stringId);
@@ -121,6 +126,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
                     {
                         ImageUri imageUri=new ImageUri();
                         imageUri.setUri(Uri.parse(s));
+                        imageUri.setImageEpochTime(TimeUtils.getEpochTime(ImageUtils.getDateOfCameraTakenPhoto(imageUri.getUri())));
                         imageUris.add(imageUri);}
                     try {
                         imagesUriArrayList=ImageUtils.compressImageList(imageUris);
@@ -135,12 +141,12 @@ public class ImagePickerDialog extends BaseDialogFragment {
         super.onActivityResult(requestCode, resultCode, data);
         dismiss();
     }
-
     private void parsingGalleryImage(final Intent data)  {
-        data.getExtras();
+      String date =  ImageUtils.getEpochTimeOfGalleryImage(data.getData());
         if(data.getClipData()==null){
             ImageUri imageUri = new ImageUri();
             imageUri.setUri(data.getData());
+            imageUri.setImageEpochTime(Long.parseLong(date));
             imagesUriArrayList.add(imageUri);
         }else {
             if(data.getClipData().getItemCount()<=limit) {
@@ -148,12 +154,14 @@ public class ImagePickerDialog extends BaseDialogFragment {
                 for (int i = 0; i < data.getClipData().getItemCount(); i++) {
                     ImageUri imageUri = new ImageUri();
                     imageUri.setUri(data.getClipData().getItemAt(i).getUri());
+                    imageUri.setImageEpochTime(Long.parseLong(date));
                     imagesUriArrayList.add(imageUri);
                 }
             }else {
                 for (int i = 0; i <limit; i++) {
                     ImageUri imageUri = new ImageUri();
                     imageUri.setUri(data.getClipData().getItemAt(i).getUri());
+                    imageUri.setImageEpochTime(Long.parseLong(date));
                     imagesUriArrayList.add(imageUri);
                 }
                 Toaster.makeToast(getString(R.string.size_limit)+limit);

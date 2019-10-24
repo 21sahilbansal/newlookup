@@ -13,9 +13,10 @@ import java.io.Serializable;
 public class ImageUri extends BaseObservable implements Serializable {
 
     private Uri uri;
+    private Long epochTime;
 
     @Bindable
-    public Uri getUri(){
+    public Uri getUri() {
         return uri;
     }
 
@@ -23,5 +24,12 @@ public class ImageUri extends BaseObservable implements Serializable {
         this.uri = uri;
     }
 
+    public void setImageEpochTime(Long time) {
+        this.epochTime = time;
+    }
+
+    public Long getImageEpochTime() {
+        return epochTime;
+    }
 
 }

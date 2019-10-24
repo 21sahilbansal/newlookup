@@ -4,6 +4,8 @@ package com.loconav.lookup.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.loconav.lookup.customcamera.ImageUri;
+
 import java.util.ArrayList;
 
 /**
@@ -19,6 +21,8 @@ public class PassingReason implements Parcelable {
     private Client clientId;
 
     private ArrayList<String> imagesList;
+
+    private ArrayList<ImageUri> imageUriList;
 
     private ReasonResponse reasonResponse;
 
@@ -125,6 +129,12 @@ public class PassingReason implements Parcelable {
     public  ReasonResponse getReasonResponse() {
         return reasonResponse;
     }
+    public void setImagesUriList(ArrayList<ImageUri> imagesUriList) {
+        this.imageUriList = imagesUriList;
+    }
+    public ArrayList<ImageUri> getImagesUriList() {
+        return imageUriList;
+    }
 
 
     public void setReasonResponse( ReasonResponse reasons) {
@@ -142,6 +152,7 @@ public class PassingReason implements Parcelable {
         dest.writeString(userChoice);
         dest.writeParcelable(clientId, flags);
         dest.writeStringList(imagesList);
+        dest.writeSerializable(imageUriList);
         dest.writeParcelable(reasonResponse, flags);
         dest.writeInt(imagesPreRepair);
         dest.writeInt(imagesInRepair);

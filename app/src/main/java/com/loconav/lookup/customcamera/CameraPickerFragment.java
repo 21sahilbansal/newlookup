@@ -17,6 +17,7 @@ import com.loconav.lookup.adapter.RecycleCustomImageAdapter;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FragmentCamerapickerBinding;
 import com.loconav.lookup.dialog.FullImageDialog;
+import com.loconav.lookup.utils.TimeUtils;
 
 import org.greenrobot.eventbus.EventBus;
 

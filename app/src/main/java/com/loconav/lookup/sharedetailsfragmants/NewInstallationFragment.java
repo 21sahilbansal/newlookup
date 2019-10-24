@@ -184,7 +184,7 @@ NewInstallationFragment extends BaseTitleFragment {
         for (ImageUri imageUri : imagePicker.getimagesList()) {
             Attachments attachments=new Attachments();
             try {
-                compressedImage = ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri.getUri()),imageUri.getUri());
+                compressedImage = ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri.getUri()),imageUri);
                 attachments.setTitle(title);
                 attachments.setImage(compressedImage);
                 attachmentsList.add(attachments);

@@ -105,8 +105,7 @@ public class FastTagPhotosFragment extends BaseFragment {
     private void compressImages(CustomImagePicker imagePicker, String title) {
             Attachments attachments = new Attachments();
             try {
-                compressedImage = ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),imagePicker.getimagesList().get(0).getUri()),imagePicker.getimagesList().get(0).getUri()
-                );
+                compressedImage = ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),imagePicker.getimagesList().get(0).getUri()),imagePicker.getimagesList().get(0));
                 attachments.setTitle(title);
                 attachments.setImage(compressedImage);
                 attachmentsList.add(attachments);
@@ -141,7 +140,8 @@ public class FastTagPhotosFragment extends BaseFragment {
          EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_CAMERA+""+stringId,imageUriList));
 
 
-    }}
+    }
+    }
 
     private void setContent() {
         binding.serialNumberEt.setText(serialNo);
