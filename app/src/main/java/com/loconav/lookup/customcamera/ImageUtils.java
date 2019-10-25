@@ -68,8 +68,6 @@ public class ImageUtils {
     }
 
     public static Bitmap getThumbnailImage(Uri image, Context context) throws IOException {
-        // getImageMetaData(image);
-      //  getbase64Image(MediaStore.Images.Media.getBitmap(context.getContentResolver(), image), image);
         final int THUMBSIZE = 256;//pixels
         Log.e("the image is ", "the big image path is " + image.getPath());
         return ThumbnailUtils.extractThumbnail(BitmapFactory.decodeStream(context.getContentResolver().openInputStream(image)),

@@ -48,7 +48,7 @@ public class PassingReason implements Parcelable {
     }
 
 
-    protected PassingReason(Parcel in) {
+    private PassingReason(Parcel in) {
         deviceId = in.readString();
         userChoice = in.readString();
         clientId = in.readParcelable(Client.class.getClassLoader());
