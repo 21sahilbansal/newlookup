@@ -47,7 +47,8 @@ public class PassingReason implements Parcelable {
         this.userChoice = UserChoice;
     }
 
-    private PassingReason(Parcel in) {
+
+    protected PassingReason(Parcel in) {
         deviceId = in.readString();
         userChoice = in.readString();
         clientId = in.readParcelable(Client.class.getClassLoader());
@@ -129,13 +130,14 @@ public class PassingReason implements Parcelable {
     public  ReasonResponse getReasonResponse() {
         return reasonResponse;
     }
+
     public void setImagesUriList(ArrayList<ImageUri> imagesUriList) {
         this.imageUriList = imagesUriList;
     }
     public ArrayList<ImageUri> getImagesUriList() {
+
         return imageUriList;
     }
-
 
     public void setReasonResponse( ReasonResponse reasons) {
         this.reasonResponse = reasons;
@@ -147,15 +149,15 @@ public class PassingReason implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(deviceId);
-        dest.writeString(userChoice);
-        dest.writeParcelable(clientId, flags);
-        dest.writeStringList(imagesList);
-        dest.writeSerializable(imageUriList);
-        dest.writeParcelable(reasonResponse, flags);
-        dest.writeInt(imagesPreRepair);
-        dest.writeInt(imagesInRepair);
-        dest.writeInt(imagesPostRepair);
+    public void writeToParcel(Parcel parcel, int i) {
+
+        parcel.writeString(deviceId);
+        parcel.writeString(userChoice);
+        parcel.writeParcelable(clientId, i);
+        parcel.writeStringList(imagesList);
+        parcel.writeParcelable(reasonResponse, i);
+        parcel.writeInt(imagesPreRepair);
+        parcel.writeInt(imagesInRepair);
+        parcel.writeInt(imagesPostRepair);
     }
 }

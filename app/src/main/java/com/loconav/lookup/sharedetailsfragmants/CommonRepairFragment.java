@@ -178,7 +178,6 @@ public class CommonRepairFragment extends BaseTitleFragment {
                         attachments=new Attachments();
                         try {
                             image=ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),passingReason.getImagesUriList().get(i).getUri()),passingReason.getImagesUriList().get(i));
-                           // image1=ImageUtils.getbase64ImagePassingResponse(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), Uri.parse(passingReason.getImagesList().get(i))));
                             attachments.setTitle("pre_repair");
                             attachments.setImage(image);
                         } catch (Exception e) {
