@@ -85,22 +85,35 @@ public class ImageUtils {
     private static Bitmap getImageWithTimeStamp(Bitmap bitmap, ImageUri imageUri) {
         Long imageTakenEpochTime = imageUri.getImageEpochTime();
         Boolean afterTimeComaprison = compareTime(imageTakenEpochTime);
-        Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.RGB_565, true);
+        Boolean noDateAvailable = false;
+        Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         Canvas canvas = new Canvas(mutableBitmap);
         Paint paint = new Paint();
         if (afterTimeComaprison) {
             paint.setColor(Color.GREEN);
         } else {
+            if(imageTakenEpochTime == 0000000000000){
+                noDateAvailable = true;
+                paint.setColor(Color.YELLOW);
+
+            }
             paint.setColor(Color.RED);
         }
-        paint.setTextSize(15);
+        String imageTakenDate;
+        Time imageTakenHours;
+        paint.setTextSize(25);
         paint.setTextAlign(Paint.Align.RIGHT);
-        String imageTakenDate = TimeUtils.getDate((String.valueOf(imageTakenEpochTime)));
-        Time imageTakenHours = new Time(imageTakenEpochTime);
-        String currentDateTime = imageTakenDate + " " + imageTakenHours;
-        canvas.drawText(currentDateTime, canvas.getWidth()-10, canvas.getHeight()-5, paint);
+        if(noDateAvailable){
+          imageTakenDate =  TimeUtils.getDate(String.valueOf(System.currentTimeMillis()));
+          imageTakenHours = new Time(System.currentTimeMillis());
+        }else {
+        imageTakenDate = TimeUtils.getDate((String.valueOf(imageTakenEpochTime)));
+        imageTakenHours = new Time(imageTakenEpochTime);}
+        String imageDateTime = imageTakenDate + " " + imageTakenHours;
+        canvas.drawText(imageDateTime, canvas.getWidth()-10, canvas.getHeight()-10, paint);
         return mutableBitmap;
     }
+
 
     private static boolean compareTime(long imageTakentime) {
         Long currentSystemTime = System.currentTimeMillis();
@@ -116,15 +129,22 @@ public class ImageUtils {
 
 
     public static String getEpochTimeOfGalleryImage(Uri uri) {
+        String zeroepochtime = "0000000000000";
         Cursor cursor =FILE_CONTEXT.getContentResolver().query(uri, null, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow("last_modified");
         cursor.moveToFirst();
         String date = cursor.getString(column_index);
-        return date;
+        if(date == null){
+            return  zeroepochtime;
+        }
+        else {
+            return date;
+        }
     }
 
     public static String getDateOfCameraTakenPhoto(Uri uri){
 
+        String zeroepochtime = "0000000000000";
         try {
             InputStream inputStream = FILE_CONTEXT.getContentResolver().openInputStream(uri);
             try {
@@ -146,7 +166,7 @@ public class ImageUtils {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return null;
+        return zeroepochtime;
     }
 
 
