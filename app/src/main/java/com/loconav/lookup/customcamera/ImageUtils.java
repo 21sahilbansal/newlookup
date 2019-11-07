@@ -89,6 +89,7 @@ public class ImageUtils {
         Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         Canvas canvas = new Canvas(mutableBitmap);
         Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
         if (afterTimeComaprison) {
             paint.setColor(Color.GREEN);
         } else {
