@@ -1,8 +1,9 @@
 package com.loconav.lookup;
 
-import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.loconav.lookup.customcamera.ImageUri;
 import com.loconav.lookup.databinding.RepairBinding;

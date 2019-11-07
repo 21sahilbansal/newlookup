@@ -1,29 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
         android:background="@color/white"
-        android:layout_height="match_parent">
-    <fragment
-        android:id="@+id/barcode"
-        android:name="com.google.android.gms.samples.vision.barcodereader.BarcodeCapture"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        app:gvb_auto_focus="true"
-        app:gvb_code_format="all_format"
-        app:gvb_flash="false"
-        app:gvb_rect_colors="@array/rect_color" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/text"
-        android:layout_below="@id/barcode"
-        android:padding="20dp"
-        android:textStyle="bold"
-        android:text="Scan device's bar code or Qr code, If there are more than One bar code cover remaining barcodes."/>
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <fragment
+                android:id="@+id/barcode"
+                android:name="com.google.android.gms.samples.vision.barcodereader.BarcodeCapture"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="0dp"
+                app:gvb_auto_focus="true"
+                app:gvb_code_format="all_format"
+                app:gvb_flash="false"
+                app:gvb_rect_colors="@array/rect_color">
+            </fragment>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/flash_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="20dp"
+                android:clickable="true"
+                android:tint="@color/white"
+                app:backgroundTint="@color/orange"
+                app:srcCompat="@drawable/flash" />
+        </FrameLayout>
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/qr_scanner"
+            android:textStyle="bold"
+            />
     </LinearLayout>
 </layout>

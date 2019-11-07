@@ -2,14 +2,15 @@ package com.loconav.lookup.customcamera;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.hardware.Camera;
-import android.support.v4.content.FileProvider;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import androidx.core.content.FileProvider;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.loconav.lookup.R;
 import com.loconav.lookup.Toaster;

@@ -36,7 +36,7 @@
             android:value="ocr" />
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="com.lookuploconav.lookup"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -59,7 +59,7 @@
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
         <activity
             android:name=".login.SplashActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
