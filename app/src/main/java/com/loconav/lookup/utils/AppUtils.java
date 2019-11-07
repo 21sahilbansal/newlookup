@@ -91,12 +91,7 @@ public class AppUtils {
     public static void logOut(){
         SharedPrefHelper sharedPrefHelper  = SharedPrefHelper.getInstance();
         Context context = LookUpApplication.getInstance().getApplicationContext();
-        sharedPrefHelper.removeStringData(code);
-        sharedPrefHelper.removeStringData(USER_ID);
-        sharedPrefHelper.removeStringData(authenticationToken);
-        sharedPrefHelper.removeStringData(phoneNumber);
-        sharedPrefHelper.removeStringData(location);
-        sharedPrefHelper.removeStringData(name);
+        sharedPrefHelper.clearAllData();
         sharedPrefHelper.setBooleanData(IS_LOGGED_IN,false);
         Intent intent=new Intent(context, SplashActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
