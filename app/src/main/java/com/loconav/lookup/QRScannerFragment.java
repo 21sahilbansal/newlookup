@@ -1,8 +1,11 @@
 package com.loconav.lookup;
 
+
 import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.databinding.DataBindingUtil;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.gms.samples.vision.barcodereader.BarcodeCapture;
 import com.google.android.gms.samples.vision.barcodereader.BarcodeGraphic;
+import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loconav.lookup.base.BaseFragment;
@@ -22,10 +26,13 @@ import com.loconav.lookup.newfastag.model.NewFastagEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.security.Policy;
 import java.util.List;
 
 import xyz.belvi.mobilevisionbarcodescanner.BarcodeRetriever;
 
+import static android.arch.lifecycle.Lifecycle.Event.ON_RESUME;
+import static android.hardware.Camera.Parameters.FLASH_MODE_ON;
 import static com.loconav.lookup.Constants.DEVICE_ID;
 
 /**
@@ -39,7 +46,7 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
     private Camera mCamera;
     private Camera.Parameters parameters;
     private Boolean isFlashOn = false;
-
+    private BarcodeCapture barcodeCapture;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,13 +61,11 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
     @Override
     public void onFragmentCreated() {
         this.messageForQrScanner = getArguments().getString(Constants.KEY_FOR_QRSCANNER);
-        BarcodeCapture barcodeCapture = (BarcodeCapture) getChildFragmentManager().findFragmentById(R.id.barcode);
+        barcodeCapture = (BarcodeCapture) getChildFragmentManager().findFragmentById(R.id.barcode);
         barcodeCapture.setRetrieval(this);
         flashButton = binding.flashButton;
         flashButton.setOnClickListener(v -> {
             barcodeCapture.setShowFlash(true);
-
-
             mCamera = barcodeCapture.retrieveCamera();
             if(mCamera != null){
             parameters = mCamera.getParameters();}
@@ -98,6 +103,10 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
     @Override
     public void onRetrieved(Barcode barcode) {
         if (messageForQrScanner.equals(Constants.NEW_SCANNED_FASTAG)) {

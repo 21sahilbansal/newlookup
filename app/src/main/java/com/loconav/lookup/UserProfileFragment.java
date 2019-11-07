@@ -46,16 +46,7 @@ public class UserProfileFragment extends BaseFragment {
 
     private void attachClickListener() {
         binding.logout.setOnClickListener(view -> {
-            sharedPrefHelper.removeStringData(code);
-            sharedPrefHelper.removeStringData(USER_ID);
-            sharedPrefHelper.removeStringData(authenticationToken);
-            sharedPrefHelper.removeStringData(phoneNumber);
-            sharedPrefHelper.removeStringData(location);
-            sharedPrefHelper.removeStringData(name);
-            sharedPrefHelper.setBooleanData(IS_LOGGED_IN,false);
-            Intent intent=new Intent(getContext(), SplashActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+            AppUtils.logOut();
         });
 
     }
