@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
 import android.net.Uri
+import android.opengl.Visibility
 import android.os.Bundle
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.LocalBroadcastManager
@@ -38,14 +39,15 @@ class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentMan
     private var fastagCview: CardView = binding.fastagCview
     private var imageCView: CardView = binding.optionalImageCard
     private var customImagePicker: CustomImagePicker = binding.installImage
+    private var newScannedFastagTview : TextView =  binding.newScannedFastaTv
     private var verifiedTruckNumber: String = ""
+    private lateinit var   newScannedFastag: String
 
     private val continueSubmiter = View.OnClickListener {
         if (continueButton.text.equals(context?.resources?.getString(R.string.scan_fastag))) {
             setScanner()
         } else if (continueButton.text.equals(context?.resources?.getString(R.string.submit))) {
-            getDataForPhotosFrag()
-
+            validateFastag(newScannedFastag)
         } else {
             Toaster.makeToast("These is some other issue")
         }
@@ -95,11 +97,12 @@ class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentMan
         when (newFastagEvent.message) {
             NewFastagEvent.SCANNED_CORRECT_FASTAG -> {
                 Toaster.makeToast("Fastag attached successfully")
-                continueButton.setText(R.string.submit)
+                getDataForPhotosFrag()
             }
             NewFastagEvent.SCANNED_WRONG_FASTAG -> {
                 val message: String = newFastagEvent.`object` as String
                 Toaster.makeToast(message)
+                continueButton.setText(R.string.scan_fastag)
             }
             NewFastagEvent.DATA_FOR_FASTAG_NOT_FOUND -> {
                 val message: String = newFastagEvent.`object` as String
@@ -107,13 +110,12 @@ class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentMan
             }
             NewFastagEvent.GOT_DATA_FOR_FASTAG_PHOTOS -> {
                 openFastagPhotosFragment(newFastagEvent.`object` as FastTagResponse)
-
             }
             NewFastagEvent.SCANNED_FASTAG -> {
-                Log.d("testLog", "received event")
-
-                val newScannedFastag : String = newFastagEvent.`object`as String
-                validateFastag(newScannedFastag)
+                val newScannedFastag: String = newFastagEvent.`object` as String
+                newScannedFastagTview.visibility = View.VISIBLE
+                newScannedFastagTview.text = newScannedFastag
+                continueButton.setText(R.string.submit)
             }
         }
     }
