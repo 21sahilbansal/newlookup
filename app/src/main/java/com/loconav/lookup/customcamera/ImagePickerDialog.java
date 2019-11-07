@@ -26,6 +26,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.IOException;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileAttribute;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import static com.loconav.lookup.Constants.ALREADY_TAKEN_IMAGES;
@@ -126,8 +127,14 @@ public class ImagePickerDialog extends BaseDialogFragment {
                     {
                         ImageUri imageUri=new ImageUri();
                         imageUri.setUri(Uri.parse(s));
-                        imageUri.setImageEpochTime(TimeUtils.getEpochTime(ImageUtils.getDateOfCameraTakenPhoto(imageUri.getUri())));
-                        imageUris.add(imageUri);}
+                        try {
+                            imageUri.setImageEpochTime(TimeUtils.getEpochTime(ImageUtils.getDateOfCameraTakenPhoto(imageUri.getUri())));
+                            imageUris.add(imageUri);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                     try {
                         imagesUriArrayList=ImageUtils.compressImageList(imageUris);
                     } catch (IOException e) {

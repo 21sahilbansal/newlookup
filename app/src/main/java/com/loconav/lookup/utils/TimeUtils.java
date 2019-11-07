@@ -20,7 +20,7 @@ public class TimeUtils {
         }
     }
 
-    public static Long getEpochTime(String timestamp){
+    public static Long getEpochTime(String timestamp) throws ParseException{
             if(timestamp == null) return null;
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
