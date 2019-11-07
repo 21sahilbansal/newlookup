@@ -4,8 +4,6 @@ package com.loconav.lookup;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
-import android.databinding.DataBindingUtil;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -31,7 +29,6 @@ import java.util.List;
 
 import xyz.belvi.mobilevisionbarcodescanner.BarcodeRetriever;
 
-import static android.arch.lifecycle.Lifecycle.Event.ON_RESUME;
 import static android.hardware.Camera.Parameters.FLASH_MODE_ON;
 import static com.loconav.lookup.Constants.DEVICE_ID;
 
