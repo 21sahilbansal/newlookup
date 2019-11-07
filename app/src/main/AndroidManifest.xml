@@ -59,7 +59,7 @@
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
         <activity
             android:name=".login.SplashActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>

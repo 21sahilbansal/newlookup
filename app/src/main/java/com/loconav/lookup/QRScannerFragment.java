@@ -50,7 +50,7 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
     @Override
     public void onFragmentCreated() {
         this.messageForQrScanner = getArguments().getString(Constants.KEY_FOR_QRSCANNER);
-        BarcodeCapture barcodeCapture;  barcodeCapture = (BarcodeCapture) getFragmentManager().findFragmentById(R.id.barcode);
+        BarcodeCapture  barcodeCapture = (BarcodeCapture) getChildFragmentManager().findFragmentById(R.id.barcode);
         barcodeCapture.setRetrieval(this);
     }
 
