@@ -62,7 +62,8 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
 
 
             mCamera = barcodeCapture.retrieveCamera();
-            parameters = mCamera.getParameters();
+            if(mCamera != null){
+            parameters = mCamera.getParameters();}
             if (parameters != null && parameters.getSupportedFlashModes() != null) {
                 if (isFlashOn) {
                     parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
@@ -83,11 +84,6 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
     public void bindView(View view) {
         binding = DataBindingUtil.bind(view);
         Log.e("time ", "bindView: " + System.currentTimeMillis());
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -134,10 +130,6 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
             getActivity().runOnUiThread(() -> getActivity().onBackPressed());
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
 
     @Override
     public void onDestroyView() {
@@ -146,14 +138,4 @@ public class QRScannerFragment extends BaseFragment implements BarcodeRetriever 
 
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
 }

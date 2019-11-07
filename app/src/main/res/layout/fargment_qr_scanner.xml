@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="10dp"
             android:paddingBottom="10dp"
-            android:text="Scan bar code or Qr code, If there are more than One bar code cover remaining barcodes."
+            android:text="@string/qr_scanner"
             android:textStyle="bold"
             />
     </LinearLayout>
