@@ -112,9 +112,9 @@ class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentMan
                 openFastagPhotosFragment(newFastagEvent.`object` as FastTagResponse)
             }
             NewFastagEvent.SCANNED_FASTAG -> {
-                val newScannedFastag: String = newFastagEvent.`object` as String
-                newScannedFastagTview.visibility = View.VISIBLE
+                newScannedFastag = newFastagEvent.`object` as String
                 newScannedFastagTview.text = newScannedFastag
+                newScannedFastagTview.visibility = View.VISIBLE
                 continueButton.setText(R.string.submit)
             }
         }

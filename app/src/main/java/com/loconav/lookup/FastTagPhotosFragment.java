@@ -92,6 +92,7 @@ public class FastTagPhotosFragment extends BaseFragment {
             protected void handleSuccess(Call<ResponseBody> call, Response<ResponseBody> response) {
                 progressDialog.dismiss();
                 Toast.makeText(getContext(),"Uploaded Successfully", Toast.LENGTH_LONG).show();
+                getActivity().finish();
             }
 
             @Override
