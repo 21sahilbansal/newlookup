@@ -149,13 +149,13 @@ public class PassingReason implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int flags) {
 
         parcel.writeString(deviceId);
         parcel.writeString(userChoice);
-        parcel.writeParcelable(clientId, i);
+        parcel.writeParcelable(clientId, flags);
         parcel.writeStringList(imagesList);
-        parcel.writeParcelable(reasonResponse, i);
+        parcel.writeParcelable(reasonResponse, flags);
         parcel.writeInt(imagesPreRepair);
         parcel.writeInt(imagesInRepair);
         parcel.writeInt(imagesPostRepair);

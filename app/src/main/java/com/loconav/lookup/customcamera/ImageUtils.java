@@ -11,6 +11,7 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.media.ExifInterface;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 
@@ -29,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.loconav.lookup.Constants.FILE_PROVIDER_AUTHORITY;
 import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
@@ -36,6 +38,7 @@ import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
 public class ImageUtils {
 
     private static final Context FILE_CONTEXT = LookUpApplication.getInstance();
+    private static final String imageFormat = "data:image/png;base64,";
 
     private static ImageUri compressImageFile(ImageUri imageUri) throws IOException {
         File imagefile = getImagefile();
@@ -77,32 +80,33 @@ public class ImageUtils {
 
     public static String getbase64Image(Bitmap bitmap, ImageUri imageUri) {
         Bitmap bitmapWithTimeStamp = getImageWithTimeStamp(bitmap, imageUri);
-        String str = "data:image/png;base64," + encodeToBase64(bitmapWithTimeStamp, Bitmap.CompressFormat.JPEG, 100);
+        String str = imageFormat + encodeToBase64(bitmapWithTimeStamp, Bitmap.CompressFormat.JPEG, 100);
         return str;
     }
 
 
     private static Bitmap getImageWithTimeStamp(Bitmap bitmap, ImageUri imageUri) {
         Long imageTakenEpochTime = imageUri.getImageEpochTime();
-        boolean afterTimeComaprison = compareTime(imageTakenEpochTime);
+        boolean timeOfImage = compareTime(imageTakenEpochTime);
         boolean noDateAvailable = false;
         Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         Canvas canvas = new Canvas(mutableBitmap);
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        if (afterTimeComaprison) {
-            paint.setColor(Color.GREEN);
+        paint.setStrokeWidth(1.5F);
+        if (timeOfImage) {
+            paint.setColor(Color.BLUE);
         } else {
             if (imageTakenEpochTime == 0000000000000) {
                 noDateAvailable = true;
                 paint.setColor(Color.YELLOW);
-
             }
+            else {
             paint.setColor(Color.RED);
-        }
+        }}
         String imageTakenDate;
         Time imageTakenHours;
-        paint.setTextSize(25);
+        paint.setTextSize(28);
         paint.setTextAlign(Paint.Align.RIGHT);
         if (noDateAvailable) {
             imageTakenDate = TimeUtils.getDate(String.valueOf(System.currentTimeMillis()));
@@ -111,7 +115,7 @@ public class ImageUtils {
             imageTakenDate = TimeUtils.getDate((String.valueOf(imageTakenEpochTime)));
             imageTakenHours = new Time(imageTakenEpochTime);
         }
-        String imageDateTime = imageTakenDate + " " + imageTakenHours;
+        String imageDateTime = String.format("%s, %s", imageTakenDate,imageTakenHours);
         canvas.drawText(imageDateTime, canvas.getWidth() - 10, canvas.getHeight() - 10, paint);
         return mutableBitmap;
     }
@@ -133,7 +137,11 @@ public class ImageUtils {
         String zeroEpochTime = "0000000000000";
         Cursor cursor = FILE_CONTEXT.getContentResolver().query(uri, null, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow("last_modified");
-        cursor.moveToFirst();
+        if (cursor.getColumnCount() > 0){
+        cursor.moveToFirst();}
+        else {
+        return zeroEpochTime;
+        }
         String date = cursor.getString(column_index);
         if (date == null) {
             return zeroEpochTime;
@@ -143,33 +151,25 @@ public class ImageUtils {
     }
 
     public static String getDateOfCameraTakenPhoto(Uri uri) {
-
         String zeroepochtime = "0000000000000";
         try {
             InputStream inputStream = FILE_CONTEXT.getContentResolver().openInputStream(uri);
-            try {
                 Metadata metadata = ImageMetadataReader.readMetadata(inputStream);
-                for (Directory directory1 : metadata.getDirectories()) {
-                    if (directory1.getName().equals("Exif IFD0")) {
-                        for (Tag tag : directory1.getTags()) {
+                for (Directory directory : metadata.getDirectories()) {
+                    if (directory.getName().equals("Exif IFD0")) {
+                        for (Tag tag : directory.getTags()) {
                             if (tag.getTagName().equals("Date/Time")) {
                                 return tag.getDescription();
                             }
                         }
                     }
                 }
-            } catch (ImageProcessingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return zeroepochtime;
     }
-
-
 }
 
 
