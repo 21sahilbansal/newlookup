@@ -1,9 +1,9 @@
 package com.loconav.lookup.newfastag.view
 
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.loconav.lookup.R
 import com.loconav.lookup.base.BaseFragment
 import com.loconav.lookup.databinding.FragmentNewfastagBinding

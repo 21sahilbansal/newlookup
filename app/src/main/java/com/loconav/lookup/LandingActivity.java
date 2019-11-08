@@ -4,9 +4,10 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.location.LocationManager;
 import android.os.Bundle;
+
+import androidx.databinding.DataBindingUtil;
 
 import com.loconav.lookup.base.BaseActivity;
 import com.loconav.lookup.databinding.ActivityLookupEntryBinding;

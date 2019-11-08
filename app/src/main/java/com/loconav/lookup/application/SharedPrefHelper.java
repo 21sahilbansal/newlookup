@@ -19,6 +19,7 @@ public class SharedPrefHelper {
         return sharedPrefHelper;
     }
 
+
     private SharedPrefHelper(){}
 
     private SharedPreferences getSharedPref(){
@@ -61,4 +62,9 @@ public class SharedPrefHelper {
         editor.remove(key);
         editor.apply();
     }
+    public void clearAllData(){
+        SharedPreferences.Editor editor=getSharedPref().edit();
+        editor.clear();
+    }
+
 }

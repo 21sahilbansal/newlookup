@@ -1,8 +1,9 @@
 package com.loconav.lookup.customcamera;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.net.Uri;
+
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 
 import java.io.Serializable;
 
@@ -13,9 +14,10 @@ import java.io.Serializable;
 public class ImageUri extends BaseObservable implements Serializable {
 
     private Uri uri;
+    private Long epochTime;
 
     @Bindable
-    public Uri getUri(){
+    public Uri getUri() {
         return uri;
     }
 
@@ -23,5 +25,12 @@ public class ImageUri extends BaseObservable implements Serializable {
         this.uri = uri;
     }
 
+    public void setImageEpochTime(Long time) {
+        this.epochTime = time;
+    }
+
+    public Long getImageEpochTime() {
+        return epochTime;
+    }
 
 }

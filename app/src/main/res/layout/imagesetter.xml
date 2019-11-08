@@ -7,7 +7,7 @@
         name="obj"
         type="String" />
 </data>
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="100dp"
         android:padding="10dp"
         android:layout_height="100dp">
@@ -18,5 +18,5 @@
             android:scaleType="centerCrop"
             imagesetter:imageurl="@{obj}"
             />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,6 +1,5 @@
 package com.loconav.lookup.newfastag.model
 
-import com.loconav.lookup.Toaster
 import com.loconav.lookup.model.FastTagResponse
 import com.loconav.lookup.network.RetrofitCallback
 import com.loconav.lookup.network.rest.ApiClient
