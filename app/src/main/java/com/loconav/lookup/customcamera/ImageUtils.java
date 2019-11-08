@@ -103,7 +103,8 @@ public class ImageUtils {
             }
             else {
             paint.setColor(Color.RED);
-        }}
+        }
+        }
         String imageTakenDate;
         Time imageTakenHours;
         paint.setTextSize(28);
