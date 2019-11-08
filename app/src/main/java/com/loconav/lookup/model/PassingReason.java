@@ -4,6 +4,8 @@ package com.loconav.lookup.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.loconav.lookup.customcamera.ImageUri;
+
 import java.util.ArrayList;
 
 /**
@@ -19,6 +21,8 @@ public class PassingReason implements Parcelable {
     private Client clientId;
 
     private ArrayList<String> imagesList;
+
+    private ArrayList<ImageUri> imageUriList;
 
     private ReasonResponse reasonResponse;
 
@@ -42,6 +46,7 @@ public class PassingReason implements Parcelable {
         this.reasonResponse = reasons;
         this.userChoice = UserChoice;
     }
+
 
     private PassingReason(Parcel in) {
         deviceId = in.readString();
@@ -126,6 +131,13 @@ public class PassingReason implements Parcelable {
         return reasonResponse;
     }
 
+    public void setImagesUriList(ArrayList<ImageUri> imagesUriList) {
+        this.imageUriList = imagesUriList;
+    }
+    public ArrayList<ImageUri> getImagesUriList() {
+
+        return imageUriList;
+    }
 
     public void setReasonResponse( ReasonResponse reasons) {
         this.reasonResponse = reasons;
@@ -137,14 +149,15 @@ public class PassingReason implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(deviceId);
-        dest.writeString(userChoice);
-        dest.writeParcelable(clientId, flags);
-        dest.writeStringList(imagesList);
-        dest.writeParcelable(reasonResponse, flags);
-        dest.writeInt(imagesPreRepair);
-        dest.writeInt(imagesInRepair);
-        dest.writeInt(imagesPostRepair);
+    public void writeToParcel(Parcel parcel, int flags) {
+
+        parcel.writeString(deviceId);
+        parcel.writeString(userChoice);
+        parcel.writeParcelable(clientId, flags);
+        parcel.writeStringList(imagesList);
+        parcel.writeParcelable(reasonResponse, flags);
+        parcel.writeInt(imagesPreRepair);
+        parcel.writeInt(imagesInRepair);
+        parcel.writeInt(imagesPostRepair);
     }
 }

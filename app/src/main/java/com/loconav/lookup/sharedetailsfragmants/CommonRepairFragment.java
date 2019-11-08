@@ -178,7 +178,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
                         String image = null;
                         attachments=new Attachments();
                         try {
-                            image=ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), Uri.parse(passingReason.getImagesList().get(i))));
+                            image=ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),passingReason.getImagesUriList().get(i).getUri()),passingReason.getImagesUriList().get(i));
                             attachments.setTitle("pre_repair");
                             attachments.setImage(image);
                         } catch (Exception e) {
@@ -285,7 +285,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
         for (ImageUri imageUri : imagePicker.getimagesList()) {
             attachments=new Attachments();
             try {
-                compressedImage = ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(Objects.requireNonNull(getContext()).getContentResolver(), imageUri.getUri()));
+                compressedImage = ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(Objects.requireNonNull(getContext()).getContentResolver(), imageUri.getUri()),imageUri);
                 attachments.setTitle(title);
                 attachments.setImage(compressedImage);
                 postRepairAttachmentsList.add(attachments);

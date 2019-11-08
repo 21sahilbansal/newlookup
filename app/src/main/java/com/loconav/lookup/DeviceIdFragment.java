@@ -135,7 +135,6 @@ public class DeviceIdFragment extends BaseTitleFragment {
                                 progressDialog.dismiss();
                             }
 
-                            @Override
                             public void handleFailure(Call<LookupResponse> call, Throwable t) {
                                 progressDialog.dismiss();
                                 Toaster.makeToast(t.getMessage());

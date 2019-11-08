@@ -45,9 +45,13 @@ public class RepairFragment extends BaseTitleFragment {
     private void onProceedClicked(){
         if(!binding.DeviceImage.getimagesList().isEmpty()) {
             ArrayList<String> imagesList = new ArrayList<>();
+            ArrayList<ImageUri> imageUriList = new ArrayList<>();
             for(ImageUri imageUri : binding.DeviceImage.getimagesList()) {
+                imageUriList.add(imageUri);
                 imagesList.add(imageUri.getUri().toString());
+
             }
+            passingReason.setImagesUriList(imageUriList);
             passingReason.setImagesList(imagesList);
             passingReason.setImagesPreRepair(binding.DeviceImage.getimagesList().size());
             ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
