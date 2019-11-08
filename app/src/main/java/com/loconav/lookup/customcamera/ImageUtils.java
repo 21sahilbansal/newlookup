@@ -11,12 +11,10 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.media.ExifInterface;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import com.drew.imaging.ImageMetadataReader;
-import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
@@ -24,13 +22,11 @@ import com.loconav.lookup.application.LookUpApplication;
 import com.loconav.lookup.utils.TimeUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Time;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static com.loconav.lookup.Constants.FILE_PROVIDER_AUTHORITY;
 import static com.loconav.lookup.EncodingDecoding.encodeToBase64;
@@ -100,10 +96,9 @@ public class ImageUtils {
             if (imageTakenEpochTime == 0000000000000) {
                 noDateAvailable = true;
                 paint.setColor(Color.YELLOW);
+            } else {
+                paint.setColor(Color.RED);
             }
-            else {
-            paint.setColor(Color.RED);
-        }
         }
         String imageTakenDate;
         Time imageTakenHours;
@@ -116,7 +111,7 @@ public class ImageUtils {
             imageTakenDate = TimeUtils.getDate((String.valueOf(imageTakenEpochTime)));
             imageTakenHours = new Time(imageTakenEpochTime);
         }
-        String imageDateTime = String.format("%s, %s", imageTakenDate,imageTakenHours);
+        String imageDateTime = String.format("%s, %s", imageTakenDate, imageTakenHours);
         canvas.drawText(imageDateTime, canvas.getWidth() - 10, canvas.getHeight() - 10, paint);
         return mutableBitmap;
     }
@@ -129,19 +124,17 @@ public class ImageUtils {
             return true;
         } else
             return false;
-        }
-
-
+    }
 
 
     public static String getEpochTimeOfGalleryImage(Uri uri) {
         String zeroEpochTime = "0000000000000";
         Cursor cursor = FILE_CONTEXT.getContentResolver().query(uri, null, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow("last_modified");
-        if (cursor.getColumnCount() > 0){
-        cursor.moveToFirst();}
-        else {
-        return zeroEpochTime;
+        if (cursor.getColumnCount() > 0) {
+            cursor.moveToFirst();
+        } else {
+            return zeroEpochTime;
         }
         String date = cursor.getString(column_index);
         if (date == null) {
@@ -155,16 +148,16 @@ public class ImageUtils {
         String zeroepochtime = "0000000000000";
         try {
             InputStream inputStream = FILE_CONTEXT.getContentResolver().openInputStream(uri);
-                Metadata metadata = ImageMetadataReader.readMetadata(inputStream);
-                for (Directory directory : metadata.getDirectories()) {
-                    if (directory.getName().equals("Exif IFD0")) {
-                        for (Tag tag : directory.getTags()) {
-                            if (tag.getTagName().equals("Date/Time")) {
-                                return tag.getDescription();
-                            }
+            Metadata metadata = ImageMetadataReader.readMetadata(inputStream);
+            for (Directory directory : metadata.getDirectories()) {
+                if (directory.getName().equals("Exif IFD0")) {
+                    for (Tag tag : directory.getTags()) {
+                        if (tag.getTagName().equals("Date/Time")) {
+                            return tag.getDescription();
                         }
                     }
                 }
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

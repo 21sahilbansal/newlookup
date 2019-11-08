@@ -17,7 +17,7 @@
             android:layout_gravity="left"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -26,7 +26,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:shadowColor="@color/gray">
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="8dp">
@@ -68,10 +68,10 @@
                         android:textStyle="bold"
                         custom:layout_constraintEnd_toEndOf="parent"
                         custom:layout_constraintTop_toBottomOf="@id/truck_Number_tv" />
-                </android.support.constraint.ConstraintLayout>
-            </android.support.v7.widget.CardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -89,9 +89,9 @@
                 custom:id="@string/fastag_before_pasting"
                 custom:limitImages="1"
                 custom:titleText="@string/fastag_before_pasting" />
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -109,8 +109,8 @@
                 custom:limitImages="1"
                 custom:titleText="@string/fastag_after_pasting"
                 custom:id="@string/fastag_after_pasting"/>
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -128,9 +128,9 @@
                 custom:titleText="@string/front_view1"
                 custom:id="@string/front_view1"/>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -148,7 +148,7 @@
                 custom:limitImages="1"
                 custom:titleText="@string/side_view1"
                 custom:id="@string/side_view1"/>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <Button
                 android:id="@+id/ftPhoto_upload"
