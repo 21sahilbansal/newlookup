@@ -52,10 +52,13 @@ public class CameraPickerFragment extends BaseFragment implements ImageRemoved {
         alreadyTakenPhotos = getArguments().getInt(ImagePickerDialog.ALREADY_TAKEN_PHOTOS);
         // Create an instance of Camera
         mCamera = getCameraInstance();
-
         // Create our Preview view and set it as the content of our activity.
         CameraPreview mPreview = new CameraPreview(getContext(), mCamera);
+       // mPreview.getLayoutParams().height = mCamera.getParameters().getPreviewSize().height /2;
+       // mPreview.getLayoutParams().width =mCamera.getParameters().getPreviewSize().width/2;
         FrameLayout preview = binding.cameraPreview;
+        preview.getLayoutParams().height = mCamera.getParameters().getPreviewSize().height /2;
+        preview.getLayoutParams().width = mCamera.getParameters().getPreviewSize().width/2;
         preview.addView(mPreview);
 
         //set recyclerview adapter

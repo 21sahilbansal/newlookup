@@ -26,6 +26,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         // underlying surface is created and destroyed.
         mHolder = getHolder();
         mHolder.addCallback(this);
+        mHolder.setFixedSize(100,100);
         // deprecated setting, but required on Android versions prior to 3.0
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
@@ -39,7 +40,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             for (int i = 0; i < allSizes.size(); i++) {
                 if (allSizes.get(i).width > size.width)
                     size = allSizes.get(i);
-            }
+                }
+
             //Change the Orientation
             if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
                 parameters.set(ORIENTATION, PORTRAIT);
