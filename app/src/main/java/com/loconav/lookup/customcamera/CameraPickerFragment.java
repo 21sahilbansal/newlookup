@@ -59,13 +59,9 @@ public class CameraPickerFragment extends BaseFragment implements ImageRemoved {
         CameraPreview mPreview = new CameraPreview(getContext(), mCamera);
         FrameLayout preview = binding.cameraPreview;
         preview.addView(mPreview);
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int screenCenterX = (size.x /2);
-        int screenCenterY = (size.y/2) ;
-        DrawOnTop mDraw = new DrawOnTop(getContext(),screenCenterX,screenCenterY);
-        preview.addView(mDraw,new ViewGroup.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
+        overLayFormation(preview);
+
+
 
         //set recyclerview adapter
         setImageAdapter();
@@ -149,6 +145,17 @@ public class CameraPickerFragment extends BaseFragment implements ImageRemoved {
         });
 
         safeToTakePhoto = true;
+    }
+
+    private void overLayFormation(FrameLayout preview) {
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int screenCenterX = (size.x / 2);
+        int radius = (size.y/6);
+        int screenCenterY = (size.y / 3);
+        DrawOnTop mDraw = new DrawOnTop(getContext(), screenCenterX, screenCenterY,radius);
+        preview.addView(mDraw, new ViewGroup.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
     }
 
     private void setImageAdapter() {
