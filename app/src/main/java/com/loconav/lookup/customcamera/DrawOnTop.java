@@ -29,7 +29,7 @@ public class DrawOnTop extends View {
         paint.setStyle(Paint.Style.FILL);
         canvas.drawPaint(paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        canvas.drawCircle(screenCenterX, screenCenterY, radius, p);
+        canvas.drawCircle(screenCenterX, screenCenterY, radius, paint);
         super.onDraw(canvas);
     }
 }
