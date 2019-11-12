@@ -57,8 +57,8 @@ public class CameraPickerFragment extends BaseFragment implements ImageRemoved {
        // mPreview.getLayoutParams().height = mCamera.getParameters().getPreviewSize().height /2;
        // mPreview.getLayoutParams().width =mCamera.getParameters().getPreviewSize().width/2;
         FrameLayout preview = binding.cameraPreview;
-        preview.getLayoutParams().height = mCamera.getParameters().getPreviewSize().height /2;
-        preview.getLayoutParams().width = mCamera.getParameters().getPreviewSize().width/2;
+       // preview.getLayoutParams().height = mCamera.getParameters().getPreviewSize().height /2;
+        //preview.getLayoutParams().width = mCamera.getParameters().getPreviewSize().width/2;
         preview.addView(mPreview);
 
         //set recyclerview adapter
