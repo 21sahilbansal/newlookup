@@ -54,7 +54,7 @@ public class CameraPickerFragment extends BaseFragment implements ImageRemoved {
 
     @Override
     public void onFragmentCreated() {
-        limit = Objects.requireNonNull(getArguments().getInt(ImagePickerDialog.LIMIT));
+        limit = Objects.requireNonNull(Objects.requireNonNull(getArguments().getInt(ImagePickerDialog.LIMIT)));
         alreadyTakenPhotos = getArguments().getInt(ImagePickerDialog.ALREADY_TAKEN_PHOTOS);
         // Create an instance of Camera
         mCamera = getCameraInstance();
@@ -151,7 +151,7 @@ public class CameraPickerFragment extends BaseFragment implements ImageRemoved {
     }
 
     private void overLayFormation(FrameLayout preview) {
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Display display = Objects.requireNonNull(getActivity().getWindowManager().getDefaultDisplay());
         Point size = new Point();
         display.getSize(size);
         int screenCenterX = (size.x / 2);

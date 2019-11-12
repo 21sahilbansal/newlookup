@@ -23,12 +23,12 @@ public class DrawOnTop extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
-        p.setColor(getResources().getColor(R.color.white));
-        p.setAlpha(130);
-        p.setStyle(Paint.Style.FILL);
-        canvas.drawPaint(p);
-        p.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(getResources().getColor(R.color.white));
+        paint.setAlpha(130);
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawPaint(paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         canvas.drawCircle(screenCenterX, screenCenterY, radius, p);
         super.onDraw(canvas);
     }
