@@ -3,12 +3,15 @@ package com.loconav.lookup.customcamera;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Point;
 import android.hardware.Camera;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.loconav.lookup.R;
@@ -54,12 +57,15 @@ public class CameraPickerFragment extends BaseFragment implements ImageRemoved {
         mCamera = getCameraInstance();
         // Create our Preview view and set it as the content of our activity.
         CameraPreview mPreview = new CameraPreview(getContext(), mCamera);
-       // mPreview.getLayoutParams().height = mCamera.getParameters().getPreviewSize().height /2;
-       // mPreview.getLayoutParams().width =mCamera.getParameters().getPreviewSize().width/2;
         FrameLayout preview = binding.cameraPreview;
-       // preview.getLayoutParams().height = mCamera.getParameters().getPreviewSize().height /2;
-        //preview.getLayoutParams().width = mCamera.getParameters().getPreviewSize().width/2;
         preview.addView(mPreview);
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int screenCenterX = (size.x /2);
+        int screenCenterY = (size.y/2) ;
+        DrawOnTop mDraw = new DrawOnTop(getContext(),screenCenterX,screenCenterY);
+        preview.addView(mDraw,new ViewGroup.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
 
         //set recyclerview adapter
         setImageAdapter();

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.util.Log;
+import android.view.Display;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -96,4 +97,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             Log.d("ds", "Error starting camera preview: " + e);
         }
     }
+
+
 }
