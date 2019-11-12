@@ -1,21 +1,17 @@
 package com.loconav.lookup.newfastag.controller
 
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.FragmentManager
-import android.support.v4.content.LocalBroadcastManager
-import android.support.v7.widget.CardView
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.fragment.app.FragmentManager
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.loconav.lookup.*
-import com.loconav.lookup.Constants.DEVICE_ID
 import com.loconav.lookup.customcamera.CustomImagePicker
 import com.loconav.lookup.databinding.FragmentNewfastagBinding
 import com.loconav.lookup.model.FastTagResponse
@@ -25,9 +21,8 @@ import com.loconav.lookup.newfastag.model.VehicleDetails
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import kotlin.contracts.contract
 
-class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentManager: FragmentManager, var context: Context, var receivedbundle: Bundle) {
+class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentManager: androidx.fragment.app.FragmentManager, var context: Context, var receivedbundle: Bundle) {
     private val fragmentController: FragmentController = FragmentController()
     private var fastagRequestApiService: FastagRequestApiService = FastagRequestApiService()
     private lateinit var continueButton: Button
@@ -35,8 +30,8 @@ class NewFastagController(var binding: FragmentNewfastagBinding, var fragmentMan
     private var axleEt: TextView = binding.axleEt
     private lateinit var vehicleDetails: VehicleDetails
     private var colorEt: TextView = binding.colorEt
-    private var fastagCview: CardView = binding.fastagCview
-    private var imageCView: CardView = binding.optionalImageCard
+    private var fastagCview: androidx.cardview.widget.CardView = binding.fastagCview
+    private var imageCView: androidx.cardview.widget.CardView = binding.optionalImageCard
     private var customImagePicker: CustomImagePicker = binding.installImage
     private var verifiedTruckNumber: String = ""
 

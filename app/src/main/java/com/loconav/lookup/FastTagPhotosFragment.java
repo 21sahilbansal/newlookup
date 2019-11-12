@@ -1,16 +1,17 @@
 package com.loconav.lookup;
 
 import android.app.ProgressDialog;
-import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.customcamera.CustomImagePicker;
@@ -105,7 +106,7 @@ public class FastTagPhotosFragment extends BaseFragment {
     private void compressImages(CustomImagePicker imagePicker, String title) {
             Attachments attachments = new Attachments();
             try {
-                compressedImage = ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),imagePicker.getimagesList().get(0).getUri()));
+                compressedImage = ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),imagePicker.getimagesList().get(0).getUri()),imagePicker.getimagesList().get(0));
                 attachments.setTitle(title);
                 attachments.setImage(compressedImage);
                 attachmentsList.add(attachments);
@@ -140,7 +141,8 @@ public class FastTagPhotosFragment extends BaseFragment {
          EventBus.getDefault().post(new ImagePickerEvent(ImagePickerEvent.IMAGE_SELECTED_FROM_CAMERA+""+stringId,imageUriList));
 
 
-    }}
+    }
+    }
 
     private void setContent() {
         binding.serialNumberEt.setText(serialNo);

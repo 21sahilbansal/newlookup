@@ -1,10 +1,11 @@
 package com.loconav.lookup;
 
 import android.annotation.SuppressLint;
-import android.databinding.DataBindingUtil;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
+
+import androidx.appcompat.widget.SearchView;
+import androidx.databinding.DataBindingUtil;
 
 import com.loconav.lookup.adapter.FastagAdapter;
 import com.loconav.lookup.adapter.VehiclesAdapter;
@@ -48,9 +49,9 @@ public class FastTagFragment extends BaseFragment {
     }
     @Override
     public void onFragmentCreated() {
-        searchAutoComplete = binding.searchTruck.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchAutoComplete = binding.searchTruck.findViewById(R.id.search_src_text);
         binding.searchTruck.setQueryHint("Select Vehicle");
-        searchAutoCompleteFastag = binding.searchFastId.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchAutoCompleteFastag = binding.searchFastId.findViewById(R.id.search_src_text);
         binding.searchFastId.setQueryHint("Select Fastag");
                 vehiclesLists=getSetData(vehiclesLists);
         binding.truckSubmit.setOnClickListener(view -> onSubmitClicked());

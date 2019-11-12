@@ -1,8 +1,9 @@
 package com.loconav.lookup;
 
-import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.loconav.lookup.customcamera.ImageUri;
 import com.loconav.lookup.databinding.RepairBinding;
@@ -44,9 +45,13 @@ public class RepairFragment extends BaseTitleFragment {
     private void onProceedClicked(){
         if(!binding.DeviceImage.getimagesList().isEmpty()) {
             ArrayList<String> imagesList = new ArrayList<>();
+            ArrayList<ImageUri> imageUriList = new ArrayList<>();
             for(ImageUri imageUri : binding.DeviceImage.getimagesList()) {
+                imageUriList.add(imageUri);
                 imagesList.add(imageUri.getUri().toString());
+
             }
+            passingReason.setImagesUriList(imageUriList);
             passingReason.setImagesList(imagesList);
             passingReason.setImagesPreRepair(binding.DeviceImage.getimagesList().size());
             ((LookupSubActivity)getActivity()).setPassingReason(passingReason);

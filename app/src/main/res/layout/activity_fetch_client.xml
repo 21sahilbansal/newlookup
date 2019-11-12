@@ -11,7 +11,7 @@
         android:clickable="true"
         android:padding="@dimen/dimen_18sp"
         tools:context="com.loconav.lookup.FetchClientFragment">
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_marginTop="10dp"
             android:id="@+id/til_client_id"
             android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter Client Id" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
         <Button
             android:layout_centerHorizontal="true"
             android:layout_below="@id/til_client_id"
@@ -46,12 +46,12 @@
                 android:layout_height="wrap_content"
                 android:text="Please Select Client.."
                 android:textStyle="bold"/>
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_marginTop="20dp"
                 android:id="@+id/rv_clients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
     </RelativeLayout>
 </layout>

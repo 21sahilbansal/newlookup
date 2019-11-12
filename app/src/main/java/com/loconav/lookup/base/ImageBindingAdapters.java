@@ -1,12 +1,13 @@
 package com.loconav.lookup.base;
 
-import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.Html;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.databinding.BindingAdapter;
 
 import com.loconav.lookup.R;
 import com.loconav.lookup.application.LookUpApplication;
