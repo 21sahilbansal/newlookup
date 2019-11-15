@@ -2,10 +2,13 @@ package com.loconav.lookup.customcamera;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.hardware.Camera;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.core.content.FileProvider;
@@ -54,11 +57,13 @@ public class CameraPickerFragment extends BaseFragment implements ImageRemoved {
         alreadyTakenPhotos = getArguments().getInt(ImagePickerDialog.ALREADY_TAKEN_PHOTOS);
         // Create an instance of Camera
         mCamera = getCameraInstance();
-
         // Create our Preview view and set it as the content of our activity.
         CameraPreview mPreview = new CameraPreview(getContext(), mCamera);
         FrameLayout preview = binding.cameraPreview;
         preview.addView(mPreview);
+        overLayFormation(preview);
+
+
 
         //set recyclerview adapter
         setImageAdapter();
@@ -142,6 +147,17 @@ public class CameraPickerFragment extends BaseFragment implements ImageRemoved {
         });
 
         safeToTakePhoto = true;
+    }
+
+    private void overLayFormation(FrameLayout preview) {
+        Display display = Objects.requireNonNull(getActivity().getWindowManager().getDefaultDisplay());
+        Point size = new Point();
+        display.getSize(size);
+        int screenCenterX = (size.x / 2);
+        int radius = (size.y/6);
+        int screenCenterY = (size.y / 3);
+        DrawOnTop mDraw = new DrawOnTop(getContext(), screenCenterX, screenCenterY,radius);
+        preview.addView(mDraw, new ViewGroup.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
     }
 
     private void setImageAdapter() {

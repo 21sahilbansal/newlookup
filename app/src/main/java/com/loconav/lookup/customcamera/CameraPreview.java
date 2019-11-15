@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.util.Log;
+import android.view.Display;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -39,7 +40,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             for (int i = 0; i < allSizes.size(); i++) {
                 if (allSizes.get(i).width > size.width)
                     size = allSizes.get(i);
-            }
+                }
+
             //Change the Orientation
             if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
                 parameters.set(ORIENTATION, PORTRAIT);
@@ -94,4 +96,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             Log.d("ds", "Error starting camera preview: " + e);
         }
     }
+
+
 }
