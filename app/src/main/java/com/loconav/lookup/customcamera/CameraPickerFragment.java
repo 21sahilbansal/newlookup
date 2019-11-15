@@ -2,7 +2,6 @@ package com.loconav.lookup.customcamera;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.graphics.Point;
 import android.hardware.Camera;
 import android.util.Log;
