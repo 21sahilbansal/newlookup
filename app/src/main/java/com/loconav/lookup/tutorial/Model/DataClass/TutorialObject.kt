@@ -7,14 +7,14 @@ import java.io.Serializable
 class TutorialObject : Serializable {
     @SerializedName("id")
     @Expose
-    private var id: Int? = null
+    var id: Int? = null
     @SerializedName("title")
     @Expose
-    private var title: String? = null
+    var title: String? = null
     @SerializedName("description")
     @Expose
-    private var description: String? = null
+    var description: String? = null
     @SerializedName("url")
     @Expose
-    private var url: String? = null
+    var url: String? = null
 }

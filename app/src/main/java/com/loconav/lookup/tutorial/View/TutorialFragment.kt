@@ -2,13 +2,20 @@ package com.loconav.lookup.tutorial.View
 
 import android.view.View
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.loconav.lookup.R
 import com.loconav.lookup.adapter.TutorialAdapter
 import com.loconav.lookup.base.BaseFragment
 import com.loconav.lookup.databinding.FragmentTutorialBinding
+import com.loconav.lookup.tutorial.Model.DataClass.TutorialData
 import com.loconav.lookup.tutorial.ViewModel.TutorialViewModel
+import com.loconav.lookup.utils.DataWrapper
 
 class TutorialFragment : BaseFragment() {
     private var fragmentTutorialBinding :FragmentTutorialBinding ? = null
@@ -21,14 +28,24 @@ class TutorialFragment : BaseFragment() {
     }
 
     override fun onFragmentCreated() {
+
+        tutorialViewModel = ViewModelProviders.of(this).get(TutorialViewModel::class.java)
         getDataForTutorial()
-        setUpRecyclerView()
     }
 
     private fun getDataForTutorial() {
+        tutorialViewModel.getAllTutorial()?.observe(this, Observer {it?.data?.let {
+         setUpRecyclerView()
+
+        }})
     }
 
     private fun setUpRecyclerView() {
+        var linearLayoutManager : LinearLayoutManager = LinearLayoutManager(context)
+        fragmentTutorialBinding?.let{it.tutorialRv.layoutManager = linearLayoutManager
+        it.tutorialRv.adapter = tutorialAdapter}
+
+
     }
 
     override fun bindView(view: View?) {
