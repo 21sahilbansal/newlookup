@@ -38,8 +38,24 @@ public class UserProfileFragment extends BaseFragment {
         fillUserId();
         binding.checkInstallLogs.setOnClickListener(v -> checkInstallLogs());
         binding.checkRepairLogs.setOnClickListener(v -> checkRepairLogs());
+        binding.checkTurorials.setOnClickListener(v -> checkTutorials());
 
     }
+
+    private void checkTutorials() {
+        if(AppUtils.isNetworkAvailable()) {
+            Intent i=new Intent(getContext(), BaseNavigationActivity.class);
+            Bundle bundle=new Bundle();
+            bundle.putString(FRAGMENT_NAME,getString(R.string.install_log_fragment));
+            i.putExtras(bundle);
+            startActivity(i);
+        }
+        else
+        {
+            Toaster.makeToast(getString(R.string.internet_not_available));
+        }
+    }
+
     private void initSharedPf() {
         sharedPrefHelper = SharedPrefHelper.getInstance();
     }
