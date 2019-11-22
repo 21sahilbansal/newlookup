@@ -7,5 +7,5 @@ import java.io.Serializable
 class TutorialData : Serializable {
     @SerializedName("tutorial_list")
     @Expose
-    private var tutorial_list : ArrayList<TutorialData> ?= null
+    private var tutorial_list : ArrayList<TutorialObject> ?= null
 }
