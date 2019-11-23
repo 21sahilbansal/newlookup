@@ -3,6 +3,7 @@ package com.loconav.lookup;
 import android.os.Bundle;
 
 import com.loconav.lookup.base.BaseActivity;
+import com.loconav.lookup.tutorial.View.TutorialFragment;
 
 import java.util.Objects;
 
@@ -45,6 +46,11 @@ public class BaseNavigationActivity extends BaseActivity {
             UploadDocumentsFragment uploadDocumentsFragment=new UploadDocumentsFragment();
             setTitle(getString(R.string.upload_documents_heading));
             fragmentController.loadFragment(uploadDocumentsFragment,getSupportFragmentManager(),R.id.fragment_host,false);
+        }
+        else if(fragmentName.equals("Tutorials Fragment")){
+            TutorialFragment tutorialFragment = new TutorialFragment();
+            setTitle("Tutorials");
+            fragmentController.loadFragment(tutorialFragment,getSupportFragmentManager(),R.id.fragment_host,false);
         }
 
     }

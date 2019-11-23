@@ -28,6 +28,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyVie
             binding.getRoot().setOnClickListener(view -> onItemClick(getDataAtPosition(getAdapterPosition()),getAdapterPosition()));
         }
 
+
         void bind(Object obj) {
             binding.setVariable(BR.obj, obj);
             binding.executePendingBindings();
