@@ -4,11 +4,20 @@ import android.view.View
 import android.view.ViewGroup
 import com.loconav.lookup.R
 import com.loconav.lookup.base.BaseAdapter
-import com.loconav.lookup.customcamera.Callback
 import com.loconav.lookup.tutorial.model.dataClass.TutorialObject
-import java.util.*
+import com.loconav.lookup.tutorial.TutorialCallBack
 
-class TutorialAdapter(var tutorialList: List<TutorialObject>, var callback: Callback) : BaseAdapter() {
+
+class TutorialAdapter(var tutorialList: List<TutorialObject>, var callback: TutorialCallBack) : BaseAdapter() {
+    override fun onExpendableItemClick(`object`: Any?, position: Int, view: View?) {
+        if (`object` != null && view != null) {
+            callback.onExpendEvent(`object`,view)
+        }
+    }
+
+    override fun exapandOnClick(): Boolean {
+        return true
+    }
 
     override fun getItemCount(): Int {
         return tutorialList?.let { it.size }
@@ -24,7 +33,7 @@ class TutorialAdapter(var tutorialList: List<TutorialObject>, var callback: Call
     }
 
     override fun onItemClick(`object`: Any?, position: Int) {
-        callback.onEventDone(`object`)
+        callback.onEventDone(`object`!!)
 
     }
 

@@ -41,7 +41,9 @@
 
             <TextView
                 android:id="@+id/tutorial_description"
+                android:tag="expendable"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:background="@color/orange"
                 android:gravity="center_horizontal"
@@ -51,7 +53,9 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@+id/tutorial_title"
-                tools:text="tutorialDescription"></TextView>
+
+                tools:text="tutorialDescription"
+                ></TextView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

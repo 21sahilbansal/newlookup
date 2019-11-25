@@ -3,6 +3,7 @@ package com.loconav.lookup.base;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
@@ -25,7 +26,21 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyVie
         MyViewHolder(final ViewDataBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.getRoot().setOnClickListener(view -> onItemClick(getDataAtPosition(getAdapterPosition()),getAdapterPosition()));
+            if(exapandOnClick()){
+                binding.getRoot().setOnClickListener(view -> onExpendableItemClick(
+                        getDataAtPosition(getAdapterPosition()),
+                        getAdapterPosition(),getExpadableViewId(binding)
+                        )
+                );
+
+            }else {
+            binding.getRoot().setOnClickListener(view -> onItemClick(
+                    getDataAtPosition(getAdapterPosition()),
+                    getAdapterPosition()
+                   )
+            );}
+
+
         }
 
 
@@ -34,6 +49,11 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyVie
             binding.executePendingBindings();
         }
     }
+
+    private View getExpadableViewId(ViewDataBinding binding) {
+        return binding.getRoot().findViewWithTag("Expendable");
+    }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create repair new view
@@ -57,5 +77,9 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyVie
     protected abstract void onItemClick(Object object, int position);
 
     protected abstract void editHeightWidthItem(View view, ViewGroup parent);
+    protected abstract boolean exapandOnClick();
+
+    protected abstract void onExpendableItemClick(Object object,int position,View view);
+
 
 }

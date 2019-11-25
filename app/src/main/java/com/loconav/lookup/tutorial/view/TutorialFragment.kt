@@ -14,6 +14,7 @@ import com.loconav.lookup.application.LookUpApplication
 import com.loconav.lookup.base.BaseFragment
 import com.loconav.lookup.customcamera.Callback
 import com.loconav.lookup.databinding.FragmentTutorialBinding
+import com.loconav.lookup.tutorial.TutorialCallBack
 import com.loconav.lookup.tutorial.model.dataClass.TutorialObject
 import com.loconav.lookup.tutorial.viewModel.TutorialViewModel
 
@@ -47,8 +48,7 @@ class TutorialFragment : BaseFragment() {
         fragmentTutorialBinding?.let {
             tutorialRecyclerView = it.tutorialRv
             tutorialRecyclerView?.layoutManager = linearLayoutManager
-            tutorialAdapter = TutorialAdapter(tutoriallist, Callback {
-                it
+            tutorialAdapter = TutorialAdapter(tutoriallist, TutorialCallBack{
                 tutorialObject = it as TutorialObject
                 var url: String = tutorialObject?.let { it.url!! }
                 var intent = Intent(Intent.ACTION_VIEW);
