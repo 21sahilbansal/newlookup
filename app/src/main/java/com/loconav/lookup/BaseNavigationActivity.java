@@ -3,7 +3,7 @@ package com.loconav.lookup;
 import android.os.Bundle;
 
 import com.loconav.lookup.base.BaseActivity;
-import com.loconav.lookup.tutorial.View.TutorialFragment;
+import com.loconav.lookup.tutorial.view.TutorialFragment;
 
 import java.util.Objects;
 

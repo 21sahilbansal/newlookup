@@ -46,7 +46,7 @@ public class UserProfileFragment extends BaseFragment {
         if(AppUtils.isNetworkAvailable()) {
             Intent i=new Intent(getContext(), BaseNavigationActivity.class);
             Bundle bundle=new Bundle();
-            bundle.putString(FRAGMENT_NAME,getString(R.string.install_log_fragment));
+            bundle.putString(FRAGMENT_NAME,getString(R.string.tutorial_fragment));
             i.putExtras(bundle);
             startActivity(i);
         }

@@ -4,16 +4,18 @@ import android.view.View
 import android.view.ViewGroup
 import com.loconav.lookup.R
 import com.loconav.lookup.base.BaseAdapter
-import com.loconav.lookup.tutorial.Model.DataClass.TutorialData
+import com.loconav.lookup.customcamera.Callback
+import com.loconav.lookup.tutorial.model.dataClass.TutorialObject
+import java.util.*
 
-class TutorialAdapter(var tutorialData: TutorialData) : BaseAdapter() {
+class TutorialAdapter(var tutorialList: List<TutorialObject>, var callback: Callback) : BaseAdapter() {
 
     override fun getItemCount(): Int {
-        return tutorialData.tutorial_list?.let { it.size }!!
+        return tutorialList?.let { it.size }
     }
 
     override fun getDataAtPosition(position: Int): Any {
-        return tutorialData?.let { it.tutorial_list?.let { it[position] } } as Any
+        return tutorialList?.let { it[position] }
 
     }
 
@@ -22,6 +24,8 @@ class TutorialAdapter(var tutorialData: TutorialData) : BaseAdapter() {
     }
 
     override fun onItemClick(`object`: Any?, position: Int) {
+        callback.onEventDone(`object`)
+
     }
 
     override fun editHeightWidthItem(view: View?, parent: ViewGroup?) {

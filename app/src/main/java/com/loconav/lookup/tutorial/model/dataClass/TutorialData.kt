@@ -1,13 +1,12 @@
-package com.loconav.lookup.tutorial.Model.DataClass
+package com.loconav.lookup.tutorial.model.dataClass
 
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
 
 class TutorialData() :Parcelable {
-    @SerializedName("tutorial_list")
+    @SerializedName("")
     @Expose
     var tutorial_list : ArrayList<TutorialObject> ?= null
 
