@@ -3,7 +3,6 @@ package com.loconav.lookup.base;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
@@ -26,23 +25,11 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyVie
         MyViewHolder(final ViewDataBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            if(exapandOnClick()){
-                binding.getRoot().setOnClickListener(view -> onExpendableItemClick(
-                        getDataAtPosition(getAdapterPosition()),
-                        getAdapterPosition(),getExpadableViewId(binding)
-                        )
-                );
-
-            }else {
-            binding.getRoot().setOnClickListener(view -> onItemClick(
-                    getDataAtPosition(getAdapterPosition()),
-                    getAdapterPosition()
-                   )
-            );}
-
-
+            binding.getRoot().setOnClickListener(view -> {
+                onItemClick(getDataAtPosition(getAdapterPosition()), getAdapterPosition(), view);
+            }
+            );
         }
-
 
         void bind(Object obj) {
             binding.setVariable(BR.obj, obj);
@@ -61,7 +48,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyVie
         ViewDataBinding binding = DataBindingUtil.inflate(layoutInflater,getLayoutIdForType(viewType), parent, false);
         // set the view's size, margins, paddings and layout parameters
         editHeightWidthItem(binding.getRoot(),parent);
-        return new MyViewHolder(binding);
+        return getViewHolder(binding);
     }
 
     // Replace the contents of repair view (invoked by the layout manager)
@@ -74,12 +61,13 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyVie
 
     protected abstract int getLayoutIdForType(int viewType);
 
-    protected abstract void onItemClick(Object object, int position);
+    protected abstract void onItemClick(Object object, int position, View view);
 
     protected abstract void editHeightWidthItem(View view, ViewGroup parent);
-    protected abstract boolean exapandOnClick();
 
-    protected abstract void onExpendableItemClick(Object object,int position,View view);
+    protected MyViewHolder getViewHolder(ViewDataBinding binding) {
+        return new MyViewHolder(binding);
+    }
 
 
 }

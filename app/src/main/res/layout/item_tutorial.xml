@@ -14,48 +14,88 @@
         android:id="@+id/tutorial_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
         android:foreground="?android:attr/selectableItemBackground"
         android:outlineAmbientShadowColor="@color/gray"
         android:outlineSpotShadowColor="@color/gray"
         app:cardCornerRadius="5dp"
         app:cardElevation="@dimen/dimen_5dp"
-        app:strokeColor="@color/gray"
-        android:layout_marginVertical="10dp"
-        >
+        app:strokeColor="@color/gray">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/item_tutorial_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tutorial_title"
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/title_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingHorizontal="5dp"
-                android:paddingVertical="10dp"
-                android:text="@{obj.title}"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="tutorial Title"></TextView>
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/tutorial_description"
-                android:tag="expendable"
+                <TextView
+                    android:id="@+id/tutorial_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingVertical="10dp"
+                    android:paddingLeft="10dp"
+                    android:text="@{obj.title}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="tutorial Title"></TextView>
+
+                <ImageView
+                    android:id="@+id/tutorial_slide_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="10dp"
+                    android:foregroundGravity="center_horizontal"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/ic_expand_more_black_24dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+                </ImageView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/divider"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/tutorial_description_layout"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:visibility="gone"
-                android:layout_height="wrap_content"
-                android:background="@color/orange"
-                android:gravity="center_horizontal"
-                android:paddingHorizontal="5dp"
-                android:paddingVertical="10dp"
-                android:text="@{obj.description}"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@+id/tutorial_title"
+                app:layout_constraintTop_toBottomOf="@+id/title_layout">
 
-                tools:text="tutorialDescription"
-                ></TextView>
+                <TextView
+                    android:id="@+id/tutorial_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="10dp"
+                    android:text="@{obj.description}"
+                    android:textColor="@color/black"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="tutorialDescription"></TextView>
+
+                <Button
+                    android:id="@+id/tutorial_kmore_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="View Details"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tutorial_description"></Button>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>
