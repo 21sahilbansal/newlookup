@@ -14,7 +14,6 @@ import com.loconav.lookup.application.LookUpApplication
 import com.loconav.lookup.base.BaseFragment
 import com.loconav.lookup.customcamera.Callback
 import com.loconav.lookup.databinding.FragmentTutorialBinding
-import com.loconav.lookup.tutorial.TutorialCallBack
 import com.loconav.lookup.tutorial.model.dataClass.TutorialObject
 import com.loconav.lookup.tutorial.viewModel.TutorialViewModel
 
@@ -38,6 +37,7 @@ class TutorialFragment : BaseFragment()  {
     private fun getDataForTutorial() {
         tutorialViewModel.getAllTutorial()?.observe(this, Observer {
             it?.data?.let {
+
                 setUpRecyclerView(it)
             }
         })
@@ -51,7 +51,7 @@ class TutorialFragment : BaseFragment()  {
             tutorialAdapter = TutorialAdapter(
                     tutoriallist, Callback {
                 tutorialObject = it as TutorialObject
-                var url: String = tutorialObject?.let { it.url!! }
+                var url: String = tutorialObject.let { it.url!! }
                 var intent = Intent(Intent.ACTION_VIEW);
                 intent.data = Uri.parse(url)
                 startActivity(intent)
@@ -59,6 +59,7 @@ class TutorialFragment : BaseFragment()  {
             }
             )
             tutorialRecyclerView?.adapter = tutorialAdapter
+
         }
     }
 

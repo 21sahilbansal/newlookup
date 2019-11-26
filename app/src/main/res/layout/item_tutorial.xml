@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:paddingVertical="10dp"
-                    android:paddingLeft="10dp"
+                    android:layout_marginHorizontal="10dp"
                     android:text="@{obj.title}"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
@@ -62,6 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="@color/divider"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -69,7 +70,6 @@
                 android:id="@+id/tutorial_description_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/title_layout">
 
@@ -77,24 +77,33 @@
                     android:id="@+id/tutorial_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="5dp"
+                    android:layout_marginHorizontal="10dp"
                     android:paddingVertical="10dp"
                     android:text="@{obj.description}"
                     android:textColor="@color/black"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="tutorialDescription"></TextView>
 
+
                 <Button
                     android:id="@+id/tutorial_kmore_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_height="35dp"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginLeft="10dp"
                     android:text="View Details"
+                    android:textSize="10sp"
+                    android:textAlignment="center"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tutorial_description"></Button>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/divider"
+                    app:layout_constraintBottom_toBottomOf="@+id/tutorial_description"
+                    />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
