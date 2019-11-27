@@ -49,7 +49,7 @@ public class BaseNavigationActivity extends BaseActivity {
         }
         else if(fragmentName.equals("Tutorials Fragment")){
             TutorialFragment tutorialFragment = new TutorialFragment();
-            setTitle("Tutorials / FAQ");
+            setTitle(R.string.tutorial_title);
             fragmentController.loadFragment(tutorialFragment,getSupportFragmentManager(),R.id.fragment_host,false);
         }
 

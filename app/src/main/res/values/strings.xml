@@ -104,4 +104,5 @@
     <string name="submit">Submit</string>
     <string name="new_fastag_image">Vehicle Photo(Optional)</string>
     <string name="qr_scanner">Scan bar code or Qr code, If there are more than One bar code cover remaining barcodes.</string>
+    <string name="tutorial_title">Tutorials / FAQ</string>
 </resources>

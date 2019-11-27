@@ -37,9 +37,6 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyVie
         }
     }
 
-    private View getExpadableViewId(ViewDataBinding binding) {
-        return binding.getRoot().findViewWithTag("Expendable");
-    }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

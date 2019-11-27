@@ -41,7 +41,9 @@ class TutorialFragment : BaseFragment()  {
 
                 setUpRecyclerView(it)
             }
-        })
+        })?:run {
+            Toaster.makeToast("Some error occured")
+        }
     }
 
     private fun setUpRecyclerView(tutoriallist: List<TutorialObject>) {
@@ -52,10 +54,12 @@ class TutorialFragment : BaseFragment()  {
             tutorialAdapter = TutorialAdapter(
                     tutoriallist, Callback {
                 tutorialObject = it as TutorialObject
-                var url: String = tutorialObject.let { it.url?.let { it }!!}
-                var intent = Intent(Intent.ACTION_VIEW);
-                intent.data = Uri.parse(url)
-                startActivity(intent)
+                tutorialObject.url?.let {
+                    val intent = Intent(Intent.ACTION_VIEW);
+                    intent.data = Uri.parse(it)
+                    startActivity(intent)
+                }
+
 
             }
             )
