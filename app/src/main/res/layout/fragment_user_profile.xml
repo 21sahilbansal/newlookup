@@ -8,284 +8,288 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/profile_scrollV"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/userprofile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        tools:layout_editor_absoluteX="-16dp"
+        tools:layout_editor_absoluteY="-16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/logout"
+            android:background="#fefbf5"
+            android:foregroundGravity="center_horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            >
-            <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/userprofile"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:animateLayoutChanges="true">
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="33dp"
+                android:layout_marginStart="19dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="23dp"
+                android:src="@drawable/profileicon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#fefbf5"
-                android:foregroundGravity="center_horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="33dp"
-                    android:layout_marginStart="19dp"
-                    android:layout_marginLeft="19dp"
-                    android:layout_marginTop="23dp"
-                    android:src="@drawable/profileicon"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/user_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="72dp"
-                    android:layout_marginLeft="72dp"
-                    android:layout_marginTop="24dp"
-                    android:fontFamily="sans-serif"
-                    android:lineSpacingExtra="10sp"
-                    android:text="Jaycees Subdomain"
-                    android:textColor="@color/listprimary_black"
-                    android:textSize="14sp"
-                    android:textStyle="normal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="72dp"
-                    android:layout_marginLeft="72dp"
-                    android:layout_marginTop="45dp"
-                    android:fontFamily="sans-serif"
-                    android:lineSpacingExtra="8sp"
-                    android:text="Name"
-                    android:textColor="@color/smalltext_lightgrey"
-                    android:textSize="12sp"
-                    android:textStyle="normal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="75dp"
-                android:layout_marginTop="8dp"
-                android:background="#fefbf5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="33dp"
-                    android:layout_marginStart="19dp"
-                    android:layout_marginLeft="19dp"
-                    android:layout_marginTop="23dp"
-                    android:src="@drawable/userid"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/user_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="72dp"
-                    android:layout_marginLeft="72dp"
-                    android:layout_marginTop="24dp"
-                    android:fontFamily="sans-serif"
-                    android:lineSpacingExtra="10sp"
-                    android:text="1983"
-                    android:textColor="@color/listprimary_black"
-                    android:textSize="14sp"
-                    android:textStyle="normal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="72dp"
-                    android:layout_marginLeft="72dp"
-                    android:layout_marginTop="45dp"
-                    android:fontFamily="sans-serif"
-                    android:lineSpacingExtra="8sp"
-                    android:text="User Id"
-                    android:textColor="@color/smalltext_lightgrey"
-                    android:textSize="12sp"
-                    android:textStyle="normal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout3"
-                android:layout_width="match_parent"
-                android:layout_height="75dp"
-                android:layout_marginTop="8dp"
-                android:background="#fefbf5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="33dp"
-                    android:layout_marginStart="19dp"
-                    android:layout_marginLeft="19dp"
-                    android:layout_marginTop="23dp"
-                    android:src="@drawable/phoneicon"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/user_phone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="72dp"
-                    android:layout_marginLeft="72dp"
-                    android:layout_marginTop="24dp"
-                    android:fontFamily="sans-serif"
-                    android:lineSpacingExtra="10sp"
-                    android:text="9414587923"
-                    android:textColor="@color/listprimary_black"
-                    android:textSize="14sp"
-                    android:textStyle="normal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="72dp"
-                    android:layout_marginLeft="72dp"
-                    android:layout_marginTop="45dp"
-                    android:fontFamily="sans-serif"
-                    android:lineSpacingExtra="8sp"
-                    android:text="Phone Number"
-                    android:textColor="@color/smalltext_lightgrey"
-                    android:textSize="12sp"
-                    android:textStyle="normal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/check_repair_logs"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="16dp"
+                android:layout_marginStart="72dp"
+                android:layout_marginLeft="72dp"
                 android:layout_marginTop="24dp"
-                android:clickable="true"
-                android:elevation="5dp"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:fontFamily="sans-serif"
+                android:lineSpacingExtra="10sp"
+                android:text="Jaycees Subdomain"
+                android:textColor="@color/listprimary_black"
+                android:textSize="14sp"
+                android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="16dp"
-                    android:src="@drawable/checklogs" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif"
-                    android:lineSpacingExtra="10sp"
-                    android:text="Check Repair Logs"
-                    android:textColor="@color/listprimary_black"
-                    android:textSize="14sp"
-                    android:textStyle="normal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/check_install_logs"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-               android:layout_margin="16dp"
-                android:clickable="true"
-                android:elevation="5dp"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="72dp"
+                android:layout_marginLeft="72dp"
+                android:layout_marginTop="45dp"
+                android:fontFamily="sans-serif"
+                android:lineSpacingExtra="8sp"
+                android:text="Name"
+                android:textColor="@color/smalltext_lightgrey"
+                android:textSize="12sp"
+                android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/check_repair_logs">
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="16dp"
-                    android:src="@drawable/checklogs" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif"
-                    android:lineSpacingExtra="10sp"
-                    android:text="Check New Installs"
-                    android:textColor="@color/listprimary_black"
-                    android:textSize="14sp"
-                    android:textStyle="normal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.cardview.widget.CardView>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginTop="8dp"
+            android:background="#fefbf5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/check_turorials"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="16dp"
-                android:layout_marginRight="16dp"
-                android:clickable="true"
-                android:elevation="5dp"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="33dp"
+                android:layout_marginStart="19dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="23dp"
+                android:src="@drawable/userid"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/check_install_logs"
-                >
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="16dp"
-                    android:src="@drawable/checklogs" />
+            <TextView
+                android:id="@+id/user_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="72dp"
+                android:layout_marginLeft="72dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif"
+                android:lineSpacingExtra="10sp"
+                android:text="1983"
+                android:textColor="@color/listprimary_black"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif"
-                    android:lineSpacingExtra="10sp"
-                    android:text="Operating Tutorial"
-                    android:textColor="@color/listprimary_black"
-                    android:textSize="14sp"
-                    android:textStyle="normal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.cardview.widget.CardView>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="72dp"
+                android:layout_marginLeft="72dp"
+                android:layout_marginTop="45dp"
+                android:fontFamily="sans-serif"
+                android:lineSpacingExtra="8sp"
+                android:text="User Id"
+                android:textColor="@color/smalltext_lightgrey"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.core.widget.NestedScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginTop="8dp"
+            android:background="#fefbf5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="33dp"
+                android:layout_marginStart="19dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="23dp"
+                android:src="@drawable/phoneicon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/user_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="72dp"
+                android:layout_marginLeft="72dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif"
+                android:lineSpacingExtra="10sp"
+                android:text="9414587923"
+                android:textColor="@color/listprimary_black"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="72dp"
+                android:layout_marginLeft="72dp"
+                android:layout_marginTop="45dp"
+                android:fontFamily="sans-serif"
+                android:lineSpacingExtra="8sp"
+                android:text="Phone Number"
+                android:textColor="@color/smalltext_lightgrey"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/check_repair_logs"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="16dp"
+            android:layout_marginTop="24dp"
+            android:clickable="true"
+            android:elevation="5dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/checklogs" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif"
+                android:lineSpacingExtra="10sp"
+                android:text="Check Repair Logs"
+                android:textColor="@color/listprimary_black"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/check_install_logs"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="16dp"
+            android:clickable="true"
+            android:elevation="5dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check_repair_logs">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/checklogs" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif"
+                android:lineSpacingExtra="10sp"
+                android:text="Check New Installs"
+                android:textColor="@color/listprimary_black"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/check_turorials"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="16dp"
+            android:layout_marginRight="16dp"
+            android:clickable="true"
+            android:elevation="5dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check_install_logs"
+            >
+
+            <ImageView
+                android:id="@+id/faq_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/checklogs" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif"
+                android:lineSpacingExtra="10sp"
+                android:text="Tutorials / FAQ"
+                android:textColor="@color/listprimary_black"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/dot_icon_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/orange_circle"
+                />
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/logout"

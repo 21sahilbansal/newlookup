@@ -58,12 +58,7 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
                 </ImageView>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/divider"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -92,18 +87,13 @@
                     android:layout_marginVertical="5dp"
                     android:layout_marginLeft="10dp"
                     android:text="View Details"
-                    android:textSize="10sp"
+                    android:textSize="13sp"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tutorial_description"></Button>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/divider"
-                    app:layout_constraintBottom_toBottomOf="@+id/tutorial_description"
-                    />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

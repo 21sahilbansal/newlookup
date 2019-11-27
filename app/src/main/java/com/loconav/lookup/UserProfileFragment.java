@@ -1,10 +1,12 @@
 package com.loconav.lookup;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.loconav.lookup.application.SharedPrefHelper;
@@ -13,6 +15,7 @@ import com.loconav.lookup.databinding.FragmentUserProfileBinding;
 import com.loconav.lookup.login.SplashActivity;
 import com.loconav.lookup.utils.AppUtils;
 
+import static androidx.core.content.ContextCompat.getDrawable;
 import static com.loconav.lookup.Constants.FRAGMENT_NAME;
 import static com.loconav.lookup.Constants.IS_LOGGED_IN;
 import static com.loconav.lookup.Constants.USER_ID;
@@ -36,9 +39,13 @@ public class UserProfileFragment extends BaseFragment {
         initSharedPf();
         attachClickListener();
         fillUserId();
+
+
         binding.checkInstallLogs.setOnClickListener(v -> checkInstallLogs());
         binding.checkRepairLogs.setOnClickListener(v -> checkRepairLogs());
         binding.checkTurorials.setOnClickListener(v -> checkTutorials());
+        binding.faqIv.setImageDrawable(getDrawable(getContext(),R.drawable.orange_circle));
+
 
     }
 
