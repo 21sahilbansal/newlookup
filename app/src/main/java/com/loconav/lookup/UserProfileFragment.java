@@ -44,7 +44,6 @@ public class UserProfileFragment extends BaseFragment {
         binding.checkInstallLogs.setOnClickListener(v -> checkInstallLogs());
         binding.checkRepairLogs.setOnClickListener(v -> checkRepairLogs());
         binding.checkTurorials.setOnClickListener(v -> checkTutorials());
-        binding.faqIv.setImageDrawable(getDrawable(getContext(),R.drawable.orange_circle));
 
 
     }

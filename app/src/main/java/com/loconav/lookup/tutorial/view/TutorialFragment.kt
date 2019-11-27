@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.loconav.lookup.R
+import com.loconav.lookup.Toaster
 import com.loconav.lookup.adapter.TutorialAdapter
 import com.loconav.lookup.application.LookUpApplication
 import com.loconav.lookup.base.BaseFragment
@@ -60,7 +61,7 @@ class TutorialFragment : BaseFragment()  {
             )
             tutorialRecyclerView?.adapter = tutorialAdapter
 
-        }
+        }?.run { Toaster.makeToast("Some error occured") }
     }
 
     override fun bindView(view: View?) {
