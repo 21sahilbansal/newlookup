@@ -56,6 +56,7 @@
     <string name="repair_log_fragment">Repair Log Fragment</string>
     <string name="repair_detail_fragment">Repair Detail Fragment</string>
     <string name="install_log_fragment">Install Log Fragment</string>
+    <string name="tutorial_fragment">Tutorials Fragment</string>
     <string name="install_detail_fragmment">Install Detail Fragment</string>
     <string name="screenshot_fragment">Screenshot Fragment</string>
     <string name="screenshot_heading">Share</string>
@@ -103,4 +104,5 @@
     <string name="submit">Submit</string>
     <string name="new_fastag_image">Vehicle Photo(Optional)</string>
     <string name="qr_scanner">Scan bar code or Qr code, If there are more than One bar code cover remaining barcodes.</string>
+    <string name="tutorial_title">Tutorials / FAQ</string>
 </resources>
