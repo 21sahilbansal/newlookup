@@ -40,7 +40,7 @@ class TutorialFragment : BaseFragment()  {
             it?.data?.let {
 
                 setUpRecyclerView(it)
-            }?.run { Toaster.makeToast("Some error occured") }
+            }
         })
     }
 
@@ -61,7 +61,7 @@ class TutorialFragment : BaseFragment()  {
             )
             tutorialRecyclerView?.adapter = tutorialAdapter
 
-        }?.run { Toaster.makeToast("Some error occured") }
+        }
     }
 
     override fun bindView(view: View?) {
