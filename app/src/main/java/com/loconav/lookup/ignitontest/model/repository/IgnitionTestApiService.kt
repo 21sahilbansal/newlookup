@@ -1,13 +1,15 @@
 package com.loconav.lookup.ignitontest.model.repository
 
 import androidx.lifecycle.MutableLiveData
+import com.loconav.lookup.ignitontest.model.dataClass.IgnitionTestData
 import com.loconav.lookup.network.rest.ApiClient
 import com.loconav.lookup.network.rest.ApiInterface
+import com.loconav.lookup.utils.DataWrapper
 
 class IgnitionTestApiService {
     private val apiService = ApiClient.getClient()?.create(ApiInterface::class.java)
 
-    var mutableLiveData: MutableLiveData<DataWrapper<>> = MutableLiveData<DataWrapper<List<TutorialObject>>>()
+    var mutableLiveData: MutableLiveData<DataWrapper<IgnitionTestData>> = MutableLiveData<DataWrapper<List<TutorialObject>>>()
 
     var dataWrapper: DataWrapper<List<>> = DataWrapper()
 
