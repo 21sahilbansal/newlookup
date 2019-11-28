@@ -4,6 +4,7 @@
     <string name="title_activity_main_activity3">Look Up</string>
     <string name="details">Details</string>
     <string name="share_details">Share Details</string>
+    <string name="continue_details">Continue</string>
     <string name="enter_details">Enter Details</string>
     <string name="device_change">Device Change</string>
     <string name="vehicle_change">Vehicle Change</string>
@@ -103,4 +104,5 @@
     <string name="submit">Submit</string>
     <string name="new_fastag_image">Vehicle Photo(Optional)</string>
     <string name="qr_scanner">Scan bar code or Qr code, If there are more than One bar code cover remaining barcodes.</string>
+    <string name="deviceDetail_deviceid">devideID</string>
 </resources>

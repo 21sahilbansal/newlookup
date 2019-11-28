@@ -33,12 +33,12 @@
                 android:weightSum="2"
                 android:layout_alignParentBottom="true">
                 <Button
-                    android:id="@+id/share_details"
+                    android:id="@+id/continue_details"
                     android:layout_weight="1"
                     android:layout_marginRight="1dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/share_details"/>
+                    android:text="@string/continue_details"/>
                 <Button
                     android:id="@+id/refresh"
                     android:layout_weight="1"

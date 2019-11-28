@@ -10,6 +10,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.loconav.lookup.adapter.LookupAdapter;
 import com.loconav.lookup.databinding.FragmentDeviceDetailBinding;
+import com.loconav.lookup.ignitontest.view.IgnitionTestFragment;
 import com.loconav.lookup.model.Entity;
 import com.loconav.lookup.model.LookupResponse;
 import com.loconav.lookup.model.PassingReason;
@@ -69,15 +70,19 @@ public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefr
 
     }
     private void setShareDetails() {
-        binding.shareDetails.setOnClickListener(view -> {
+        binding.continueDetails.setOnClickListener(view -> {
             if (passingReason.getUserChoice().equals(NEW_INSTALL)) {
                 FetchClientFragment f1 = new FetchClientFragment();
                 ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
                 fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
             } else {
                 ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
-                CommonRepairFragment f1 = new CommonRepairFragment();
-                fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
+                //CommonRepairFragment f1 = new CommonRepairFragment();
+                IgnitionTestFragment ignitionTestFragment = new IgnitionTestFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(String.valueOf(R.string.deviceDetail_deviceid),deviceID);
+                ignitionTestFragment.setArguments(bundle);
+                fragmentController.loadFragment(ignitionTestFragment,getFragmentManager(),R.id.frameLayout,true);
             }
         });
     }
@@ -156,15 +161,15 @@ public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefr
             } else {
                 binding.passed.setImageResource(android.R.color.transparent);
             }
-            binding.shareDetails.setVisibility(View.VISIBLE);
+            binding.continueDetails.setVisibility(View.VISIBLE);
         }
         else {
             if (lookupResponse.getPassed()) {
                 binding.passed.setImageResource(R.drawable.passed);
-                binding.shareDetails.setVisibility(View.VISIBLE);
+                binding.continueDetails.setVisibility(View.VISIBLE);
             } else {
                 binding.passed.setImageResource(android.R.color.transparent);
-                binding.shareDetails.setVisibility(View.GONE);
+                binding.continueDetails.setVisibility(View.GONE);
             }
         }
         lookupAdapter.notifyDataSetChanged();
