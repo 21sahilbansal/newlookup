@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.loconav.lookup.R
 import com.loconav.lookup.adapter.IgnitionTestAdapter
+import com.loconav.lookup.application.LookUpApplication
 import com.loconav.lookup.base.BaseFragment
 import com.loconav.lookup.databinding.FragmentIgnitionTestBinding
 import com.loconav.lookup.ignitontest.viewModel.IgnitionTestViewModel
@@ -19,9 +20,7 @@ class IgnitionTestFragment : BaseFragment() {
     }
 
     override fun onFragmentCreated() {
-        ignitionTestViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(IgnitionTestViewModel :: class)
-
-
+      ignitionTestBinding = ViewModelProvider.AndroidViewModelFactory.getInstance(this.ignitionTestViewModel::class.java)
     }
 
     override fun bindView(view: View?) {
