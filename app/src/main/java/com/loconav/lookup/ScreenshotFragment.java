@@ -1,11 +1,12 @@
 package com.loconav.lookup;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+
+import androidx.databinding.DataBindingUtil;
 
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseFragment;

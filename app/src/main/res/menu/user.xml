@@ -6,6 +6,6 @@
             android:id="@+id/action_user"
             android:orderInCategory="100"
             android:title="User Settings"
-            android:icon="@drawable/ic_action_user"
+            android:icon="@drawable/profile_dot"
             app:showAsAction="always" />
 </menu>

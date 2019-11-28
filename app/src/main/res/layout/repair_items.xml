@@ -13,14 +13,14 @@
             name="obj"
             type="com.loconav.lookup.model.Repairs" />
     </data>
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_margin="10dp"
         android:foreground="?android:attr/selectableItemBackground"
         android:clickable="true"
         app:cardElevation="3dp"
         android:layout_height="wrap_content">
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:elevation="3dp"
             android:shadowRadius="6"
@@ -108,7 +108,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView7"
                 tools:text="No Device In Vehicle" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_marginTop="8dp"
@@ -157,8 +157,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="In Progress" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
 </layout>

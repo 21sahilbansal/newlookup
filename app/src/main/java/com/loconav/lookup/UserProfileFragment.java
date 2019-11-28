@@ -1,10 +1,11 @@
 package com.loconav.lookup;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseFragment;
@@ -36,10 +37,29 @@ public class UserProfileFragment extends BaseFragment {
         initSharedPf();
         attachClickListener();
         fillUserId();
+
+
         binding.checkInstallLogs.setOnClickListener(v -> checkInstallLogs());
         binding.checkRepairLogs.setOnClickListener(v -> checkRepairLogs());
+        binding.checkTurorials.setOnClickListener(v -> checkTutorials());
+
 
     }
+
+    private void checkTutorials() {
+        if(AppUtils.isNetworkAvailable()) {
+            Intent i=new Intent(getContext(), BaseNavigationActivity.class);
+            Bundle bundle=new Bundle();
+            bundle.putString(FRAGMENT_NAME,getString(R.string.tutorial_fragment));
+            i.putExtras(bundle);
+            startActivity(i);
+        }
+        else
+        {
+            Toaster.makeToast(getString(R.string.internet_not_available));
+        }
+    }
+
     private void initSharedPf() {
         sharedPrefHelper = SharedPrefHelper.getInstance();
     }
@@ -57,6 +77,7 @@ public class UserProfileFragment extends BaseFragment {
             Intent intent=new Intent(getContext(), SplashActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            AppUtils.logOut();
         });
 
     }

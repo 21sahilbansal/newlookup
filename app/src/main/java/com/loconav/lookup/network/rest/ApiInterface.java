@@ -21,6 +21,7 @@ import com.loconav.lookup.model.RepairsDataandTotalRepairCount;
 import com.loconav.lookup.model.VehiclesList;
 import com.loconav.lookup.model.VersionResponse;
 import com.loconav.lookup.newfastag.model.VehicleDetails;
+import com.loconav.lookup.tutorial.model.dataClass.TutorialObject;
 
 import java.util.List;
 
@@ -222,4 +223,6 @@ public interface ApiInterface {
     @POST("/api/installers/fastag_installations/install")
     Call<ResponseBody> verifyScannedFastag(@Query("vehicle_id") int VehicleID, @Query("fastag_serial_number") String fastagSerialNumber);
 
+    @GET("/api/installers/installer_tutorials/")
+    Call<List<TutorialObject>>  getLearningTutorials();
 }

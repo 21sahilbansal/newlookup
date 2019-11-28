@@ -28,7 +28,7 @@ public class InstallLogAdapter  extends BaseAdapter {
         return R.layout.installitems;
     }
     @Override
-    public void onItemClick(Object object, int position) {
+    public void onItemClick(Object object, int position, View view) {
         callback.onEventDone(object);
     }
     @Override
