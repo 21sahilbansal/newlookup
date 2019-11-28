@@ -1,5 +1,6 @@
 package com.loconav.lookup.network.rest;
 
+import com.loconav.lookup.ignitontest.model.dataClass.IgnitionTestData;
 import com.loconav.lookup.login.model.Creds;
 import com.loconav.lookup.login.model.LoginResponse;
 import com.loconav.lookup.model.ApiException;
@@ -221,5 +222,14 @@ public interface ApiInterface {
 
     @POST("/api/installers/fastag_installations/install")
     Call<ResponseBody> verifyScannedFastag(@Query("vehicle_id") int VehicleID, @Query("fastag_serial_number") String fastagSerialNumber);
+
+    /**
+     * This post meethod is used to do ignition test and to get data of the ignition test
+     * @param deviceId       This is the device id related to a vehicle
+     * @param testStartTime   This is the epoch time when the ignition Test was started
+     * @return
+     */
+    @GET("/api/v2/device_lookup/ignition_checks")
+    Call<IgnitionTestData>  getIgnitionTestData(@Query("device_id") String deviceId , @Query("test_start_ts") String testStartTime );
 
 }
