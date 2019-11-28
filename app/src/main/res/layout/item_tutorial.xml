@@ -39,14 +39,15 @@
                     android:id="@+id/tutorial_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
                     android:gravity="start"
                     android:paddingVertical="10dp"
-                    android:layout_marginHorizontal="10dp"
                     android:text="@{obj.title}"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/tutorial_slide_iv"
                     tools:text="tutorial Title"></TextView>
 
                 <ImageView
