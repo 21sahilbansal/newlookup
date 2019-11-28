@@ -1,22 +1,19 @@
 package com.loconav.lookup.ignitontest.viewModel
 
-import android.view.View
-import com.loconav.lookup.base.BaseFragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.loconav.lookup.ignitontest.model.dataClass.IgnitionTestData
+import com.loconav.lookup.ignitontest.model.repository.IgnitionTestApiService
+import com.loconav.lookup.utils.DataWrapper
 
-class IgnitionTestViewModel : BaseFragment() {
-    override fun setViewId(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+class IgnitionTestViewModel : ViewModel() {
+    private val ignitionTestApiService: IgnitionTestApiService? = IgnitionTestApiService()
+
+
+    fun getIgnitionTestData(deviceId: String, testStartTime: String): MutableLiveData<DataWrapper<IgnitionTestData>>? {
+        return ignitionTestApiService?.let { it.getIgnitionData(deviceId, testStartTime) }
     }
 
-    override fun onFragmentCreated() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun bindView(view: View?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getComponentFactory() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 }
+
+
