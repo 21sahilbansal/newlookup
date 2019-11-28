@@ -47,7 +47,8 @@
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="tutorial Title"></TextView>
+                    tools:text="tutorial Title"
+                    app:layout_constraintRight_toLeftOf="@+id/tutorial_slide_iv"></TextView>
 
                 <ImageView
                     android:id="@+id/tutorial_slide_iv"

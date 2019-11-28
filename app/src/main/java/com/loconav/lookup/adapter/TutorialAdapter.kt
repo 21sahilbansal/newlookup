@@ -31,8 +31,10 @@ class TutorialAdapter(var tutorialList: List<TutorialObject>, var callback: Call
     override fun onItemClick(`object`: Any, position: Int, view: View) {
         var descriptionView: View = view.findViewById<View>(R.id.tutorial_description_layout)
         var slideView: ImageView = view.findViewById<ImageView>(R.id.tutorial_slide_iv)
-
-
+        if(itemClicked){
+            lastDescriptionView.visibility = View.GONE
+            lastSlideView.setImageDrawable(view.context.resources.getDrawable(R.drawable.ic_expand_more_black_24dp))
+        }
         if (descriptionView.visibility == View.VISIBLE) {
             val slideUp = AnimationUtils.loadAnimation(view.context, R.anim.slide_up)
             descriptionView.visibility = View.GONE
