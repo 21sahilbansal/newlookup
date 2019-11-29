@@ -4,16 +4,15 @@
     xmlns:tool="http://schemas.android.com/tools">
 
     <data>
-
         <import type="java.lang.Double" />
-
+        <variable
+            name="itemPosition"
+            type="Integer" />
         <variable
             name="obj"
             type="com.loconav.lookup.ignitontest.model.dataClass.IgnitionTests" />
+
     </data>
-
-
-
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/tutorial_card_view"
@@ -39,7 +38,7 @@
                 android:background="@drawable/custom_rectangle_background"
                 android:gravity="center_horizontal"
                 android:paddingVertical="@dimen/dimen_5dp"
-                android:text="@{obj.getTestAtPosition()}"
+                android:text="@{obj.getTestAtPosition(itemPosition).name}"
                 android:textAlignment="center"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -76,7 +75,7 @@
                     android:background="@drawable/custom_rectangle_background"
                     android:gravity="center"
                     android:paddingVertical="@dimen/dimen_5dp"
-                    android:text="@{obj.}"
+                    android:text="@{obj.getTestAtPosition(itemPosition).battery}"
                     tool:text=" awating"
                     android:textAlignment="center"
                     android:textStyle="normal"></TextView>
@@ -112,7 +111,8 @@
                     android:background="@drawable/custom_rectangle_background"
                     android:gravity="center"
                     android:paddingVertical="@dimen/dimen_5dp"
-                    android:text=" awating"
+                    android:text="@{obj.getTestAtPosition(itemPosition).ignition}"
+                    tool:text=" awating"
                     android:textAlignment="center"
                     android:textStyle="normal"></TextView>
 
@@ -147,7 +147,8 @@
                     android:background="@drawable/custom_rectangle_background"
                     android:gravity="center"
                     android:paddingVertical="@dimen/dimen_5dp"
-                    android:text=" awating"
+                    android:text="@{obj.getTestAtPosition(itemPosition).status}"
+                    tool:text=" awating"
                     android:textAlignment="center"
                     android:textStyle="normal"></TextView>
 

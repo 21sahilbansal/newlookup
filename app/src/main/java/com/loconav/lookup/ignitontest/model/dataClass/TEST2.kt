@@ -1,10 +1,10 @@
 package com.loconav.lookup.ignitontest.model.dataClass
 
 data class TEST2(
-    val battery: String,
-    val ignition: String,
-    val key: String,
-    val message: String,
-    val name: String,
-    val status: Int
-)
+        override val battery: String,
+        override val ignition: String,
+        override val key: String,
+        override val message: String,
+        override val name: String,
+        override val status: Int
+): Test(battery, ignition, key, message, name, status)
