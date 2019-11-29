@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="java.lang.Double" />
+        <variable
+            name="obj"
+            type="com.loconav.lookup.ignitontest.model.dataClass.IgnitionTests" />
+    </data>
 
 
 
@@ -27,6 +33,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:paddingVertical="@dimen/dimen_5dp"
+
                 android:text="Test 1"
                 android:textAlignment="center"
                 android:background="@drawable/custom_rectangle_background"
