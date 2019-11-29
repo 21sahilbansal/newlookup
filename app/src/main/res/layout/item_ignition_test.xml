@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
     <data>
+
         <import type="java.lang.Double" />
+
         <variable
             name="obj"
             type="com.loconav.lookup.ignitontest.model.dataClass.IgnitionTests" />
     </data>
+
 
 
 
@@ -31,15 +36,15 @@
                 android:id="@+id/testtitle_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/custom_rectangle_background"
                 android:gravity="center_horizontal"
                 android:paddingVertical="@dimen/dimen_5dp"
-
-                android:text="Test 1"
+                android:text="@{}"
                 android:textAlignment="center"
-                android:background="@drawable/custom_rectangle_background"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></TextView>
+                app:layout_constraintTop_toTopOf="parent"
+                tool:text="Test 1"></TextView>
 
             <LinearLayout
                 android:id="@+id/battery_ll"
@@ -56,11 +61,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Battery Status"
-                    android:paddingVertical="@dimen/dimen_5dp"
-                    android:textAlignment="center"
                     android:background="@drawable/custom_rectangle_background"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dimen_5dp"
+                    android:text="Battery Status"
+                    android:textAlignment="center"
                     android:textStyle="bold"></TextView>
 
                 <TextView
@@ -68,10 +73,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text=" awating"
-                    android:paddingVertical="@dimen/dimen_5dp"
                     android:background="@drawable/custom_rectangle_background"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dimen_5dp"
+                    android:text="@{obj.}"
+                    tool:text=" awating"
                     android:textAlignment="center"
                     android:textStyle="normal"></TextView>
 
@@ -91,11 +97,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@drawable/custom_rectangle_background"
                     android:gravity="center"
+                    android:paddingVertical="@dimen/dimen_5dp"
                     android:text="Ignition Status"
                     android:textAlignment="center"
-                    android:paddingVertical="@dimen/dimen_5dp"
-                    android:background="@drawable/custom_rectangle_background"
                     android:textStyle="bold"></TextView>
 
                 <TextView
@@ -103,10 +109,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text=" awating"
-                    android:paddingVertical="@dimen/dimen_5dp"
                     android:background="@drawable/custom_rectangle_background"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dimen_5dp"
+                    android:text=" awating"
                     android:textAlignment="center"
                     android:textStyle="normal"></TextView>
 
@@ -126,11 +132,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Status"
-                    android:paddingVertical="@dimen/dimen_5dp"
-                    android:textAlignment="center"
                     android:background="@drawable/custom_rectangle_background"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dimen_5dp"
+                    android:text="Status"
+                    android:textAlignment="center"
                     android:textStyle="bold"></TextView>
 
                 <TextView
@@ -138,11 +144,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text=" awating"
-                    android:paddingVertical="@dimen/dimen_5dp"
-                    android:textAlignment="center"
                     android:background="@drawable/custom_rectangle_background"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dimen_5dp"
+                    android:text=" awating"
+                    android:textAlignment="center"
                     android:textStyle="normal"></TextView>
 
             </LinearLayout>
