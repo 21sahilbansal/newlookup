@@ -3,6 +3,7 @@ package com.loconav.lookup.ignitontest.view
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.loconav.lookup.R
 import com.loconav.lookup.adapter.IgnitionTestAdapter
 import com.loconav.lookup.application.LookUpApplication
@@ -14,13 +15,15 @@ class IgnitionTestFragment : BaseFragment() {
     private lateinit var ignitionTestBinding: FragmentIgnitionTestBinding
     private lateinit var ignitionTestAdapter: IgnitionTestAdapter
     private lateinit var ignitionTestViewModel: IgnitionTestViewModel
+    private lateinit var ignitionTestReyclerView : RecyclerView
 
     override fun setViewId(): Int {
         return R.layout.fragment_ignition_test
     }
 
     override fun onFragmentCreated() {
-      ignitionTestBinding = ViewModelProvider.AndroidViewModelFactory.getInstance(this.ignitionTestViewModel::class.java)
+        ignitionTestViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(LookUpApplication()).create(IgnitionTestViewModel ::class.java)
+
     }
 
     override fun bindView(view: View?) {
