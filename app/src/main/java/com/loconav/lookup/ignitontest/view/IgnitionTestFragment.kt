@@ -13,7 +13,6 @@ import com.loconav.lookup.adapter.IgnitionTestAdapter
 import com.loconav.lookup.application.LookUpApplication
 import com.loconav.lookup.base.BaseFragment
 import com.loconav.lookup.databinding.FragmentIgnitionTestBinding
-import com.loconav.lookup.ignitontest.model.dataClass.IgnitionTestData
 import com.loconav.lookup.ignitontest.viewModel.IgnitionTestViewModel
 
 class IgnitionTestFragment : BaseFragment() {
@@ -30,7 +29,7 @@ class IgnitionTestFragment : BaseFragment() {
     }
 
     override fun onFragmentCreated() {
-        deviceId = arguments?.get(getString(R.string.deviceDetail_deviceid)) as String
+        deviceId = arguments?.getString("deviceDetail_deviceid")!!
         ignitionTestViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(LookUpApplication()).create(IgnitionTestViewModel::class.java)
         showAlertDialog()
     }

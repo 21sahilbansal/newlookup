@@ -4,7 +4,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.loconav.lookup.R
 import com.loconav.lookup.base.BaseAdapter
-import com.loconav.lookup.ignitontest.model.dataClass.IgnitionTestData
 
 class IgnitionTestAdapter(var ignitionTestData: IgnitionTestData) : BaseAdapter() {
     override fun getItemCount(): Int {

@@ -1,7 +1,6 @@
 package com.loconav.lookup.ignitontest.model.repository
 
 import androidx.lifecycle.MutableLiveData
-import com.loconav.lookup.ignitontest.model.dataClass.IgnitionTestData
 import com.loconav.lookup.network.RetrofitCallback
 import com.loconav.lookup.network.rest.ApiClient
 import com.loconav.lookup.network.rest.ApiInterface

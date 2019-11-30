@@ -80,7 +80,7 @@ public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefr
                 //CommonRepairFragment f1 = new CommonRepairFragment();
                 IgnitionTestFragment ignitionTestFragment = new IgnitionTestFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString(String.valueOf(R.string.deviceDetail_deviceid),deviceID);
+                bundle.putString("deviceDetail_deviceid",deviceID);
                 ignitionTestFragment.setArguments(bundle);
                 fragmentController.loadFragment(ignitionTestFragment,getFragmentManager(),R.id.frameLayout,true);
             }
