@@ -26,7 +26,7 @@ public class LookUpApplication extends Application {
 
         instance = this;
 
-        Fabric.with(this, new Crashlytics());
+        //Fabric.with(this, new Crashlytics());
         DataBindingUtil.setDefaultComponent(new MyDataBindingComponent());
     }
 }

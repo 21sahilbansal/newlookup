@@ -2,6 +2,7 @@ package com.loconav.lookup.ignitontest.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.loconav.lookup.ignitontest.model.dataClass.IgnitionTestData
 import com.loconav.lookup.ignitontest.model.repository.IgnitionTestApiService
 import com.loconav.lookup.utils.DataWrapper
 

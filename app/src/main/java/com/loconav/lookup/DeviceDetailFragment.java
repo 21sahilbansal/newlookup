@@ -82,7 +82,7 @@ public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefr
                 Bundle bundle = new Bundle();
                 bundle.putString("deviceDetail_deviceid",deviceID);
                 ignitionTestFragment.setArguments(bundle);
-                fragmentController.loadFragment(ignitionTestFragment,getFragmentManager(),R.id.frameLayout,true);
+                fragmentController.replaceFragment(ignitionTestFragment,getFragmentManager(),R.id.frameLayout,true);
             }
         });
     }

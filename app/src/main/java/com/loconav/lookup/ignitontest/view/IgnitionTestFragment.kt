@@ -13,6 +13,7 @@ import com.loconav.lookup.adapter.IgnitionTestAdapter
 import com.loconav.lookup.application.LookUpApplication
 import com.loconav.lookup.base.BaseFragment
 import com.loconav.lookup.databinding.FragmentIgnitionTestBinding
+import com.loconav.lookup.ignitontest.model.dataClass.IgnitionTestData
 import com.loconav.lookup.ignitontest.viewModel.IgnitionTestViewModel
 
 class IgnitionTestFragment : BaseFragment() {
@@ -52,11 +53,11 @@ class IgnitionTestFragment : BaseFragment() {
 
     private fun getIgnitionData() {
         testStartTime = (System.currentTimeMillis() / 1000).toString()
-        ignitionTestViewModel.getIgnitionTestData(deviceId, testStartTime)?.observe(this, Observer {it.data?.let {
+        ignitionTestViewModel.getIgnitionTestData(deviceId,testStartTime)?.observe(this, Observer { it.data?.let {
             setRecyclerView(it)
-        }
+        } })
 
-        })
+
     }
 
     private fun setRecyclerView(ignitionTestData: IgnitionTestData) {

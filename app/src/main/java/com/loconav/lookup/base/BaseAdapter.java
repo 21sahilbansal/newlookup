@@ -29,7 +29,6 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyVie
         }
 
         void bind(Object obj) {
-            binding.setVariable(BR.itemPosition,getAdapterPosition());
             binding.setVariable(BR.obj, obj);
             binding.executePendingBindings();
         }
