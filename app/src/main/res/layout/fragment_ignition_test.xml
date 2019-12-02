@@ -28,8 +28,9 @@
                 style="?android:attr/progressBarStyleLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:indeterminate="false"
-                android:indeterminateOnly="false"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
                 android:max="60"
                 android:progress="0"
                 android:progressDrawable="@drawable/circular_progress_bar" />
@@ -47,6 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Start Ignition Test"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
