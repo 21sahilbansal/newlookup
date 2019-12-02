@@ -131,7 +131,7 @@ public class ImageUtils {
     public static String getEpochTimeOfGalleryImage(Uri uri) {
         String zeroEpochTime = "0000000000000";
         Cursor cursor = FILE_CONTEXT.getContentResolver().query(uri, null, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow("last_modified");
+        int column_index = cursor.getColumnIndexOrThrow("datetaken");
         if (cursor.getColumnCount() > 0) {
             cursor.moveToFirst();
         } else {
