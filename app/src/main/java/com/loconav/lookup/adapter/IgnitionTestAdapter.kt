@@ -18,11 +18,13 @@ class IgnitionTestAdapter(var ignitionTestData: IgnitionTestData) : RecyclerView
         val batteryStatus: TextView
         val ignitionStatus: TextView
         val overAllTestStatus: TextView
+        val message: TextView
         constructor(itemIignitionTestBinding: ItemIgnitionTestBinding) : super(itemIignitionTestBinding.root) {
             testTitle = itemIignitionTestBinding.testtitleTv
             batteryStatus = itemIignitionTestBinding.batteryStatusEv
             ignitionStatus = itemIignitionTestBinding.ignitionStatusEv
             overAllTestStatus = itemIignitionTestBinding.testStatusEv
+            message = itemIignitionTestBinding.messageEv
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IgnitionTestViewHolder {
@@ -49,6 +51,8 @@ class IgnitionTestAdapter(var ignitionTestData: IgnitionTestData) : RecyclerView
         holder.batteryStatus.text = testNo?.battery
         holder.ignitionStatus.text = testNo?.ignition
         holder.overAllTestStatus.text = getTestStatus(testNo?.status)
+        holder.message.text = testNo?.message
+
     }
 
     private fun getTestStatus(status: Int?): CharSequence? {

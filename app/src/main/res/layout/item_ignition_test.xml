@@ -13,8 +13,10 @@
         android:outlineAmbientShadowColor="@color/gray"
         android:padding="@dimen/dimen_5dp"
         app:cardCornerRadius="5dp"
-        app:cardElevation="@dimen/dimen_5dp"
-        app:strokeColor="@color/gray">
+        app:cardElevation="10dp"
+        android:outlineSpotShadowColor="@color/orange"
+        app:strokeColor="@color/orange"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,6 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_rectangle_background"
+                android:backgroundTint="@color/orange"
                 android:gravity="center_horizontal"
                 android:paddingVertical="@dimen/dimen_5dp"
                 android:textAlignment="center"
@@ -68,7 +71,7 @@
                     android:paddingVertical="@dimen/dimen_5dp"
                     android:textAlignment="center"
                     android:textStyle="normal"
-                    android:textColor="@color/black"
+                    android:textColor="@color/gray"
                     tool:text=" awating"></TextView>
 
             </LinearLayout>
@@ -144,6 +147,42 @@
                     android:textStyle="normal"
                     android:textColor="@color/gray"
                     tool:text=" awating"></TextView>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/message_ll"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/overallStatus_ll">
+
+                <TextView
+                    android:id="@+id/message_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_rectangle_background"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dimen_5dp"
+                    android:text="Message"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/message_ev"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_rectangle_background"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dimen_5dp"
+                    android:textAlignment="center"
+                    android:textStyle="normal"
+                    android:textColor="@color/gray"
+                    android:text="awating"></TextView>
 
             </LinearLayout>
 

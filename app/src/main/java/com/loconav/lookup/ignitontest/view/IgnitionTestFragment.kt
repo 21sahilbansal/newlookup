@@ -3,6 +3,8 @@ package com.loconav.lookup.ignitontest.view
 import android.app.AlertDialog
 import android.app.Dialog
 import android.view.View
+import android.widget.Button
+import android.widget.ProgressBar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +17,7 @@ import com.loconav.lookup.base.BaseFragment
 import com.loconav.lookup.databinding.FragmentIgnitionTestBinding
 import com.loconav.lookup.ignitontest.model.dataClass.IgnitionTestData
 import com.loconav.lookup.ignitontest.viewModel.IgnitionTestViewModel
+import java.util.logging.Handler
 
 class IgnitionTestFragment : BaseFragment() {
     private lateinit var ignitionTestBinding: FragmentIgnitionTestBinding
@@ -24,6 +27,10 @@ class IgnitionTestFragment : BaseFragment() {
     private lateinit var alertDialog: Dialog
     private lateinit var deviceId: String
     private lateinit var testStartTime: String
+    private lateinit var coninuteButton: Button
+    private lateinit var progressBar: ProgressBar
+    private var mRunnable : Handler = Handler
+    private var apiCallTime : Int = 10 * 1000
 
     override fun setViewId(): Int {
         return R.layout.fragment_ignition_test
@@ -32,6 +39,9 @@ class IgnitionTestFragment : BaseFragment() {
     override fun onFragmentCreated() {
         deviceId = arguments?.getString("deviceDetail_deviceid")!!
         ignitionTestViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(LookUpApplication()).create(IgnitionTestViewModel::class.java)
+        testStartTime = (System.currentTimeMillis() / 1000).toString()
+        coninuteButton = ignitionTestBinding.ignitionButton
+        progressBar = ignitionTestBinding.progressbar
         showAlertDialog()
     }
 
@@ -40,7 +50,8 @@ class IgnitionTestFragment : BaseFragment() {
                 .setTitle("Ignition Test")
                 .setMessage("Press ok to start the ignition test")
                 .setPositiveButton("Yes") { dialogInterface, i ->
-                    getIgnitionData()
+                    runPeriodicTestCheck()
+                   progressBar.visibility= View.VISIBLE
                 }
                 .setNegativeButton("No") { dialogIntertface, j ->
                 }
@@ -49,30 +60,37 @@ class IgnitionTestFragment : BaseFragment() {
         alertDialog.show()
     }
 
-    private fun getIgnitionData() {
-        testStartTime = (System.currentTimeMillis() / 1000).toString()
-        ignitionTestViewModel.getIgnitionTestData(deviceId,testStartTime)?.observe(this, Observer { it.data?.let {
-            setRecyclerView(it)
-        } })
+    private fun runPeriodicTestCheck() {
+      mRunnable =  Runnable {
+
+      }
     }
 
-    private fun setRecyclerView(ignitionTestData: IgnitionTestData) {
-        var linearLayoutManager = LinearLayoutManager(context)
-        ignitionTestReyclerView = ignitionTestBinding.ignitionTestRv
-        ignitionTestReyclerView.layoutManager = linearLayoutManager
-        ignitionTestAdapter = IgnitionTestAdapter(ignitionTestData)
-        ignitionTestReyclerView.adapter = ignitionTestAdapter
-    }
+            private fun getIgnitionData() {
 
-    override fun bindView(view: View?) {
-        view?.let {
-            ignitionTestBinding = DataBindingUtil.bind(it)!!
+                ignitionTestViewModel.getIgnitionTestData(deviceId, testStartTime)?.observe(this, Observer {
+                    it.data?.let {
+                        setRecyclerView(it)
+                    }
+                })
+            }
+
+            private fun setRecyclerView(ignitionTestData: IgnitionTestData) {
+                var linearLayoutManager = LinearLayoutManager(context)
+                ignitionTestReyclerView = ignitionTestBinding.ignitionTestRv
+                ignitionTestReyclerView.layoutManager = linearLayoutManager
+                ignitionTestAdapter = IgnitionTestAdapter(ignitionTestData)
+                ignitionTestReyclerView.adapter = ignitionTestAdapter
+            }
+
+            override fun bindView(view: View?) {
+                view?.let {
+                    ignitionTestBinding = DataBindingUtil.bind(it)!!
+                }
+            }
+
+            override fun getComponentFactory() {
+            }
         }
-    }
-
-    override fun getComponentFactory() {
-    }
-}
-
 
 

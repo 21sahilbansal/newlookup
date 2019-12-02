@@ -26,6 +26,4 @@ class IgnitionTestData : Serializable {
     @SerializedName("ignition_tests")
     @Expose
     var ignitionTests: IgnitionTests? = null
-
-
 }
