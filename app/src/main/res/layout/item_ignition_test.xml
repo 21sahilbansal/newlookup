@@ -29,8 +29,9 @@
                 android:gravity="center_horizontal"
                 android:paddingVertical="@dimen/dimen_5dp"
                 android:textAlignment="center"
+                android:textColor="@color/black"
                 android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tool:text="Test 1"></TextView>
 
@@ -54,6 +55,7 @@
                     android:paddingVertical="@dimen/dimen_5dp"
                     android:text="Battery Status"
                     android:textAlignment="center"
+                    android:textColor="@color/black"
                     android:textStyle="bold"></TextView>
 
                 <TextView
@@ -64,9 +66,10 @@
                     android:background="@drawable/custom_rectangle_background"
                     android:gravity="center"
                     android:paddingVertical="@dimen/dimen_5dp"
-                    tool:text=" awating"
                     android:textAlignment="center"
-                    android:textStyle="normal"></TextView>
+                    android:textStyle="normal"
+                    android:textColor="@color/black"
+                    tool:text=" awating"></TextView>
 
             </LinearLayout>
 
@@ -89,6 +92,7 @@
                     android:paddingVertical="@dimen/dimen_5dp"
                     android:text="Ignition Status"
                     android:textAlignment="center"
+                    android:textColor="@color/black"
                     android:textStyle="bold"></TextView>
 
                 <TextView
@@ -99,9 +103,10 @@
                     android:background="@drawable/custom_rectangle_background"
                     android:gravity="center"
                     android:paddingVertical="@dimen/dimen_5dp"
-                    tool:text=" awating"
                     android:textAlignment="center"
-                    android:textStyle="normal"></TextView>
+                    android:textStyle="normal"
+                    android:textColor="@color/gray"
+                    tool:text=" awating"></TextView>
 
             </LinearLayout>
 
@@ -123,6 +128,7 @@
                     android:gravity="center"
                     android:paddingVertical="@dimen/dimen_5dp"
                     android:text="Status"
+                    android:textColor="@color/black"
                     android:textAlignment="center"
                     android:textStyle="bold"></TextView>
 
@@ -134,9 +140,10 @@
                     android:background="@drawable/custom_rectangle_background"
                     android:gravity="center"
                     android:paddingVertical="@dimen/dimen_5dp"
-                    tool:text=" awating"
                     android:textAlignment="center"
-                    android:textStyle="normal"></TextView>
+                    android:textStyle="normal"
+                    android:textColor="@color/gray"
+                    tool:text=" awating"></TextView>
 
             </LinearLayout>
 

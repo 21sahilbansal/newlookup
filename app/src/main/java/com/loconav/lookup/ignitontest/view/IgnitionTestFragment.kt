@@ -41,10 +41,8 @@ class IgnitionTestFragment : BaseFragment() {
                 .setMessage("Press ok to start the ignition test")
                 .setPositiveButton("Yes") { dialogInterface, i ->
                     getIgnitionData()
-
                 }
                 .setNegativeButton("No") { dialogIntertface, j ->
-
                 }
                 .create()
         alertDialog.setCanceledOnTouchOutside(false)
@@ -56,8 +54,6 @@ class IgnitionTestFragment : BaseFragment() {
         ignitionTestViewModel.getIgnitionTestData(deviceId,testStartTime)?.observe(this, Observer { it.data?.let {
             setRecyclerView(it)
         } })
-
-
     }
 
     private fun setRecyclerView(ignitionTestData: IgnitionTestData) {
@@ -72,7 +68,6 @@ class IgnitionTestFragment : BaseFragment() {
         view?.let {
             ignitionTestBinding = DataBindingUtil.bind(it)!!
         }
-
     }
 
     override fun getComponentFactory() {
