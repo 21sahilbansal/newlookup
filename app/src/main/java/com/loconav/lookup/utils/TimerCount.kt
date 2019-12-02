@@ -1,16 +1,21 @@
 package com.loconav.lookup.utils
 
 import android.os.CountDownTimer
+import com.loconav.lookup.ignitontest.view.CountDownInterface
+import com.loconav.lookup.ignitontest.view.IgnitionTestFragment
 
 class TimerCount : CountDownTimer {
-    constructor(totalTimer : Long,timelap : Long) : super(totalTimer,timelap)
+    var igntionTimer :CountDownInterface
+    constructor(totalTimer : Long,timelap : Long,ignitionTestFragment: IgnitionTestFragment) : super(totalTimer,timelap){
+        igntionTimer = ignitionTestFragment
+    }
 
     override fun onFinish() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        igntionTimer.onFinish()
     }
 
     override fun onTick(millisUntilFinished: Long) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+      igntionTimer.getTickTime(millisUntilFinished)
     }
 
 }

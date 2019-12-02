@@ -6,6 +6,7 @@ import android.os.Looper
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,11 +18,12 @@ import com.loconav.lookup.base.BaseFragment
 import com.loconav.lookup.databinding.FragmentIgnitionTestBinding
 import com.loconav.lookup.ignitontest.model.dataClass.IgnitionTestData
 import com.loconav.lookup.ignitontest.viewModel.IgnitionTestViewModel
-import android.os.CountDownTimer
 import com.loconav.lookup.utils.TimerCount
 
 
-class IgnitionTestFragment : BaseFragment() {
+class IgnitionTestFragment : BaseFragment(), CountDownInterface {
+
+
     private lateinit var ignitionTestBinding: FragmentIgnitionTestBinding
     private lateinit var ignitionTestAdapter: IgnitionTestAdapter
     private lateinit var ignitionTestViewModel: IgnitionTestViewModel
@@ -31,9 +33,10 @@ class IgnitionTestFragment : BaseFragment() {
     private lateinit var testStartTime: String
     private lateinit var coninuteButton: Button
     private lateinit var progressBar: ProgressBar
-    private lateinit var mRunnable : Runnable
-    private var handler : android.os.Handler = android.os.Handler(Looper.getMainLooper())
-    private var apiCallTime : Long = 10 * 1000
+    private lateinit var mRunnable: Runnable
+    private lateinit var timeTextView: TextView
+    private var handler: android.os.Handler = android.os.Handler(Looper.getMainLooper())
+    private var apiCallTime: Long = 10 * 1000
     private lateinit var countDownTimer: TimerCount
 
     override fun setViewId(): Int {
@@ -46,6 +49,7 @@ class IgnitionTestFragment : BaseFragment() {
         ignitionTestViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(LookUpApplication()).create(IgnitionTestViewModel::class.java)
         testStartTime = (System.currentTimeMillis() / 1000).toString()
         coninuteButton = ignitionTestBinding.ignitionButton
+        timeTextView = ignitionTestBinding.timerCount
         showAlertDialog()
     }
 
@@ -54,7 +58,9 @@ class IgnitionTestFragment : BaseFragment() {
                 .setTitle("Ignition Test")
                 .setMessage("Press ok to start the ignition test")
                 .setPositiveButton("Yes") { dialogInterface, i ->
-                   progressBar.visibility= View.VISIBLE
+                    progressBar = ProgressBar(context)
+                    progressBar.visibility = View.VISIBLE
+                    timeTextView.visibility = View.VISIBLE
                     runPeriodicTestCheck()
                 }
                 .setNegativeButton("No") { dialogIntertface, j ->
@@ -65,46 +71,50 @@ class IgnitionTestFragment : BaseFragment() {
     }
 
 
-
     private fun runPeriodicTestCheck() {
-      mRunnable =  Runnable {
-
-           getIgnitionData()
-
-         handler.postDelayed(mRunnable,apiCallTime)
-      }
+        mRunnable = Runnable {
+            startTimer()
+            getIgnitionData()
+            handler.postDelayed(mRunnable, apiCallTime)
+        }
         mRunnable.run()
     }
 
-            private fun getIgnitionData() {
-
-                ignitionTestViewModel.getIgnitionTestData(deviceId, testStartTime)?.observe(this, Observer {
-                    it.data?.let {
-                        setRecyclerView(it)
-                    }
-                })
-            }
-
-            private fun setRecyclerView(ignitionTestData: IgnitionTestData) {
-                var linearLayoutManager = LinearLayoutManager(context)
-                ignitionTestReyclerView = ignitionTestBinding.ignitionTestRv
-                ignitionTestReyclerView.layoutManager = linearLayoutManager
-                ignitionTestAdapter = IgnitionTestAdapter(ignitionTestData)
-                ignitionTestReyclerView.adapter = ignitionTestAdapter
-            }
-
-            override fun bindView(view: View?) {
-                view?.let {
-                    ignitionTestBinding = DataBindingUtil.bind(it)!!
-                }
-            }
-
-            override fun getComponentFactory() {
-            }
-
-
-
-
-
+    private fun startTimer() {
+        countDownTimer = TimerCount(10 * 1000, 1000, this).start() as TimerCount
     }
+
+    private fun getIgnitionData() {
+
+        ignitionTestViewModel.getIgnitionTestData(deviceId, testStartTime)?.observe(this, Observer {
+            it.data?.let {
+                setRecyclerView(it)
+            }
+        })
+    }
+
+    private fun setRecyclerView(ignitionTestData: IgnitionTestData) {
+        var linearLayoutManager = LinearLayoutManager(context)
+        ignitionTestReyclerView = ignitionTestBinding.ignitionTestRv
+        ignitionTestReyclerView.layoutManager = linearLayoutManager
+        ignitionTestAdapter = IgnitionTestAdapter(ignitionTestData)
+        ignitionTestReyclerView.adapter = ignitionTestAdapter
+    }
+
+    override fun bindView(view: View?) {
+        view?.let {
+            ignitionTestBinding = DataBindingUtil.bind(it)!!
+        }
+    }
+
+    override fun getComponentFactory() {
+    }
+
+    override fun getTickTime(millisUntilFinished: Long) {
+        timeTextView.text = millisUntilFinished.toString()
+    }
+
+    override fun onFinish() {
+    }
+}
 
