@@ -2,6 +2,7 @@ package com.loconav.lookup.ignitontest.view
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.os.Looper
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
@@ -29,7 +30,8 @@ class IgnitionTestFragment : BaseFragment() {
     private lateinit var testStartTime: String
     private lateinit var coninuteButton: Button
     private lateinit var progressBar: ProgressBar
-    private var mRunnable : Handler = Handler
+    private lateinit var mRunnable : Runnable
+    private var handler : Handler = Handler(Looper.getMainLooper())
     private var apiCallTime : Int = 10 * 1000
 
     override fun setViewId(): Int {
@@ -63,7 +65,10 @@ class IgnitionTestFragment : BaseFragment() {
     private fun runPeriodicTestCheck() {
       mRunnable =  Runnable {
 
+
+         handler.
       }
+        mRunnable.run()
     }
 
             private fun getIgnitionData() {
@@ -94,3 +99,22 @@ class IgnitionTestFragment : BaseFragment() {
         }
 
 
+private fun runPeriodicCheck() {
+    mRunnable = Runnable {
+        counter = counter + 1
+        if (counter <= 5
+        ) {
+            progressBar?.setProgress(counter * 5)
+            progressTextView?.text = (counter * 5).toString() + "/" + progressBar?.max
+            progressBar?.visibility = View.VISIBLE
+            progressTextView?.visibility = View.VISIBLE
+            observeData()
+        }
+        if (counter == 5) {
+            testTimeOver = true
+        }
+        handler.postDelayed(mRunnable, 30 * 1000)
+    }
+    mRunnable.run()
+
+}
