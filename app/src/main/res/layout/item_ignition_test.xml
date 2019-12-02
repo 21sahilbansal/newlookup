@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="obj"
-            type="com.loconav.lookup.ignitontest.model.dataClass.IgnitionTests" />
-
-    </data>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/tutorial_card_view"
@@ -36,8 +30,7 @@
                 android:paddingVertical="@dimen/dimen_5dp"
                 android:textAlignment="center"
                 android:textStyle="bold"
-                android:text="@{obj.getTestAtPosition(itemPosition).name}"
-                app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tool:text="Test 1"></TextView>
 
