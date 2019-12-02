@@ -12,23 +12,35 @@
             android:layout_height="0dp"
             android:layout_alignParentTop="true"
             android:paddingHorizontal="@dimen/dimen_5dp"
-            app:layout_constraintBottom_toTopOf="@+id/progressbar"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/ignition_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/progressbar"
-            style="?android:attr/progressBarStyleLarge"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="false"
-            android:max="60"
-            android:progress="0"
-            android:progressDrawable="@drawable/circular_progress_bar"
             app:layout_constraintBottom_toTopOf="@id/ignition_button"
-            app:layout_constraintEnd_toEndOf="parent"></androidx.core.widget.ContentLoadingProgressBar>
+            app:layout_constraintEnd_toEndOf="parent">
 
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/progressbar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="false"
+                android:indeterminateOnly="false"
+                android:max="60"
+                android:progress="0"
+                android:progressDrawable="@drawable/circular_progress_bar" />
+
+            <TextView
+                android:id="@+id/timer_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
 
         <Button
             android:id="@+id/ignition_button"

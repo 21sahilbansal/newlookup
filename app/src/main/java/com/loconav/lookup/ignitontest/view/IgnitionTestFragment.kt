@@ -11,14 +11,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.loconav.lookup.R
 import com.loconav.lookup.adapter.IgnitionTestAdapter
 import com.loconav.lookup.application.LookUpApplication
 import com.loconav.lookup.base.BaseFragment
 import com.loconav.lookup.databinding.FragmentIgnitionTestBinding
 import com.loconav.lookup.ignitontest.model.dataClass.IgnitionTestData
 import com.loconav.lookup.ignitontest.viewModel.IgnitionTestViewModel
-import java.util.logging.Handler
+import android.os.CountDownTimer
+import com.loconav.lookup.utils.TimerCount
+
 
 class IgnitionTestFragment : BaseFragment() {
     private lateinit var ignitionTestBinding: FragmentIgnitionTestBinding
@@ -31,11 +32,13 @@ class IgnitionTestFragment : BaseFragment() {
     private lateinit var coninuteButton: Button
     private lateinit var progressBar: ProgressBar
     private lateinit var mRunnable : Runnable
-    private var handler : Handler = Handler(Looper.getMainLooper())
-    private var apiCallTime : Int = 10 * 1000
+    private var handler : android.os.Handler = android.os.Handler(Looper.getMainLooper())
+    private var apiCallTime : Long = 10 * 1000
+    private lateinit var countDownTimer: TimerCount
 
     override fun setViewId(): Int {
-        return R.layout.fragment_ignition_test
+        return com.loconav.lookup.R.layout.fragment_ignition_test
+
     }
 
     override fun onFragmentCreated() {
@@ -43,7 +46,6 @@ class IgnitionTestFragment : BaseFragment() {
         ignitionTestViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(LookUpApplication()).create(IgnitionTestViewModel::class.java)
         testStartTime = (System.currentTimeMillis() / 1000).toString()
         coninuteButton = ignitionTestBinding.ignitionButton
-        progressBar = ignitionTestBinding.progressbar
         showAlertDialog()
     }
 
@@ -52,8 +54,8 @@ class IgnitionTestFragment : BaseFragment() {
                 .setTitle("Ignition Test")
                 .setMessage("Press ok to start the ignition test")
                 .setPositiveButton("Yes") { dialogInterface, i ->
-                    runPeriodicTestCheck()
                    progressBar.visibility= View.VISIBLE
+                    runPeriodicTestCheck()
                 }
                 .setNegativeButton("No") { dialogIntertface, j ->
                 }
@@ -62,11 +64,14 @@ class IgnitionTestFragment : BaseFragment() {
         alertDialog.show()
     }
 
+
+
     private fun runPeriodicTestCheck() {
       mRunnable =  Runnable {
 
+           getIgnitionData()
 
-         handler.
+         handler.postDelayed(mRunnable,apiCallTime)
       }
         mRunnable.run()
     }
@@ -96,25 +101,10 @@ class IgnitionTestFragment : BaseFragment() {
 
             override fun getComponentFactory() {
             }
-        }
 
 
-private fun runPeriodicCheck() {
-    mRunnable = Runnable {
-        counter = counter + 1
-        if (counter <= 5
-        ) {
-            progressBar?.setProgress(counter * 5)
-            progressTextView?.text = (counter * 5).toString() + "/" + progressBar?.max
-            progressBar?.visibility = View.VISIBLE
-            progressTextView?.visibility = View.VISIBLE
-            observeData()
-        }
-        if (counter == 5) {
-            testTimeOver = true
-        }
-        handler.postDelayed(mRunnable, 30 * 1000)
+
+
+
     }
-    mRunnable.run()
 
-}
