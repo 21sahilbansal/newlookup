@@ -12,9 +12,9 @@ import com.loconav.lookup.tutorial.model.dataClass.TutorialObject
 
 
 class TutorialAdapter(var tutorialList: List<TutorialObject>, var callback: Callback) : BaseAdapter() {
-    var itemClicked: Boolean = false
-    lateinit var lastDescriptionView: View
-    lateinit var lastSlideView: ImageView
+    var itemClicked : Boolean = false
+    lateinit var lastDescriptionView : View
+    lateinit var lastSlideView : ImageView
     override fun getItemCount(): Int {
         return tutorialList.size
     }
@@ -29,6 +29,7 @@ class TutorialAdapter(var tutorialList: List<TutorialObject>, var callback: Call
     }
 
     override fun onItemClick(`object`: Any, position: Int, view: View) {
+
         var descriptionView: View = view.findViewById<View>(R.id.tutorial_description_layout)
         var slideView: ImageView = view.findViewById<ImageView>(R.id.tutorial_slide_iv)
         if(itemClicked){
@@ -43,10 +44,11 @@ class TutorialAdapter(var tutorialList: List<TutorialObject>, var callback: Call
         } else {
             val slideDown = AnimationUtils.loadAnimation(view.context, R.anim.slide_down)
             descriptionView.visibility = View.VISIBLE
-            descriptionView.startAnimation(slideDown)
             lastDescriptionView = descriptionView
             lastSlideView = slideView
+            descriptionView.startAnimation(slideDown)
             slideView.setImageDrawable(view.context.resources.getDrawable(R.drawable.ic_expand_less_black_24dp))
+            itemClicked = true
         }
         view.findViewById<Button>(R.id.tutorial_kmore_button).setOnClickListener({
             callback.onEventDone(`object`)
