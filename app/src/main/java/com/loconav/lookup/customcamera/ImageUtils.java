@@ -15,6 +15,7 @@ import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
+import com.crashlytics.android.Crashlytics;
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
@@ -151,6 +152,7 @@ public class ImageUtils {
     public static String getDateOfCameraTakenPhoto(Uri uri) {
         String zeroepochtime = "0000000000000";
         if(uri == null){
+            Crashlytics.logException(new Throwable("image uri is null"));
             return zeroepochtime;
         }
         try {
@@ -171,6 +173,7 @@ public class ImageUtils {
             }
 
         } catch (Exception e) {
+            Crashlytics.logException(new Throwable(e));
             e.printStackTrace();
         }
         return zeroepochtime;
