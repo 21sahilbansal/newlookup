@@ -1,7 +1,6 @@
 package com.loconav.lookup.customcamera;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -128,32 +127,38 @@ public class ImageUtils {
     }
 
 
-    public static String getEpochTimeOfGalleryImage(Uri uri) {
-        String zeroEpochTime = "0000000000000";
-        Cursor cursor = FILE_CONTEXT.getContentResolver().query(uri, null, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow("datetaken");
-        if (cursor.getColumnCount() > 0) {
-            cursor.moveToFirst();
-        } else {
-            return zeroEpochTime;
-        }
-        String date = cursor.getString(column_index);
-        if (date == null) {
-            return zeroEpochTime;
-        } else {
-            return date;
-        }
-    }
+//    public static String getEpochTimeOfGalleryImage(Uri uri) {
+//        String zeroEpochTime = "0000000000000";
+//        Cursor cursor = FILE_CONTEXT.getContentResolver().query(uri, null, null, null, null);
+//        int column_index = cursor.getColumnIndexOrThrow("datetaken");
+//        if (cursor.getColumnCount() > 0) {
+//            cursor.moveToFirst();
+//        } else {
+//            return zeroEpochTime;
+//        }
+//        String date = cursor.getString(column_index);
+//        if (date == null) {
+//            return zeroEpochTime;
+//        } else {
+//            return date;
+//        }
+//    }
 
     public static String getDateOfCameraTakenPhoto(Uri uri) {
+
         String zeroepochtime = "0000000000000";
+        if (uri == null) {
+            return zeroepochtime;
+        }
         try {
             InputStream inputStream = FILE_CONTEXT.getContentResolver().openInputStream(uri);
             Metadata metadata = ImageMetadataReader.readMetadata(inputStream);
             for (Directory directory : metadata.getDirectories()) {
                 if (directory.getName().equals("Exif IFD0")) {
                     for (Tag tag : directory.getTags()) {
-                        if (tag.getTagName().equals("Date/Time")) {
+                        if (tag.getDescription().contains(":")) {
+                            return String.valueOf(TimeUtils.getEpochTime(tag.getDescription()));
+                        } else {
                             return tag.getDescription();
                         }
                     }
