@@ -55,9 +55,6 @@ class TutorialAdapter(var tutorialList: List<TutorialObject>, var callback: Call
             callback.onEventDone(`object`)
         })
     }
-
-
-
     override fun editHeightWidthItem(view: View?, parent: ViewGroup?) {
     }
 }
