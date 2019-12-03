@@ -3,7 +3,6 @@ package com.loconav.lookup.customcamera;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -85,18 +84,13 @@ public class ImagePickerDialog extends BaseDialogFragment {
     }
 
     private void galleryIntent() {
-     //   Intent intent = new Intent();
-     //   intent.setType("image/*");
         Intent intent = new Intent(Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-     //   intent.setAction(Intent.ACTION_GET_CONTENT);
-
         if (intent.resolveActivity(getContext().getPackageManager()) != null) {
             // Bring up gallery to select a photo
             startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
         }
-     //startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
     }
 
     private void cameraIntent() {
@@ -156,7 +150,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
     }
 
     private void parsingGalleryImage(final Intent data) {
-       // String date = ImageUtils.getEpochTimeOfGalleryImage(data.getData());
+        // String date = ImageUtils.getEpochTimeOfGalleryImage(data.getData());
         String date = ImageUtils.getDateOfCameraTakenPhoto(data.getData());
         if (data.getClipData() == null) {
             ImageUri imageUri = new ImageUri();

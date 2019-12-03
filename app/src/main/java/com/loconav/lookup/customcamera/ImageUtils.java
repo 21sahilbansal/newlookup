@@ -145,7 +145,6 @@ public class ImageUtils {
 //    }
 
     public static String getDateOfCameraTakenPhoto(Uri uri) {
-
         String zeroepochtime = "0000000000000";
         if (uri == null) {
             return zeroepochtime;
@@ -156,11 +155,14 @@ public class ImageUtils {
             for (Directory directory : metadata.getDirectories()) {
                 if (directory.getName().equals("Exif IFD0")) {
                     for (Tag tag : directory.getTags()) {
-                        if (tag.getDescription().contains(":")) {
-                            return String.valueOf(TimeUtils.getEpochTime(tag.getDescription()));
-                        } else {
-                            return tag.getDescription();
+                        if (tag.getTagName().equals("Date/Time")) {
+                            if (tag.getDescription().contains(":")) {
+                                return String.valueOf(TimeUtils.getEpochTime(tag.getDescription()));
+                            } else {
+                                return tag.getDescription();
+                            }
                         }
+
                     }
                 }
             }

@@ -45,7 +45,6 @@ public class LocationUpdatesService extends BaseService {
                 .setOngoing(true)
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setSmallIcon(R.drawable.app_icon)
-                .setContentIntent(activityPendingIntent)
                 .build();
         return notification;
     }
