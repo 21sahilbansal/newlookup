@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -81,14 +82,16 @@ public class ImagePickerDialog extends BaseDialogFragment {
         builder.setContentView(dialogView);
         return builder;
     }
-
     private void galleryIntent() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
+          Intent intent = new Intent(Intent.ACTION_PICK,
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+          if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+          // Bring up gallery to select a photo
+             startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
+         }
     }
+
 
     private void cameraIntent() {
         Bundle bundle = new Bundle();
@@ -147,7 +150,8 @@ public class ImagePickerDialog extends BaseDialogFragment {
     }
 
     private void parsingGalleryImage(final Intent data) {
-        String date = ImageUtils.getEpochTimeOfGalleryImage(data.getData());
+      //  String date = ImageUtils.getEpochTimeOfGalleryImage(data.getData());
+        String date = ImageUtils.getDateOfCameraTakenPhoto(data.getData());
         if (data.getClipData() == null) {
             ImageUri imageUri = new ImageUri();
             imageUri.setUri(data.getData());
