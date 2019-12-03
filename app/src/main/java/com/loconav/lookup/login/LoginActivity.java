@@ -2,10 +2,11 @@ package com.loconav.lookup.login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.loconav.lookup.R;
 import com.loconav.lookup.Toaster;
@@ -57,7 +58,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         sharedPrefHelper.setStringData(location, loginResponse.getUser().getLocation());
         sharedPrefHelper.setStringData(name, loginResponse.getUser().getName());
         sharedPrefHelper.setStringData(code, loginResponse.getUser().getCode());
-        sharedPrefHelper.setBooleanData(IS_LOGGED_IN,true);
+        sharedPrefHelper.setBooleanDataWithCommit(IS_LOGGED_IN,true);
         Log.e("shared",""+sharedPrefHelper.getStringData(authenticationToken));
         Intent intent = new Intent(getBaseContext(),SplashActivity.class);
         startActivity(intent);

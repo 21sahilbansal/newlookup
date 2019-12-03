@@ -2,9 +2,12 @@ package com.loconav.lookup.network;
 
 import android.util.Log;
 
+import com.loconav.lookup.Toaster;
+import com.loconav.lookup.UserProfileFragment;
 import com.loconav.lookup.model.ApiException;
 import com.loconav.lookup.network.rest.ApiClient;
 import com.loconav.lookup.network.rest.ApiInterface;
+import com.loconav.lookup.utils.AppUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,8 +40,11 @@ public abstract class RetrofitCallback<T> implements Callback<T> {
         Log.i(TAG, "response " + response.raw().request().url() + " : " + (new Date()).getTime());
         //This is the exception to throw
         String exception;
-
-        if (response.isSuccessful()) {
+        if(response.code() == 401) {
+                Toaster.makeToast("Unauthorized access");
+                AppUtils.logOut();
+            }
+        else if (response.isSuccessful()){
             handleSuccess(call, response);
         } else {
             String error;

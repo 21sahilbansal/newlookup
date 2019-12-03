@@ -39,13 +39,14 @@ public class RecycleCustomImageAdapter extends BaseAdapter {
     }
 
     @Override
-    public void onItemClick(Object object, int position) {
+    public void onItemClick(Object object, int position, View view) {
         callback.onEventDone(object);
     }
 
     @Override
     public void editHeightWidthItem(View view, ViewGroup parent) {
     }
+
 
     @Override
     public int getItemCount() {

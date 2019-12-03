@@ -13,11 +13,13 @@ public class SharedPrefHelper {
 
     private static SharedPrefHelper sharedPrefHelper;
 
+
     public static SharedPrefHelper getInstance() {
         if(sharedPrefHelper == null)
             sharedPrefHelper = new SharedPrefHelper();
         return sharedPrefHelper;
     }
+
 
     private SharedPrefHelper(){}
 
@@ -43,6 +45,10 @@ public class SharedPrefHelper {
         SharedPreferences.Editor editor = getSharedPref().edit().putBoolean(key,value);
         editor.apply();
     }
+    public void setBooleanDataWithCommit(String key, Boolean value) {
+        SharedPreferences.Editor editor = getSharedPref().edit().putBoolean(key,value);
+        editor.commit();
+    }
     public String getStringData(String key) {
         return getSharedPref().getString(key,"");
     }
@@ -61,4 +67,9 @@ public class SharedPrefHelper {
         editor.remove(key);
         editor.apply();
     }
+    public void clearAllData(){
+        SharedPreferences.Editor editor=getSharedPref().edit();
+        editor.clear();
+    }
+
 }

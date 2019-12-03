@@ -9,8 +9,8 @@ import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
+
+import androidx.core.app.NotificationCompat;
 
 import com.loconav.lookup.LandingActivity;
 import com.loconav.lookup.R;
@@ -45,7 +45,6 @@ public class LocationUpdatesService extends BaseService {
                 .setOngoing(true)
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setSmallIcon(R.drawable.app_icon)
-                .setContentIntent(activityPendingIntent)
                 .build();
         return notification;
     }
@@ -64,7 +63,6 @@ public class LocationUpdatesService extends BaseService {
         }
     }
 
-    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;

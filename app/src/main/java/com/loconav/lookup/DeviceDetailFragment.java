@@ -1,11 +1,12 @@
 package com.loconav.lookup;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.loconav.lookup.adapter.LookupAdapter;
 import com.loconav.lookup.databinding.FragmentDeviceDetailBinding;

@@ -2,19 +2,20 @@ package com.loconav.lookup.sharedetailsfragmants;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.MediaStore;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.DataBindingUtil;
+
+import com.google.android.material.textfield.TextInputLayout;
 import com.loconav.lookup.BaseTitleFragment;
 import com.loconav.lookup.CommonFunction;
 import com.loconav.lookup.CustomInflater;
@@ -177,7 +178,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
                         String image = null;
                         attachments=new Attachments();
                         try {
-                            image=ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), Uri.parse(passingReason.getImagesList().get(i))));
+                            image=ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),passingReason.getImagesUriList().get(i).getUri()),passingReason.getImagesUriList().get(i));
                             attachments.setTitle("pre_repair");
                             attachments.setImage(image);
                         } catch (Exception e) {
@@ -284,7 +285,7 @@ public class CommonRepairFragment extends BaseTitleFragment {
         for (ImageUri imageUri : imagePicker.getimagesList()) {
             attachments=new Attachments();
             try {
-                compressedImage = ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(Objects.requireNonNull(getContext()).getContentResolver(), imageUri.getUri()));
+                compressedImage = ImageUtils.getbase64Image(MediaStore.Images.Media.getBitmap(Objects.requireNonNull(getContext()).getContentResolver(), imageUri.getUri()),imageUri);
                 attachments.setTitle(title);
                 attachments.setImage(compressedImage);
                 postRepairAttachmentsList.add(attachments);

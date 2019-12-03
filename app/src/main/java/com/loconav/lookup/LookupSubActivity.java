@@ -2,15 +2,16 @@ package com.loconav.lookup;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.navigation.NavController;
+
 import com.loconav.lookup.base.BaseActivity;
 import com.loconav.lookup.model.Input;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.ReasonResponse;
 import com.loconav.lookup.newfastag.view.VerifyTruckIdFragment;
 
-
 import java.util.ArrayList;
-import androidx.navigation.NavController;
 
 import static com.loconav.lookup.Constants.ACCESSORIES;
 import static com.loconav.lookup.Constants.ADD_IMAGE;

@@ -1,7 +1,8 @@
 package com.loconav.lookup.customcamera;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+
+import androidx.databinding.DataBindingUtil;
 
 import com.loconav.lookup.FragmentController;
 import com.loconav.lookup.R;
