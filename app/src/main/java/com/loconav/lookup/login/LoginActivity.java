@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         sharedPrefHelper.setStringData(location, loginResponse.getUser().getLocation());
         sharedPrefHelper.setStringData(name, loginResponse.getUser().getName());
         sharedPrefHelper.setStringData(code, loginResponse.getUser().getCode());
-        sharedPrefHelper.setBooleanData(IS_LOGGED_IN,true);
+        sharedPrefHelper.setBooleanDataWithCommit(IS_LOGGED_IN,true);
         Log.e("shared",""+sharedPrefHelper.getStringData(authenticationToken));
         Intent intent = new Intent(getBaseContext(),SplashActivity.class);
         startActivity(intent);

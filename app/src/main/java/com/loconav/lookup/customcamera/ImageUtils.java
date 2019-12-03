@@ -14,6 +14,7 @@ import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
+import com.crashlytics.android.Crashlytics;
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
@@ -129,8 +130,11 @@ public class ImageUtils {
 
 //    public static String getEpochTimeOfGalleryImage(Uri uri) {
 //        String zeroEpochTime = "0000000000000";
+//        if(uri == null){
+//            return zeroEpochTime;
+//        }
 //        Cursor cursor = FILE_CONTEXT.getContentResolver().query(uri, null, null, null, null);
-//        int column_index = cursor.getColumnIndexOrThrow("datetaken");
+//        int column_index = cursor.getColumnIndexOrThrow("last_modified");
 //        if (cursor.getColumnCount() > 0) {
 //            cursor.moveToFirst();
 //        } else {
@@ -146,7 +150,8 @@ public class ImageUtils {
 
     public static String getDateOfCameraTakenPhoto(Uri uri) {
         String zeroepochtime = "0000000000000";
-        if (uri == null) {
+        if(uri == null){
+            Crashlytics.logException(new Throwable("image uri is null"));
             return zeroepochtime;
         }
         try {
@@ -156,10 +161,10 @@ public class ImageUtils {
                 if (directory.getName().equals("Exif IFD0")) {
                     for (Tag tag : directory.getTags()) {
                         if (tag.getTagName().equals("Date/Time")) {
-                            if (tag.getDescription().contains(":")) {
+                            if(tag.getDescription().contains(":")){
                                 return String.valueOf(TimeUtils.getEpochTime(tag.getDescription()));
-                            } else {
-                                return tag.getDescription();
+                            }else {
+                            return tag.getDescription();
                             }
                         }
 
@@ -168,6 +173,7 @@ public class ImageUtils {
             }
 
         } catch (Exception e) {
+            Crashlytics.logException(new Throwable(e));
             e.printStackTrace();
         }
         return zeroepochtime;
