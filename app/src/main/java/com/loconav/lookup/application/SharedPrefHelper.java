@@ -45,6 +45,10 @@ public class SharedPrefHelper {
         SharedPreferences.Editor editor = getSharedPref().edit().putBoolean(key,value);
         editor.apply();
     }
+    public void setBooleanDataWithCommit(String key, Boolean value) {
+        SharedPreferences.Editor editor = getSharedPref().edit().putBoolean(key,value);
+        editor.commit();
+    }
     public String getStringData(String key) {
         return getSharedPref().getString(key,"");
     }
