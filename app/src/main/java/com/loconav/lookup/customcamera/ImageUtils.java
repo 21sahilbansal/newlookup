@@ -1,7 +1,6 @@
 package com.loconav.lookup.customcamera;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -168,6 +167,7 @@ public class ImageUtils {
                             return tag.getDescription();
                             }
                         }
+
                     }
                 }
             }

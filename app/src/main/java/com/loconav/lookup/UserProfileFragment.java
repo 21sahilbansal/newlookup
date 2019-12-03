@@ -1,21 +1,19 @@
 package com.loconav.lookup;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FragmentUserProfileBinding;
 import com.loconav.lookup.login.SplashActivity;
+import com.loconav.lookup.model.LocationUpdatesService;
 import com.loconav.lookup.utils.AppUtils;
 
-import static androidx.core.content.ContextCompat.getDrawable;
 import static com.loconav.lookup.Constants.FRAGMENT_NAME;
 import static com.loconav.lookup.Constants.IS_LOGGED_IN;
 import static com.loconav.lookup.Constants.USER_ID;
@@ -68,6 +66,17 @@ public class UserProfileFragment extends BaseFragment {
 
     private void attachClickListener() {
         binding.logout.setOnClickListener(view -> {
+            sharedPrefHelper.removeStringData(code);
+            sharedPrefHelper.removeStringData(USER_ID);
+            sharedPrefHelper.removeStringData(authenticationToken);
+            sharedPrefHelper.removeStringData(phoneNumber);
+            sharedPrefHelper.removeStringData(location);
+            sharedPrefHelper.removeStringData(name);
+            sharedPrefHelper.setBooleanData(IS_LOGGED_IN,false);
+            getActivity().stopService(new Intent(getActivity(),LocationUpdatesService.class));
+            Intent intent=new Intent(getContext(), SplashActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
             AppUtils.logOut();
         });
 
