@@ -36,13 +36,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         buildToolsVersion "23.0.0"
-<<<<<<< HEAD
-        versionCode 16
-        versionName "16.0"
-=======
         versionCode 17
         versionName "17.0"
->>>>>>> 4d60b8d64c73f5df5a1defb92f438ff84d83f777
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
     }
