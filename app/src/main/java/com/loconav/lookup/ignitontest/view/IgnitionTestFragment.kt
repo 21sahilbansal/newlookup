@@ -2,8 +2,8 @@ package com.loconav.lookup.ignitontest.view
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
@@ -13,13 +13,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.loconav.lookup.Toaster
+import com.loconav.lookup.*
+import com.loconav.lookup.Constants.NEW_INSTALL
 import com.loconav.lookup.adapter.IgnitionTestAdapter
 import com.loconav.lookup.application.LookUpApplication
 import com.loconav.lookup.base.BaseFragment
 import com.loconav.lookup.databinding.FragmentIgnitionTestBinding
 import com.loconav.lookup.ignitontest.model.dataClass.IgnitionTestData
 import com.loconav.lookup.ignitontest.viewModel.IgnitionTestViewModel
+import com.loconav.lookup.model.PassingReason
+import com.loconav.lookup.sharedetailsfragmants.CommonRepairFragment
 import com.loconav.lookup.utils.TimerCount
 
 
@@ -38,10 +41,13 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
     private var handler: android.os.Handler = android.os.Handler(Looper.getMainLooper())
     private var apiCallTime: Int = 10 * 1000
     private lateinit var countDownTimer: TimerCount
+    private var isFirstTime: Boolean = true
+    private lateinit var passingReason: PassingReason
+
+    private val fragmentController = FragmentController()
 
     override fun setViewId(): Int {
         return com.loconav.lookup.R.layout.fragment_ignition_test
-
     }
 
     override fun onFragmentCreated() {
@@ -49,15 +55,18 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
         ignitionTestViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(LookUpApplication()).create(IgnitionTestViewModel::class.java)
         testStartTime = (System.currentTimeMillis() / 1000).toString()
         coninuteButton = ignitionTestBinding.ignitionButton
+        passingReason = (activity as LookupSubActivity).passingReason;
         timeTextView = ignitionTestBinding.timerCount
         progressBar = ignitionTestBinding.progressbar
         coninuteButton.setOnClickListener(continueButtonClick)
-        mRunnable = Runnable {   progressBar.visibility = View.VISIBLE
-            timeTextView.visibility = View.VISIBLE
-            startTimer()
+        mRunnable = Runnable {
+            if (!isFirstTime) {
+                startTimer()
+            }
             getIgnitionData()
-            handler.postDelayed(mRunnable, apiCallTime.toLong())}
-        showAlertDialog()
+            handler.postDelayed(mRunnable, apiCallTime.toLong())
+        }
+        runPeriodicTestCheck()
     }
 
     private val continueButtonClick = View.OnClickListener {
@@ -69,6 +78,16 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
     }
 
     private fun moveToNextFragment() {
+        if (passingReason.userChoice == NEW_INSTALL) {
+            val fetchClientFragment = FetchClientFragment()
+            (activity as LookupSubActivity).passingReason = passingReason
+            fragmentController.loadFragment(fetchClientFragment, fragmentManager!!, R.id.frameLayout, true)
+        } else {
+            (activity as LookupSubActivity).passingReason = passingReason
+            val commonRepairFragment = CommonRepairFragment()
+            fragmentController.loadFragment(commonRepairFragment, fragmentManager, R.id.frameLayout, true)
+        }
+
     }
 
 
@@ -78,14 +97,23 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
                 .setMessage("Press ok to start the ignition test")
                 .setPositiveButton("Yes") { dialogInterface, i ->
                     coninuteButton.visibility = View.GONE
-                    runPeriodicTestCheck()
+                    rePlacefragment()
                 }
-                .setNegativeButton("No") { dialogIntertface, j ->
+                .setNegativeButton(
+                        "No") { dialogIntertface, j ->
                     restartTest()
                 }
                 .create()
         alertDialog.setCanceledOnTouchOutside(false)
         alertDialog.show()
+    }
+
+    private fun rePlacefragment() {
+        val ignitionTestFragment = IgnitionTestFragment()
+        val bundle = Bundle()
+        bundle.putString("deviceDetail_deviceid", deviceId)
+        ignitionTestFragment.arguments = bundle
+        fragmentController.replaceFragment(ignitionTestFragment, fragmentManager, R.id.frameLayout, false)
     }
 
 
@@ -94,7 +122,9 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
     }
 
     private fun startTimer() {
-        countDownTimer = TimerCount(10 * 1000, 1000, this).start() as TimerCount
+        countDownTimer = TimerCount(apiCallTime.toLong(), 1000, this).start() as TimerCount
+        progressBar.visibility = View.VISIBLE
+        timeTextView.visibility = View.VISIBLE
     }
 
     private fun getIgnitionData() {
@@ -112,16 +142,22 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
         ignitionTestReyclerView.layoutManager = linearLayoutManager
         ignitionTestAdapter = IgnitionTestAdapter(ignitionTestData)
         ignitionTestReyclerView.adapter = ignitionTestAdapter
-        if(ignitionTestData.apiResult?.status == 1){
+        isFirstTime = false
+
+        if (ignitionTestData.apiResult?.status == 1) {
             handler.removeCallbacks(mRunnable)
+            progressBar.visibility = View.GONE
+            timeTextView.visibility = View.GONE
             coninuteButton.text = "Continue"
             coninuteButton.visibility = View.VISIBLE
-        }else if (ignitionTestData.restartTest!!) {
+        } else if (ignitionTestData.restartTest!!) {
+
             restartTest()
         }
     }
 
     private fun restartTest() {
+        isFirstTime = true
         handler.removeCallbacks(mRunnable)
         progressBar.visibility = View.GONE
         timeTextView.visibility = View.GONE
@@ -148,6 +184,15 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
         Toaster.makeToast("Refreshing Data")
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        handler.removeCallbacks(mRunnable)
+    }
 
+    fun removeHandler(removeTimer: Boolean) {
+        if (removeTimer) {
+            handler.removeCallbacks(mRunnable)
+        }
+    }
 }
 

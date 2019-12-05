@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -71,19 +72,15 @@ public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefr
     }
     private void setShareDetails() {
         binding.continueDetails.setOnClickListener(view -> {
-            if (passingReason.getUserChoice().equals(NEW_INSTALL)) {
-                FetchClientFragment f1 = new FetchClientFragment();
                 ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
-                fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
-            } else {
-                ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
-                //CommonRepairFragment f1 = new CommonRepairFragment();
                 IgnitionTestFragment ignitionTestFragment = new IgnitionTestFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("deviceDetail_deviceid",deviceID);
                 ignitionTestFragment.setArguments(bundle);
-                fragmentController.replaceFragment(ignitionTestFragment,getFragmentManager(),R.id.frameLayout,true);
-            }
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.frameLayout,ignitionTestFragment,"ignitionFragment").addToBackStack(ignitionTestFragment.getClass().getName());
+                transaction.commit();
+
         });
     }
 
