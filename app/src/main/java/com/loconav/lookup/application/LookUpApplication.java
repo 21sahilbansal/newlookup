@@ -17,16 +17,19 @@ public class LookUpApplication extends Application {
 
     private static LookUpApplication instance = null;
 
-    public static LookUpApplication getInstance(){
+    public static LookUpApplication getInstance() {
         return instance;
     }
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         instance = this;
 
-        //Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics());
         DataBindingUtil.setDefaultComponent(new MyDataBindingComponent());
     }
+
+
 }

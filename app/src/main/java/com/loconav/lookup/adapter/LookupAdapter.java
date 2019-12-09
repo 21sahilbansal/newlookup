@@ -34,7 +34,7 @@ public class LookupAdapter extends BaseAdapter {
     }
 
     @Override
-    public void onItemClick(Object object, int position) {
+    public void onItemClick(Object object, int position, View view) {
 
     }
 

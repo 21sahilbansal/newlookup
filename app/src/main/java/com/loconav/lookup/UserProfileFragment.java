@@ -11,6 +11,7 @@ import com.loconav.lookup.application.SharedPrefHelper;
 import com.loconav.lookup.base.BaseFragment;
 import com.loconav.lookup.databinding.FragmentUserProfileBinding;
 import com.loconav.lookup.login.SplashActivity;
+import com.loconav.lookup.model.LocationUpdatesService;
 import com.loconav.lookup.utils.AppUtils;
 
 import static com.loconav.lookup.Constants.FRAGMENT_NAME;
@@ -36,16 +37,46 @@ public class UserProfileFragment extends BaseFragment {
         initSharedPf();
         attachClickListener();
         fillUserId();
+
+
         binding.checkInstallLogs.setOnClickListener(v -> checkInstallLogs());
         binding.checkRepairLogs.setOnClickListener(v -> checkRepairLogs());
+        binding.checkTurorials.setOnClickListener(v -> checkTutorials());
+
 
     }
+
+    private void checkTutorials() {
+        if(AppUtils.isNetworkAvailable()) {
+            Intent i=new Intent(getContext(), BaseNavigationActivity.class);
+            Bundle bundle=new Bundle();
+            bundle.putString(FRAGMENT_NAME,getString(R.string.tutorial_fragment));
+            i.putExtras(bundle);
+            startActivity(i);
+        }
+        else
+        {
+            Toaster.makeToast(getString(R.string.internet_not_available));
+        }
+    }
+
     private void initSharedPf() {
         sharedPrefHelper = SharedPrefHelper.getInstance();
     }
 
     private void attachClickListener() {
         binding.logout.setOnClickListener(view -> {
+            sharedPrefHelper.removeStringData(code);
+            sharedPrefHelper.removeStringData(USER_ID);
+            sharedPrefHelper.removeStringData(authenticationToken);
+            sharedPrefHelper.removeStringData(phoneNumber);
+            sharedPrefHelper.removeStringData(location);
+            sharedPrefHelper.removeStringData(name);
+            sharedPrefHelper.setBooleanData(IS_LOGGED_IN,false);
+            getActivity().stopService(new Intent(getActivity(),LocationUpdatesService.class));
+            Intent intent=new Intent(getContext(), SplashActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
             AppUtils.logOut();
         });
 

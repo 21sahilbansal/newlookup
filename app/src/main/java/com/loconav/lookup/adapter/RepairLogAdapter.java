@@ -30,7 +30,7 @@ public class RepairLogAdapter extends BaseAdapter {
         return R.layout.repair_items;
     }
     @Override
-    public void onItemClick(Object object, int position) {
+    public void onItemClick(Object object, int position, View view) {
         callback.onEventDone(object);
     }
     @Override

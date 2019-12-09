@@ -13,10 +13,15 @@ import com.loconav.lookup.base.BaseActivity;
 import com.loconav.lookup.databinding.ActivityLookupEntryBinding;
 import com.loconav.lookup.location.LocationBroadcastReciever;
 import com.loconav.lookup.location.OnGpsDialog;
+import com.loconav.lookup.model.LocationUpdatesService;
+import com.loconav.lookup.service.BaseService;
 import com.loconav.lookup.utils.AppUtils;
+import com.loconav.lookup.utils.Constant;
 
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
+
+import static com.loconav.lookup.service.BaseService.startForegroundLocationService;
 
 public class LandingActivity extends BaseActivity {
     private ActivityLookupEntryBinding lookupEntryBinding;
@@ -37,7 +42,11 @@ public class LandingActivity extends BaseActivity {
             startBroadcstReceiver();
         }
         showAppUpdateDialog();
+        Intent serviceIntent = new Intent(this, LocationUpdatesService.class);
+        startForegroundLocationService(getApplicationContext(),serviceIntent);
+
     }
+
 
     private void showAppUpdateDialog() {
         new AppUpdateController(getSupportFragmentManager(), AppUtils.getVersionCode(getBaseContext()));
@@ -76,7 +85,7 @@ public class LandingActivity extends BaseActivity {
         Intent intent = new Intent(this, LocationBroadcastReciever.class);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis(), TimeUnit.MINUTES.toMillis(15), pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis(), TimeUnit.MINUTES.toMillis(Constant.locationUpdateTime), pendingIntent);
     }
 
 

@@ -57,6 +57,7 @@
     <string name="repair_log_fragment">Repair Log Fragment</string>
     <string name="repair_detail_fragment">Repair Detail Fragment</string>
     <string name="install_log_fragment">Install Log Fragment</string>
+    <string name="tutorial_fragment">Tutorials Fragment</string>
     <string name="install_detail_fragmment">Install Detail Fragment</string>
     <string name="screenshot_fragment">Screenshot Fragment</string>
     <string name="screenshot_heading">Share</string>
@@ -85,6 +86,8 @@
     <string name="installation_creation_successfull">New Installation created successfully</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="notification_title">Location Update</string>
+    <string name="notification_text">LookUp Tracks You</string>
     <string name="fastag_before_pasting">Before Pasting Fastag</string>
     <string name="fastag_after_pasting">After Pasting Fastag \u002A</string>
     <string name="front_view1">Front View \u002A </string>
@@ -109,4 +112,5 @@
     <string name="ignitionTestContinue">Continue</string>
     <string name="ignitionTestDialogTitle">Ignition Test</string>
     <string name="ignitionTestDialogMessage">Press ok to start the ignition test</string>
+    <string name="tutorial_title">Tutorials / FAQ</string>
 </resources>

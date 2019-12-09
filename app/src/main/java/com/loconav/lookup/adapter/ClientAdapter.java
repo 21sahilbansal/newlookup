@@ -37,7 +37,7 @@ public class ClientAdapter extends BaseAdapter {
     }
 
     @Override
-    public void onItemClick(Object object, int position) {
+    public void onItemClick(Object object, int position, View view) {
         Log.e("item ", "onItemClick: "+ ((Client) object).getName());
         callback.onEventDone(object);
     }

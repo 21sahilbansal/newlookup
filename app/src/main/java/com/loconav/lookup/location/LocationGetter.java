@@ -19,7 +19,9 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
+import com.loconav.lookup.R;
 import com.loconav.lookup.customcamera.Callback;
+import com.loconav.lookup.utils.Constant;
 
 import java.util.concurrent.TimeUnit;
 
@@ -30,7 +32,7 @@ class LocationGetter implements GoogleApiClient.ConnectionCallbacks, GoogleApiCl
     private final GoogleApiClient googleApiClient;
     private final Callback callback;
     private Location mLocation;
-    private final long FASTEST_INTERVAL =  TimeUnit.MINUTES.toMillis(15);
+    private final long FASTEST_INTERVAL = Constant.locationUpdateTime;
     private Location currentLocation = null;
     private long locationUpdatedAt = Long.MIN_VALUE;
 
@@ -56,8 +58,8 @@ class LocationGetter implements GoogleApiClient.ConnectionCallbacks, GoogleApiCl
         Log.e("settingsrequest", "Comes");
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER);
-        locationRequest.setInterval(TimeUnit.MINUTES.toMillis(15));
-        locationRequest.setFastestInterval(TimeUnit.MINUTES.toMillis(15));
+        locationRequest.setInterval(TimeUnit.MINUTES.toMillis(FASTEST_INTERVAL));
+        locationRequest.setFastestInterval(TimeUnit.MINUTES.toMillis(FASTEST_INTERVAL));
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest);
