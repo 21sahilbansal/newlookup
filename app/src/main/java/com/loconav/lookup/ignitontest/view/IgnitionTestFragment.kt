@@ -70,9 +70,9 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
     }
 
     private val continueButtonClick = View.OnClickListener {
-        if (coninuteButton.text == getString(R.string.ignitionRestartTest)) {
+        if (coninuteButton.text == getString(R.string.ignition_Restart_Test)) {
             showAlertDialog()
-        } else if (coninuteButton.text == getString(R.string.ignitionTestContinue)) {
+        } else if (coninuteButton.text == getString(R.string.ignition_Test_Continue)) {
             moveToNextFragment()
         }
     }
@@ -93,8 +93,8 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
 
     private fun showAlertDialog() {
         alertDialog = AlertDialog.Builder(context)
-                .setTitle(getString(R.string.ignitionTestDialogTitle))
-                .setMessage(getString(R.string.ignitionTestDialogMessage))
+                .setTitle(getString(R.string.ignition_TestDialog_Title))
+                .setMessage(getString(R.string.ignition_TestDialog_Message))
                 .setPositiveButton("Yes") { dialogInterface, i ->
                     coninuteButton.visibility = View.GONE
                     rePlacefragment()
@@ -148,7 +148,7 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
             handler.removeCallbacks(mRunnable)
             progressBar.visibility = View.GONE
             timeTextView.visibility = View.GONE
-            coninuteButton.text = getString(R.string.ignitionTestContinue)
+            coninuteButton.text = getString(R.string.ignition_Test_Continue)
             coninuteButton.visibility = View.VISIBLE
         } else if (ignitionTestData.restartTest!!) {
 
@@ -161,7 +161,7 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
         handler.removeCallbacks(mRunnable)
         progressBar.visibility = View.GONE
         timeTextView.visibility = View.GONE
-        coninuteButton.text = getString(R.string.ignitionRestartTest)
+        coninuteButton.text = getString(R.string.ignition_Restart_Test)
         coninuteButton.visibility = View.VISIBLE
     }
 

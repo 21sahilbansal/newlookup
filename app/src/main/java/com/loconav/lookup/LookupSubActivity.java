@@ -2,8 +2,6 @@ package com.loconav.lookup;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.navigation.NavController;
 
@@ -124,8 +122,8 @@ public class LookupSubActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-       if( getSupportFragmentManager().findFragmentByTag("ignitionFragment") instanceof IgnitionTestFragment){
-               ((IgnitionTestFragment) getSupportFragmentManager().findFragmentByTag("ignitionFragment")).removeHandler(true);
+       if( getSupportFragmentManager().findFragmentByTag(getString(R.string.igniton_Fragment_Tag)) instanceof IgnitionTestFragment){
+               ((IgnitionTestFragment) getSupportFragmentManager().findFragmentByTag(getString(R.string.igniton_Fragment_Tag))).removeHandler(true);
        }
        super.onBackPressed();
     }
