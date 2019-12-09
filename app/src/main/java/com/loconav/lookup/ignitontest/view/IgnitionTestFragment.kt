@@ -70,9 +70,9 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
     }
 
     private val continueButtonClick = View.OnClickListener {
-        if (coninuteButton.text == "Restart Test") {
+        if (coninuteButton.text == getString(R.string.ignitionRestartTest)) {
             showAlertDialog()
-        } else if (coninuteButton.text == "Continue") {
+        } else if (coninuteButton.text == getString(R.string.ignitionTestContinue)) {
             moveToNextFragment()
         }
     }
@@ -93,8 +93,8 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
 
     private fun showAlertDialog() {
         alertDialog = AlertDialog.Builder(context)
-                .setTitle("Ignition Test")
-                .setMessage("Press ok to start the ignition test")
+                .setTitle(getString(R.string.ignitionTestDialogTitle))
+                .setMessage(getString(R.string.ignitionTestDialogMessage))
                 .setPositiveButton("Yes") { dialogInterface, i ->
                     coninuteButton.visibility = View.GONE
                     rePlacefragment()
@@ -148,7 +148,7 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
             handler.removeCallbacks(mRunnable)
             progressBar.visibility = View.GONE
             timeTextView.visibility = View.GONE
-            coninuteButton.text = "Continue"
+            coninuteButton.text = getString(R.string.ignitionTestContinue)
             coninuteButton.visibility = View.VISIBLE
         } else if (ignitionTestData.restartTest!!) {
 
@@ -161,7 +161,7 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
         handler.removeCallbacks(mRunnable)
         progressBar.visibility = View.GONE
         timeTextView.visibility = View.GONE
-        coninuteButton.text = "Restart Test"
+        coninuteButton.text = getString(R.string.ignitionRestartTest)
         coninuteButton.visibility = View.VISIBLE
     }
 

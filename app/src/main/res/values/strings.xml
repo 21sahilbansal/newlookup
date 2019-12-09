@@ -105,4 +105,8 @@
     <string name="new_fastag_image">Vehicle Photo(Optional)</string>
     <string name="qr_scanner">Scan bar code or Qr code, If there are more than One bar code cover remaining barcodes.</string>
     <string name="deviceDetail_deviceid">devideID</string>
+    <string name="ignitionRestartTest">Restart Test</string>
+    <string name="ignitionTestContinue">Continue</string>
+    <string name="ignitionTestDialogTitle">Ignition Test</string>
+    <string name="ignitionTestDialogMessage">Press ok to start the ignition test</string>
 </resources>
