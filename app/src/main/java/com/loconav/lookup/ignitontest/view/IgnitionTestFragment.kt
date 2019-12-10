@@ -2,7 +2,9 @@ package com.loconav.lookup.ignitontest.view
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.app.ProgressDialog
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.Button
@@ -23,12 +25,13 @@ import com.loconav.lookup.ignitontest.model.dataClass.IgnitionTestData
 import com.loconav.lookup.ignitontest.viewModel.IgnitionTestViewModel
 import com.loconav.lookup.model.PassingReason
 import com.loconav.lookup.sharedetailsfragmants.CommonRepairFragment
+import com.loconav.lookup.utils.AppUtils
 import com.loconav.lookup.utils.TimerCount
 
 
 class IgnitionTestFragment : BaseFragment(), CountDownInterface {
     private lateinit var ignitionTestBinding: FragmentIgnitionTestBinding
-    private lateinit var ignitionTestAdapter: IgnitionTestAdapter
+    private var ignitionTestAdapter: IgnitionTestAdapter? = null
     private lateinit var ignitionTestViewModel: IgnitionTestViewModel
     private lateinit var ignitionTestReyclerView: RecyclerView
     private lateinit var alertDialog: Dialog
@@ -43,6 +46,7 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
     private lateinit var countDownTimer: TimerCount
     private var isFirstTime: Boolean = true
     private lateinit var passingReason: PassingReason
+    private lateinit var progressDialog: ProgressDialog
 
     private val fragmentController = FragmentController()
 
@@ -58,6 +62,9 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
         passingReason = (activity as LookupSubActivity).passingReason;
         timeTextView = ignitionTestBinding.timerCount
         progressBar = ignitionTestBinding.progressbar
+        progressDialog = ProgressDialog(context)
+        progressDialog.setMessage("Your test data is getting refreshed")
+        progressDialog.setTitle("Refreshing Data")
         coninuteButton.setOnClickListener(continueButtonClick)
         mRunnable = Runnable {
             if (!isFirstTime) {
@@ -128,22 +135,34 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
     }
 
     private fun getIgnitionData() {
-        ignitionTestViewModel.getIgnitionTestData(deviceId, testStartTime)?.observe(this, Observer {
-            it.data?.let {
-                setRecyclerView(it)
-            }
-        })
+        progressDialog.show()
+        if (AppUtils.isNetworkAvailable()) {
+            ignitionTestViewModel.getIgnitionTestData(deviceId, testStartTime)?.observe(this, Observer {
+                it.data?.let {
+                    setRecyclerView(it)
+                }
+            })
+        } else {
+            progressDialog.dismiss()
+            Toaster.makeToast(getString(R.string.internet_not_available))
+        }
     }
 
-    private fun setRecyclerView(ignitionTestData: IgnitionTestData) {
-        apiCallTime = ((ignitionTestData.timeToCallApi)?.let { it * 1000 }!!)
-        var linearLayoutManager = LinearLayoutManager(context)
-        ignitionTestReyclerView = ignitionTestBinding.ignitionTestRv
-        ignitionTestReyclerView.layoutManager = linearLayoutManager
-        ignitionTestAdapter = IgnitionTestAdapter(ignitionTestData)
-        ignitionTestReyclerView.adapter = ignitionTestAdapter
-        isFirstTime = false
 
+    private fun setRecyclerView(ignitionTestData: IgnitionTestData) {
+          dismissProgressDialog()
+        apiCallTime = ((ignitionTestData.timeToCallApi)?.let { it * 1000 }!!)
+        if (ignitionTestAdapter == null) {
+            val linearLayoutManager = LinearLayoutManager(context)
+            ignitionTestReyclerView = ignitionTestBinding.ignitionTestRv
+            ignitionTestReyclerView.layoutManager = linearLayoutManager
+            ignitionTestAdapter = IgnitionTestAdapter(ignitionTestData)
+            ignitionTestReyclerView.adapter = ignitionTestAdapter
+            ignitionTestAdapter?.notifyDataSetChanged()
+        } else {
+            ignitionTestAdapter?.addAllNewData(ignitionTestData)
+        }
+        isFirstTime = false
         if (ignitionTestData.apiResult?.status == 1) {
             handler.removeCallbacks(mRunnable)
             progressBar.visibility = View.GONE
@@ -151,9 +170,13 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
             coninuteButton.text = getString(R.string.ignition_Test_Continue)
             coninuteButton.visibility = View.VISIBLE
         } else if (ignitionTestData.restartTest!!) {
-
             restartTest()
         }
+    }
+
+    private fun dismissProgressDialog() {
+        val progressHandler = Handler()
+        progressHandler.postDelayed(Runnable { progressDialog.dismiss() }, 1000)
     }
 
     private fun restartTest() {
@@ -181,7 +204,6 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
     override fun onFinish() {
         progressBar.visibility = View.GONE
         timeTextView.visibility = View.GONE
-        Toaster.makeToast("Refreshing Data")
     }
 
     override fun onDestroyView() {
@@ -191,7 +213,7 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
 
     fun removeHandler(removeTimer: Boolean) {
         if (removeTimer) {
-            handler.removeCallbacks(mRunnable)
+            handler.removeCallbacksAndMessages(mRunnable)
         }
     }
 }
