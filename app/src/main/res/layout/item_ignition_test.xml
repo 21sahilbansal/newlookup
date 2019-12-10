@@ -38,6 +38,21 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tool:text="Test 1"></TextView>
 
+            <TextView
+                android:id="@+id/description_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_rectangle_background"
+                android:gravity="center_horizontal"
+                android:paddingVertical="@dimen/dimen_5dp"
+                android:text="Description"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/testtitle_tv" />
+
             <LinearLayout
                 android:id="@+id/battery_ll"
                 android:layout_width="fill_parent"
@@ -46,7 +61,7 @@
                 android:weightSum="2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/testtitle_tv">
+                app:layout_constraintTop_toBottomOf="@+id/description_tv">
 
                 <TextView
                     android:id="@+id/batteryTest_tv"

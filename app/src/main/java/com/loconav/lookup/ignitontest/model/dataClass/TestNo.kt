@@ -23,5 +23,8 @@ class TestNo : Serializable {
     @SerializedName("ignition")
     @Expose
     var ignition: String? = null
+    @SerializedName("desc")
+    @Expose
+    var description : String?= null
 
 }
