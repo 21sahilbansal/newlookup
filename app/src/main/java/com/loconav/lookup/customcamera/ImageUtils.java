@@ -167,7 +167,7 @@ public class ImageUtils {
                                 }
                                 return String.valueOf(TimeUtils.getEpochTime(tag.getDescription()));
                             }else {
-                            return tag.getDescription();//date retu
+                            return tag.getDescription();
                             }
                         }
 
