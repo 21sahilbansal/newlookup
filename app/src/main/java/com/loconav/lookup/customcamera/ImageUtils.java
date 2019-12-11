@@ -148,7 +148,7 @@ public class ImageUtils {
 //        }
 //    }
 
-    public static String getDateOfCameraTakenPhoto(Uri uri) {
+    public static String getDateOfCameraTakenPhoto(Uri uri,Boolean camerImage) {
         String zeroepochtime = "0000000000000";
         if(uri == null){
             Crashlytics.logException(new Throwable("image uri is null"));
@@ -162,9 +162,12 @@ public class ImageUtils {
                     for (Tag tag : directory.getTags()) {
                         if (tag.getTagName().equals("Date/Time")) {
                             if(tag.getDescription().contains(":")){
+                                if(camerImage){
+                                    return tag.getDescription();
+                                }
                                 return String.valueOf(TimeUtils.getEpochTime(tag.getDescription()));
                             }else {
-                            return tag.getDescription();
+                            return tag.getDescription();//date retu
                             }
                         }
 
