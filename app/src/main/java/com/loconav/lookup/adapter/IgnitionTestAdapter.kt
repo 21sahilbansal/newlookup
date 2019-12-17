@@ -85,11 +85,17 @@ class IgnitionTestAdapter(var ignitionTestData: IgnitionTestData?) : RecyclerVie
     }
 
     private fun getTestStatus(status: Int?): CharSequence? {
-        if (status == okStatus) {
-            return "Status Ok"
-        } else {
-            return "Status Not Ok"
+        if(status != null){
+            if (status == okStatus) {
+                return "Status Ok"
+            } else {
+                return "Status Not Ok"
+            }
         }
+        else{
+            return "-"
+        }
+
     }
 
     fun clearData(){
