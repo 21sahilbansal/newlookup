@@ -15,6 +15,8 @@ import com.loconav.lookup.ignitontest.model.dataClass.IgnitionTestData
 import com.loconav.lookup.ignitontest.model.dataClass.TestNo
 
 class IgnitionTestAdapter(var ignitionTestData: IgnitionTestData?) : RecyclerView.Adapter<IgnitionTestAdapter.IgnitionTestViewHolder>() {
+    val okStatus : Int = 1
+    val statusNotOk : Int = 2
     class IgnitionTestViewHolder : RecyclerView.ViewHolder {
         var testTitle: TextView
         var batteryStatus: TextView
@@ -22,6 +24,7 @@ class IgnitionTestAdapter(var ignitionTestData: IgnitionTestData?) : RecyclerVie
         var overAllTestStatus: TextView
         var message: TextView
         var description: TextView
+
 
         constructor(itemIignitionTestBinding: ItemIgnitionTestBinding) : super(itemIignitionTestBinding.root) {
             testTitle = itemIignitionTestBinding.testtitleTv
@@ -68,27 +71,21 @@ class IgnitionTestAdapter(var ignitionTestData: IgnitionTestData?) : RecyclerVie
         val greenTextColor: Int = getColor(LookUpApplication.getInstance(), R.color.lightgreen)
         val redTextColor: Int = getColor(LookUpApplication.getInstance(), R.color.red)
 
-        if (status == 1) {
+        if (status == okStatus) {
             holder.batteryStatus.setTextColor(greenTextColor)
             holder.message.setTextColor(greenTextColor)
             holder.overAllTestStatus.setTextColor(greenTextColor)
             holder.ignitionStatus.setTextColor(greenTextColor)
-        } else if (status == 2) {
+        } else if (status == statusNotOk) {
             holder.batteryStatus.setTextColor(redTextColor)
             holder.message.setTextColor(redTextColor)
             holder.overAllTestStatus.setTextColor(redTextColor)
             holder.ignitionStatus.setTextColor(redTextColor)
         }
-
-
     }
 
-
-
     private fun getTestStatus(status: Int?): CharSequence? {
-        if (status == 1) {
-
-
+        if (status == okStatus) {
             return "Status Ok"
         } else {
             return "Status Not Ok"

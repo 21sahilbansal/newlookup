@@ -75,10 +75,10 @@ public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefr
                 ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
                 IgnitionTestFragment ignitionTestFragment = new IgnitionTestFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("deviceDetail_deviceid",deviceID);
+                bundle.putString(getString(R.string.devicedetail_deviceid),deviceID);
                 ignitionTestFragment.setArguments(bundle);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.frameLayout,ignitionTestFragment,"ignitionFragment").addToBackStack(ignitionTestFragment.getClass().getName());
+                transaction.replace(R.id.frameLayout,ignitionTestFragment,getString(R.string.igniton_fragment_tag)).addToBackStack(ignitionTestFragment.getClass().getName());
                 transaction.commit();
 
         });
