@@ -5,11 +5,13 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.loconav.lookup.adapter.LookupAdapter;
 import com.loconav.lookup.databinding.FragmentDeviceDetailBinding;
+import com.loconav.lookup.ignitontest.view.IgnitionTestFragment;
 import com.loconav.lookup.model.Entity;
 import com.loconav.lookup.model.LookupResponse;
 import com.loconav.lookup.model.PassingReason;
@@ -69,16 +71,16 @@ public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefr
 
     }
     private void setShareDetails() {
-        binding.shareDetails.setOnClickListener(view -> {
-            if (passingReason.getUserChoice().equals(NEW_INSTALL)) {
-                FetchClientFragment f1 = new FetchClientFragment();
+        binding.continueDetails.setOnClickListener(view -> {
                 ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
-                fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
-            } else {
-                ((LookupSubActivity)getActivity()).setPassingReason(passingReason);
-                CommonRepairFragment f1 = new CommonRepairFragment();
-                fragmentController.loadFragment(f1,getFragmentManager(),R.id.frameLayout,true);
-            }
+                IgnitionTestFragment ignitionTestFragment = new IgnitionTestFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(getString(R.string.devicedetail_deviceid),deviceID);
+                ignitionTestFragment.setArguments(bundle);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.frameLayout,ignitionTestFragment,getString(R.string.igniton_fragment_tag)).addToBackStack(ignitionTestFragment.getClass().getName());
+                transaction.commit();
+
         });
     }
 
@@ -156,15 +158,15 @@ public class DeviceDetailFragment extends BaseTitleFragment implements SwipeRefr
             } else {
                 binding.passed.setImageResource(android.R.color.transparent);
             }
-            binding.shareDetails.setVisibility(View.VISIBLE);
+            binding.continueDetails.setVisibility(View.VISIBLE);
         }
         else {
             if (lookupResponse.getPassed()) {
                 binding.passed.setImageResource(R.drawable.passed);
-                binding.shareDetails.setVisibility(View.VISIBLE);
+                binding.continueDetails.setVisibility(View.VISIBLE);
             } else {
                 binding.passed.setImageResource(android.R.color.transparent);
-                binding.shareDetails.setVisibility(View.GONE);
+                binding.continueDetails.setVisibility(View.GONE);
             }
         }
         lookupAdapter.notifyDataSetChanged();

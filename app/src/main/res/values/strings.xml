@@ -4,6 +4,7 @@
     <string name="title_activity_main_activity3">Look Up</string>
     <string name="details">Details</string>
     <string name="share_details">Share Details</string>
+    <string name="continue_details">Continue</string>
     <string name="enter_details">Enter Details</string>
     <string name="device_change">Device Change</string>
     <string name="vehicle_change">Vehicle Change</string>
@@ -106,5 +107,15 @@
     <string name="submit">Submit</string>
     <string name="new_fastag_image">Vehicle Photo(Optional)</string>
     <string name="qr_scanner">Scan bar code or Qr code, If there are more than One bar code cover remaining barcodes.</string>
+    <string name="deviceDetail_deviceid">devideID</string>
+    <string name="ignition_restart_test">Restart Test</string>
+    <string name="ignition_test_continue">Continue</string>
+    <string name="ignition_testdialog_title">Ignition Test</string>
+    <string name="ignition_testdialog_message">Press ok to start the ignition test</string>
     <string name="tutorial_title">Tutorials / FAQ</string>
+    <string name="igniton_fragment_tag">ignitionFragment</string>
+    <string name="ignition_test_title">Ignition Test</string>
+    <string name="devicedetail_deviceid">deviceDetail_deviceid</string>
+    <string name="igtest_alert_dialog_yes">Yes</string>
+    <string name="igtest_alert_dialog_no">No</string>
 </resources>

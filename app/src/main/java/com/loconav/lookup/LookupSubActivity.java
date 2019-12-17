@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.navigation.NavController;
 
 import com.loconav.lookup.base.BaseActivity;
+import com.loconav.lookup.ignitontest.view.IgnitionTestFragment;
 import com.loconav.lookup.model.Input;
 import com.loconav.lookup.model.PassingReason;
 import com.loconav.lookup.model.ReasonResponse;
@@ -41,6 +42,7 @@ public class LookupSubActivity extends BaseActivity {
     private ReasonResponse reasonResponse;
 
     private final FragmentController fragmentController = new FragmentController();
+
 
 
     @Override
@@ -120,6 +122,9 @@ public class LookupSubActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+       if( getSupportFragmentManager().findFragmentByTag(getString(R.string.igniton_fragment_tag)) instanceof IgnitionTestFragment){
+               ((IgnitionTestFragment) getSupportFragmentManager().findFragmentByTag(getString(R.string.igniton_fragment_tag))).removeHandler(true);
+       }
+       super.onBackPressed();
     }
 }
