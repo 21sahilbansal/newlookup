@@ -17,14 +17,10 @@ import java.io.Serializable
 
     fun getTestAtPosition( position : Int) : TestNo?{
         when(position){
-            1 -> return test1!!
-            2 -> return test2!!
-            3 -> return test3!!
-
+            1 -> return test1
+            2 -> return test2
+            3 -> return test3
             else -> return null
-
         }
-
-
     }
 }

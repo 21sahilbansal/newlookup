@@ -114,4 +114,8 @@
     <string name="ignition_TestDialog_Message">Press ok to start the ignition test</string>
     <string name="tutorial_title">Tutorials / FAQ</string>
     <string name="igniton_Fragment_Tag">ignitionFragment</string>
+    <string name="ignition_test_title">Ignition Test</string>
+    <string name="devicedetail_deviceid">deviceDetail_deviceid</string>
+    <string name="igtest_alert_dialog_yes">Yes</string>
+    <string name="igtest_alert_dialog_no">No</string>
 </resources>
