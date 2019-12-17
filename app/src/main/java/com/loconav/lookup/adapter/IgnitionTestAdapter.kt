@@ -88,8 +88,12 @@ class IgnitionTestAdapter(var ignitionTestData: IgnitionTestData?) : RecyclerVie
         if(status != null){
             if (status == okStatus) {
                 return "Status Ok"
-            } else {
+            }
+            else if(status == 0){
                 return "Status Not Ok"
+            }
+            else{
+                return "fail"
             }
         }
         else{
