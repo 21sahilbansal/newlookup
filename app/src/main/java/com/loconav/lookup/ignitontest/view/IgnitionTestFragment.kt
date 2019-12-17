@@ -64,7 +64,6 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
         ignitionTestViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(LookUpApplication()).create(IgnitionTestViewModel::class.java)
         testStartTime = (System.currentTimeMillis() / 1000).toString()
         coninuteButton = ignitionTestBinding?.ignitionButton
-        passingReason = (activity as LookupSubActivity).passingReason;
         timeTextView = ignitionTestBinding?.timerCount
         deviceidTextView = ignitionTestBinding?.deviceidTextview
         deviceidTextView?.text = deviceId
@@ -86,31 +85,32 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
     }
 
     private val continueButtonClick = View.OnClickListener {
-        if (coninuteButton?.text == getString(R.string.ignition_Restart_Test)) {
+        if (coninuteButton?.text == getString(R.string.ignition_restart_test)) {
             showAlertDialog()
-        } else if (coninuteButton?.text == getString(R.string.ignition_Test_Continue)) {
+        } else if (coninuteButton?.text == getString(R.string.ignition_test_continue)) {
             moveToNextFragment()
         }
     }
 
     private fun moveToNextFragment() {
-        if (passingReason?.userChoice == NEW_INSTALL) {
-            val fetchClientFragment = FetchClientFragment()
-            (activity as LookupSubActivity).passingReason = passingReason
-            fragmentController.loadFragment(fetchClientFragment, fragmentManager, R.id.frameLayout, true)
-        } else {
-            (activity as LookupSubActivity).passingReason = passingReason
-            val commonRepairFragment = CommonRepairFragment()
-            fragmentController.loadFragment(commonRepairFragment, fragmentManager, R.id.frameLayout, true)
+        if (activity is LookupSubActivity) {
+            if (passingReason?.userChoice == NEW_INSTALL) {
+                val fetchClientFragment = FetchClientFragment()
+                (activity as LookupSubActivity).passingReason = passingReason
+                fragmentController.loadFragment(fetchClientFragment, fragmentManager, R.id.frameLayout, true)
+            } else {
+                (activity as LookupSubActivity).passingReason = passingReason
+                val commonRepairFragment = CommonRepairFragment()
+                fragmentController.loadFragment(commonRepairFragment, fragmentManager, R.id.frameLayout, true)
+            }
         }
-
     }
 
 
     private fun showAlertDialog() {
         alertDialog = AlertDialog.Builder(context)
-                .setTitle(getString(R.string.ignition_TestDialog_Title))
-                .setMessage(getString(R.string.ignition_TestDialog_Message))
+                .setTitle(getString(R.string.ignition_testdialog_title))
+                .setMessage(getString(R.string.ignition_testdialog_message))
                 .setPositiveButton(getString(R.string.igtest_alert_dialog_yes)) { dialogInterface, i ->
                     coninuteButton?.visibility = View.GONE
                     rePlacefragment()
@@ -177,7 +177,7 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
             handler.removeCallbacks(mRunnable)
             progressBar?.visibility = View.GONE
             timeTextView?.visibility = View.GONE
-            coninuteButton?.text = getString(R.string.ignition_Test_Continue)
+            coninuteButton?.text = getString(R.string.ignition_test_continue)
             coninuteButton?.visibility = View.VISIBLE
         } else if (ignitionTestData.restartTest == true) {
             restartTest()
@@ -194,7 +194,7 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
         handler.removeCallbacks(mRunnable)
         progressBar?.visibility = View.GONE
         timeTextView?.visibility = View.GONE
-        coninuteButton?.text = getString(R.string.ignition_Restart_Test)
+        coninuteButton?.text = getString(R.string.ignition_restart_test)
         coninuteButton?.visibility = View.VISIBLE
     }
 

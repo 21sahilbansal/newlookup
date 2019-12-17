@@ -122,8 +122,8 @@ public class LookupSubActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-       if( getSupportFragmentManager().findFragmentByTag(getString(R.string.igniton_Fragment_Tag)) instanceof IgnitionTestFragment){
-               ((IgnitionTestFragment) getSupportFragmentManager().findFragmentByTag(getString(R.string.igniton_Fragment_Tag))).removeHandler(true);
+       if( getSupportFragmentManager().findFragmentByTag(getString(R.string.igniton_fragment_tag)) instanceof IgnitionTestFragment){
+               ((IgnitionTestFragment) getSupportFragmentManager().findFragmentByTag(getString(R.string.igniton_fragment_tag))).removeHandler(true);
        }
        super.onBackPressed();
     }
