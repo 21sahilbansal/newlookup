@@ -197,7 +197,6 @@ NewInstallationFragment extends BaseTitleFragment {
     }
 
     private void upload(NewInstall newInstall) {
-
         Log.e("odometerreading","theimage"+"thetitle"+newInstall.getAttachments().get(0).getImage());
         apiService.addNewInstall(newInstall).enqueue(new RetrofitCallback<ResponseBody>() {
             @Override
