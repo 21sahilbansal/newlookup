@@ -94,6 +94,7 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
 
     private fun moveToNextFragment() {
         if (activity is LookupSubActivity) {
+            passingReason = (activity as LookupSubActivity).passingReason
             if (passingReason?.userChoice == NEW_INSTALL) {
                 val fetchClientFragment = FetchClientFragment()
                 (activity as LookupSubActivity).passingReason = passingReason
@@ -173,7 +174,7 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
             ignitionTestAdapter?.addAllNewData(ignitionTestData)
         }
         isFirstTime = false
-        if (ignitionTestData.apiResult?.status == 1) {
+        if (ignitionTestData.apiResult?.status == 0) {
             handler.removeCallbacks(mRunnable)
             progressBar?.visibility = View.GONE
             timeTextView?.visibility = View.GONE
