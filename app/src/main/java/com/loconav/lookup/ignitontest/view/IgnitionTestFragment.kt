@@ -174,7 +174,7 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
             ignitionTestAdapter?.addAllNewData(ignitionTestData)
         }
         isFirstTime = false
-        if (ignitionTestData.apiResult?.status == 0) {
+        if (ignitionTestData.apiResult?.status == 1) {
             handler.removeCallbacks(mRunnable)
             progressBar?.visibility = View.GONE
             timeTextView?.visibility = View.GONE
