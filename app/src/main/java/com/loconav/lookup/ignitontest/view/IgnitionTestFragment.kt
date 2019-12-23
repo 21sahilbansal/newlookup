@@ -94,6 +94,7 @@ class IgnitionTestFragment : BaseFragment(), CountDownInterface {
 
     private fun moveToNextFragment() {
         if (activity is LookupSubActivity) {
+            passingReason = (activity as LookupSubActivity).passingReason
             if (passingReason?.userChoice == NEW_INSTALL) {
                 val fetchClientFragment = FetchClientFragment()
                 (activity as LookupSubActivity).passingReason = passingReason
