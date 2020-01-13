@@ -129,7 +129,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
                         ImageUri imageUri = new ImageUri();
                         imageUri.setUri(Uri.parse(s));
                         try {
-                            imageUri.setImageEpochTime(TimeUtils.getEpochTime(ImageUtils.getDateOfCameraTakenPhoto(imageUri.getUri())));
+                            imageUri.setImageEpochTime(TimeUtils.getEpochTime(ImageUtils.getDateOfCameraTakenPhoto(imageUri.getUri(),true)));
                             imageUris.add(imageUri);
                         } catch (ParseException e) {
                             e.printStackTrace();
@@ -152,7 +152,7 @@ public class ImagePickerDialog extends BaseDialogFragment {
 
     private void parsingGalleryImage(final Intent data) {
       //  String date = ImageUtils.getEpochTimeOfGalleryImage(data.getData());
-        String date = ImageUtils.getDateOfCameraTakenPhoto(data.getData());
+        String date = ImageUtils.getDateOfCameraTakenPhoto(data.getData(),false);
         if (data.getClipData() == null) {
             ImageUri imageUri = new ImageUri();
             imageUri.setUri(data.getData());

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/tutorial_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:outlineAmbientShadowColor="@color/gray"
+        android:padding="@dimen/dimen_5dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="10dp"
+        android:outlineSpotShadowColor="@color/orange"
+        app:strokeColor="@color/orange"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:id="@+id/testtitle_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_rectangle_background"
+                android:backgroundTint="@color/orange"
+                android:gravity="center_horizontal"
+                android:paddingVertical="@dimen/dimen_5dp"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tool:text="Test 1"></TextView>
+
+            <TextView
+                android:id="@+id/description_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_rectangle_background"
+                android:gravity="center_horizontal"
+                android:paddingVertical="@dimen/dimen_5dp"
+                android:text="Description"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/testtitle_tv" />
+
+            <LinearLayout
+                android:id="@+id/battery_ll"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description_tv">
+
+                <TextView
+                    android:id="@+id/batteryTest_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_rectangle_background"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dimen_5dp"
+                    android:text="Battery Status"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/batteryStatus_ev"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_rectangle_background"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dimen_5dp"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/gray"
+                    tool:text=" awating"></TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ignition_ll"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/battery_ll">
+
+                <TextView
+                    android:id="@+id/ignitionTest_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_rectangle_background"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dimen_5dp"
+                    android:text="Ignition Status"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/ignitionStatus_ev"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_rectangle_background"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dimen_5dp"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/gray"
+                    tool:text=" awating"></TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/overallStatus_ll"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ignition_ll">
+
+                <TextView
+                    android:id="@+id/teststatus_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_rectangle_background"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dimen_5dp"
+                    android:text="Status"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/testStatus_ev"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_rectangle_background"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dimen_5dp"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/gray"
+                    tool:text=" awating"></TextView>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/message_ll"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/overallStatus_ll">
+
+                <TextView
+                    android:id="@+id/message_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_rectangle_background"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dimen_5dp"
+                    android:text="Message"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/message_ev"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_rectangle_background"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dimen_5dp"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/gray"
+                    android:text="awating"></TextView>
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

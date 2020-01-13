@@ -45,4 +45,6 @@ public class Constants {
     public static final String TEXT_VIEW="textView";
     public static final String TEXT="text";
     public static final String SLUG_ID_FOR_DEVICE_REMOVED="01a121a700c99da870e6fd1d8940aad4";
+    public static final String YOUR_TEST_DATA_IS_GETTING_REFRESHED="Your test data is getting refreshed";
+    public static final String REFRESHING_DATA ="Refreshing Data";
 }
